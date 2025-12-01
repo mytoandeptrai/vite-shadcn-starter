@@ -9,6 +9,7 @@ import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provi
 import { routeTree } from "./routeTree.gen";
 
 import "./styles.css";
+import { Toaster } from "./components/ui/sonner.tsx";
 import { ThemeProvider } from "./integrations/theme/theme-provider.tsx";
 import reportWebVitals from "./reportWebVitals.ts";
 
@@ -43,6 +44,7 @@ if (rootElement && !rootElement.innerHTML) {
 				<TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
 					<ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
 						<RouterProvider router={router} />
+						<Toaster />
 					</ThemeProvider>
 				</TanStackQueryProvider.Provider>
 			</I18nProvider.Provider>

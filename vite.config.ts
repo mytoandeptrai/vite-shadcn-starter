@@ -7,7 +7,12 @@ import svgrPlugin from "vite-plugin-svgr";
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { fileURLToPath, URL } from 'node:url'
 
-const PORT = parseInt(process.env.PORT || '5173', 10)
+const PORT = parseInt(
+	(typeof import.meta !== 'undefined' && import.meta.env?.VITE_PORT) ||
+		(typeof process !== 'undefined' && process.env?.VITE_PORT) ||
+		'5173',
+	10,
+)
 
 // https://vitejs.dev/config/
 export default defineConfig({
