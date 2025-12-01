@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
+import { Route as DemoFormRouteImport } from './routes/demo/form'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,15 +35,22 @@ const DemoStorybookRoute = DemoStorybookRouteImport.update({
   path: '/demo/storybook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoFormRoute = DemoFormRouteImport.update({
+  id: '/demo/form',
+  path: '/demo/form',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
@@ -50,18 +58,30 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo/storybook' | '/demo/table' | '/demo/tanstack-query'
+  fullPaths:
+    | '/'
+    | '/demo/form'
+    | '/demo/storybook'
+    | '/demo/table'
+    | '/demo/tanstack-query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/storybook' | '/demo/table' | '/demo/tanstack-query'
+  to:
+    | '/'
+    | '/demo/form'
+    | '/demo/storybook'
+    | '/demo/table'
+    | '/demo/tanstack-query'
   id:
     | '__root__'
     | '/'
+    | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
@@ -69,6 +89,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
@@ -104,11 +125,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoStorybookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demo/form': {
+      id: '/demo/form'
+      path: '/demo/form'
+      fullPath: '/demo/form'
+      preLoaderRoute: typeof DemoFormRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,

@@ -1,5 +1,8 @@
 {
   "name": "vite-shadcn-starter",
+  "version": "1.0.0",
+  "description": "A modern, production-ready React starter template with TanStack Router, React Query, i18n, and module-based architecture",
+  "author": "mytoandeptrai",
   "private": true,
   "type": "module",
   "scripts": {
