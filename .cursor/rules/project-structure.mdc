@@ -1,0 +1,263 @@
+---
+description: Module-based project structure and conventions
+alwaysApply: true
+---
+
+# Project Structure - Module Based
+
+This project follows a module-based architecture where code is organized into logical modules with consistent folder structures.
+
+## Directory Structure
+
+The project should be organized with the following top-level directories:
+
+```
+PROJECT_ROOT/
+├── src/
+│   ├── components/       # Shared UI components used across modules
+│   ├── constant/         # Application-wide constants and enums
+│   ├── lib/              # Shared library utilities and helpers
+│   ├── hooks/            # Shared React hooks used across modules
+│   ├── routes/           # Route definitions that import from modules
+│   ├── utils/            # Utility functions and helpers
+│   ├── assets/           # Static assets (images, fonts, etc.)
+│   ├── contexts/         # React context providers
+│   ├── modules/          # Feature modules (business logic organized by feature)
+│   ├── data/             # Mock data, fixtures, and static data
+│   └── integrations/     # Application-level integrations (i18n, query, etc.)
+```
+
+## Module Structure
+
+Each feature module within `src/modules/` should follow this structure:
+
+```
+src/modules/
+└── feature-name/         # kebab-case module name
+    ├── containers/       # Container components (orchestrate hooks and components)
+    ├── components/       # Presentational components (UI only, no logic)
+    ├── hooks/           # Module-specific hooks (business logic)
+    ├── utils/           # Module-specific utilities
+    ├── constants.ts     # Module-specific constants
+    ├── types.ts         # Module-specific TypeScript types
+    └── index.ts         # Module exports
+```
+
+### Container vs Components Pattern
+
+- **Containers**: Handle logic, state management, and orchestration. They use hooks and pass data/props to presentational components.
+- **Components**: Pure presentational components that only handle rendering. They receive props and render UI.
+- **Hooks**: Contain business logic, API calls, and state management that containers consume.
+
+```typescript
+// Container example: Contains logic and orchestrates
+// src/modules/feature-name/containers/feature-container.tsx
+import { useFeatureHook } from '../hooks/use-feature-hook';
+import { FeatureComponent } from '../components/feature-component';
+
+export const FeatureContainer = () => {
+  const { data, loading, error } = useFeatureHook();
+  
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  
+  return <FeatureComponent data={data} />;
+};
+
+// Component example: Pure presentation, no logic
+// src/modules/feature-name/components/feature-component.tsx
+type FeatureComponentProps = {
+  data: FeatureData;
+};
+
+export const FeatureComponent = ({ data }: FeatureComponentProps) => {
+  return <div>{/* Render UI using data props */}</div>;
+};
+```
+
+## Routes Importing Modules
+
+Routes in `src/routes/` should import containers from modules rather than implementing logic directly:
+
+```typescript
+// Good example: Route importing container from module
+import { FeatureContainer } from '@/modules/feature-name/containers/feature-container';
+
+export const FeatureRoute = () => {
+  return <FeatureContainer />;
+};
+
+// Also good: Route can import and use multiple containers
+import { AuthContainer } from '@/modules/auth/containers/auth-container';
+import { UserContainer } from '@/modules/user/containers/user-container';
+
+export const DashboardRoute = () => {
+  return (
+    <div>
+      <AuthContainer />
+      <UserContainer />
+    </div>
+  );
+};
+
+// Bad example: Route implementing logic directly
+export const FeatureRoute = () => {
+  const [data, setData] = useState();
+  // ... logic should be in container
+  return <div>{/* UI */}</div>;
+};
+
+// Bad example: Route using hooks and components directly (should use container instead)
+export const FeatureRoute = () => {
+  const { data } = useFeatureHook(); // Logic should be in container
+  return <FeatureComponent data={data} />;
+};
+```
+
+## Naming Conventions
+
+### Files and Folders
+- **Always use kebab-case** for file and folder names
+- Examples: `user-profile.tsx`, `use-auth-state.ts`, `api-client.ts`
+
+```typescript
+// Good examples
+src/modules/user-profile/
+src/hooks/use-auth-state.ts
+src/components/user-card.tsx
+src/utils/api-client.ts
+
+// Bad examples
+src/modules/UserProfile/     // PascalCase
+src/hooks/useAuthState.ts    // camelCase
+src/components/userCard.tsx  // camelCase
+```
+
+### Creating New Files and Folders
+
+**CRITICAL**: When creating new files:
+1. **Always create the folder first** if it doesn't exist
+2. Then create the file within that folder
+3. Never create files in non-existent directories
+
+```bash
+# Good: Create folder first, then file
+mkdir -p src/modules/new-feature/containers
+mkdir -p src/modules/new-feature/components
+mkdir -p src/modules/new-feature/hooks
+touch src/modules/new-feature/containers/new-container.tsx
+touch src/modules/new-feature/components/new-component.tsx
+touch src/modules/new-feature/hooks/use-new-feature.ts
+
+# Bad: Trying to create file directly
+touch src/modules/new-feature/containers/new-container.tsx  # Will fail if folder doesn't exist
+```
+
+## Module Organization Principles
+
+1. **Shared Code**: Place code used across multiple modules in top-level directories (`components/`, `hooks/`, `utils/`, etc.)
+2. **Module-Specific Code**: Place code used only within a module inside that module's directory
+3. **Routes as Orchestrators**: Routes should primarily compose containers from modules together, not contain business logic
+4. **Separation of Concerns**: 
+   - **Containers**: Handle logic, state, and orchestration (use hooks, pass props to components)
+   - **Components**: Pure presentation, only render UI based on props
+   - **Hooks**: Business logic, API calls, and state management
+   - **Utils**: Helper functions and utilities
+
+## Example Module Structure
+
+```
+src/modules/auth/
+├── containers/
+│   ├── login-container.tsx        # Orchestrates login logic
+│   ├── register-container.tsx     # Orchestrates register logic
+│   └── auth-container.tsx         # Main auth container
+├── components/
+│   ├── login-form.tsx             # Pure UI component
+│   ├── register-form.tsx          # Pure UI component
+│   └── auth-status.tsx            # Pure UI component
+├── hooks/
+│   ├── use-login.ts               # Login business logic
+│   ├── use-register.ts            # Register business logic
+│   └── use-auth-state.ts          # Auth state management
+├── utils/
+│   └── auth-helpers.ts            # Auth utility functions
+├── constants.ts
+├── types.ts
+└── index.ts
+```
+
+### Example Implementation
+
+```typescript
+// Container: src/modules/auth/containers/login-container.tsx
+import { useLogin } from '../hooks/use-login';
+import { LoginForm } from '../components/login-form';
+
+export const LoginContainer = () => {
+  const { login, loading, error } = useLogin();
+
+  const handleSubmit = async (email: string, password: string) => {
+    await login({ email, password });
+  };
+
+  return (
+    <LoginForm 
+      onSubmit={handleSubmit}
+      loading={loading}
+      error={error}
+    />
+  );
+};
+
+// Component: src/modules/auth/components/login-form.tsx
+type LoginFormProps = {
+  onSubmit: (email: string, password: string) => void;
+  loading: boolean;
+  error: string | null;
+};
+
+export const LoginForm = ({ onSubmit, loading, error }: LoginFormProps) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      onSubmit(email, password);
+    }}>
+      {/* Form UI - no business logic */}
+    </form>
+  );
+};
+
+// Hook: src/modules/auth/hooks/use-login.ts
+export const useLogin = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const login = async (credentials: LoginCredentials) => {
+    // Business logic here
+  };
+
+  return { login, loading, error };
+};
+```
+
+## Import Paths
+
+Use path aliases for cleaner imports:
+
+```typescript
+// Good: Using path aliases
+import { Button } from '@/components/ui/button';
+import { AuthContainer } from '@/modules/auth/containers/auth-container';
+import { API_URL } from '@/constant/api';
+
+// Bad: Relative paths for top-level imports
+import { Button } from '../../../components/ui/button';
+
+// Bad: Routes importing hooks/components directly (should use containers)
+import { useAuth } from '@/modules/auth/hooks/use-auth';
+import { LoginForm } from '@/modules/auth/components/login-form';
+```

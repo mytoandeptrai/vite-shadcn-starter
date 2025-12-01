@@ -1,0 +1,20 @@
+{
+  "welcome": "Chào mừng",
+  "hello": "Xin chào",
+  "goodbye": "Tạm biệt",
+  "loading": "Đang tải...",
+  "error": "Lỗi",
+  "success": "Thành công",
+  "cancel": "Hủy",
+  "confirm": "Xác nhận",
+  "save": "Lưu",
+  "edit": "Chỉnh sửa",
+  "delete": "Xóa",
+  "search": "Tìm kiếm",
+  "submit": "Gửi",
+  "back": "Quay lại",
+  "next": "Tiếp theo",
+  "previous": "Trước đó",
+  "switchLanguage": "Chuyển ngôn ngữ"
+}
+

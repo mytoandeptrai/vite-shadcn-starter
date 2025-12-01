@@ -1,0 +1,18 @@
+---
+description: React hooks
+globs: 
+alwaysApply: false
+---
+
+# Custom Hook Guidelines
+
+This rule outlines the guidelines for creating custom React hooks within this project.
+
+## Custom Hooks
+
+-   **Purpose:** Encapsulate reusable stateful logic, especially for data fetching or complex UI interactions.
+-   **Location:** Place custom hooks in the `src/hooks/` directory.
+-   **Naming:** Use the `use` prefix (e.g., `use-account.ts`).
+-   **Simplicity:** Keep hooks focused on a single responsibility.
+
+By adhering to these guidelines, we ensure a consistent approach to reusable logic and data fetching throughout the application.

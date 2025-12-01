@@ -1,0 +1,11 @@
+---
+description: How to install packages
+globs: 
+alwaysApply: false
+---
+- Use `pnpm`.
+- Install in root:
+
+```sh
+pnpm add ...
+```
