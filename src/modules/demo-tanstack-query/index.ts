@@ -1,2 +1,1 @@
-export { TanStackQueryDemoContainer } from './containers/tanstack-query-demo-container'
-
+export { TanStackQueryDemoContainer } from './containers/tanstack-query-demo-container';

@@ -1,2 +1,1 @@
-export { HomeContainer } from './containers/home-container'
-
+export { HomeContainer } from './containers/home-container';

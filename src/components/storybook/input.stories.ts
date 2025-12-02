@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
-import { Input } from './input'
+import { Input } from './input';
 
 const meta = {
   title: 'Form/Input',
@@ -11,10 +11,10 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onChange: fn() },
-} satisfies Meta<typeof Input>
+} satisfies Meta<typeof Input>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -22,7 +22,7 @@ export const Default: Story = {
     id: 'email',
     placeholder: 'Enter your email',
   },
-}
+};
 
 export const Required: Story = {
   args: {
@@ -31,7 +31,7 @@ export const Required: Story = {
     placeholder: 'John',
     required: true,
   },
-}
+};
 
 export const WithValue: Story = {
   args: {
@@ -40,4 +40,4 @@ export const WithValue: Story = {
     value: 'Doe',
     placeholder: 'Enter last name',
   },
-}
+};

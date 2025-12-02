@@ -1,2 +1,1 @@
-export { StorybookDemoContainer } from './containers/storybook-demo-container'
-
+export { StorybookDemoContainer } from './containers/storybook-demo-container';

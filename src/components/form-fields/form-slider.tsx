@@ -1,20 +1,13 @@
 'use client';
 
 import type { FieldPath, FieldValues } from 'react-hook-form';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Slider } from '@/components/ui/slider';
 import type { BaseFormFieldProps, SliderConfig } from '@/types/base-form';
 
 interface FormSliderProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
   config: SliderConfig;
   showValue?: boolean;
@@ -22,7 +15,7 @@ interface FormSliderProps<
 
 function FormSlider<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   control,
   name,
@@ -32,7 +25,7 @@ function FormSlider<
   config,
   showValue = true,
   disabled,
-  className
+  className,
 }: FormSliderProps<TFieldValues, TName>) {
   const { min, max, step = 1, formatValue } = config;
 
@@ -59,13 +52,9 @@ function FormSlider<
                 disabled={disabled}
               />
               {showValue && (
-                <div className='text-muted-foreground mt-1 flex justify-between text-sm'>
+                <div className='mt-1 flex justify-between text-muted-foreground text-sm'>
                   <span>{formatValue ? formatValue(min) : min}</span>
-                  <span>
-                    {formatValue
-                      ? formatValue(field.value || min)
-                      : field.value || min}
-                  </span>
+                  <span>{formatValue ? formatValue(field.value || min) : field.value || min}</span>
                   <span>{formatValue ? formatValue(max) : max}</span>
                 </div>
               )}

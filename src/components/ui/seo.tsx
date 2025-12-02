@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
-import { siteConfig } from "@/constant";
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { siteConfig } from '@/constant';
 
 /**
  * SEO Component for Vite + React
@@ -23,92 +23,86 @@ import { siteConfig } from "@/constant";
  */
 
 interface SEOProps {
-	title?: string;
-	description?: string;
-	keywords?: string[];
-	author?: string;
-	url?: string;
-	image?: string;
-	imageAlt?: string;
-	siteName?: string;
-	twitterHandle?: string;
-	type?: "website" | "article" | "product" | "profile";
-	publishedTime?: string;
-	modifiedTime?: string;
-	canonical?: string;
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  author?: string;
+  url?: string;
+  image?: string;
+  imageAlt?: string;
+  siteName?: string;
+  twitterHandle?: string;
+  type?: 'website' | 'article' | 'product' | 'profile';
+  publishedTime?: string;
+  modifiedTime?: string;
+  canonical?: string;
 }
 
 export function SEO({
-	title = siteConfig.title,
-	description = siteConfig.description,
-	keywords = [],
-	author = siteConfig.author,
-	url = siteConfig.url,
-	image = "https://example.com/og-image.jpg",
-	imageAlt = "Site image",
-	siteName = "Site Name",
-	twitterHandle = "@sitehandle",
-	type = "website",
-	publishedTime,
-	modifiedTime,
-	canonical,
+  title = siteConfig.title,
+  description = siteConfig.description,
+  keywords = [],
+  author = siteConfig.author,
+  url = siteConfig.url,
+  image = 'https://example.com/og-image.jpg',
+  imageAlt = 'Site image',
+  siteName = 'Site Name',
+  twitterHandle = '@sitehandle',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  canonical,
 }: SEOProps) {
-	// Update document title as fallback
-	useEffect(() => {
-		document.title = title;
-	}, [title]);
+  // Update document title as fallback
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
 
-	const canonicalUrl = canonical || url;
+  const canonicalUrl = canonical || url;
 
-	return (
-		<Helmet>
-			{/* Primary Meta Tags */}
-			<title>{title}</title>
-			<meta name="title" content={title} />
-			<meta name="description" content={description} />
-			{keywords.length > 0 && (
-				<meta name="keywords" content={keywords.join(", ")} />
-			)}
-			<meta name="author" content={author} />
+  return (
+    <Helmet>
+      {/* Primary Meta Tags */}
+      <title>{title}</title>
+      <meta name='title' content={title} />
+      <meta name='description' content={description} />
+      {keywords.length > 0 && <meta name='keywords' content={keywords.join(', ')} />}
+      <meta name='author' content={author} />
 
-			{/* Canonical URL */}
-			<link rel="canonical" href={canonicalUrl} />
+      {/* Canonical URL */}
+      <link rel='canonical' href={canonicalUrl} />
 
-			{/* Open Graph / Facebook */}
-			<meta property="og:type" content={type} />
-			<meta property="og:url" content={url} />
-			<meta property="og:title" content={title} />
-			<meta property="og:description" content={description} />
-			<meta property="og:image" content={image} />
-			<meta property="og:image:alt" content={imageAlt} />
-			<meta property="og:site_name" content={siteName} />
-			<meta property="og:locale" content="en_US" />
+      {/* Open Graph / Facebook */}
+      <meta property='og:type' content={type} />
+      <meta property='og:url' content={url} />
+      <meta property='og:title' content={title} />
+      <meta property='og:description' content={description} />
+      <meta property='og:image' content={image} />
+      <meta property='og:image:alt' content={imageAlt} />
+      <meta property='og:site_name' content={siteName} />
+      <meta property='og:locale' content='en_US' />
 
-			{type === "article" && publishedTime && (
-				<meta property="article:published_time" content={publishedTime} />
-			)}
-			{type === "article" && modifiedTime && (
-				<meta property="article:modified_time" content={modifiedTime} />
-			)}
+      {type === 'article' && publishedTime && <meta property='article:published_time' content={publishedTime} />}
+      {type === 'article' && modifiedTime && <meta property='article:modified_time' content={modifiedTime} />}
 
-			{/* Twitter */}
-			<meta name="twitter:card" content="summary_large_image" />
-			<meta name="twitter:url" content={url} />
-			<meta name="twitter:title" content={title} />
-			<meta name="twitter:description" content={description} />
-			<meta name="twitter:image" content={image} />
-			<meta name="twitter:image:alt" content={imageAlt} />
-			<meta name="twitter:site" content={twitterHandle} />
-			<meta name="twitter:creator" content={twitterHandle} />
-		</Helmet>
-	);
+      {/* Twitter */}
+      <meta name='twitter:card' content='summary_large_image' />
+      <meta name='twitter:url' content={url} />
+      <meta name='twitter:title' content={title} />
+      <meta name='twitter:description' content={description} />
+      <meta name='twitter:image' content={image} />
+      <meta name='twitter:image:alt' content={imageAlt} />
+      <meta name='twitter:site' content={twitterHandle} />
+      <meta name='twitter:creator' content={twitterHandle} />
+    </Helmet>
+  );
 }
 
 /**
  * Example Usage:
- * 
+ *
  * import { SEO } from './components/SEO'
- * 
+ *
  * function HomePage() {
  *   return (
  *     <>
@@ -123,7 +117,7 @@ export function SEO({
  *     </>
  *   )
  * }
- * 
+ *
  * function BlogPost({ post }) {
  *   return (
  *     <>

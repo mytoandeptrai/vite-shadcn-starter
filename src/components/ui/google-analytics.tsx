@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import { siteConfig } from '@/constant';
 
@@ -41,7 +40,7 @@ export const GoogleAnalytics = () => {
       // Cleanup script on unmount
       const scripts = document.querySelectorAll(`script[src*="googletagmanager"]`);
       // biome-ignore lint/suspicious/useIterableCallbackReturn: <explanation>
-      scripts.forEach(script => script.remove());
+      scripts.forEach((script) => script.remove());
     };
   }, []);
 

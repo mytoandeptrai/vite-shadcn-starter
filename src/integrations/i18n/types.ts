@@ -1,6 +1,5 @@
 /** Supported languages */
-export type SupportedLanguage = 'en' | 'vi'
+export type SupportedLanguage = 'en' | 'vi';
 
 /** Available translation namespaces */
-export type TranslationNamespace = 'common' | 'validation' | 'navigation'
-
+export type TranslationNamespace = 'common' | 'validation' | 'navigation';

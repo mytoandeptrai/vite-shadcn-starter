@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
-import { Slider } from './slider'
+import { Slider } from './slider';
 
 const meta = {
   title: 'Form/Slider',
@@ -11,10 +11,10 @@ const meta = {
   },
   tags: ['autodocs'],
   args: { onChange: fn() },
-} satisfies Meta<typeof Slider>
+} satisfies Meta<typeof Slider>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -22,7 +22,7 @@ export const Default: Story = {
     id: 'volume',
     value: 50,
   },
-}
+};
 
 export const Skill: Story = {
   args: {
@@ -32,7 +32,7 @@ export const Skill: Story = {
     min: 0,
     max: 100,
   },
-}
+};
 
 export const NoValue: Story = {
   args: {
@@ -41,7 +41,7 @@ export const NoValue: Story = {
     value: 30,
     showValue: false,
   },
-}
+};
 
 export const CustomRange: Story = {
   args: {
@@ -52,4 +52,4 @@ export const CustomRange: Story = {
     max: 20,
     step: 1,
   },
-}
+};

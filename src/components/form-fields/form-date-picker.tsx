@@ -5,31 +5,20 @@ import { CalendarIcon } from 'lucide-react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger
-} from '@/components/ui/popover';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import type { BaseFormFieldProps, DatePickerConfig } from '@/types/base-form';
 
 interface FormDatePickerProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
   config?: DatePickerConfig;
 }
 
 function FormDatePicker<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   control,
   name,
@@ -38,14 +27,9 @@ function FormDatePicker<
   required,
   config = {},
   disabled,
-  className
+  className,
 }: FormDatePickerProps<TFieldValues, TName>) {
-  const {
-    minDate,
-    maxDate,
-    disabledDates = [],
-    placeholder = 'Pick a date'
-  } = config;
+  const { minDate, maxDate, disabledDates = [], placeholder = 'Pick a date' } = config;
 
   return (
     <FormField
@@ -64,16 +48,10 @@ function FormDatePicker<
               <FormControl>
                 <Button
                   variant='outline'
-                  className={`w-full pl-3 text-left font-normal ${
-                    !field.value && 'text-muted-foreground'
-                  }`}
+                  className={`w-full pl-3 text-left font-normal ${!field.value && 'text-muted-foreground'}`}
                   disabled={disabled}
                 >
-                  {field.value ? (
-                    format(field.value, 'PPP')
-                  ) : (
-                    <span>{placeholder}</span>
-                  )}
+                  {field.value ? format(field.value, 'PPP') : <span>{placeholder}</span>}
                   <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                 </Button>
               </FormControl>
@@ -86,9 +64,7 @@ function FormDatePicker<
                 disabled={(date) => {
                   if (minDate && date < minDate) return true;
                   if (maxDate && date > maxDate) return true;
-                  return disabledDates.some(
-                    (disabledDate) => date.getTime() === disabledDate.getTime()
-                  );
+                  return disabledDates.some((disabledDate) => date.getTime() === disabledDate.getTime());
                 }}
                 initialFocus
               />

@@ -3,19 +3,12 @@
 import type { FieldPath, FieldValues } from 'react-hook-form';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import type { BaseFormFieldProps, CheckboxGroupOption } from '@/types/base-form';
 
 interface FormCheckboxGroupProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
   options: CheckboxGroupOption[];
   showBadges?: boolean;
@@ -24,7 +17,7 @@ interface FormCheckboxGroupProps<
 
 function FormCheckboxGroup<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   control,
   name,
@@ -35,13 +28,13 @@ function FormCheckboxGroup<
   showBadges = true,
   columns = 2,
   disabled,
-  className
+  className,
 }: FormCheckboxGroupProps<TFieldValues, TName>) {
   const gridCols = {
     1: 'grid-cols-1',
     2: 'grid-cols-1 md:grid-cols-2',
     3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
-    4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+    4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
   };
 
   return (
@@ -69,11 +62,7 @@ function FormCheckboxGroup<
                       if (checked) {
                         field.onChange([...currentValues, option.value]);
                       } else {
-                        field.onChange(
-                          currentValues.filter(
-                            (value: string) => value !== option.value
-                          )
-                        );
+                        field.onChange(currentValues.filter((value: string) => value !== option.value));
                       }
                     }}
                     disabled={disabled || option.disabled}
@@ -81,7 +70,7 @@ function FormCheckboxGroup<
                 </FormControl>
                 <label
                   htmlFor={`${name}-${option.value}`}
-                  className='text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
+                  className='font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'
                 >
                   {option.label}
                 </label>

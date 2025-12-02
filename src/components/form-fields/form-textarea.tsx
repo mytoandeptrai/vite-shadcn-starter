@@ -1,20 +1,13 @@
 'use client';
 
 import type { FieldPath, FieldValues } from 'react-hook-form';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import type { BaseFormFieldProps, TextareaConfig } from '@/types/base-form';
 
 interface FormTextareaProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
   placeholder?: string;
   config?: TextareaConfig;
@@ -22,7 +15,7 @@ interface FormTextareaProps<
 
 function FormTextarea<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   control,
   name,
@@ -32,14 +25,9 @@ function FormTextarea<
   placeholder,
   config = {},
   disabled,
-  className
+  className,
 }: FormTextareaProps<TFieldValues, TName>) {
-  const {
-    maxLength,
-    showCharCount = true,
-    rows = 4,
-    resize = 'vertical'
-  } = config;
+  const { maxLength, showCharCount = true, rows = 4, resize = 'vertical' } = config;
 
   return (
     <FormField
@@ -64,7 +52,7 @@ function FormTextarea<
                 {...field}
               />
               {showCharCount && maxLength && (
-                <div className='text-muted-foreground text-right text-sm'>
+                <div className='text-right text-muted-foreground text-sm'>
                   {field.value?.length || 0} / {maxLength}
                 </div>
               )}

@@ -1,18 +1,18 @@
-import { defineConfig } from 'vite'
-import { devtools } from '@tanstack/devtools-vite'
-import viteReact from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-import svgrPlugin from "vite-plugin-svgr";
+import { defineConfig } from 'vite';
+import { devtools } from '@tanstack/devtools-vite';
+import viteReact from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import svgrPlugin from 'vite-plugin-svgr';
 
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import { fileURLToPath, URL } from 'node:url'
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import { fileURLToPath, URL } from 'node:url';
 
-const PORT = parseInt(
-	(typeof import.meta !== 'undefined' && import.meta.env?.VITE_PORT) ||
-		(typeof process !== 'undefined' && process.env?.VITE_PORT) ||
-		'5173',
-	10,
-)
+const PORT = Number.parseInt(
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PORT) ||
+    (typeof process !== 'undefined' && process.env?.VITE_PORT) ||
+    '5173',
+  10
+);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,11 +27,11 @@ export default defineConfig({
     }),
     viteReact(),
     tailwindcss(),
-    svgrPlugin({ svgrOptions: { icon: true } })
+    svgrPlugin({ svgrOptions: { icon: true } }),
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-})
+});

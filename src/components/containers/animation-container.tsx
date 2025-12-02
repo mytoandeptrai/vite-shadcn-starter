@@ -1,19 +1,14 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import type { FCC } from "@/types";
+import { motion } from 'framer-motion';
+import type { FCC } from '@/types';
 
 export interface Props extends React.HTMLAttributes<HTMLDivElement> {
   delay?: number;
   reverse?: boolean;
 }
 
-export const AnimationContainer: FCC<Props> = ({
-  children,
-  delay,
-  reverse,
-  className,
-}) => {
+export const AnimationContainer: FCC<Props> = ({ children, delay, reverse, className }) => {
   return (
     <motion.div
       className={className}
@@ -23,8 +18,8 @@ export const AnimationContainer: FCC<Props> = ({
       transition={{
         duration: 0.2,
         delay: delay,
-        ease: "easeInOut",
-        type: "spring",
+        ease: 'easeInOut',
+        type: 'spring',
         stiffness: 260,
         damping: 20,
       }}
@@ -33,4 +28,3 @@ export const AnimationContainer: FCC<Props> = ({
     </motion.div>
   );
 };
-

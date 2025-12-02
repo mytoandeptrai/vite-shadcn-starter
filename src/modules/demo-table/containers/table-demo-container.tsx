@@ -1,6 +1,5 @@
-import { TableDemo } from '../components/table-demo'
+import { TableDemo } from '../components/table-demo';
 
 export function TableDemoContainer() {
-	return <TableDemo />
+  return <TableDemo />;
 }
-

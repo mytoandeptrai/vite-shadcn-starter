@@ -1,20 +1,13 @@
 'use client';
 
 import type { FieldPath, FieldValues } from 'react-hook-form';
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { BaseFormFieldProps } from '@/types/base-form';
 
 interface FormInputProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
   type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
   placeholder?: string;
@@ -25,7 +18,7 @@ interface FormInputProps<
 
 function FormInput<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   control,
   name,
@@ -38,7 +31,7 @@ function FormInput<
   min,
   max,
   disabled,
-  className
+  className,
 }: FormInputProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -64,7 +57,7 @@ function FormInput<
               onChange={(e) => {
                 if (type === 'number') {
                   const value = e.target.value;
-                  field.onChange(value === '' ? undefined : parseFloat(value));
+                  field.onChange(value === '' ? undefined : Number.parseFloat(value));
                 } else {
                   field.onChange(e.target.value);
                 }

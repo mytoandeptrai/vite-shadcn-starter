@@ -1,7 +1,4 @@
-import Zoom, {
-  type ControlledProps,
-  type UncontrolledProps,
-} from 'react-medium-image-zoom';
+import Zoom, { type ControlledProps, type UncontrolledProps } from 'react-medium-image-zoom';
 import { cn } from '@/lib/utils';
 
 export type ImageZoomProps = UncontrolledProps & {
@@ -11,11 +8,7 @@ export type ImageZoomProps = UncontrolledProps & {
   backdropClassName?: string;
 };
 
- const ImageZoom = ({
-  className,
-  backdropClassName,
-  ...props
-}: ImageZoomProps) => (
+const ImageZoom = ({ className, backdropClassName, ...props }: ImageZoomProps) => (
   <div
     className={cn(
       'relative',

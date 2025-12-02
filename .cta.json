@@ -8,11 +8,5 @@
   "git": true,
   "version": 1,
   "framework": "react-cra",
-  "chosenAddOns": [
-    "biome",
-    "shadcn",
-    "table",
-    "storybook",
-    "tanstack-query"
-  ]
+  "chosenAddOns": ["biome", "shadcn", "table", "storybook", "tanstack-query"]
 }

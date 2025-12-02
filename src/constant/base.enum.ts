@@ -1,4 +1,4 @@
 export enum EMedia {
-	Image = "image",
-	Video = "video",
+  Image = 'image',
+  Video = 'video',
 }

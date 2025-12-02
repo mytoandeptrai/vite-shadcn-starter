@@ -4,7 +4,7 @@ import type { InputFileDropzoneProps } from '@/components/ui/input-file-dropzone
 // Base props that all form components will share
 export interface BaseFormFieldProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > {
   control: Control<TFieldValues>;
   name: TName;
