@@ -1,11 +1,11 @@
 import { Link } from '@tanstack/react-router'
 import { BookOpen, Home, Menu, Network, Table, X } from 'lucide-react'
 import { useState } from 'react'
+import LanguageSwitcher from '@/components/shared/language-switcher'
+import { Button } from '@/components/ui/button'
 import { useTranslation } from '@/integrations/i18n'
-import LanguageSwitcher from './shared/language-switcher'
-import { Button } from './ui/button'
 
-export default function Header() {
+export default function AppHeader() {
 	const [isOpen, setIsOpen] = useState(false)
 	const { t } = useTranslation('navigation')
 

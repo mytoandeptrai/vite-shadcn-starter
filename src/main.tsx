@@ -1,21 +1,20 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
-import { StrictMode } from "react";
+import { StrictMode, Suspense } from "react";
 import ReactDOM from "react-dom/client";
-
+import LoadingSpinner from "./components/shared/loading-spinner/loading-spinner.tsx";
+import { ErrorBoundary } from "./components/ui/error-boundary.tsx";
+import { Toaster } from "./components/ui/sonner.tsx";
 import * as I18nProvider from "./integrations/i18n/root-provider";
 import * as TanStackQueryProvider from "./integrations/tanstack-query/root-provider.tsx";
-
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen";
-
-import "./styles.css";
-import { Toaster } from "./components/ui/sonner.tsx";
 import { ThemeProvider } from "./integrations/theme/theme-provider.tsx";
 import reportWebVitals from "./reportWebVitals.ts";
+// Import the generated route tree
+import { routeTree } from "./routeTree.gen";
+import "./styles.css";
 
 // Create a new router instance
 
-const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
+export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 const router = createRouter({
 	routeTree,
 	context: {
@@ -43,7 +42,11 @@ if (rootElement && !rootElement.innerHTML) {
 			<I18nProvider.Provider>
 				<TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
 					<ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-						<RouterProvider router={router} />
+						<ErrorBoundary>
+							<Suspense fallback={<LoadingSpinner />}>
+								<RouterProvider router={router} />
+							</Suspense>
+						</ErrorBoundary>
 						<Toaster />
 					</ThemeProvider>
 				</TanStackQueryProvider.Provider>
