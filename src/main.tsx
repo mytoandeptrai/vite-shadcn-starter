@@ -12,6 +12,7 @@ import reportWebVitals from './reportWebVitals.ts';
 import { routeTree } from './routeTree.gen';
 import './styles.css';
 import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
+import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
 
 // Create a new router instance
 
@@ -51,10 +52,12 @@ if (rootElement && !rootElement.innerHTML) {
           <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <AuthProvider>
-                  <InnerApp />
-                  <Toaster richColors position='top-right' />
-                </AuthProvider>
+                <DialogProvider>
+                  <AuthProvider>
+                    <InnerApp />
+                    <Toaster richColors position='top-right' />
+                  </AuthProvider>
+                </DialogProvider>
               </Suspense>
             </ErrorBoundary>
           </ThemeProvider>

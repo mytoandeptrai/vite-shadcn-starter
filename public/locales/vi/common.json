@@ -64,7 +64,7 @@
       "PASSWORD_NOT_MATCH": "Mật khẩu không khớp.",
       "UPDATE_PROFILE_FAILED": "Không thể cập nhật hồ sơ.",
       "FILE_EMPTY": "File không được để trống.",
-      "ADDRESS_AND_BANK_NOT_FOUND": "Address and bank information không tồn tại.", 
+      "ADDRESS_AND_BANK_NOT_FOUND": "Address and bank information không tồn tại.",
       "ADDRESS_NOT_FOUND": "Địa chỉ không tồn tại.",
       "BANK_NOT_FOUND": "Thông tin ngân hàng không tồn tại.",
       "INVALID_NATIONALITY": "Quốc tịch không hợp lệ",
@@ -97,7 +97,7 @@
     "yes": "Có",
     "no": "Không",
     "disabled": "Vô hiệu hóa",
-    "enabled": "Kích hoạt"  
+    "enabled": "Kích hoạt"
   },
   "buttons": {
     "continue": "Tiếp tục",
@@ -130,6 +130,21 @@
         "quickAccessToYourDashboard": "Truy cập nhanh vào bảng điều khiển của bạn"
       }
     }
+  },
+  "dialogs": {
+    "two-fa": {
+      "title": "Xác thực hai yếu tố",
+      "description": "Nhập mã để thực hiện hành động này.",
+      "fields": {
+        "code": {
+          "label": "Mã",
+          "placeholder": "Nhập mã"
+        }
+      },
+      "errors": {
+        "MSG-1.5": "Mã không được chứa ký tự đặc biệt.",
+        "MSG-1.3": "Mã phải có 6 chữ số."
+      }
+    }
   }
 }
-

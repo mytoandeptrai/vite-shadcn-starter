@@ -149,6 +149,22 @@
         "zeroDowntimeGuaranteed": "Zero downtime guaranteed"
       }
     }
+  },
+  "dialogs": {
+    "two-fa": {
+      "title": "Two-Factor Authentication",
+      "description": "Enter the code to perform this action.",
+      "fields": {
+        "code": {
+          "label": "Code",
+          "placeholder": "Enter the code"
+        }
+      },
+      "errors": {
+        "MSG-1.5": "Code cannot contain special characters.",
+        "MSG-1.3": "Code must be 6 digits."
+      }
+    }
   }
 }
 

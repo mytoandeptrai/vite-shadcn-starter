@@ -1,8 +1,22 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 
 export function HeroSection() {
+  const { onOpenTwoFAModal } = useDialogContext();
+  const onClick = () => {
+    onOpenTwoFAModal({
+      forceOpen: true,
+      skipInitVerification: true,
+      isLoading: false,
+      closeOnSubmit: false,
+      cb: (code?: string) => {
+        console.log('🚀 ~ onClick ~ code:', code);
+      },
+    });
+  };
+
   return (
     <section className='relative flex min-h-[90vh] items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900'>
       {/* Background decoration */}
@@ -32,12 +46,10 @@ export function HeroSection() {
         </p>
 
         <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
-          <Link to='/demo/form'>
-            <Button size='lg' className='group px-8 py-6 text-lg'>
-              Get Started
-              <ArrowRight className='ml-2 h-5 w-5 transition-transform group-hover:translate-x-1' />
-            </Button>
-          </Link>
+          <Button size='lg' className='group px-8 py-6 text-lg' onClick={onClick}>
+            Get Started With 2FA
+            <ArrowRight className='ml-2 h-5 w-5 transition-transform group-hover:translate-x-1' />
+          </Button>
           <Link to='/demo/table'>
             <Button size='lg' variant='outline' className='px-8 py-6 text-lg'>
               View Demos
