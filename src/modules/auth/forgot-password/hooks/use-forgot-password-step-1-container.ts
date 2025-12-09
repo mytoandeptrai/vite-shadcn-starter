@@ -16,6 +16,7 @@ export const useForgotPasswordStep_1Container = ({
   const submit = handleSubmit(async ({ email }: ForgotPasswordFormData) => {
     try {
       /** Todo: Request API */
+      console.log("🚀 ~ useForgotPasswordStep_1Container ~ email:", email)
       onSubmit(new Date().toISOString());
       toast.success(t('messages.change-success'));
     } catch (e) {
