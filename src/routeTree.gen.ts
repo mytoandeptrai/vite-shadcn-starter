@@ -16,7 +16,14 @@ import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-qu
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
+import { Route as authVerifiedEmailRouteImport } from './routes/(auth)/verified-email'
+import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
+import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as authActiveRouteImport } from './routes/(auth)/active'
 
 const publicLayoutRoute = publicLayoutRouteImport.update({
   id: '/(public)',
@@ -51,14 +58,56 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authVerifiedEmailRoute = authVerifiedEmailRouteImport.update({
+  id: '/verified-email',
+  path: '/verified-email',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authResetPasswordRoute = authResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => authLayoutRoute,
+} as any)
 const authRegisterRoute = authRegisterRouteImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => authLayoutRoute,
 } as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authLinkExpiredRoute = authLinkExpiredRouteImport.update({
+  id: '/link-expired',
+  path: '/link-expired',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authActiveRoute = authActiveRouteImport.update({
+  id: '/active',
+  path: '/active',
+  getParentRoute: () => authLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/active': typeof authActiveRoute
+  '/forgot-password': typeof authForgotPasswordRoute
+  '/link-expired': typeof authLinkExpiredRoute
+  '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/verified-email': typeof authVerifiedEmailRoute
+  '/verify-email': typeof authVerifyEmailRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -66,7 +115,14 @@ export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
 }
 export interface FileRoutesByTo {
+  '/active': typeof authActiveRoute
+  '/forgot-password': typeof authForgotPasswordRoute
+  '/link-expired': typeof authLinkExpiredRoute
+  '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/verified-email': typeof authVerifiedEmailRoute
+  '/verify-email': typeof authVerifyEmailRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -77,7 +133,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authLayoutRouteWithChildren
   '/(public)': typeof publicLayoutRouteWithChildren
+  '/(auth)/active': typeof authActiveRoute
+  '/(auth)/forgot-password': typeof authForgotPasswordRoute
+  '/(auth)/link-expired': typeof authLinkExpiredRoute
+  '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
+  '/(auth)/reset-password': typeof authResetPasswordRoute
+  '/(auth)/verified-email': typeof authVerifiedEmailRoute
+  '/(auth)/verify-email': typeof authVerifyEmailRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -87,7 +150,14 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/active'
+    | '/forgot-password'
+    | '/link-expired'
+    | '/login'
     | '/register'
+    | '/reset-password'
+    | '/verified-email'
+    | '/verify-email'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -95,7 +165,14 @@ export interface FileRouteTypes {
     | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/active'
+    | '/forgot-password'
+    | '/link-expired'
+    | '/login'
     | '/register'
+    | '/reset-password'
+    | '/verified-email'
+    | '/verify-email'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -105,7 +182,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/(auth)'
     | '/(public)'
+    | '/(auth)/active'
+    | '/(auth)/forgot-password'
+    | '/(auth)/link-expired'
+    | '/(auth)/login'
     | '/(auth)/register'
+    | '/(auth)/reset-password'
+    | '/(auth)/verified-email'
+    | '/(auth)/verify-email'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -173,6 +257,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/verify-email': {
+      id: '/(auth)/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof authVerifyEmailRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/verified-email': {
+      id: '/(auth)/verified-email'
+      path: '/verified-email'
+      fullPath: '/verified-email'
+      preLoaderRoute: typeof authVerifiedEmailRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
     '/(auth)/register': {
       id: '/(auth)/register'
       path: '/register'
@@ -180,15 +285,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof authLayoutRoute
     }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/link-expired': {
+      id: '/(auth)/link-expired'
+      path: '/link-expired'
+      fullPath: '/link-expired'
+      preLoaderRoute: typeof authLinkExpiredRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/forgot-password': {
+      id: '/(auth)/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof authForgotPasswordRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/active': {
+      id: '/(auth)/active'
+      path: '/active'
+      fullPath: '/active'
+      preLoaderRoute: typeof authActiveRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
   }
 }
 
 interface authLayoutRouteChildren {
+  authActiveRoute: typeof authActiveRoute
+  authForgotPasswordRoute: typeof authForgotPasswordRoute
+  authLinkExpiredRoute: typeof authLinkExpiredRoute
+  authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
+  authVerifiedEmailRoute: typeof authVerifiedEmailRoute
+  authVerifyEmailRoute: typeof authVerifyEmailRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authActiveRoute: authActiveRoute,
+  authForgotPasswordRoute: authForgotPasswordRoute,
+  authLinkExpiredRoute: authLinkExpiredRoute,
+  authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
+  authVerifiedEmailRoute: authVerifiedEmailRoute,
+  authVerifyEmailRoute: authVerifyEmailRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(

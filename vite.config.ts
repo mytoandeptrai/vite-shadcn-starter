@@ -26,11 +26,7 @@ export default defineConfig({
       autoCodeSplitting: true,
       routeToken: "layout"
     }),
-    viteReact({
-      babel: {
-        plugins: ['babel-plugin-react-compiler'],
-      },
-    }),
+    viteReact(),
     tailwindcss(),
     svgrPlugin({ svgrOptions: { icon: true } }),
   ],

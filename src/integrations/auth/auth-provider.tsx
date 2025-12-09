@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     verifySession();
   }, []);
 
-  const contextValue: AuthContextState = { logout, login, isAuthenticated: true };
+  const contextValue: AuthContextState = { logout, login, isAuthenticated: false };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }

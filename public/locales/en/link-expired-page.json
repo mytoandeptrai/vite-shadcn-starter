@@ -1,0 +1,7 @@
+{
+  "title": "Confirmation Link Expired",
+  "description": "The verification link has expired. To verify your email address, please find the latest verification email in your mailbox.",
+  "buttons": {
+    "resend-verification": "Resend Verification"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "title": "Login",
+  "description": "Login to your account to start using our platform",
+  "labels": {
+    "email": "Email Address",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "Don't have an account? Register here"
+  },
+  "fields": {
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter your email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    }
+  },
+  "errors": {
+    "MSG-1.10": "Invalid email format.",
+    "MSG-1.14": "Password must be between 8 and 50 characters in length.",
+    "MSG-1.15": "Use at least 1 uppercase, lowercase, numbers & symbols.",
+    "MSG-1.19": "Password cannot contain space.",
+    "MSG-1.20": "Passwords do not match."
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Minimum {{min}} characters required",
+    "maxLength": "Maximum {{max}} characters allowed",
+    "passwordMatch": "Passwords do not match",
+    "invalidFormat": "Invalid format"
+  }
+}

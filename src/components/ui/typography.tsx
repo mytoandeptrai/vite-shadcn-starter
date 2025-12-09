@@ -8,7 +8,7 @@ interface HeadingProps {
 
 export function Heading({ children, className }: HeadingProps) {
   return (
-    <h1 className={cn('font-title text-[#242424] text-[34px] leading-tight sm:text-5xl md:text-6xl', className)}>
+    <h1 className={cn('font-title text-2xl text-primary leading-tight', className)}>
       {children}
     </h1>
   );
@@ -68,9 +68,9 @@ export function Paragraph({ children, className, color = 'default', size = 'defa
   const paragraphStyles = cva('font-geist', {
     variants: {
       color: {
-        default: 'text-[#848484]',
+        default: 'text-foreground',
         light: 'text-gray-400',
-        dark: 'text-[#3D3D3D]',
+        dark: 'text-primary',
         'gray-700': 'text-gray-700',
         'gray-500': 'text-gray-500',
         'gray-900': 'text-gray-900',

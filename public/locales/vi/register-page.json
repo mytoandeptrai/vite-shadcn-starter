@@ -1,0 +1,58 @@
+{
+  "title": "Đăng ký",
+  "description": "Đăng ký tài khoản để bắt đầu sử dụng nền tảng của chúng tôi",
+  "labels": {
+      "email": "Địa chỉ email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "register": "Đăng ký",
+      "login": "Đăng nhập",
+      "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập ở đây",
+      "dontHaveAccount": "Chưa có tài khoản? Đăng ký ở đây"
+  },
+  "fields": {
+    "fullName": {
+      "label": "Họ và tên",
+      "placeholder": "Nhập họ và tên"
+    },
+    "email": {
+      "label": "Địa chỉ email",
+      "placeholder": "Nhập địa chỉ email"
+    },
+    "lastName": {
+      "label": "Tên",
+      "placeholder": "Nhập tên"
+    },
+    "password": {
+      "label": "Mật khẩu",
+      "placeholder": "Nhập mật khẩu"
+    },
+    "confirmPassword": {
+      "label": "Xác nhận mật khẩu",
+      "placeholder": "Nhập xác nhận mật khẩu"
+    }
+  },
+  "errors": {
+    "MSG-1.3": "Họ và tên không được vượt quá 100 ký tự.",
+    "MSG-1.4": "Họ và tên không được chứa số.",
+    "MSG-1.5": "Họ và tên không được chứa ký tự đặc biệt.",
+    "MSG-1.7": "Tên không được vượt quá 100 ký tự.",
+    "MSG-1.8": "Tên không được chứa số.",
+    "MSG-1.9": "Tên không được chứa ký tự đặc biệt.",
+    "MSG-1.10": "Định dạng email không hợp lệ.",
+    "MSG-1.14": "Mật khẩu phải có ít nhất 8 ký tự và tối đa 50 ký tự.",
+    "MSG-1.15": "Mật khẩu phải có ít nhất 1 ký tự in hoa, thường, số và ký tự đặc biệt.",
+    "MSG-1.17": "Tên đối tượng không được vượt quá 100 ký tự.",
+    "MSG-1.18": "Tên đối tượng không được chứa số.",
+    "MSG-1.19": "Mật khẩu không được chứa khoảng trắng.",
+    "MSG-1.20": "Mật khẩu không khớp."
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "email": "Vui lòng nhập địa chỉ email hợp lệ",
+    "minLength": "Tối thiểu {{min}} ký tự",
+    "maxLength": "Tối đa {{max}} ký tự",
+    "passwordMatch": "Mật khẩu không khớp",
+    "invalidFormat": "Định dạng không hợp lệ"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Liên kết xác minh đã hết hạn",
+  "description": "Liên kết xác minh đã hết hạn. Để tiếp tục xác minh địa chỉ email của bạn, vui lòng kiểm tra email mới nhất trong hộp thư.",
+  "buttons": {
+    "resend-verification": "Gửi lại email xác minh"
+  }
+}

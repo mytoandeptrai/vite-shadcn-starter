@@ -28,3 +28,7 @@ export const FILE_FORMAT = [
   'image/gif',
   'image/svg+xml',
 ];
+
+export const keyLocalStorage = {
+  EXPIRED_SIGN_UP_TIME: "expired-signup-time",
+};

@@ -1,3 +1,4 @@
+import { env } from '@/constant';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
@@ -10,7 +11,7 @@ i18n
   .init({
     fallbackLng: 'en',
     supportedLngs: ['en', 'vi'],
-    debug: import.meta.env.DEV,
+    debug: env.ENVIRONMENT === 'development',
 
     /** Interpolation settings */
     interpolation: {
@@ -24,7 +25,7 @@ i18n
 
     /** Default namespace */
     defaultNS: 'common',
-    ns: ['common', 'validation', 'navigation'],
+    ns: ['common', 'validation', 'navigation', 'register-page', 'login-page', 'verify-email-page', 'verified-email-page'],
 
     /** Detection settings */
     detection: {

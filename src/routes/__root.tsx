@@ -1,13 +1,12 @@
 import { GoogleAnalytics } from '@/components/ui/google-analytics';
 import NavigationProgress from '@/components/ui/navigation-progress';
-import { env, siteConfig } from '@/constant';
+import { siteConfig } from '@/constant';
+import type { AuthContextState } from '@/integrations/auth/auth-provider';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import type { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
-import type { AuthContextState } from '@/integrations/auth/auth-provider';
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -39,15 +38,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <TanStackDevtools
         config={{
           position: 'bottom-right',
-          defaultOpen: env.ENVIRONMENT === 'development',
         }}
-        plugins={[
-          {
-            name: 'Tanstack Router',
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-          TanStackQueryDevtools,
-        ]}
+        plugins={[TanStackQueryDevtools]}
       />
     </HelmetProvider>
   ),
