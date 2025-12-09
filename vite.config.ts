@@ -24,6 +24,7 @@ export default defineConfig({
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,
+      routeToken: "layout"
     }),
     viteReact({
       babel: {

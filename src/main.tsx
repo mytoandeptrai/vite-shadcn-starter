@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals.ts';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import './styles.css';
+import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
 
 // Create a new router instance
 
@@ -19,6 +20,7 @@ const router = createRouter({
   routeTree,
   context: {
     ...TanStackQueryProviderContext,
+    auth: undefined!,
   },
   defaultPreload: 'intent',
   scrollRestoration: true,
@@ -33,6 +35,11 @@ declare module '@tanstack/react-router' {
   }
 }
 
+function InnerApp() {
+  const auth = useAuthContext();
+  return <RouterProvider router={router} context={{ auth }} />;
+}
+
 // Render the app
 const rootElement = document.getElementById('app');
 if (rootElement && !rootElement.innerHTML) {
@@ -44,10 +51,12 @@ if (rootElement && !rootElement.innerHTML) {
           <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <RouterProvider router={router} />
+                <AuthProvider>
+                  <InnerApp />
+                  <Toaster richColors position='top-right' />
+                </AuthProvider>
               </Suspense>
             </ErrorBoundary>
-            <Toaster />
           </ThemeProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>

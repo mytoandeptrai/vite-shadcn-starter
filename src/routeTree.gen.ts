@@ -9,16 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
+import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
+import { Route as publicIndexRouteImport } from './routes/(public)/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 
-const IndexRoute = IndexRouteImport.update({
+const publicLayoutRoute = publicLayoutRouteImport.update({
+  id: '/(public)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authLayoutRoute = authLayoutRouteImport.update({
+  id: '/(auth)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicIndexRoute = publicIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => publicLayoutRoute,
 } as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
@@ -40,55 +51,71 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authRegisterRoute = authRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => authLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/register': typeof authRegisterRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/': typeof publicIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/register': typeof authRegisterRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/': typeof publicIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/(auth)': typeof authLayoutRouteWithChildren
+  '/(public)': typeof publicLayoutRouteWithChildren
+  '/(auth)/register': typeof authRegisterRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/(public)/': typeof publicIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
+    | '/register'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
+    | '/register'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/'
   id:
     | '__root__'
-    | '/'
+    | '/(auth)'
+    | '/(public)'
+    | '/(auth)/register'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/(public)/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  authLayoutRoute: typeof authLayoutRouteWithChildren
+  publicLayoutRoute: typeof publicLayoutRouteWithChildren
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
   DemoTableRoute: typeof DemoTableRoute
@@ -97,12 +124,26 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(public)': {
+      id: '/(public)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof publicLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)': {
+      id: '/(auth)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof authLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/': {
+      id: '/(public)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof publicIndexRouteImport
+      parentRoute: typeof publicLayoutRoute
     }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
@@ -132,11 +173,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/register': {
+      id: '/(auth)/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
   }
 }
 
+interface authLayoutRouteChildren {
+  authRegisterRoute: typeof authRegisterRoute
+}
+
+const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authRegisterRoute: authRegisterRoute,
+}
+
+const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
+  authLayoutRouteChildren,
+)
+
+interface publicLayoutRouteChildren {
+  publicIndexRoute: typeof publicIndexRoute
+}
+
+const publicLayoutRouteChildren: publicLayoutRouteChildren = {
+  publicIndexRoute: publicIndexRoute,
+}
+
+const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
+  publicLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  authLayoutRoute: authLayoutRouteWithChildren,
+  publicLayoutRoute: publicLayoutRouteWithChildren,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
   DemoTableRoute: DemoTableRoute,

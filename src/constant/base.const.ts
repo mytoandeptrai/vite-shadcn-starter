@@ -3,6 +3,7 @@ export const env = {
   API_URL: import.meta.env.VITE_API_URL || '',
   SOCKET_URL: import.meta.env.VITE_SOCKET_URL || '',
   APP_SUPPORT_EMAIL: import.meta.env.VITE_APP_SUPPORT_EMAIL || '',
+  ENVIRONMENT: import.meta.env.VITE_ENV || '',
 };
 
 export const NUMBER_FORMAT_LOOK_UP = [

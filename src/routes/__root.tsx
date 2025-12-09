@@ -1,22 +1,45 @@
+import { GoogleAnalytics } from '@/components/ui/google-analytics';
+import NavigationProgress from '@/components/ui/navigation-progress';
+import { env, siteConfig } from '@/constant';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import type { QueryClient } from '@tanstack/react-query';
-import { createRootRouteWithContext } from '@tanstack/react-router';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
-import AppLayout from '@/components/layouts/app-layout';
-import Preload from '@/components/ui/preload';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
+import type { AuthContextState } from '@/integrations/auth/auth-provider';
 
 interface MyRouterContext {
   queryClient: QueryClient;
+  auth: AuthContextState;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
-    <Preload>
-      <AppLayout />
+    <HelmetProvider>
+      {/* SEO  */}
+      <Helmet>
+        <title>{siteConfig.title}</title>
+        <meta name='description' content={siteConfig.description} />
+        <meta property='og:title' content={siteConfig.title} />
+        <meta property='og:description' content={siteConfig.description} />
+        <meta property='og:url' content={siteConfig.canonicalUrl} />
+        <meta property='og:type' content='website' />
+        <meta property='og:site_name' content={siteConfig.title} />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:title' content={siteConfig.title} />
+        <meta name='twitter:description' content={siteConfig.description} />
+        <meta name='twitter:site' content={siteConfig.twitter} />
+        <link rel='canonical' href={siteConfig.canonicalUrl} />
+        <meta name='robots' content='noindex,nofollow' />
+      </Helmet>
+      <GoogleAnalytics />
+      <NavigationProgress />
+      <Outlet />
       <TanStackDevtools
         config={{
           position: 'bottom-right',
+          defaultOpen: env.ENVIRONMENT === 'development',
         }}
         plugins={[
           {
@@ -26,6 +49,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
           TanStackQueryDevtools,
         ]}
       />
-    </Preload>
+    </HelmetProvider>
   ),
 });
