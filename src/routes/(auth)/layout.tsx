@@ -20,6 +20,7 @@ export const Route = createFileRoute('/(auth)')({
 const sidebarMapping = {
   [`${ROUTES.REGISTER}`]: {
     heading: 'layouts.auth.title',
+    description: 'layouts.auth.description',
     bullets: [
       {
         title: 'layouts.auth.register.quickAndFreeSignUp',
@@ -37,6 +38,7 @@ const sidebarMapping = {
   },
   [`${ROUTES.LOGIN}`]: {
     heading: 'layouts.auth.title',
+    description: 'layouts.auth.description',
     bullets: [
       {
         title: 'layouts.auth.login.secureLogin',
@@ -60,27 +62,35 @@ const sidebarMapping = {
       },
     ],
   },
-}
+};
 
 function RouteComponent() {
   const { t } = useTranslation('common');
-  const location = useLocation()
-  const pathname = location.pathname
+  const location = useLocation();
+  const pathname = location.pathname;
   const sidebar = sidebarMapping[pathname] ?? sidebarMapping[ROUTES.LOGIN];
   return (
     <div className='flex min-h-screen bg-linear-to-b from-slate-50 to-white'>
-      <div className='hidden flex-col items-center justify-center px-8 pt-16 md:flex md:w-2/5'>
-        <h1 className='mb-8 font-bold text-2xl'>{t(sidebar.heading)}</h1>
-        <div className='space-y-6'>
-          {sidebar?.bullets.map((bullet, index) => (
-            <div key={index} className='flex items-start gap-3'>
-              <div className='mt-2 h-2 w-2 shrink-0 rounded-full bg-primary' />
-              <div>
-                <h3 className='font-semibold text-sm'>{t(bullet.title)}</h3>
-                <p className='mt-1 text-slate-600 text-xs'>{t(bullet.subtitle)}</p>
-              </div>
+      <div className='hidden flex-col items-end justify-center bg-linear-to-br p-12 lg:flex lg:w-2/5'>
+        <div className='max-w-md'>
+          <div className='mb-12'>
+            <div className='mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-primary font-bold text-primary-foreground'>
+              PWC
             </div>
-          ))}
+            <h1 className='mb-2 font-bold text-3xl'>{t(sidebar.heading)}</h1>
+            <p className='text-slate-600 text-sm'>{t(sidebar.description)}</p>
+          </div>
+          <div className='space-y-6'>
+            {sidebar?.bullets.map((bullet, index) => (
+              <div key={index} className='flex items-start gap-3'>
+                <div className='mt-2 h-2 w-2 shrink-0 rounded-full bg-primary' />
+                <div>
+                  <h3 className='font-semibold text-sm'>{t(bullet.title)}</h3>
+                  <p className='mt-1 text-slate-600 text-xs'>{t(bullet.subtitle)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
