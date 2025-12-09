@@ -1,4 +1,3 @@
-import type { AuthenticatedUser } from '@/types/auth';
 import { createContext, useContext, useEffect, type ReactNode } from 'react';
 
 export type AuthContextState = {
@@ -15,12 +14,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // TODO: Implement http login logic
     // eslint-disable-next-line no-console
     console.log(email, password);
-    const user = {
-      id: '1',
-      email,
-      name: 'Test User',
-      role: 'Admin',
-    } satisfies AuthenticatedUser;
   };
 
   const logout = async () => {
