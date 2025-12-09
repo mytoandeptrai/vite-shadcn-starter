@@ -50,7 +50,7 @@ interface SubheadingProps {
 
 export function Subheading({ children, className }: SubheadingProps) {
   return (
-    <h2 className={cn('font-title text-[#242424] text-[1.7rem] leading-tight md:text-[2.5rem]', className)}>
+    <h2 className={cn('font-title text-[1.7rem] text-muted-foreground leading-tight md:text-[2.5rem]', className)}>
       {children}
     </h2>
   );

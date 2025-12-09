@@ -74,7 +74,7 @@ function RouteComponent() {
         <div className='space-y-6'>
           {sidebar?.bullets.map((bullet, index) => (
             <div key={index} className='flex items-start gap-3'>
-              <div className='mt-2 h-2 w-2 shrink-0 rounded-full bg-blue-600' />
+              <div className='mt-2 h-2 w-2 shrink-0 rounded-full bg-primary' />
               <div>
                 <h3 className='font-semibold text-sm'>{t(bullet.title)}</h3>
                 <p className='mt-1 text-slate-600 text-xs'>{t(bullet.subtitle)}</p>
