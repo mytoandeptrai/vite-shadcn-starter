@@ -1,0 +1,7 @@
+{
+  "title": "Cảm Ơn Bạn Đã Đăng Ký",
+  "description": "Chúng tôi đã gửi một email kích hoạt tài khoản. Vui lòng nhấp vào liên kết trong email để kích hoạt tài khoản của bạn.",
+  "buttons": {
+    "resend-verification": "Gửi Lại Email Xác Minh"
+  }
+}

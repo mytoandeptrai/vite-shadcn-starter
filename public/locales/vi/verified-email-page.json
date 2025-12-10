@@ -1,0 +1,7 @@
+{
+  "title": "Email đã được xác minh",
+  "description": "Địa chỉ email đã được xác minh thành công trước đó. Nhấn vào nút bên dưới để quay về trang đăng nhập.",
+  "buttons": {
+    "go-to-login": "Đi đến đăng nhập"
+  }
+}

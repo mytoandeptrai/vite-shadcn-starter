@@ -1,0 +1,7 @@
+{
+  "title": "Email Has Been Verified",
+  "description": "The email address has already been verified successfully. Click the button below to direct to login page.",
+  "buttons": {
+    "go-to-login": "Go to login"
+  }
+}

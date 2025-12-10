@@ -1,0 +1,9 @@
+{
+  "required": "Trường này là bắt buộc",
+  "email": "Vui lòng nhập địa chỉ email hợp lệ",
+  "minLength": "Tối thiểu {{min}} ký tự",
+  "maxLength": "Tối đa {{max}} ký tự",
+  "passwordMatch": "Mật khẩu không khớp",
+  "invalidFormat": "Định dạng không hợp lệ"
+}
+

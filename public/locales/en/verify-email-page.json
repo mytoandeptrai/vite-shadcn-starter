@@ -1,0 +1,7 @@
+{
+  "title": "Thank You For Registering",
+  "description": "An email has been sent to activate your account. Please click the link to activate your account.",
+  "buttons": {
+    "resend-verification": "Resend Verification"
+  }
+}
