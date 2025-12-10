@@ -25,7 +25,17 @@ i18n
 
     /** Default namespace */
     defaultNS: 'common',
-    ns: ['common', 'validation', 'navigation', 'register-page', 'login-page', 'verify-email-page', 'verified-email-page'],
+    ns: [
+      'common',
+      'validation',
+      'navigation',
+      'register-page',
+      'login-page',
+      'verify-email-page',
+      'verified-email-page',
+      'dashboard-page',
+      'balance-page',
+    ],
 
     /** Detection settings */
     detection: {

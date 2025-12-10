@@ -33,7 +33,9 @@
       "special-chars": "{{field}} không được chứa ký tự đặc biệt.",
       "contain-num": "{{field}} không được chứa số.",
       "values-not-match": "{{field}} không khớp.",
-      "session-expired": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại."
+      "session-expired": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.",
+      "new-amount-must-be-greater-than-or-equal-to-current-amount": "Số tiền mới phải lớn hơn hoặc bằng số tiền hiện tại ({{currentAmount}})",
+      "new-amount-must-be-less-than-or-equal-to-current-amount": "Số tiền mới phải nhỏ hơn hoặc bằng số tiền hiện tại ({{currentAmount}})"
     },
     "code": {
       "UNAUTHORIZED": "Bạn không có quyền truy cập.",
@@ -88,6 +90,9 @@
       "LOGIN_FAILED": "Thông tin đăng nhập của bạn không chính xác. Vui lòng kiểm tra và thử lại.",
       "REDEEM_REQUEST_LIMIT": "Bạn đã đạt được số lượng yêu cầu rút tiền tối đa.",
       "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống."
+    },
+    "messages": {
+      "you-do-not-have-access-to-this-page": "Bạn không có quyền truy cập trang này."
     }
   },
   "labels": {
@@ -97,7 +102,8 @@
     "yes": "Có",
     "no": "Không",
     "disabled": "Vô hiệu hóa",
-    "enabled": "Kích hoạt"
+    "enabled": "Kích hoạt",
+    "search": "Tìm kiếm"
   },
   "buttons": {
     "continue": "Tiếp tục",

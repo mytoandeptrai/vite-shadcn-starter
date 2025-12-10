@@ -1,5 +1,5 @@
 import { differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from "date-fns";
-import { HOURS_PER_DAY, MINUTES_PER_HOUR, SECONDS_PER_MINUTE } from "./useCountDown.const";
+import { HOURS_PER_DAY, MINUTES_PER_HOUR, SECONDS_PER_MINUTE } from "./use-count-down.const";
 
 export const formattedNumber = (number: number) => {
   if (number < 10) return `0${number}`;

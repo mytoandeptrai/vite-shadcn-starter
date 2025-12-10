@@ -16,6 +16,10 @@ import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-qu
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as publicProfileRouteImport } from './routes/(public)/profile'
+import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
+import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
+import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
 import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
 import { Route as authVerifiedEmailRouteImport } from './routes/(auth)/verified-email'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
@@ -57,6 +61,26 @@ const DemoFormRoute = DemoFormRouteImport.update({
   id: '/demo/form',
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
+} as any)
+const publicProfileRoute = publicProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicDeveloperRoute = publicDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicDashboardRoute = publicDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicBalanceRoute = publicBalanceRouteImport.update({
+  id: '/balance',
+  path: '/balance',
+  getParentRoute: () => publicLayoutRoute,
 } as any)
 const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -108,6 +132,10 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/verified-email': typeof authVerifiedEmailRoute
   '/verify-email': typeof authVerifyEmailRoute
+  '/balance': typeof publicBalanceRoute
+  '/dashboard': typeof publicDashboardRoute
+  '/developer': typeof publicDeveloperRoute
+  '/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -123,6 +151,10 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/verified-email': typeof authVerifiedEmailRoute
   '/verify-email': typeof authVerifyEmailRoute
+  '/balance': typeof publicBalanceRoute
+  '/dashboard': typeof publicDashboardRoute
+  '/developer': typeof publicDeveloperRoute
+  '/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -141,6 +173,10 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/verified-email': typeof authVerifiedEmailRoute
   '/(auth)/verify-email': typeof authVerifyEmailRoute
+  '/(public)/balance': typeof publicBalanceRoute
+  '/(public)/dashboard': typeof publicDashboardRoute
+  '/(public)/developer': typeof publicDeveloperRoute
+  '/(public)/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
@@ -158,6 +194,10 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verified-email'
     | '/verify-email'
+    | '/balance'
+    | '/dashboard'
+    | '/developer'
+    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -173,6 +213,10 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/verified-email'
     | '/verify-email'
+    | '/balance'
+    | '/dashboard'
+    | '/developer'
+    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -190,6 +234,10 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/verified-email'
     | '/(auth)/verify-email'
+    | '/(public)/balance'
+    | '/(public)/dashboard'
+    | '/(public)/developer'
+    | '/(public)/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
@@ -256,6 +304,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/demo/form'
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(public)/profile': {
+      id: '/(public)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof publicProfileRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/developer': {
+      id: '/(public)/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof publicDeveloperRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/dashboard': {
+      id: '/(public)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof publicDashboardRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/balance': {
+      id: '/(public)/balance'
+      path: '/balance'
+      fullPath: '/balance'
+      preLoaderRoute: typeof publicBalanceRouteImport
+      parentRoute: typeof publicLayoutRoute
     }
     '/(auth)/verify-email': {
       id: '/(auth)/verify-email'
@@ -343,10 +419,18 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
 )
 
 interface publicLayoutRouteChildren {
+  publicBalanceRoute: typeof publicBalanceRoute
+  publicDashboardRoute: typeof publicDashboardRoute
+  publicDeveloperRoute: typeof publicDeveloperRoute
+  publicProfileRoute: typeof publicProfileRoute
   publicIndexRoute: typeof publicIndexRoute
 }
 
 const publicLayoutRouteChildren: publicLayoutRouteChildren = {
+  publicBalanceRoute: publicBalanceRoute,
+  publicDashboardRoute: publicDashboardRoute,
+  publicDeveloperRoute: publicDeveloperRoute,
+  publicProfileRoute: publicProfileRoute,
   publicIndexRoute: publicIndexRoute,
 }
 

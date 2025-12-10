@@ -1,0 +1,26 @@
+{
+    "title": "Balance",
+    "description": "Your balance is the total amount of money you have in your account",
+    "labels": {
+        "available-balance": "Available Balance",
+        "ready-to-withdraw": "Ready to Withdraw",
+        "incoming-balance": "Incoming Balance",
+        "processing-transactions": "Processing Transactions"
+    },
+    "actions": {
+        "with-draw": "Withdraw",
+        "max": "max"
+    },
+    "dialogs": {
+        "balance-withdraw": {
+            "title": "Withdraw",
+            "description": "Enter the amount you want to withdraw",
+            "fields": {
+                "amount": {
+                    "label": "Amount",
+                    "placeholder": "Enter the amount"
+                }
+            }
+        }
+    }
+}

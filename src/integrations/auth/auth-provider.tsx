@@ -5,12 +5,24 @@ export type AuthContextState = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
+  user: {
+    imageUrl: string;
+    fullName: string;
+    emailAddresses: {
+      emailAddress: string;
+    }[];
+  } | null;
 };
 
 const AuthContext = createContext<AuthContextState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
+  const user = {
+    imageUrl: '',
+    fullName: 'John Doe',
+    emailAddresses: [{ emailAddress: 'john.doe@example.com' }],
+  };
 
   const login = async (email: string, password: string) => {
     // TODO: Implement http login logic
@@ -31,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     verifySession();
   }, []);
 
-  const contextValue: AuthContextState = { logout, login, isAuthenticated: false };
+  const contextValue: AuthContextState = { logout, login, isAuthenticated: false, user };
 
   if (isLoading) {
     return <LoadingFluid />;
