@@ -1,4 +1,3 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { useTranslation } from '@/integrations/i18n';
 import type { FCC } from '@/types';
 import type React from 'react';
@@ -56,7 +55,7 @@ export const PageContainer: FCC<PageContainerProps> = ({
   const content = isLoading ? <PageSkeleton /> : children;
 
   return scrollable ? (
-    <ScrollArea className='h-[calc(100dvh-64px)]'>
+    <div className='mt-16 h-[calc(100dvh-64px)]'>
       <div className='flex flex-1 flex-col p-4 pt-0'>
         <div className='mb-4 flex items-start justify-between'>
           <div>
@@ -73,7 +72,7 @@ export const PageContainer: FCC<PageContainerProps> = ({
         </div>
         {content}
       </div>
-    </ScrollArea>
+    </div>
   ) : (
     <div className='flex flex-1 flex-col p-4 pt-0'>
       <div className='mb-4 flex items-start justify-between'>

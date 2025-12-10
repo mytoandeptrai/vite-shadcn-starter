@@ -7,7 +7,7 @@ import AppHeaderSearch from './app-header-search';
 export default function AppHeader() {
   const { user } = useAuthContext();
   return (
-    <header className='flex h-16 shrink-0 items-center justify-between gap-2'>
+    <header className='fixed top-0 z-999 flex h-16 w-[calc(100%-255px)] shrink-0 items-center justify-between gap-2 bg-background'>
       <div className='flex items-center gap-2 px-4'>
         <SidebarTrigger className='-ml-1' />
         <Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
