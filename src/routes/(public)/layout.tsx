@@ -13,7 +13,7 @@ function RouteComponent() {
       <AppSidebar />
       <SidebarInset>
         <AppHeader />
-        <main className='flex flex-1 flex-col overflow-x-hidden'>
+        <main className='flex flex-1 flex-col'>
           <Outlet />
         </main>
       </SidebarInset>

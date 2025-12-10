@@ -1,0 +1,43 @@
+{
+  "title": "Bảng điều khiển",
+  "description": "Chào mừng bạn đến với trang quản lý của bạn",
+  "buttons": {
+    "continue": "Tiếp tục"
+  },
+  "start-guide": {
+    "sub-labels": {
+      "connect-wallet": "Kết nối ví tiền điện tử",
+      "create-api-keys": "Tạo khóa API để tích hợp",
+      "download-sdk": "Tích hợp nhanh với SDK của chúng tôi"
+    },
+    "labels": {
+      "add-wallet-address": "Thêm địa chỉ ví",
+      "generate-apiKeys": "Tạo khóa API",
+      "download-sdk": "Tải SDK (Tùy chọn)"
+    },
+    "descriptions": {
+      "add-wallet-address": "Thêm địa chỉ ví tiền điện tử của bạn để nhận thanh toán",
+      "generate-api-keys": "Tạo khóa API cho giao tiếp server-to-server",
+      "download-sdk": "Tích hợp nhanh vào hệ thống của bạn bằng SDK"
+    }
+  },
+  "dashboard-balance": {
+    "title": "Số dư khả dụng",
+    "description": "Số dư khả dụng là tổng số tiền hiện có trong tài khoản của bạn"
+  },
+  "dashboard-summary": {
+    "title": "Tổng quan đơn hàng",
+    "description": "Tổng hợp dữ liệu đơn hàng của bạn trong hệ thống"
+  },
+  "dashboard-api": {
+    "title": "Mức sử dụng API Key",
+    "description": "Theo dõi tần suất và số lượng yêu cầu sử dụng API"
+  },
+  "options": {
+    "today": "Hôm nay",
+    "7-days": "7 ngày gần đây",
+    "30-days": "30 ngày gần đây",
+    "placeholder": "Chọn khoảng thời gian",
+    "label": "Khoảng thời gian"
+  }
+}

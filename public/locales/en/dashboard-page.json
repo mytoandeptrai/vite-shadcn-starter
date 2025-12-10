@@ -1,0 +1,43 @@
+{
+    "title": "Dashboard",
+    "description": "Welcome to your dashboard",
+    "buttons": {
+        "continue": "Continue"
+    },
+    "start-guide": {
+        "sub-labels": {
+            "connect-wallet": "Connect your crypto wallet",
+            "create-api-keys": "Create keys for your integration",
+            "download-sdk": "Quick integration with our SDK"
+        },
+        "labels": {
+            "add-wallet-address": "Add Wallet Address",
+            "generate-apiKeys": "Generate API Keys",
+            "download-sdk": "Download SDK (Optional)"
+        },
+        "descriptions": {
+            "add-wallet-address": "Add your crypto wallet address to receive payments",
+            "generate-api-keys": "Generate API keys for server-to-server communication",
+            "download-sdk": "Quick integration with our SDK"
+        }
+    },
+    "dashboard-balance": {
+        "title": "Available Balance",
+        "description": "Your balance is the total amount of money you have in your account"
+    },
+    "dashboard-summary": {
+        "title": "Order Summary",
+        "description": "Your summary is the total amount of money you have in your account"
+    },
+    "dashboard-api": {
+        "title": "API Key Usage",
+        "description": "Your API is the total amount of money you have in your account"
+    },
+    "options": {
+        "today": "Today",
+        "7-days": "Last 7 Days",
+        "30-days": "Last 30 Days",
+        "placeholder": "Select a time period",
+        "label": "Time period"
+    }
+}
