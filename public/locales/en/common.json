@@ -105,7 +105,8 @@
       "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded."
     },
     "messages": {
-      "you-do-not-have-access-to-this-page": "You do not have access to this page."
+      "you-do-not-have-access-to-this-page": "You do not have access to this page.",
+      "copied-to-clipboard": "Copied to clipboard"
     }
   },
   "labels": {

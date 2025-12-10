@@ -17,3 +17,5 @@ export const accountHolderRegex = /^[a-zA-Z0-9\s.-]+$/;
 export const regexSpecialAndCharacters = /^[a-zA-Z\s\-_!@#$%^&*(),.?":{}[`~|<>\\;=+"\]/'\]]+$/;
 
 export const regexSpecials = /^[s\-_!@#$%^&*(),.?":{}[`~|<>\\;=+"\]/'\]]+$/;
+
+export const regexUrl = /^(https?:\/\/)([\w.-]+)(:[0-9]+)?(\/[^\s]*)?$/i;

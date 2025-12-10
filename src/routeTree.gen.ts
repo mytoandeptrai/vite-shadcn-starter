@@ -17,6 +17,7 @@ import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
 import { Route as publicProfileRouteImport } from './routes/(public)/profile'
+import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
 import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
 import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
 import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
@@ -64,6 +65,11 @@ const DemoFormRoute = DemoFormRouteImport.update({
 const publicProfileRoute = publicProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicDeveloperRoute = publicDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
   getParentRoute: () => publicLayoutRoute,
 } as any)
 const publicDashboardRoute = publicDashboardRouteImport.update({
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof authVerifyEmailRoute
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
+  '/developer': typeof publicDeveloperRoute
   '/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof authVerifyEmailRoute
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
+  '/developer': typeof publicDeveloperRoute
   '/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/(auth)/verify-email': typeof authVerifyEmailRoute
   '/(public)/balance': typeof publicBalanceRoute
   '/(public)/dashboard': typeof publicDashboardRoute
+  '/(public)/developer': typeof publicDeveloperRoute
   '/(public)/profile': typeof publicProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/balance'
     | '/dashboard'
+    | '/developer'
     | '/profile'
     | '/demo/form'
     | '/demo/storybook'
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/balance'
     | '/dashboard'
+    | '/developer'
     | '/profile'
     | '/demo/form'
     | '/demo/storybook'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/(auth)/verify-email'
     | '/(public)/balance'
     | '/(public)/dashboard'
+    | '/(public)/developer'
     | '/(public)/profile'
     | '/demo/form'
     | '/demo/storybook'
@@ -298,6 +310,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof publicProfileRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/developer': {
+      id: '/(public)/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof publicDeveloperRouteImport
       parentRoute: typeof publicLayoutRoute
     }
     '/(public)/dashboard': {
@@ -402,6 +421,7 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
 interface publicLayoutRouteChildren {
   publicBalanceRoute: typeof publicBalanceRoute
   publicDashboardRoute: typeof publicDashboardRoute
+  publicDeveloperRoute: typeof publicDeveloperRoute
   publicProfileRoute: typeof publicProfileRoute
   publicIndexRoute: typeof publicIndexRoute
 }
@@ -409,6 +429,7 @@ interface publicLayoutRouteChildren {
 const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicBalanceRoute: publicBalanceRoute,
   publicDashboardRoute: publicDashboardRoute,
+  publicDeveloperRoute: publicDeveloperRoute,
   publicProfileRoute: publicProfileRoute,
   publicIndexRoute: publicIndexRoute,
 }

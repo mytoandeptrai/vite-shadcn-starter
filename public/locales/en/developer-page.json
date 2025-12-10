@@ -1,0 +1,61 @@
+{
+  "title": "Developer",
+  "description": "Manage your developer resources",
+  "labels": {
+    "api-keys": "API Keys",
+    "wallet-address": "Wallet Address",
+    "transactions": "Transactions",
+    "created-at": "Created At",
+    "used-at": "Used At"
+  },
+  "actions": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "api-keys": {
+    "labels": {
+      "title": "API Keys",
+      "description": "API Keys are used to authenticate your requests to the API",
+      "public-key": "Public Key",
+      "secret-key": "Secret Key",
+      "secret-key-description": "Keep your secret key safe and never share it publicly."
+    },
+    "actions": {
+      "generate-new-key": "Generate A New Secret Key"
+    },
+    "dialogs": {
+      "generate-new-key": {
+        "title": "Generate A New Secret Key",
+        "description": "Your current keys will stop working immediately."
+      }
+    }
+  },
+  "api-urls": {
+    "labels": {
+      "title": "API URLs",
+      "description": "API URLs are used to authenticate your requests to the API",
+      "notify-url": "Notify URL",
+      "return-url": "Return URL"
+    },
+    "actions": {
+      "update-urls": "Update URLs"
+    },
+    "dialogs": {
+      "update-urls": {
+        "title": "Update URLs",
+        "description": "Your current URLs will be updated immediately.",
+        "fields": {
+          "notify-url": {
+            "label": "Notify URL",
+            "placeholder": "Enter the Notify URL"
+          },
+          "return-url": {
+            "label": "Return URL",
+            "placeholder": "Enter the Return URL"
+          }
+        }
+      }
+    }
+  }
+}
