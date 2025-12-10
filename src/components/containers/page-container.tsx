@@ -1,9 +1,9 @@
-import type React from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { SectionHeading, SectionSubtitle } from '../ui/typography';
 import { useTranslation } from '@/integrations/i18n';
-import { Show } from '../utilities';
 import type { FCC } from '@/types';
+import type React from 'react';
+import { Paragraph, SectionHeading, SectionSubtitle } from '../ui/typography';
+import { Show } from '../utilities';
 
 type PageContainerProps = {
   scrollable?: boolean;
@@ -64,7 +64,7 @@ export const PageContainer: FCC<PageContainerProps> = ({
               <SectionHeading>{pageTitle ?? ''}</SectionHeading>
             </Show>
             <Show when={!!pageDescription}>
-              <SectionSubtitle>{pageDescription ?? ''}</SectionSubtitle>
+              <Paragraph size='sm' className='mt-2 text-muted-foreground'>{pageDescription ?? ''}</Paragraph>
             </Show>
           </div>
           {pageHeaderAction ? <div>{pageHeaderAction}</div> : null}

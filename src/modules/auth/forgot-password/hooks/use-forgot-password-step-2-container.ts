@@ -1,4 +1,4 @@
-import useCountDown from '@/hooks/useCountDown';
+import useCountDown from '@/hooks/use-count-down';
 import { useTranslation } from '@/integrations/i18n';
 import { addMinutes } from 'date-fns';
 import { useEffect, useState } from 'react';

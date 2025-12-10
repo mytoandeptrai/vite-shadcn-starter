@@ -163,3 +163,31 @@ export const groupByKey = <T>(array: T[], key: keyof T): Record<string, T[]> => 
     {} as Record<string, T[]>
   );
 };
+
+export const formatCurrency = (amount: number | string, locale = 'en-US', currency = 'USD'): string => {
+  const value = typeof amount === 'string' ? Number(amount) : amount;
+
+  if (Number.isNaN(value)) return '0';
+
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
+export const formatCurrencyWithDecimals = (payload: {
+  num?: number;
+  minDecimals?: number
+  maxDecimals?: number;
+}) => {
+  const { num, maxDecimals = 2, minDecimals = 2 } = payload;
+  // Ensure maxDecimals is between 0 and 8
+  const clampedDecimals = Math.max(0, Math.min(8, maxDecimals));
+  
+  return (num || 0).toLocaleString("en-US", {
+    minimumFractionDigits: minDecimals,
+    maximumFractionDigits: clampedDecimals,
+  });
+};

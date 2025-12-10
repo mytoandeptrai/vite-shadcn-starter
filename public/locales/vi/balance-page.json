@@ -1,0 +1,27 @@
+{
+    "title": "Số dư",
+    "description": "Số dư là tổng số tiền hiện có trong tài khoản của bạn",
+    "labels": {
+      "available-balance": "Số dư khả dụng",
+      "ready-to-withdraw": "Sẵn sàng rút",
+      "incoming-balance": "Số dư đang về",
+      "processing-transactions": "Giao dịch đang xử lý"
+    },
+    "actions": {
+      "with-draw": "Rút tiền",
+      "max": "Tối đa"
+    },
+    "dialogs": {
+      "balance-withdraw": {
+        "title": "Rút tiền",
+        "description": "Nhập số tiền bạn muốn rút",
+        "fields": {
+          "amount": {
+            "label": "Số tiền",
+            "placeholder": "Nhập số tiền"
+          }
+        }
+      }
+    }
+  }
+  

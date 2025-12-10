@@ -1,5 +1,5 @@
 import { keyLocalStorage } from '@/constant';
-import useCountDown from '@/hooks/useCountDown';
+import useCountDown from '@/hooks/use-count-down';
 import { useTranslation } from '@/integrations/i18n';
 import { setLocalStorageItem } from '@/utils';
 import { addMinutes, isAfter } from 'date-fns';
