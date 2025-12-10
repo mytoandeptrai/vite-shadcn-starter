@@ -101,6 +101,9 @@
       "LOGIN_FAILED": "Your login information is incorrect. Please check and try again.",
       "REDEEM_REQUEST_LIMIT": "You have reached limit of redemption requests.",
       "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded."
+    },
+    "messages": {
+      "you-do-not-have-access-to-this-page": "You do not have access to this page."
     }
   },
   "labels": {
@@ -110,7 +113,8 @@
     "yes": "Yes",
     "no": "No",
     "disabled": "Disabled",
-    "enabled": "Enabled"
+    "enabled": "Enabled",
+    "search": "Search"
   },
   "buttons": {
     "continue": "Continue",

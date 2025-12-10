@@ -9,7 +9,7 @@ interface BasicLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 const BasicLinkComponent = React.forwardRef<HTMLAnchorElement, BasicLinkProps>(
   (props, ref) => {
     return (
-      <a ref={ref} {...props} className={cn('block px-3 py-2 text-blue-700', props.className)} />
+      <a ref={ref} {...props} className={cn('block px-3 py-2 text-foreground', props.className)} />
     )
   },
 )

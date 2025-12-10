@@ -8,5 +8,12 @@ export const ROUTES = {
   LINK_EXPIRED: '/link-expired',
   VERIFIED_EMAIL: '/verified-email',
   ACTIVE: '/active',
+  DASHBOARD: '/dashboard',
+  BALANCE: '/balance',
+  TRANSACTIONS: '/transactions',
+  WALLET_ADDRESS: '/wallet-address',
+  SETTINGS: '/settings',
+  PROFILE: '/profile',
+  DEVELOPER: '/developer',
 } as const;
   

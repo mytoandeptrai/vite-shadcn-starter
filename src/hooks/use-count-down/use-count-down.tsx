@@ -1,8 +1,8 @@
 import { isBefore } from "date-fns";
 import { useEffect, useState } from "react";
 
-import { DEFAULT_COUNT_DOWN } from "./useCountDown.const";
-import { convertTimeCountDown } from "./useCountDown.utils";
+import { DEFAULT_COUNT_DOWN } from "./use-count-down.const";
+import { convertTimeCountDown } from "./use-count-down.utils";
 
 const useCountDown = (date?: Date) => {
   const [countdown, setCountdown] = useState(DEFAULT_COUNT_DOWN);

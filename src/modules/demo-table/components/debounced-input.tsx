@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
 
 interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -21,5 +22,5 @@ export function DebouncedInput({ value: initialValue, onChange, debounce = 500, 
     return () => clearTimeout(timeout);
   }, [value, debounce, onChange]);
 
-  return <input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+  return <Input {...props} value={value} onChange={(e) => setValue(e.target.value)} />
 }
