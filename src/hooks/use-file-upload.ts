@@ -1,3 +1,4 @@
+import { useTranslation } from '@/integrations/i18n';
 import type React from 'react';
 import { useCallback, useRef, useState, type ChangeEvent, type DragEvent, type InputHTMLAttributes } from 'react';
 
@@ -59,6 +60,7 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
     onFilesAdded,
     onError,
   } = options;
+  const { t } = useTranslation();
 
   const [state, setState] = useState<FileUploadState>({
     files: initialFiles.map((file) => ({
@@ -76,13 +78,11 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
     (file: File | FileMetadata): string | null => {
       if (file instanceof File) {
         if (file.size > maxSize) {
-          return `File "${file.name}" exceeds the maximum size of ${formatBytes(maxSize)}.`;
+          return t('errors.common.file-size-exceeds', { file: { name: file.name }, maxSize: formatBytes(maxSize) });
         }
-      } else {
-        if (file.size > maxSize) {
-          return `File "${file.name}" exceeds the maximum size of ${formatBytes(maxSize)}.`;
+      } else if (file.size > maxSize) {
+          return t('errors.common.file-size-exceeds', { file: { name: file.name }, maxSize: formatBytes(maxSize) });
         }
-      }
 
       if (accept !== '*') {
         const acceptedTypes = accept.split(',').map((type) => type.trim());
@@ -101,7 +101,7 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
         });
 
         if (!isAccepted) {
-          return `File "${file instanceof File ? file.name : file.name}" is not an accepted file type.`;
+          return t('errors.common.file-not-accepted', { file: { name: file instanceof File ? file.name : file.name } });
         }
       }
 
@@ -165,7 +165,7 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
 
       // Check if adding these files would exceed maxFiles (only in multiple mode)
       if (multiple && maxFiles !== Number.POSITIVE_INFINITY && state.files.length + newFilesArray.length > maxFiles) {
-        errors.push(`You can only upload a maximum of ${maxFiles} files.`);
+        errors.push(t('errors.common.file-max-files', { maxFiles }));
         onError?.(errors);
         setState((prev) => ({ ...prev, errors }));
         return;
@@ -190,8 +190,8 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
         if (file.size > maxSize) {
           errors.push(
             multiple
-              ? `Some files exceed the maximum size of ${formatBytes(maxSize)}.`
-              : `File exceeds the maximum size of ${formatBytes(maxSize)}.`
+              ? t('errors.common.some-files-exceed-the-maximum-size', { maxSize: formatBytes(maxSize) })
+              : t('errors.common.file-exceeds-the-maximum-size', { maxSize: formatBytes(maxSize) })
           );
           continue;
         }

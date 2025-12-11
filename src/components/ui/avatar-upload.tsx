@@ -1,10 +1,10 @@
 'use client';
 
-import { formatBytes, useFileUpload, type FileWithPreview } from '@/hooks/use-file-upload';
-import { Alert, AlertContent, AlertDescription, AlertIcon, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { TriangleAlert, User, X } from 'lucide-react';
+import { formatBytes, useFileUpload, type FileWithPreview } from '@/hooks/use-file-upload';
 import { cn } from '@/lib/utils';
+import { User, X } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface AvatarUploadProps {
   maxSize?: number;
@@ -20,7 +20,7 @@ export default function AvatarUpload({
   defaultAvatar,
 }: AvatarUploadProps) {
   const [
-    { files, isDragging, errors },
+    { files, isDragging },
     { removeFile, handleDragEnter, handleDragLeave, handleDragOver, handleDrop, openFileDialog, getInputProps },
   ] = useFileUpload({
     maxFiles: 1,
@@ -29,6 +29,9 @@ export default function AvatarUpload({
     multiple: false,
     onFilesChange: (files) => {
       onFileChange?.(files[0] || null);
+    },
+    onError(errors) {
+      toast.error(errors.join(', '));
     },
   });
 
@@ -95,24 +98,6 @@ export default function AvatarUpload({
         <p className='text-muted-foreground text-xs'>PNG, JPG up to {formatBytes(maxSize)}</p>
       </div>
 
-      {/* Error Messages */}
-      {errors.length > 0 && (
-        <Alert className='mt-5'>
-          <AlertIcon>
-            <TriangleAlert />
-          </AlertIcon>
-          <AlertContent>
-            <AlertTitle>File upload error(s)</AlertTitle>
-            <AlertDescription>
-              {errors.map((error, index) => (
-                <p key={index} className='last:mb-0'>
-                  {error}
-                </p>
-              ))}
-            </AlertDescription>
-          </AlertContent>
-        </Alert>
-      )}
     </div>
   );
 }
