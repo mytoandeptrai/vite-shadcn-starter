@@ -1,0 +1,80 @@
+{
+  "setting": {
+    "title": "Settings",
+    "description": "Configure and manage your account preferences.",
+    "profile": {
+      "title": "Profile Settings",
+      "description": "Update your personal information, email, password, and avatar."
+    },
+    "system": {
+      "title": "System Settings",
+      "description": "Manage system-level preferences, including language and security options."
+    }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "description": "Update your personal information, email, password, and avatar.",
+    "password": {
+      "title": "Password Settings",
+      "description": "Update your password",
+      "fields": {
+        "new-password": {
+          "label": "New password",
+          "placeholder": "Enter your new password"
+        },
+        "confirmNewPassword": {
+          "label": "Confirm new password",
+          "placeholder": "Enter confirm your new password"
+        }
+      }
+    },
+    "personal": {
+      "title": "Personal Information",
+      "description": "Update your personal information",
+      "fields": {
+        "firstName": {
+          "label": "First name",
+          "placeholder": "Enter your first name"
+        },
+        "lastName": {
+          "label": "Last name",
+          "placeholder": "Enter your last name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email"
+        }
+      }
+    },
+    "avatar": {
+      "title": "Profile Avatar",
+      "description": "Update your profile avatar"
+    },
+    "errors": {
+      "MSG-1.3": "Full name must not exceed 100 characters.",
+      "MSG-1.4": "Full name cannot contain numbers.",
+      "MSG-1.5": "Full name cannot contain special characters.",
+      "MSG-1.7": "Last name must not exceed 100 characters.",
+      "MSG-1.8": "Last name cannot contain numbers.",
+      "MSG-1.9": "Last name cannot contain special characters.",
+      "MSG-1.10": "Invalid email format.",
+      "MSG-1.14": "New password must be between 8 and 50 characters in length.",
+      "MSG-1.15": "Use at least 1 uppercase, lowercase, numbers & symbols.",
+      "MSG-1.19": "New password cannot contain space.",
+      "MSG-1.20": "Passwords do not match.",
+      "MSG-1.21": "New password cannot be the same as the old password."
+    },
+    "validation": {
+      "required": "This field is required",
+      "minLength": "Minimum {{min}} characters required",
+      "maxLength": "Maximum {{max}} characters allowed",
+      "passwordMatch": "Passwords do not match",
+      "invalidFormat": "Invalid format"
+    },
+    "buttons": {
+      "update-password": "Update Password",
+      "update-personal-information": "Update Personal Information",
+      "update-avatar": "Save Avatar"
+    }
+  }
+}

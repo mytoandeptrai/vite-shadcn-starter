@@ -131,7 +131,9 @@
     "remove": "Remove",
     "verify": "Verify",
     "ok": "OK",
-    "i-agree": "I Agree"
+    "i-agree": "I Agree",
+    "view-details": "View Details",
+    "update": "Update"
   },
   "layouts": {
     "auth": {

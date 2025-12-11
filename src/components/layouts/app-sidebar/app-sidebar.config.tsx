@@ -5,8 +5,10 @@ import {
   CircleDollarSignIcon,
   LayoutDashboardIcon,
   SettingsIcon,
+  User2Icon,
   Users2Icon,
   Wallet2Icon,
+  WrenchIcon,
 } from 'lucide-react';
 
 export const navItems: NavItem[] = [
@@ -54,6 +56,19 @@ export const navItems: NavItem[] = [
     icon: SettingsIcon,
     shortcut: ['k', 'k'],
     isActive: false,
-    items: [],
+    items: [
+      {
+        title: 'Profile',
+        url: ROUTES.PROFILE,
+        icon: User2Icon,
+        shortcut: ['m', 'm'],
+      },
+      {
+        title: 'System',
+        url: ROUTES.SYSTEM,
+        icon: WrenchIcon,
+        shortcut: ['m', 'm'],
+      },
+    ],
   },
 ];

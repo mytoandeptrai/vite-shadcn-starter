@@ -29,6 +29,9 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
+import { Route as publicSettingsIndexRouteImport } from './routes/(public)/settings/index'
+import { Route as publicSettingsSystemRouteImport } from './routes/(public)/settings/system'
+import { Route as publicSettingsProfileRouteImport } from './routes/(public)/settings/profile'
 
 const publicLayoutRoute = publicLayoutRouteImport.update({
   id: '/(public)',
@@ -128,6 +131,21 @@ const authActiveRoute = authActiveRouteImport.update({
   path: '/active',
   getParentRoute: () => authLayoutRoute,
 } as any)
+const publicSettingsIndexRoute = publicSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicSettingsSystemRoute = publicSettingsSystemRouteImport.update({
+  id: '/settings/system',
+  path: '/settings/system',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicSettingsProfileRoute = publicSettingsProfileRouteImport.update({
+  id: '/settings/profile',
+  path: '/settings/profile',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/active': typeof authActiveRoute
@@ -148,6 +166,9 @@ export interface FileRoutesByFullPath {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
+  '/settings/profile': typeof publicSettingsProfileRoute
+  '/settings/system': typeof publicSettingsSystemRoute
+  '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/active': typeof authActiveRoute
@@ -168,6 +189,9 @@ export interface FileRoutesByTo {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
+  '/settings/profile': typeof publicSettingsProfileRoute
+  '/settings/system': typeof publicSettingsSystemRoute
+  '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -191,6 +215,9 @@ export interface FileRoutesById {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/(public)/': typeof publicIndexRoute
+  '/(public)/settings/profile': typeof publicSettingsProfileRoute
+  '/(public)/settings/system': typeof publicSettingsSystemRoute
+  '/(public)/settings/': typeof publicSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -213,6 +240,9 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/'
+    | '/settings/profile'
+    | '/settings/system'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/active'
@@ -233,6 +263,9 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/'
+    | '/settings/profile'
+    | '/settings/system'
+    | '/settings'
   id:
     | '__root__'
     | '/(auth)'
@@ -255,6 +288,9 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/(public)/'
+    | '/(public)/settings/profile'
+    | '/(public)/settings/system'
+    | '/(public)/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -408,6 +444,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authActiveRouteImport
       parentRoute: typeof authLayoutRoute
     }
+    '/(public)/settings/': {
+      id: '/(public)/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof publicSettingsIndexRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/settings/system': {
+      id: '/(public)/settings/system'
+      path: '/settings/system'
+      fullPath: '/settings/system'
+      preLoaderRoute: typeof publicSettingsSystemRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/settings/profile': {
+      id: '/(public)/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof publicSettingsProfileRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
   }
 }
 
@@ -444,6 +501,9 @@ interface publicLayoutRouteChildren {
   publicProfileRoute: typeof publicProfileRoute
   publicWalletAddressRoute: typeof publicWalletAddressRoute
   publicIndexRoute: typeof publicIndexRoute
+  publicSettingsProfileRoute: typeof publicSettingsProfileRoute
+  publicSettingsSystemRoute: typeof publicSettingsSystemRoute
+  publicSettingsIndexRoute: typeof publicSettingsIndexRoute
 }
 
 const publicLayoutRouteChildren: publicLayoutRouteChildren = {
@@ -453,6 +513,9 @@ const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicProfileRoute: publicProfileRoute,
   publicWalletAddressRoute: publicWalletAddressRoute,
   publicIndexRoute: publicIndexRoute,
+  publicSettingsProfileRoute: publicSettingsProfileRoute,
+  publicSettingsSystemRoute: publicSettingsSystemRoute,
+  publicSettingsIndexRoute: publicSettingsIndexRoute,
 }
 
 const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(

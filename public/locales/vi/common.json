@@ -116,7 +116,9 @@
     "remove": "Xóa",
     "verify": "Xác nhận",
     "ok": "OK",
-    "i-agree": "Tôi đồng ý"
+    "i-agree": "Tôi đồng ý",
+    "view-details": "Xem chi tiết",
+    "update": "Cập nhật"
   },
   "layouts": {
     "auth": {
