@@ -191,3 +191,56 @@ export const formatCurrencyWithDecimals = (payload: {
     maximumFractionDigits: clampedDecimals,
   });
 };
+
+export const formatAddress = (address: string) => {
+  if (!address) return "";
+  return `${address.slice(0, 5)}...${address.slice(-7)}`;
+};
+
+export const kebabToTitleCase = (text: string): string => {
+  return text
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+export const formatToTitleCase = (text: string): string => {
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+export function removeEmptyStringObject(obj: Record<string, string | number | boolean | null | undefined>) {
+  const cloneObj = { ...obj };
+  Object.keys(cloneObj).forEach((key) => {
+    if (cloneObj[key] === "") delete cloneObj[key];
+  });
+  return cloneObj;
+}
+
+export function downloadFile(url: string, filename: string) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+export const downloadCSVFile = (csvString: string, fileName = "CSV Report", type?: string) => {
+  const blob = new Blob([csvString], { type: type ?? "text/csv" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${fileName} - created ${new Date().toDateString()}`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+export const isInvalidNumber = (value: unknown): boolean => {
+  return value === null || value === undefined || typeof value !== 'number' || Number.isNaN(value);
+};
+
+export const capitalizeFirstLetter = (text: string): string => {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}

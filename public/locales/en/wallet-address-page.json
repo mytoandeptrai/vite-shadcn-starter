@@ -1,0 +1,51 @@
+{
+  "title": "Wallet Address",
+  "description": "You can add one wallet address per blockchain. ",
+  "table": {
+    "headers": {
+      "label": "Label",
+      "blockchain": "Blockchain",
+      "address": "Address",
+      "created-at": "Created At",
+      "updated-at": "Updated At",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "copy": "Copy Wallet Address",
+      "view-details": "View Details"
+    }
+  },
+  "actions": {
+    "add": "Add A New Wallet Address"
+  },
+  "dialogs": {
+    "create": {
+      "title": "Add Wallet Address",
+      "description": "Enter the wallet address to register it in the system."
+    },
+    "update": {
+      "title": "Update Wallet Address",
+      "description": "Adjust the information associated with this wallet address."
+    },
+    "delete": {
+      "title": "Delete Wallet Address",
+      "description": "Confirm the removal of this wallet address from the system."
+    }
+  },
+  "blockchains": {
+    "eth": "Ethereum",
+    "bnb": "Binance Smart Chain"
+  },
+  "fields": {
+    "wallet-address": {
+      "label": "Wallet Address",
+      "placeholder": "Enter your wallet address"
+    },
+    "blockchain": {
+      "label": "Blockchain",
+      "placeholder": "Select your blockchain"
+    }
+  }
+}

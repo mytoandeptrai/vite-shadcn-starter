@@ -35,6 +35,7 @@ i18n
       'verified-email-page',
       'dashboard-page',
       'balance-page',
+      'wallet-address-page',
     ],
 
     /** Detection settings */

@@ -12,6 +12,7 @@ interface FormSelectProps<
   options: FormOption[];
   placeholder?: string;
   searchable?: boolean;
+  selectClassName?: string;
 }
 
 function FormSelect<
@@ -27,6 +28,7 @@ function FormSelect<
   placeholder = 'Select an option',
   disabled,
   className,
+  selectClassName,
 }: FormSelectProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -42,7 +44,7 @@ function FormSelect<
           )}
           <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className={selectClassName}>
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>

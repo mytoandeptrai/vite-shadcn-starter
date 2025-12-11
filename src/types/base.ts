@@ -38,3 +38,26 @@ export interface NavItem {
   items?: NavItem[];
   access?: string[];
 }
+
+export interface Option<T> {
+  value: T;
+  label: string;
+  disabled?: boolean;
+}
+
+export type CommonRequestType = {
+  page?: number;
+  pageSize?: number;
+  sort_by?: string;
+  order_by?: "desc" | "asc";
+  fields?: string;
+  search?: string;
+};
+
+export type IPaginatedResponseType<T> = {
+  data: T;
+  hasNextPage: boolean;
+  page: number;
+  totalPage: number;
+  totalCount: number;
+};

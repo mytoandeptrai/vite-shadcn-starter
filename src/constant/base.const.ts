@@ -32,3 +32,5 @@ export const FILE_FORMAT = [
 export const keyLocalStorage = {
   EXPIRED_SIGN_UP_TIME: "expired-signup-time",
 };
+
+export const PAGE_SIZE_OPTIONS = [10, 50, 100, 200, 500];
