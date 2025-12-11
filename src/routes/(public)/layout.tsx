@@ -13,9 +13,7 @@ function RouteComponent() {
       <AppSidebar />
       <SidebarInset>
         <AppHeader />
-        <main className='flex flex-1 flex-col'>
-          <Outlet />
-        </main>
+        <Outlet />
       </SidebarInset>
     </SidebarProvider>
   );
