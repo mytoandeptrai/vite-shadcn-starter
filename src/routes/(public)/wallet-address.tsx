@@ -8,6 +8,7 @@ const walletAddressSearchSchema = z.object({
   pageSize: z.number().optional(),
   sortBy: z.string().optional(),
   sortOrder: z.union([z.literal("asc"), z.literal("desc"), z.undefined()]),
+  forceAddWallet: z.boolean().optional(),
 });
 
 export const Route = createFileRoute('/(public)/wallet-address')({
@@ -18,6 +19,7 @@ export const Route = createFileRoute('/(public)/wallet-address')({
       pageSize: result.pageSize ?? PAGE_SIZE_OPTIONS[0],
       sortBy: result.sortBy ?? 'createdAt',
       sortOrder: result.sortOrder ?? 'desc',
+      forceAddWallet: result.forceAddWallet ?? false,
     };
   },
   component: WalletAddressContainer,

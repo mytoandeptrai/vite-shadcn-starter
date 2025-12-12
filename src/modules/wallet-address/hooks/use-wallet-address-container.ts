@@ -1,17 +1,24 @@
-import { useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-address';
-import { PAGE_SIZE_OPTIONS } from '@/constant';
-import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/wallet-address';
-import type { SortingState } from '@tanstack/react-table';
-import { useCallback, useMemo, useState } from 'react';
+import {
+  useGetWalletAddressList,
+  type IWalletAddress,
+} from "@/apis/wallet-address";
+import { PAGE_SIZE_OPTIONS } from "@/constant";
+import { useTranslation } from "@/integrations/i18n";
+import { Route } from "@/routes/(public)/wallet-address";
+import type { SortingState } from "@tanstack/react-table";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useWalletAddressContainer = () => {
-  const { t } = useTranslation('wallet-address-page');
+  const { t } = useTranslation("wallet-address-page");
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const [editingWalletAddress, setEditingWalletAddress] = useState<IWalletAddress | undefined>(undefined);
-  const [actionType, setActionType] = useState<null | 'create' | 'update' | 'delete'>(null);
+  const [editingWalletAddress, setEditingWalletAddress] = useState<
+    IWalletAddress | undefined
+  >(undefined);
+  const [actionType, setActionType] = useState<
+    null | "create" | "update" | "delete"
+  >(null);
   const [, setSorting] = useState<SortingState>([]);
 
   /** TODO: Request API with filters */
@@ -21,7 +28,8 @@ export const useWalletAddressContainer = () => {
     sortBy: search.sortBy,
     sortOrder: search.sortOrder,
   };
-  const { data, isFetching, isLoading, refetch } = useGetWalletAddressList(filters);
+  const { data, isFetching, isLoading, refetch } =
+    useGetWalletAddressList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -42,7 +50,7 @@ export const useWalletAddressContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          sortOrder: updatedSorting[0].desc ? "desc" : "asc",
         },
         replace: true,
       });
@@ -50,8 +58,8 @@ export const useWalletAddressContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
-          sortBy: 'createdAt',
+          sortOrder: "desc",
+          sortBy: "createdAt",
         },
         replace: true,
       });
@@ -60,12 +68,12 @@ export const useWalletAddressContainer = () => {
 
   const onEdit = (walletAddress: IWalletAddress) => {
     setEditingWalletAddress(walletAddress);
-    setActionType('update');
+    setActionType("update");
   };
 
   const onDelete = (walletAddress: IWalletAddress) => {
     setEditingWalletAddress(walletAddress);
-    setActionType('delete');
+    setActionType("delete");
   };
 
   const onClose = useCallback(() => {
@@ -75,7 +83,7 @@ export const useWalletAddressContainer = () => {
 
   const onCreate = () => {
     setEditingWalletAddress(undefined);
-    setActionType('create');
+    setActionType("create");
   };
 
   const onRefetch = useCallback(() => {
@@ -93,6 +101,12 @@ export const useWalletAddressContainer = () => {
       },
     };
   }, [data]);
+
+  useEffect(() => {
+    if (search.forceAddWallet) {
+      onCreate();
+    }
+  }, [search.forceAddWallet]);
 
   return {
     t,
