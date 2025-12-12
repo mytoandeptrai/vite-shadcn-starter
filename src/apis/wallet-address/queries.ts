@@ -1,4 +1,4 @@
-import type { IAxiosResponse } from '@/types';
+import type { BaseResponseType } from '@/types';
 import { useMutation, useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import { KEYS } from './keys';
 import { createWalletAddress, deleteWalletAddress, getWalletAddressList, updateWalletAddress } from './requests';
@@ -23,21 +23,21 @@ export const useGetWalletAddressList = (
 };
 
 export const useCreateWalletAddress = () => {
-  return useMutation<IWalletAddress, IAxiosResponse, CreateWalletAddressParams>({
+  return useMutation<IWalletAddress, BaseResponseType, CreateWalletAddressParams>({
     mutationKey: [KEYS.WALLET_ADDRESS_DETAIL],
     mutationFn: (data) => createWalletAddress(data),
   });
 };
 
 export const useUpdateWalletAddress = () => {
-  return useMutation<IWalletAddress, IAxiosResponse, UpdateWalletAddressParams>({
+  return useMutation<IWalletAddress, BaseResponseType, UpdateWalletAddressParams>({
     mutationKey: [KEYS.WALLET_ADDRESS_DETAIL],
     mutationFn: (data) => updateWalletAddress(data),
   });
 };
 
 export const useDeleteWalletAddress = () => {
-  return useMutation<void, IAxiosResponse, DeleteWalletAddressParams>({
+  return useMutation<void, BaseResponseType, DeleteWalletAddressParams>({
     mutationKey: [KEYS.WALLET_ADDRESS_DETAIL],
     mutationFn: (data) => deleteWalletAddress(data),
   });

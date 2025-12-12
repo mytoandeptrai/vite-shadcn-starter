@@ -8,6 +8,7 @@ export function getContext() {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
+        retry: 0
       },
       mutations: {
         onError: (error) => {

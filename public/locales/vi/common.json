@@ -1,4 +1,4 @@
-{
+  {
   "welcome": "Chào mừng",
   "hello": "Xin chào",
   "goodbye": "Tạm biệt",
@@ -101,6 +101,15 @@
     "messages": {
       "you-do-not-have-access-to-this-page": "Bạn không có quyền truy cập trang này."
     }
+  },
+  "messages": {
+    "signout-success": "Bạn đã đăng xuất thành công.",
+    "login-success": "Bạn đã đăng nhập thành công.",
+    "register-success": "Bạn đã đăng ký thành công! Vui lòng kiểm tra email của bạn để xác thực.",
+    "active-success": "Email đã được xác thực thành công. Bạn có thể đăng nhập.",
+    "resend-verification-success": "Email xác thực đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
+    "forgot-password-success": "Chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu đến email nếu chúng tôi tìm thấy tài khoản của bạn",
+    "resend-forgot-password-success": "Hướng dẫn đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email của bạn."
   },
   "labels": {
     "all": "Tất cả",

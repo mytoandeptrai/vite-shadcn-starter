@@ -15,7 +15,6 @@ export const useForgotPasswordStep_2Container = ({
   const { t } = useTranslation('forgot-password-page');
   const { watch } = useFormContext<ForgotPasswordFormData>();
   const [expireDate, setExpireDate] = useState<Date | undefined>(undefined)
-  
   const isLoading = false;
   const { countdown, isReady, isCounting } = useCountDown(expireDate);
   const [minutes, seconds] = countdown.slice(2);

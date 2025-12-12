@@ -117,6 +117,15 @@
       "copied-to-clipboard": "Copied to clipboard"
     }
   },
+  "messages": {
+    "signout-success": "You have been signed out successfully.",
+    "login-success": "You have been signed in successfully.",
+    "register-success": "You have been registered successfully! Please check your email for verification.",
+    "active-success": "Email verified successfully. You can now log in.",
+    "resend-verification-success": "Verification email sent successfully. Please check your inbox.",
+    "forgot-password-success": "We will send the password reset instruction to your email if we find your account",
+    "resend-forgot-password-success": "Password reset instruction sent successfully. Please check your inbox."
+  },
   "labels": {
     "all": "All",
     "entity": "Entity",
@@ -155,7 +164,9 @@
     "update": "Update",
     "next": "Next",
     "previous": "Previous",
-    "max": "Max"
+    "max": "Max",
+    "signout": "Sign Out",
+    "profile": "Profile"
   },
   "layouts": {
     "auth": {
@@ -233,4 +244,3 @@
     "ETH-USDC": "ETH-USDC"
   }
 }
-

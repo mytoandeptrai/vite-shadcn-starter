@@ -1,21 +1,17 @@
-import { ROUTES } from '@/constant';
-import { ActiveContainer } from '@/modules/auth/active';
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import z from 'zod';
+import { ROUTES } from "@/constant";
+import { ActiveContainer } from "@/modules/auth/active";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import z from "zod";
 
 const verifySearchSchema = z.object({
-  email: z.string().optional(),
-  code: z.number().optional(),
-  to: z.string().optional(),
+  token: z.string().optional(),
 });
 
-export const Route = createFileRoute('/(auth)/active')({
+export const Route = createFileRoute("/(auth)/active")({
   validateSearch: (search) => verifySearchSchema.parse(search),
   beforeLoad: ({ search }) => {
-    const email = search?.email;
-    const code = search?.code;
-    const to = search?.to;
-    if (!email || !code || !to) {
+    const token = search?.token;
+    if (!token) {
       throw redirect({
         to: ROUTES.LOGIN,
       });
@@ -25,6 +21,6 @@ export const Route = createFileRoute('/(auth)/active')({
 });
 
 function RouteComponent() {
-  const { email, code, to } = Route.useSearch();
-  return <ActiveContainer email={email} code={code} to={to} />;
+  const { token } = Route.useSearch();
+  return <ActiveContainer token={token} />;
 }

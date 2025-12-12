@@ -13,9 +13,10 @@ export interface IMedia {
   file?: File | null;
 }
 
-export interface IAxiosResponse<T = unknown> {
-  meta: IMeta;
-  data: T;
+export interface BaseResponseType<T = unknown> {
+  data?: T;
+  code: number;
+  message?: string;
 }
 
 export interface IMeta {

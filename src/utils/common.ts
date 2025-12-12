@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { v4 as uuid } from 'uuid';
 import { EMedia, FILE_FORMAT, NUMBER_FORMAT_LOOK_UP } from '@/constant';
 import type { IMedia } from '@/types';
+import type { TFunction } from 'i18next';
 
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
@@ -244,3 +245,32 @@ export const capitalizeFirstLetter = (text: string): string => {
   if (!text) return '';
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
+
+const formatNumber = (num: number): string => {
+  return num < 10 ? `0${num}` : `${num}`;
+};
+
+const getUnit = (t: TFunction, value: number, singular: string, plural: string): string => {
+  return value === 1 ? t(`time-units.${singular}`) : t(`time-units.${plural}`);
+};
+
+export const formatTimeFromSeconds = (seconds: number, t: TFunction): string => {
+  const days = Math.floor(seconds / (24 * 60 * 60));
+  const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
+  const minutes = Math.floor((seconds % (60 * 60)) / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (days > 0) {
+    return `${formatNumber(days)} ${getUnit(t, days, "day", "days")} ${formatNumber(hours)} ${getUnit(t, hours, "hour", "hours")} ${formatNumber(minutes)} ${getUnit(t, minutes, "minute", "minutes")} ${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, "second", "seconds")}`;
+  }
+  
+  if (hours > 0) {
+    return `${formatNumber(hours)} ${getUnit(t, hours, "hour", "hours")} ${formatNumber(minutes)} ${getUnit(t, minutes, "minute", "minutes")} ${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, "second", "seconds")}`;
+  }
+  
+  if (minutes > 0) {
+    return `${formatNumber(minutes)} ${getUnit(t, minutes, "minute", "minutes")} ${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, "second", "seconds")}`;
+  }
+  
+  return `${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, "second", "seconds")}`;
+}; 

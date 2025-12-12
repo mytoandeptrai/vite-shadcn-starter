@@ -18,7 +18,7 @@ import RecaptchaProvider from './integrations/recaptcha/recaptcha-provider.tsx';
 // Create a new router instance
 
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   context: {
     ...TanStackQueryProviderContext,
