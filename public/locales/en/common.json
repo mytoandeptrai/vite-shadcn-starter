@@ -136,7 +136,8 @@
     "transactions": "Transactions",
     "wallet-address": "Wallet Address",
     "developer": "Developer",
-    "system": "System"
+    "system": "System",
+    "no-options": "No options"
   },
   "buttons": {
     "continue": "Continue",
@@ -153,7 +154,8 @@
     "view-details": "View Details",
     "update": "Update",
     "next": "Next",
-    "previous": "Previous"
+    "previous": "Previous",
+    "max": "Max"
   },
   "layouts": {
     "auth": {
@@ -223,6 +225,12 @@
   "chains": {
     "ETH": "Ethereum",
     "BNB": "Binance Smart Chain"
+  },
+  "chains-token": {
+    "BNB-USDT": "BNB-USDT",
+    "BNB-USDC": "BNB-USDC",
+    "ETH-USDT": "ETH-USDT",
+    "ETH-USDC": "ETH-USDC"
   }
 }
 

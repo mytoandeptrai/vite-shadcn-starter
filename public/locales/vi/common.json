@@ -121,7 +121,8 @@
     "transactions": "Giao dịch",
     "wallet-address": "Địa chỉ ví",
     "developer": "Phát triển",
-    "system": "Hệ thống"
+    "system": "Hệ thống",
+    "no-options": "Không có tùy chọn"
   },
   "buttons": {
     "continue": "Tiếp tục",
@@ -174,5 +175,38 @@
         "MSG-1.3": "Mã phải có 6 chữ số."
       }
     }
+  },
+  "data-table": {
+    "sort": {
+      "asc": "Asc",
+      "desc": "Desc"
+    },
+    "filter": {
+      "hide": "Hide"
+    },
+    "pagination": {
+      "rows-per-page": "Rows per page",
+      "page": "Page",
+      "of": "of",
+      "go-to-first-page": "Go to first page",
+      "go-to-previous-page": "Go to previous page",
+      "go-to-next-page": "Go to next page",
+      "go-to-last-page": "Go to last page",
+      "page-size": "Page {{pageSize}} of {{pageCount}}"
+    }
+  },
+  "tokens": {
+    "USDT": "USDT",
+    "USDC": "USDC"
+  },
+  "chains": {
+    "ETH": "Ethereum",
+    "BNB": "Binance Smart Chain"
+  },
+  "chains-token": {
+    "BNB-USDT": "BNB-USDT",
+    "BNB-USDC": "BNB-USDC",
+    "ETH-USDT": "ETH-USDT",
+    "ETH-USDC": "ETH-USDC"
   }
 }

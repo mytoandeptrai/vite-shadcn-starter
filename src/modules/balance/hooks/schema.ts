@@ -13,6 +13,12 @@ const balanceWithdrawFormSchema = (t: TFunction) =>
         }),
       }),
       previousAmount: z.number().optional(),
+      address: z.string().min(1, {
+        message: t('errors.common.field-required', {
+          field: t('dialogs.balance-withdraw.fields.address.label'),
+          ns: 'common',
+        }),
+      }),
     })
     .superRefine((data, ctx) => {
       if (!data.amount && data.amount !== 0) {
@@ -43,6 +49,7 @@ type BalanceWithdrawFormData = z.infer<ReturnType<typeof balanceWithdrawFormSche
 const initialFormData: BalanceWithdrawFormData = {
   amount: 0,
   previousAmount: 0,
+  address: '',
 };
 
 export { initialFormData, balanceWithdrawFormSchema, type BalanceWithdrawFormData };
