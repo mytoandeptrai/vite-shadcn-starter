@@ -17,7 +17,7 @@ type WalletAddressFormContainerProps = {
 };
 
 const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
-  const { t, isLoading, form, options, onCloseDialog, onSubmit, onSubmitDialog } = useWalletAddressFormContainer(props);
+  const { t, isLoading, form, options, tokenOptions, onCloseDialog, onSubmit, onSubmitDialog } = useWalletAddressFormContainer(props);
 
   return (
     <Modal
@@ -29,6 +29,7 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
       <FormWrapper form={form} onSubmit={onSubmit}>
         <div className='space-y-4'>
           <Show when={props.actionType !== 'delete'}>
+          <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
             <FormSelect
               control={form.control}
               name='chain'
@@ -36,8 +37,18 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
               placeholder={t('fields.blockchain.placeholder')}
               options={options}
               required
-              selectClassName='w-56'
+              selectClassName='w-full'
             />
+            <FormSelect
+              control={form.control}
+              name='token'
+              label={t('fields.token.label')}
+              placeholder={t('fields.token.placeholder')}
+              options={tokenOptions}
+              required
+              selectClassName='w-full'
+            />
+          </div>
             <FormInput
               control={form.control}
               disabled={isLoading}

@@ -6,7 +6,7 @@ import {
 } from '@/apis/wallet-address';
 import { useTranslation } from '@/integrations/i18n';
 import { useEffect, useMemo } from 'react';
-import { generateOptions } from './config';
+import { generateOptions, generateTokenOptions } from './config';
 import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,6 +22,7 @@ type Props = {
 export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSuccess, actionType }: Props) => {
   const { t } = useTranslation('wallet-address-page');
   const options = useMemo(() => generateOptions(t), [t]);
+  const tokenOptions = useMemo(() => generateTokenOptions(t), [t]);
 
   const createAddressMutation = useCreateWalletAddress();
   const updateAddressMutation = useUpdateWalletAddress();
@@ -31,8 +32,9 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     return {
       address: '',
       chain: options[0].value,
+      token: tokenOptions[0].value,
     };
-  }, [options[0].value]);
+  }, [options[0].value, tokenOptions[0].value]);
 
   const form = useForm<WalletAddressCreateFormData>({
     resolver: zodResolver(walletAddressCreateFormSchema(t)),
@@ -75,8 +77,9 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       address: initialData?.address ?? '',
       chain: initialData?.blockchain ?? options[0].value,
       id: initialData?.id ?? '',
+      token: initialData?.token ?? tokenOptions[0].value,
     });
-  }, [initialData, form.reset, options[0].value]);
+  }, [initialData, form.reset, options[0].value, tokenOptions[0].value]);
 
   return {
     t,
@@ -84,6 +87,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     open,
     form,
     options,
+    tokenOptions,
     onCloseDialog,
     onSubmit,
     onSubmitDialog,

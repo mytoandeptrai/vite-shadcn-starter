@@ -46,6 +46,10 @@
     "blockchain": {
       "label": "Blockchain",
       "placeholder": "Chọn blockchain"
+    },
+    "token": {
+      "label": "Token",
+      "placeholder": "Chọn token"
     }
   }
 }

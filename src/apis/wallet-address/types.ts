@@ -4,6 +4,7 @@ export interface IWalletAddress {
   label: string;
   address: string;
   blockchain: string;
+  token?: string;
   createdAt: string;
   updatedAt: string;
 }

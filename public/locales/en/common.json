@@ -151,7 +151,9 @@
     "ok": "OK",
     "i-agree": "I Agree",
     "view-details": "View Details",
-    "update": "Update"
+    "update": "Update",
+    "next": "Next",
+    "previous": "Previous"
   },
   "layouts": {
     "auth": {
@@ -213,6 +215,14 @@
       "go-to-last-page": "Go to last page",
       "page-size": "Page {{pageSize}} of {{pageCount}}"
     }
+  },
+  "tokens": {
+    "USDT": "USDT",
+    "USDC": "USDC"
+  },
+  "chains": {
+    "ETH": "Ethereum",
+    "BNB": "Binance Smart Chain"
   }
 }
 

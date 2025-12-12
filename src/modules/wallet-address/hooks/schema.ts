@@ -22,6 +22,12 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
           ns: 'common',
         }),
       }),
+      token: z.string().min(1, {
+        message: t('errors.common.field-required', {
+          field: t('fields.token.label'),
+          ns: 'common',
+        }),
+      }),
       id: z.string().optional(),
     })
     .superRefine((data, ctx) => {
@@ -47,6 +53,7 @@ const initialWalletAddressCreateFormData: WalletAddressCreateFormData = {
   address: '',
   chain: '',
   id: '',
+  token: '',
 };
 
 export { initialWalletAddressCreateFormData, walletAddressCreateFormSchema, type WalletAddressCreateFormData };

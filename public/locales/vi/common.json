@@ -136,7 +136,9 @@
     "ok": "OK",
     "i-agree": "Tôi đồng ý",
     "view-details": "Xem chi tiết",
-    "update": "Cập nhật"
+    "update": "Cập nhật",
+    "next": "Tiếp theo",
+    "previous": "Trước đó"
   },
   "layouts": {
     "auth": {
