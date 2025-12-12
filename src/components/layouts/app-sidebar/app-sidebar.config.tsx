@@ -1,5 +1,6 @@
 import { ROUTES } from '@/constant';
 import type { NavItem } from '@/types';
+import type { TFunction } from 'i18next';
 import {
   ArrowLeftRightIcon,
   CircleDollarSignIcon,
@@ -11,9 +12,9 @@ import {
   WrenchIcon,
 } from 'lucide-react';
 
-export const navItems: NavItem[] = [
+export const navItems = (t: TFunction): NavItem[] => [
   {
-    title: 'Home',
+    title: t('labels.home'),
     url: ROUTES.DASHBOARD,
     icon: LayoutDashboardIcon,
     isActive: false,
@@ -21,21 +22,21 @@ export const navItems: NavItem[] = [
     items: [],
   },
   {
-    title: 'Balance',
+    title: t('labels.balance'),
     url: ROUTES.BALANCE,
     icon: CircleDollarSignIcon,
     isActive: false,
     items: [],
   },
   {
-    title: 'Transactions',
+    title: t('labels.transactions'),
     url: ROUTES.TRANSACTIONS,
     icon: ArrowLeftRightIcon,
     isActive: false,
     items: [],
   },
   {
-    title: 'Wallet Address',
+    title: t('labels.wallet-address'),
     url: ROUTES.WALLET_ADDRESS,
     icon: Wallet2Icon,
     shortcut: ['p', 'p'],
@@ -43,7 +44,7 @@ export const navItems: NavItem[] = [
     items: [],
   },
   {
-    title: 'Developer',
+    title: t('labels.developer'),
     url: ROUTES.DEVELOPER,
     icon: Users2Icon,
     shortcut: ['k', 'k'],
@@ -51,20 +52,20 @@ export const navItems: NavItem[] = [
     items: [],
   },
   {
-    title: 'Settings',
+    title: t('labels.settings'),
     url: ROUTES.SETTINGS,
     icon: SettingsIcon,
     shortcut: ['k', 'k'],
     isActive: false,
     items: [
       {
-        title: 'Profile',
+        title: t('labels.profile'),
         url: ROUTES.PROFILE,
         icon: User2Icon,
         shortcut: ['m', 'm'],
       },
       {
-        title: 'System',
+        title: t('labels.system'),
         url: ROUTES.SYSTEM,
         icon: WrenchIcon,
         shortcut: ['m', 'm'],

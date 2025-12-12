@@ -76,5 +76,52 @@
       "update-personal-information": "Update Personal Information",
       "update-avatar": "Save Avatar"
     }
+  },
+  "system": {
+    "title": "System Settings",
+    "description": "Manage system-level preferences, including language and security options.",
+    "labels": {
+      "languages": {
+        "title": "Languages",
+        "description": "Select the language you want to use in the system."
+      },
+      "security": {
+        "title": "Security",
+        "description": "Manage your security settings, including password and two-factor authentication."
+      },
+      "two-fa": {
+        "title": "Two-Factor Authentication",
+        "description": "Enable or disable two-factor authentication for your account.",
+        "steps": {
+          "1": "Download App",
+          "2": "Scan QR Code",
+          "3": "Save Backup Key",
+          "4": "Done"
+        },
+        "labels": {
+          "2fa": "2FA",
+          "authenticator-disabled": "You have not enabled Google Authenticator",
+          "authenticator-enabled": "You have enabled Google Authenticator",
+          "requesting-disable-2fa": "Your request to remove Google Authenticator is pending for approval",
+          "enable-google-authentication": "Enable Google Authentication",
+          "instruction1": "Download and install Google Authenticator app",
+          "instruction2": "Scan this QR using Google Authenticator",
+          "instruction3": "Please save this key as a backup",
+          "step2-message": "If you are unable to scan the QR code,<br/> please enter this code manually into the app.",
+          "step3-message": "This key will allow you to recover your<br/> Google Authenticator as a backup method.",
+          "step4-message": "You have enabled Google Authenticator."
+        },
+        "remove-modal": {
+          "title": "Remove Two-Factor Authentication",
+          "description": "Are you sure you want to remove two-factor authentication? This action cannot be undone."
+        }
+      }
+    },
+    "buttons": {
+      "update-language": "Update Language",
+      "update-security": "Update Security",
+      "enable-two-fa": "Enable 2FA",
+      "remove-two-fa": "Remove 2FA"
+    }
   }
 }

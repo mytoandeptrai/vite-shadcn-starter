@@ -1,9 +1,6 @@
+import { SystemContainer } from '@/modules/settings/system'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/(public)/settings/system')({
-  component: RouteComponent,
+  component: SystemContainer,
 })
-
-function RouteComponent() {
-  return <div>Hello "/(public)/settings/system"!</div>
-}

@@ -125,7 +125,18 @@
     "no": "No",
     "disabled": "Disabled",
     "enabled": "Enabled",
-    "search": "Search"
+    "search": "Search",
+    "english": "English",
+    "vietnamese": "Vietnamese",
+    "home": "Home",
+    "settings": "Settings",
+    "logout": "Logout",
+    "balance": "Balance",
+    "profile": "Profile",
+    "transactions": "Transactions",
+    "wallet-address": "Wallet Address",
+    "developer": "Developer",
+    "system": "System"
   },
   "buttons": {
     "continue": "Continue",

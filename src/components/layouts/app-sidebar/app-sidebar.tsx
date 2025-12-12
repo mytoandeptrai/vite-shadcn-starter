@@ -28,6 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/ui/user-avatar-profile';
+import { useTranslation } from '@/integrations/i18n';
 
 /** TODO: Get new user data from API */
 const user = {
@@ -39,6 +40,7 @@ const user = {
 const AppSidebar = () => {
   const location = useLocation();
   const pathname = location.pathname;
+  const { t } = useTranslation();
 
   return (
     <Sidebar collapsible='icon'>
@@ -62,7 +64,7 @@ const AppSidebar = () => {
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup>
           <SidebarMenu>
-            {navItems.map((item) => {
+            {navItems(t).map((item) => {
               const Icon = item.icon ? item.icon : undefined;
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>

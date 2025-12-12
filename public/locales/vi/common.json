@@ -110,7 +110,18 @@
     "no": "Không",
     "disabled": "Vô hiệu hóa",
     "enabled": "Kích hoạt",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt",
+    "home": "Trang chủ",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "balance": "Số dư",
+    "profile": "Hồ sơ",
+    "transactions": "Giao dịch",
+    "wallet-address": "Địa chỉ ví",
+    "developer": "Phát triển",
+    "system": "Hệ thống"
   },
   "buttons": {
     "continue": "Tiếp tục",

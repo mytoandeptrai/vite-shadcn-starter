@@ -13,6 +13,7 @@ import { routeTree } from './routeTree.gen';
 import './styles.css';
 import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
 import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
+import RecaptchaProvider from './integrations/recaptcha/recaptcha-provider.tsx';
 
 // Create a new router instance
 
@@ -51,14 +52,16 @@ if (rootElement && !rootElement.innerHTML) {
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
           <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
             <ErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
+              <RecaptchaProvider>
                 <DialogProvider>
                   <AuthProvider>
-                    <InnerApp />
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <InnerApp />
+                    </Suspense>
                     <Toaster richColors position='top-right' />
                   </AuthProvider>
                 </DialogProvider>
-              </Suspense>
+              </RecaptchaProvider>
             </ErrorBoundary>
           </ThemeProvider>
         </TanStackQueryProvider.Provider>

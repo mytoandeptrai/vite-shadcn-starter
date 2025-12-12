@@ -76,5 +76,9 @@
       "update-personal-information": "Cập Nhật Thông Tin Cá Nhân",
       "update-avatar": "Lưu Ảnh Đại Diện"
     }
+  },
+  "system": {
+    "title": "Cài Đặt Hệ Thống",
+    "description": "Quản lý các tùy chọn ở cấp hệ thống, bao gồm ngôn ngữ và bảo mật."
   }
 }
