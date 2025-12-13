@@ -16,6 +16,11 @@ export interface LoginParams {
   password: string;
 }
 
+export interface UpdateUserInfoParams {
+  email: string;
+  name: string;
+}
+
 export interface RegisterParams {
   email: string;
   name: string;
@@ -78,3 +83,5 @@ export type VerifyResponse = BaseResponseType<{
 export type GetUserInfoResponse = BaseResponseType<IUserInfo>;
 
 export type VerifyTwoFaSetupResponse = BaseResponseType<boolean>;
+
+export type UpdateUserInfoResponse = BaseResponseType<IUserInfo>;

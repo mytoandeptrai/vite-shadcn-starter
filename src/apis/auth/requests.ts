@@ -11,6 +11,8 @@ import type {
   ResetPasswordParams,
   SetupTwoFaResponse,
   SignoutParams,
+  UpdateUserInfoParams,
+  UpdateUserInfoResponse,
   VerifyParams,
   VerifyResponse,
   VerifyTwoFaParams,
@@ -21,6 +23,15 @@ import type {
 export const getUserInfo = (signal?: AbortSignal) => {
   return httpInstance
     .get<GetUserInfoResponse>(KEYS.INFO, { signal })
+    .then((res) => res);
+};
+
+export const updateUserInfo = (
+  params: UpdateUserInfoParams,
+  signal?: AbortSignal
+) => {
+  return httpInstance
+    .put<UpdateUserInfoResponse>(KEYS.INFO, params, { signal })
     .then((res) => res);
 };
 
@@ -85,7 +96,9 @@ export const verifyTwoFaSetup = (
   signal?: AbortSignal
 ) => {
   return httpInstance
-    .post<VerifyTwoFaSetupResponse>(KEYS.TWO_FA_VERIFY_SETUP, params, { signal })
+    .post<VerifyTwoFaSetupResponse>(KEYS.TWO_FA_VERIFY_SETUP, params, {
+      signal,
+    })
     .then((res) => res);
 };
 

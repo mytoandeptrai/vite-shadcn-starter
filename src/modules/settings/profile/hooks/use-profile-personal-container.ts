@@ -1,29 +1,74 @@
-import { useTranslation } from '@/integrations/i18n';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { initialPersonalFormData, personalFormSchema, type PersonalFormData } from './personal.schema';
+import { useTranslation } from "@/integrations/i18n";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  initialPersonalFormData,
+  personalFormSchema,
+  type PersonalFormData,
+} from "./personal.schema";
+import { KEYS, useUpdateUserInfo } from "@/apis/auth";
+import { useAuthContext } from "@/integrations/auth/auth-provider";
+import { getContext } from "@/integrations/tanstack-query/root-provider";
+import isEqual from "lodash/isEqual";
 
 export const useProfilePersonalContainer = () => {
-  const { t } = useTranslation('settings-page');
+  const { t } = useTranslation("settings-page");
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
-
-  const isLoading = false;
+  const { user, onRefetch } = useAuthContext();
+  const { queryClient } = getContext();
+  const updateUserInfoMutation = useUpdateUserInfo();
+  const isLoading = updateUserInfoMutation.isPending;
 
   const form = useForm<PersonalFormData>({
     resolver: zodResolver(personalFormSchema(t)),
     defaultValues: initialPersonalFormData,
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const onSubmit = async (data: PersonalFormData) => {
-    console.log('🚀 ~ onSubmit ~ data:', data);
+    if (
+      isEqual(data, {
+        firstName: user?.name?.split(" ")[0] ?? "",
+        lastName: user?.name?.split(" ")[1] ?? "",
+        email: user?.email,
+      })
+    ) {
+      setIsUpdated(false);
+      return;
+    }
+
+    try {
+      await updateUserInfoMutation.mutateAsync({
+        email: data.email,
+        name: `${data.firstName} ${data.lastName}`,
+      });
+      queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
+      onRefetch();
+      setIsUpdated(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onCancel = () => {
     setIsUpdated(false);
-    form.reset(initialPersonalFormData);
+    form.reset({
+      firstName: user?.name?.split(" ")[0] ?? "",
+      lastName: user?.name?.split(" ")[1] ?? "",
+      email: user?.email,
+    });
   };
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        firstName: user?.name?.split(" ")[0] ?? "",
+        lastName: user?.name?.split(" ")[1] ?? "",
+        email: user?.email,
+      });
+    }
+  }, [user]);
 
   return {
     t,

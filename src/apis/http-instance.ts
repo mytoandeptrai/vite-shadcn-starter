@@ -250,6 +250,10 @@ class HttpInstance {
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.instance.delete(url, config);
   }
+
+  public async put<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
+    return this.instance.put(url, data, config);
+  }
 }
 
 const httpInstance = new HttpInstance();

@@ -1,8 +1,7 @@
 import {
   useMutation,
   useQuery,
-  type UseMutationOptions,
-  type UseQueryOptions,
+  type UseQueryOptions
 } from "@tanstack/react-query";
 import { KEYS } from "./keys";
 import {
@@ -15,6 +14,7 @@ import {
   resetPassword,
   setupTwoFa,
   signout,
+  updateUserInfo,
   verify,
   verifyTwoFa,
   verifyTwoFaSetup,
@@ -29,6 +29,7 @@ import type {
   ResetPasswordParams,
   SetupTwoFaResponse,
   SignoutParams,
+  UpdateUserInfoParams,
   VerifyParams,
   VerifyTwoFaParams,
   VerifyTwoFaSetupParams,
@@ -123,3 +124,10 @@ export const useDisableTwoFa = () => {
     mutationFn: (data: DisableTwoFaParams) => disabledTwoFa(data),
   });
 }
+
+export const useUpdateUserInfo = () => {
+  return useMutation({
+    mutationKey: [KEYS.INFO],
+    mutationFn: (data: UpdateUserInfoParams) => updateUserInfo(data),
+  });
+} 

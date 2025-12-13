@@ -13,6 +13,7 @@ export interface BaseFormFieldProps<
   required?: boolean;
   disabled?: boolean;
   className?: string;
+  readOnly?: boolean;
 }
 
 // Common option type for selects, radio groups, etc.
