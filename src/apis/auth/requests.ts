@@ -15,6 +15,7 @@ import type {
   UpdateUserInfoResponse,
   VerifyParams,
   VerifyResponse,
+  VerifyTwoFaResponse,
   VerifyTwoFaParams,
   VerifyTwoFaSetupParams,
   VerifyTwoFaSetupResponse,
@@ -87,7 +88,7 @@ export const verifyTwoFa = (
   signal?: AbortSignal
 ) => {
   return httpInstance
-    .post(KEYS.TWO_FA_VERIFY, params, { signal })
+    .post<VerifyTwoFaResponse>(KEYS.TWO_FA_VERIFY, params, { signal })
     .then((res) => res);
 };
 

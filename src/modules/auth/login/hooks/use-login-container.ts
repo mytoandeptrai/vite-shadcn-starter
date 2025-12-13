@@ -1,4 +1,4 @@
-import { useLoginMutation } from "@/apis/auth";
+import { useLoginMutation, useVerifyTwoFa } from "@/apis/auth";
 import {
   sanitizeRedirect,
   usePreviousLocation,
@@ -11,13 +11,23 @@ import { useForm } from "react-hook-form";
 import { initialFormData, loginFormSchema, type LoginFormData } from "./schema";
 import { useAuthContext } from "@/integrations/auth/auth-provider";
 import { toast } from "sonner";
+import { useDialogContext } from "@/integrations/dialog/dialog-provider";
+
+type OnSuccessPayload = {
+  accessToken: string;
+  refreshToken: string;
+};
 
 export const useLoginContainer = () => {
   const { t } = useTranslation("login-page");
-  const { setAccessToken, setRefreshToken } = useSessionStore();
   const navigate = useNavigate();
   const previousLocation = usePreviousLocation();
+
+  const { setAccessToken, setRefreshToken } = useSessionStore();
   const { onRefetch } = useAuthContext();
+  const { onOpenTwoFAModal, onCloseModal } = useDialogContext();
+
+  const verifyTwoFaMutation = useVerifyTwoFa();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema(t)),
@@ -28,18 +38,44 @@ export const useLoginContainer = () => {
   const useLogin = useLoginMutation();
   const isLoading = useLogin.isPending;
 
-  const onSubmit = async (payload: LoginFormData) => {
+  const onSuccess = async (payload: OnSuccessPayload) => {
+    toast.success(t("messages.login-success", { ns: "common" }));
+    setAccessToken(payload.accessToken!);
+    setRefreshToken(payload.refreshToken!);
+    await onRefetch();
+    onCloseModal();
+    const target = sanitizeRedirect(previousLocation);
+    navigate({ to: target });
+  };
+
+  const onSubmit = async (payload: LoginFormData & { code?: string }) => {
     if (isLoading) return;
     try {
       const { data } = await useLogin.mutateAsync(payload);
-      toast.success(t("messages.login-success", { ns: "common" }));
-      if (data) {
-        setAccessToken(data?.accessToken!);
-        setRefreshToken(data?.refreshToken!);
-        await onRefetch();
+
+      if (!data) return;
+
+      if (!data?.requiresTwoFA) {
+        return await onSuccess(data);
       }
-      const target = sanitizeRedirect(previousLocation);
-      navigate({ to: target });
+
+      onOpenTwoFAModal({
+        forceOpen: true,
+        skipInitVerification: true,
+        isLoading: useLogin.isPending,
+        closeOnSubmit: false,
+        cb: async (code) => {
+          const res = await verifyTwoFaMutation.mutateAsync({
+            email: payload.email,
+            password: payload.password,
+            code: code!,
+          });
+
+          if (res.data) {
+            await onSuccess(res.data);
+          }
+        },
+      });
     } catch (error) {
       console.error(error);
     }

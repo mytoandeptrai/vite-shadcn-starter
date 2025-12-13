@@ -27,7 +27,6 @@ export const useVerifyEmailContainer = (email?: string) => {
   const handleClickResend = async () => {
     if (!email) return;
     try {
-      /** Todo: Handle logic API here */
       await resendVerificationMutation.mutateAsync({ email: email! });
       const newExpiredDate = addMinutes(new Date(), 5);
       const newExpiredTimestamp = newExpiredDate.getTime();

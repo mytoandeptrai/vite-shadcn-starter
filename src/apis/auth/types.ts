@@ -68,6 +68,7 @@ export type LoginApiResponse = BaseResponseType<{
   accessToken: string;
   refreshToken: string;
   requiresTwoFASetup: boolean;
+  requiresTwoFA?: boolean;
 }>;
 
 export type SetupTwoFaResponse = BaseResponseType<{
@@ -78,6 +79,11 @@ export type SetupTwoFaResponse = BaseResponseType<{
 
 export type VerifyResponse = BaseResponseType<{
   message: string;
+}>;
+
+export type VerifyTwoFaResponse = BaseResponseType<{
+  accessToken: string;
+  refreshToken: string;
 }>;
 
 export type GetUserInfoResponse = BaseResponseType<IUserInfo>;
