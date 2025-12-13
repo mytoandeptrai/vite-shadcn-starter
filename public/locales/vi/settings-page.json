@@ -113,7 +113,26 @@
       },
       "remove-modal": {
         "title": "Gỡ Bỏ Xác Thực Hai Yếu Tố",
-        "description": "Bạn có chắc chắn muốn gỡ bỏ xác thực hai yếu tố không? Hành động này không thể hoàn tác."
+        "description": "Bạn có chắc chắn muốn gỡ bỏ xác thực hai yếu tố không? Hành động này không thể hoàn tác.",
+        "fields": {
+            "password": {
+              "label": "Mật khẩu",
+              "placeholder": "Nhập mật khẩu của bạn"
+            }
+          },
+          "errors": {
+            "MSG-1.14": "Mật khẩu phải có độ dài từ 8 đến 50 ký tự.",
+            "MSG-1.15": "Mật khẩu phải bao gồm ít nhất 1 chữ hoa, chữ thường, số và ký tự đặc biệt.",
+            "MSG-1.19": "Mật khẩu không được chứa dấu cách.",
+            "MSG-1.20": "Mật khẩu không khớp."
+          },
+          "validation": {
+            "required": "Trường này là bắt buộc",
+            "minLength": "Yêu cầu tối thiểu {{min}} ký tự",
+            "maxLength": "Tối đa {{max}} ký tự được phép",
+            "passwordMatch": "Mật khẩu không khớp",
+            "invalidFormat": "Định dạng không hợp lệ"
+          }
       }
     }
   },

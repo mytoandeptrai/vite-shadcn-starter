@@ -113,7 +113,26 @@
         },
         "remove-modal": {
           "title": "Remove Two-Factor Authentication",
-          "description": "Are you sure you want to remove two-factor authentication? This action cannot be undone."
+          "description": "Are you sure you want to remove two-factor authentication? This action cannot be undone.",
+          "fields": {
+            "password": {
+              "label": "Password",
+              "placeholder": "Enter your password"
+            }
+          },
+          "errors": {
+            "MSG-1.14": "Password must be between 8 and 50 characters in length.",
+            "MSG-1.15": "Use at least 1 uppercase, lowercase, numbers & symbols.",
+            "MSG-1.19": "Password cannot contain space.",
+            "MSG-1.20": "Passwords do not match."
+          },
+          "validation": {
+            "required": "This field is required",
+            "minLength": "Minimum {{min}} characters required",
+            "maxLength": "Maximum {{max}} characters allowed",
+            "passwordMatch": "Passwords do not match",
+            "invalidFormat": "Invalid format"
+          }
         }
       }
     },

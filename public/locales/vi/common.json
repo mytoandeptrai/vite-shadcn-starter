@@ -109,7 +109,9 @@
     "active-success": "Email đã được xác thực thành công. Bạn có thể đăng nhập.",
     "resend-verification-success": "Email xác thực đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
     "forgot-password-success": "Chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu đến email nếu chúng tôi tìm thấy tài khoản của bạn",
-    "resend-forgot-password-success": "Hướng dẫn đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email của bạn."
+    "resend-forgot-password-success": "Hướng dẫn đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
+    "two-fa-setup-success": "Xác thực hai yếu tố đã được bật thành công. Vui lòng đăng nhập lại để tiếp tục.",
+    "two-fa-disabled-success": "Xác thực hai yếu tố đã được tắt thành công."
   },
   "labels": {
     "all": "Tất cả",

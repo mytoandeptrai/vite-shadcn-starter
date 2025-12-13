@@ -15,6 +15,7 @@ import type {
   VerifyResponse,
   VerifyTwoFaParams,
   VerifyTwoFaSetupParams,
+  VerifyTwoFaSetupResponse,
 } from "./types";
 
 export const getUserInfo = (signal?: AbortSignal) => {
@@ -84,7 +85,7 @@ export const verifyTwoFaSetup = (
   signal?: AbortSignal
 ) => {
   return httpInstance
-    .post(KEYS.TWO_FA_VERIFY_SETUP, params, { signal })
+    .post<VerifyTwoFaSetupResponse>(KEYS.TWO_FA_VERIFY_SETUP, params, { signal })
     .then((res) => res);
 };
 

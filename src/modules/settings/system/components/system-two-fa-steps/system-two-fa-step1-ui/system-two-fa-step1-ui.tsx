@@ -9,9 +9,9 @@ const SystemTwoFaStep1Ui = () => {
   const { t } = useTranslation('settings-page');
   return (
     <div>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-6'>
         <Paragraph className='text-sm'>{t('system.labels.two-fa.labels.instruction1')}</Paragraph>
-        <div className='flex justify-center gap-2'>
+        <div className='flex justify-center gap-4'>
           <CHPlayIcon
             width={156}
             height={48}

@@ -76,3 +76,5 @@ export type VerifyResponse = BaseResponseType<{
 }>;
 
 export type GetUserInfoResponse = BaseResponseType<IUserInfo>;
+
+export type VerifyTwoFaSetupResponse = BaseResponseType<boolean>;

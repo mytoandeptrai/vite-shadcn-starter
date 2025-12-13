@@ -124,7 +124,9 @@
     "active-success": "Email verified successfully. You can now log in.",
     "resend-verification-success": "Verification email sent successfully. Please check your inbox.",
     "forgot-password-success": "We will send the password reset instruction to your email if we find your account",
-    "resend-forgot-password-success": "Password reset instruction sent successfully. Please check your inbox."
+    "resend-forgot-password-success": "Password reset instruction sent successfully. Please check your inbox.",
+    "two-fa-setup-success": "Two-factor authentication enabled successfully. Please login again to continue.",
+    "two-fa-disabled-success": "Two-factor authentication disabled successfully."
   },
   "labels": {
     "all": "All",

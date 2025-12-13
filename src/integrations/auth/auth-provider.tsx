@@ -13,7 +13,7 @@ export type AuthContextState = {
   isAuthenticated: boolean;
   user?: IUserInfo;
   onRefetch: () => Promise<void>;
-  onSignout: () => void;
+  onSignout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextState | undefined>(undefined);
