@@ -17,6 +17,7 @@ import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
 import { Route as publicWalletAddressRouteImport } from './routes/(public)/wallet-address'
+import { Route as publicTransactionsRouteImport } from './routes/(public)/transactions'
 import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
 import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
 import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
@@ -68,6 +69,11 @@ const DemoFormRoute = DemoFormRouteImport.update({
 const publicWalletAddressRoute = publicWalletAddressRouteImport.update({
   id: '/wallet-address',
   path: '/wallet-address',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicTransactionsRoute = publicTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
   getParentRoute: () => publicLayoutRoute,
 } as any)
 const publicDeveloperRoute = publicDeveloperRouteImport.update({
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
   '/developer': typeof publicDeveloperRoute
+  '/transactions': typeof publicTransactionsRoute
   '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
   '/developer': typeof publicDeveloperRoute
+  '/transactions': typeof publicTransactionsRoute
   '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/(public)/balance': typeof publicBalanceRoute
   '/(public)/dashboard': typeof publicDashboardRoute
   '/(public)/developer': typeof publicDeveloperRoute
+  '/(public)/transactions': typeof publicTransactionsRoute
   '/(public)/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
+    | '/transactions'
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
+    | '/transactions'
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/(public)/balance'
     | '/(public)/dashboard'
     | '/(public)/developer'
+    | '/(public)/transactions'
     | '/(public)/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -346,6 +358,13 @@ declare module '@tanstack/react-router' {
       path: '/wallet-address'
       fullPath: '/wallet-address'
       preLoaderRoute: typeof publicWalletAddressRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/transactions': {
+      id: '/(public)/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof publicTransactionsRouteImport
       parentRoute: typeof publicLayoutRoute
     }
     '/(public)/developer': {
@@ -479,6 +498,7 @@ interface publicLayoutRouteChildren {
   publicBalanceRoute: typeof publicBalanceRoute
   publicDashboardRoute: typeof publicDashboardRoute
   publicDeveloperRoute: typeof publicDeveloperRoute
+  publicTransactionsRoute: typeof publicTransactionsRoute
   publicWalletAddressRoute: typeof publicWalletAddressRoute
   publicIndexRoute: typeof publicIndexRoute
   publicSettingsProfileRoute: typeof publicSettingsProfileRoute
@@ -490,6 +510,7 @@ const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicBalanceRoute: publicBalanceRoute,
   publicDashboardRoute: publicDashboardRoute,
   publicDeveloperRoute: publicDeveloperRoute,
+  publicTransactionsRoute: publicTransactionsRoute,
   publicWalletAddressRoute: publicWalletAddressRoute,
   publicIndexRoute: publicIndexRoute,
   publicSettingsProfileRoute: publicSettingsProfileRoute,

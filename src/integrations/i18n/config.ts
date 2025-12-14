@@ -36,6 +36,7 @@ i18n
       'dashboard-page',
       'balance-page',
       'wallet-address-page',
+      'transactions-page',
     ],
 
     /** Detection settings */

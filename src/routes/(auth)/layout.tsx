@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect, useLocation } from '@tanstack/react-router';
 import { useTranslation } from '@/integrations/i18n';
 import { ROUTES } from '@/constant';
+import NotFoundPage from '@/components/ui/not-found';
 
 export const Route = createFileRoute('/(auth)')({
   beforeLoad: ({ context, location }) => {
@@ -15,6 +16,7 @@ export const Route = createFileRoute('/(auth)')({
     }
   },
   component: RouteComponent,
+  notFoundComponent: NotFoundPage,
 });
 
 const sidebarMapping = {

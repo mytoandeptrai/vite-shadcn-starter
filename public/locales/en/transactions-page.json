@@ -1,0 +1,44 @@
+{
+  "title": "Transactions",
+  "description": "View and manage all your payment and payout transactions.",
+  "tabs": {
+    "payments": "Payments",
+    "payouts": "Payouts",
+    "allActivity": "All Activity"
+  },
+  "table": {
+    "headers": {
+      "type": "Type",
+      "amount": "Amount",
+      "status": "Status",
+      "date": "Date"
+    }
+  },
+  "filters": {
+    "search": {
+      "placeholder": "Search transactions..."
+    },
+    "status": {
+      "label": "Status",
+      "placeholder": "Select status"
+    },
+    "type": {
+      "label": "Type",
+      "placeholder": "Select type"
+    },
+    "dateRange": {
+      "label": "Date Range",
+      "placeholder": "Select date range"
+    }
+  },
+  "status": {
+    "completed": "Completed",
+    "pending": "Pending",
+    "failed": "Failed",
+    "cancelled": "Cancelled"
+  },
+  "types": {
+    "payment": "Payment",
+    "payout": "Payout"
+  }
+}
