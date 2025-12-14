@@ -18,4 +18,5 @@ export const siteConfig = {
     'Payment Gateway',
     'Payment Gateway',
   ],
+  googleAnalyticsId: import.meta.env.VITE_GA_ID,
 };

@@ -57,5 +57,22 @@
         }
       }
     }
+  },
+  "sdks": {
+    "title": "SDKs",
+    "description": "Libraries and tools for interacting with PWC crypto payment solution.",
+    "modal": {
+      "version": "Version",
+      "language": "Language",
+      "platform": "Platform",
+      "documentation": "Documentation",
+      "documentationDescription": "View the complete documentation and integration guide for this SDK.",
+      "viewDocumentation": "View Documentation",
+      "download": "Download",
+      "downloadDescription": "Download the latest version of this SDK or view it on GitHub.",
+      "downloadSDK": "Download SDK",
+      "viewOnGithub": "View on GitHub",
+      "close": "Close"
+    }
   }
 }

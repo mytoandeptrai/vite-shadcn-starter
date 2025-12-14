@@ -1,6 +1,5 @@
 import {
-  useGetTransactionList,
-  type ITransaction,
+  useGetTransactionList
 } from '@/apis/transactions';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';

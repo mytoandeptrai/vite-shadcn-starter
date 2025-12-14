@@ -21,7 +21,7 @@ export const Route = createFileRoute('/(public)/wallet-address')({
       sortBy: result.sortBy ?? 'createdAt',
       sortOrder: result.sortOrder ?? 'desc',
       forceAddWallet: result.forceAddWallet ?? false,
-      search: result.search ?? undefined,
+      search: result.search ?? '',
     };
   },
   component: WalletAddressContainer,

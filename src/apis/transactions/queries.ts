@@ -1,4 +1,3 @@
-import type { BaseResponseType } from '@/types';
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import { KEYS } from './keys';
 import { getTransactionList } from './requests';

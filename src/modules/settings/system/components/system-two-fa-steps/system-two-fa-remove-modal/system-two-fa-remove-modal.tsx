@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { Spinner } from "@/components/ui/spinner";
 import { Show } from "@/components/utilities";
-import { useTranslation } from "@/integrations/i18n";
 import { useSystemTwoFaRemoveModal } from "../../../hooks";
 import { FormWrapper } from "@/components/ui/form";
 import { FormInput } from "@/components/form-fields/form-input";
