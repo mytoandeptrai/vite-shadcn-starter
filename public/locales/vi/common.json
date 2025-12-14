@@ -226,5 +226,11 @@
     "BNB-USDC": "BNB-USDC",
     "ETH-USDT": "ETH-USDT",
     "ETH-USDC": "ETH-USDC"
+  },
+  "not-found": {
+    "title": "Không Tìm Thấy Trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển. Vui lòng kiểm tra URL và thử lại.",
+    "goHome": "Về Trang Chủ",
+    "goBack": "Quay Lại"
   }
 }

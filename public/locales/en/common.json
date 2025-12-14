@@ -251,5 +251,11 @@
     "BNB-USDC": "BNB-USDC",
     "ETH-USDT": "ETH-USDT",
     "ETH-USDC": "ETH-USDC"
+  },
+  "not-found": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved. Please check the URL and try again.",
+    "goHome": "Go to Dashboard",
+    "goBack": "Go Back"
   }
 }
