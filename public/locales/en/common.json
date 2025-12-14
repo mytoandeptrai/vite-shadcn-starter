@@ -229,6 +229,13 @@
       "go-to-next-page": "Go to next page",
       "go-to-last-page": "Go to last page",
       "page-size": "Page {{pageSize}} of {{pageCount}}"
+    },
+    "options": {
+      "toggle-columns": "Toggle columns"
+    },
+    "labels": {
+      "view": "View",
+      "search": "Filter by {{key}}"
     }
   },
   "tokens": {

@@ -27,6 +27,7 @@ export const useWalletAddressContainer = () => {
     pageSize: search.pageSize,
     sortBy: search.sortBy,
     sortOrder: search.sortOrder,
+    search: search.search,
   };
   const { data, isFetching, isLoading, refetch } =
     useGetWalletAddressList(filters);
@@ -64,6 +65,17 @@ export const useWalletAddressContainer = () => {
         replace: true,
       });
     }
+  };
+
+  const onSearchValueChange = (val: string) => {
+    navigate({
+      search: {
+        ...search,
+        search: val,
+        page: 1,
+      },
+      replace: true,
+    });
   };
 
   const onEdit = (walletAddress: IWalletAddress) => {
@@ -115,9 +127,11 @@ export const useWalletAddressContainer = () => {
     tableData,
     editingWalletAddress,
     actionType,
+    searchValue: search.search,
     onRefetch,
     onPaginationChange,
     onSortingChange,
+    onSearchValueChange,
     onEdit,
     onDelete,
     onClose,

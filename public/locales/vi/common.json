@@ -196,14 +196,21 @@
       "hide": "Hide"
     },
     "pagination": {
-      "rows-per-page": "Rows per page",
-      "page": "Page",
+      "rows-per-page": "Số dòng trên trang",
+      "page": "Trang",
       "of": "of",
       "go-to-first-page": "Go to first page",
       "go-to-previous-page": "Go to previous page",
       "go-to-next-page": "Go to next page",
       "go-to-last-page": "Go to last page",
       "page-size": "Page {{pageSize}} of {{pageCount}}"
+    },
+    "options": {
+      "toggle-columns": "Ẩn/Hiện cột"
+    },
+    "labels": {
+      "view": "Xem",
+      "search": "Lọc theo {{key}}"
     }
   },
   "tokens": {
