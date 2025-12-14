@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { useTranslation } from '@/integrations/i18n';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { ROUTES } from '@/constant';
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
@@ -8,6 +9,13 @@ import { useNavigate } from '@tanstack/react-router';
 const NotFoundPage = () => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuthContext();
+
+  const handleGoHome = () => {
+    navigate({
+      to: isAuthenticated ? ROUTES.DASHBOARD : ROUTES.LOGIN,
+    });
+  };
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
@@ -19,7 +27,7 @@ const NotFoundPage = () => {
                 404
               </div>
             </div>
-            <EmptyMedia variant="icon" className="relative bg-muted/50 size-24">
+            <EmptyMedia variant="icon" className="relative bg-transparent size-24">
               <FileQuestion className="size-12 text-muted-foreground" />
             </EmptyMedia>
           </div>
@@ -35,11 +43,7 @@ const NotFoundPage = () => {
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             size="lg"
-            onClick={() => {
-              navigate({
-                to: ROUTES.DASHBOARD,
-              });
-            }}
+            onClick={handleGoHome}
             className="min-w-[160px]"
           >
             <Home className="size-4" />

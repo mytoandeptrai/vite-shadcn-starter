@@ -16,5 +16,6 @@ export const ROUTES = {
   PROFILE: '/settings/profile',
   SYSTEM: '/settings/system',
   DEVELOPER: '/developer',
+  NOT_FOUND: '/404',
 } as const;
   

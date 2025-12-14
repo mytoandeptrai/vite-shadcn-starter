@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as R404RouteImport } from './routes/404'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
@@ -33,6 +35,16 @@ import { Route as publicSettingsIndexRouteImport } from './routes/(public)/setti
 import { Route as publicSettingsSystemRouteImport } from './routes/(public)/settings/system'
 import { Route as publicSettingsProfileRouteImport } from './routes/(public)/settings/profile'
 
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const publicLayoutRoute = publicLayoutRouteImport.update({
   id: '/(public)',
   getParentRoute: () => rootRouteImport,
@@ -148,6 +160,8 @@ const publicSettingsProfileRoute = publicSettingsProfileRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/active': typeof authActiveRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/link-expired': typeof authLinkExpiredRoute
@@ -171,6 +185,8 @@ export interface FileRoutesByFullPath {
   '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/active': typeof authActiveRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/link-expired': typeof authLinkExpiredRoute
@@ -197,6 +213,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authLayoutRouteWithChildren
   '/(public)': typeof publicLayoutRouteWithChildren
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/(auth)/active': typeof authActiveRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/link-expired': typeof authLinkExpiredRoute
@@ -222,6 +240,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/$'
+    | '/404'
     | '/active'
     | '/forgot-password'
     | '/link-expired'
@@ -245,6 +265,8 @@ export interface FileRouteTypes {
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/$'
+    | '/404'
     | '/active'
     | '/forgot-password'
     | '/link-expired'
@@ -270,6 +292,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/(auth)'
     | '/(public)'
+    | '/$'
+    | '/404'
     | '/(auth)/active'
     | '/(auth)/forgot-password'
     | '/(auth)/link-expired'
@@ -296,6 +320,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   authLayoutRoute: typeof authLayoutRouteWithChildren
   publicLayoutRoute: typeof publicLayoutRouteWithChildren
+  SplatRoute: typeof SplatRoute
+  R404Route: typeof R404Route
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
   DemoTableRoute: typeof DemoTableRoute
@@ -304,6 +330,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(public)': {
       id: '/(public)'
       path: ''
@@ -525,6 +565,8 @@ const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   authLayoutRoute: authLayoutRouteWithChildren,
   publicLayoutRoute: publicLayoutRouteWithChildren,
+  SplatRoute: SplatRoute,
+  R404Route: R404Route,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
   DemoTableRoute: DemoTableRoute,
