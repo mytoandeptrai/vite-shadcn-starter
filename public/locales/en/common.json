@@ -126,7 +126,8 @@
     "forgot-password-success": "We will send the password reset instruction to your email if we find your account",
     "resend-forgot-password-success": "Password reset instruction sent successfully. Please check your inbox.",
     "two-fa-setup-success": "Two-factor authentication enabled successfully. Please login again to continue.",
-    "two-fa-disabled-success": "Two-factor authentication disabled successfully."
+    "two-fa-disabled-success": "Two-factor authentication disabled successfully.",
+    "require-two-fa-to-access": "Please enable two-factor authentication to access this feature."
   },
   "labels": {
     "all": "All",
@@ -235,7 +236,7 @@
     },
     "labels": {
       "view": "View",
-      "search": "Filter by {{key}}"
+      "search": "Search by {{key}}"
     }
   },
   "tokens": {

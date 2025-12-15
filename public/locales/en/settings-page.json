@@ -85,6 +85,11 @@
         "title": "Languages",
         "description": "Select the language you want to use in the system."
       },
+      "currencies": {
+        "title": "Currency",
+        "description": "Select the currency you want to use in the system.",
+        "placeholder": "Select currency"
+      },
       "security": {
         "title": "Security",
         "description": "Manage your security settings, including password and two-factor authentication."

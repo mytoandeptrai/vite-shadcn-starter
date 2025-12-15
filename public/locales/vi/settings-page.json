@@ -85,6 +85,11 @@
       "title": "Ngôn Ngữ",
       "description": "Chọn ngôn ngữ bạn muốn sử dụng trong hệ thống."
     },
+    "currencies": {
+      "title": "Tiền Tệ",
+      "description": "Chọn loại tiền tệ bạn muốn sử dụng trong hệ thống.",
+      "placeholder": "Chọn tiền tệ"
+    },
     "security": {
       "title": "Bảo Mật",
       "description": "Quản lý cài đặt bảo mật của bạn, bao gồm mật khẩu và xác thực hai yếu tố."

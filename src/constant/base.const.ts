@@ -55,3 +55,10 @@ export const messageError = {
   TOO_MANY_REQUESTS: "TOO_MANY_REQUESTS",
   BLACKLISTED_ADDRESS: "BLACKLISTED_ADDRESS",
 };
+
+export const CURRENCY_CODE_MAPPING: Record<string, string> = {
+  USDT: 'USD',
+  USDC: 'USD',
+  THB: 'THB',
+  VND: 'VND',
+}

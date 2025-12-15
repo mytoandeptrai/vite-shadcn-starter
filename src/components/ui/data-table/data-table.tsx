@@ -12,7 +12,6 @@ import { Show } from "@/components/utilities";
 import { PAGE_SIZE_OPTIONS } from "@/constant";
 import { useTranslation } from "@/integrations/i18n";
 import { cn } from "@/lib/utils";
-import { DebouncedInput } from "@/modules/demo-table/components/debounced-input";
 import { type RankingInfo, rankItem } from "@tanstack/match-sorter-utils";
 import {
   type ColumnDef,
@@ -27,9 +26,9 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
+import { Input } from "../input";
 import { Skeleton } from "../skeleton";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableViewOptions } from "./data-table-view-options";
 
 declare module "@tanstack/react-table" {
   interface FilterFns {
@@ -158,7 +157,7 @@ export default function DataTable<TData, TValue>({
       {children}
       <Show when={!!searchKey}>
         <div className="flex items-center py-4">
-          <DebouncedInput
+          <Input
             placeholder={t(`data-table.labels.search`, { key: searchKey })}
             value={searchValue ?? ""}
             onChange={(value) => {
@@ -166,7 +165,6 @@ export default function DataTable<TData, TValue>({
             }}
             className="w-60 md:w-80"
           />
-          <DataTableViewOptions table={table} />
         </div>
       </Show>
       <div className={cn("flex w-full flex-col gap-4", containerClassName)}>
