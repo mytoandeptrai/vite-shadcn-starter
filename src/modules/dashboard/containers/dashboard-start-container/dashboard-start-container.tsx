@@ -1,20 +1,15 @@
 import { Accordion } from "@/components/ui/accordion";
+import { PAGE_SIZE_OPTIONS, ROUTES } from "@/constant";
 import { useTranslation } from "@/integrations/i18n";
+import { useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import DashboardStartInfoUi from "../../components/dashboard-start-info-ui";
-import { useNavigate } from "@tanstack/react-router";
-import { ROUTES, PAGE_SIZE_OPTIONS } from "@/constant";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { toast } from "sonner";
 
 const DashboardStartContainer = () => {
-  const { user } = useAuthContext();
   const [completed] = useState({ wallet: false, apiKeys: false, sdk: false });
   const [activeItem, setActiveItem] = useState("wallet");
   const { t } = useTranslation("dashboard-page");
   const navigate = useNavigate();
-
-  const isEnabledTwoFa = user?.twoFAEnabled ?? false;
 
   const listMemo = useMemo(() => {
     return [
@@ -25,15 +20,6 @@ const DashboardStartContainer = () => {
         subLabel: t("start-guide.sub-labels.connect-wallet"),
         completed: completed.wallet,
         onClick: () => {
-          if (!isEnabledTwoFa) {
-            toast.error(
-              t("messages.require-two-fa-to-access", { ns: "common" })
-            );
-            return navigate({
-              to: ROUTES.SYSTEM,
-            });
-          }
-
           return navigate({
             to: ROUTES.WALLET_ADDRESS,
             search: {
@@ -54,14 +40,8 @@ const DashboardStartContainer = () => {
         subLabel: t("start-guide.sub-labels.create-api-keys"),
         completed: completed.apiKeys,
         onClick: () => {
-          const route = isEnabledTwoFa ? ROUTES.DEVELOPER : ROUTES.SYSTEM;
-          if (!isEnabledTwoFa) {
-            toast.error(
-              t("messages.require-two-fa-to-access", { ns: "common" })
-            );
-          }
           return navigate({
-            to: route,
+            to: ROUTES.DEVELOPER,
           });
         },
       },
@@ -72,19 +52,13 @@ const DashboardStartContainer = () => {
         subLabel: t("start-guide.sub-labels.download-sdk"),
         completed: completed.sdk,
         onClick: () => {
-          if (!isEnabledTwoFa) {
-            toast.error(
-              t("messages.require-two-fa-to-access", { ns: "common" })
-            );
-          }
-          const route = isEnabledTwoFa ? ROUTES.DEVELOPER : ROUTES.SYSTEM;
           return navigate({
-            to: route,
+            to: ROUTES.DEVELOPER,
           });
         },
       },
     ];
-  }, [t, completed.apiKeys, completed.sdk, completed.wallet, isEnabledTwoFa]);
+  }, [t, completed.apiKeys, completed.sdk, completed.wallet]);
 
   return (
     <div className="rounded-md border border-border bg-card p-6">

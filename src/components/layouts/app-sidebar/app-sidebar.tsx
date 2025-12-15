@@ -40,6 +40,7 @@ import {
   UserCircle2Icon,
 } from "lucide-react";
 import { navItems } from "./app-sidebar.config";
+import { Logo } from "@/components/ui/logo";
 
 const AppSidebar = () => {
   const location = useLocation();
@@ -53,14 +54,11 @@ const AppSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <CustomLink to={ROUTES.DASHBOARD}>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <User2 className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Your App</span>
-                  <span className="truncate text-xs">Dashboard</span>
-                </div>
+              <CustomLink
+                to={ROUTES.DASHBOARD}
+                className="flex items-center justify-center"
+              >
+                <Logo />
               </CustomLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -100,7 +98,7 @@ const AppSidebar = () => {
                               <CustomLink
                                 to={subItem.url}
                                 activeProps={{
-                                  className: "text-primary!",
+                                  className: "text-primary! font-bold!",
                                 }}
                               >
                                 <span>{subItem.title}</span>
@@ -122,7 +120,7 @@ const AppSidebar = () => {
                     <CustomLink
                       to={item.url}
                       activeProps={{
-                        className: "text-primary!",
+                        className: "text-primary! font-bold!",
                       }}
                     >
                       {Icon && <Icon />}
@@ -177,14 +175,14 @@ const AppSidebar = () => {
                   <DropdownMenuItem asChild>
                     <CustomLink to={ROUTES.PROFILE}>
                       <UserCircle2Icon className="mr-2 h-4 w-4" />
-                      {t('buttons.profile')}
+                      {t("buttons.profile")}
                     </CustomLink>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={onSignout}>
                   <LogOutIcon className="mr-2 h-4 w-4" />
-                  {t('buttons.signout')}
+                  {t("buttons.signout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

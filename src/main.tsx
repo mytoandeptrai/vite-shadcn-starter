@@ -3,17 +3,16 @@ import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import LoadingSpinner from './components/shared/loading-spinner/loading-spinner.tsx';
 import { ErrorBoundary } from './components/ui/error-boundary.tsx';
-import { Toaster } from './components/ui/sonner.tsx';
 import * as I18nProvider from './integrations/i18n/root-provider';
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx';
 import { ThemeProvider } from './integrations/theme/theme-provider.tsx';
 import reportWebVitals from './reportWebVitals.ts';
 // Import the generated route tree
-import { routeTree } from './routeTree.gen';
-import './styles.css';
 import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
 import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
 import RecaptchaProvider from './integrations/recaptcha/recaptcha-provider.tsx';
+import { routeTree } from './routeTree.gen';
+import './styles.css';
 
 // Create a new router instance
 
@@ -58,7 +57,6 @@ if (rootElement && !rootElement.innerHTML) {
                     <Suspense fallback={<LoadingSpinner />}>
                       <InnerApp />
                     </Suspense>
-                    <Toaster richColors position='top-right' />
                   </AuthProvider>
                 </DialogProvider>
               </RecaptchaProvider>

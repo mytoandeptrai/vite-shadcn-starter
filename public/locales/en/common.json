@@ -127,7 +127,9 @@
     "resend-forgot-password-success": "Password reset instruction sent successfully. Please check your inbox.",
     "two-fa-setup-success": "Two-factor authentication enabled successfully. Please login again to continue.",
     "two-fa-disabled-success": "Two-factor authentication disabled successfully.",
-    "require-two-fa-to-access": "Please enable two-factor authentication to access this feature."
+    "require-two-fa-to-access": "Please enable two-factor authentication to access this feature.",
+    "require-enable-two-fa": "Enable 2FA to proceed this action.",
+    "require-add-wallet": "Add a wallet address to proceed this action."
   },
   "labels": {
     "all": "All",
