@@ -25,7 +25,7 @@ const DashboardStartInfoUi = ({ item }: DashboardStartInfoUiProps) => {
             <p className='text-muted-foreground text-xs'>{item.subLabel}</p>
           </div>
         </div>
-        <Badge variant={item.completed ? 'default' : 'destructive'}>
+        <Badge variant={item.completed ? 'default' : 'secondary'}>
           {item.completed ? 'Completed' : 'Not started'}
         </Badge>
       </AccordionTrigger>
