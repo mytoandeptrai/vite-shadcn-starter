@@ -1,61 +1,75 @@
-import LoadingFluid from '@/components/shared/loading-fluid';
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useGetUserInfo, useSignout, type IUserInfo } from "@/apis/auth";
+import LoadingFluid from "@/components/shared/loading-fluid";
+import { ROUTES } from "@/constant";
+import { router } from "@/main";
+import { useSessionStore } from "@/stores/use-session-store";
+import { createContext, useContext, type ReactNode } from "react";
+import { getContext } from "../tanstack-query/root-provider";
+import { toast } from "sonner";
+import { useTranslation } from "../i18n";
 
 export type AuthContextState = {
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  isAuthenticating: boolean;
   isAuthenticated: boolean;
-  user: {
-    imageUrl: string;
-    fullName: string;
-    emailAddresses: {
-      emailAddress: string;
-    }[];
-  } | null;
+  user?: IUserInfo;
+  onRefetch: () => Promise<void>;
+  onSignout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const user = {
-    imageUrl: '',
-    fullName: 'John Doe',
-    emailAddresses: [{ emailAddress: 'john.doe@example.com' }],
+  const { t } = useTranslation('common');
+  const payload = useSessionStore();
+  const { queryClient } = getContext();
+
+  const signoutMutation = useSignout();
+
+  const { data, isLoading, refetch } = useGetUserInfo({
+    enabled: !!payload.accessToken,
+  });
+  const userData = data?.data;
+
+  const onRefetch = async () => {
+    await refetch();
   };
 
-  const login = async (email: string, password: string) => {
-    // TODO: Implement http login logic
-    // eslint-disable-next-line no-console
-    console.log(email, password);
+  const onSignout = async () => {
+    if (signoutMutation.isPending || !payload.refreshToken) return;
+    // await signoutMutation.mutateAsync({
+    //   refreshToken: payload.refreshToken!,
+    // });
+    toast.success(t('messages.signout-success', { ns: 'common' }));
+    queryClient.cancelQueries({});
+    queryClient.removeQueries({});
+    payload.reset();
+    router.navigate({
+      to: ROUTES.LOGIN,
+      replace: true,
+    });
   };
 
-  const logout = async () => {
-    // TODO: Implement http logout logic
+  const contextValue: AuthContextState = {
+    isAuthenticating: isLoading,
+    isAuthenticated: !!payload.accessToken && !isLoading && !!userData,
+    user: userData,
+    onRefetch,
+    onSignout,
   };
-
-  useEffect(() => {
-    const verifySession = async () => {
-      // TODO: Implement http verify session logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsLoading(false);
-    };
-    verifySession();
-  }, []);
-
-  const contextValue: AuthContextState = { logout, login, isAuthenticated: false, user };
 
   if (isLoading) {
     return <LoadingFluid />;
   }
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 }
 
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    throw new Error("useAuthContext must be used within an AuthProvider");
   }
   return context;
 }

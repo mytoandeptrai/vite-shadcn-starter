@@ -1,8 +1,16 @@
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import {
+  Line,
+  LineChart,
+  CartesianGrid,
+  XAxis,
+} from 'recharts';
 
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-
-export const description = 'A stacked area chart';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from '@/components/ui/chart';
 
 type DashboardChartUiProps = {
   data: {
@@ -15,41 +23,47 @@ type DashboardChartUiProps = {
 
 const DashboardChartUi = ({ data, chartConfig }: DashboardChartUiProps) => {
   return (
-    <ChartContainer config={chartConfig} className='h-[300px] w-full'>
-      <AreaChart
-        accessibilityLayer
+    <ChartContainer config={chartConfig} className="h-[300px] w-full">
+      <LineChart
         data={data}
-        margin={{
-          left: 12,
-          right: 12,
-        }}
+        margin={{ left: 12, right: 12 }}
       >
-        <CartesianGrid vertical={false} />
+        <CartesianGrid
+          vertical={false}
+          strokeOpacity={0.3}
+        />
+
         <XAxis
-          dataKey='month'
+          dataKey="month"
           tickLine={false}
           axisLine={false}
           tickMargin={8}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='dot' />} />
-        <Area
-          dataKey='mobile'
-          type='natural'
-          fill='var(--color-mobile)'
-          fillOpacity={0.4}
-          stroke='var(--color-mobile)'
-          stackId='a'
+
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent indicator="dot" />}
         />
-        <Area
-          dataKey='desktop'
-          type='natural'
-          fill='var(--color-desktop)'
-          fillOpacity={0.4}
-          stroke='var(--color-desktop)'
-          stackId='a'
+
+        <Line
+          type="monotone"
+          dataKey="mobile"
+          stroke="var(--color-mobile)"
+          strokeWidth={2}
+          dot={false}
+          activeDot={{ r: 4 }}
         />
-      </AreaChart>
+
+        <Line
+          type="monotone"
+          dataKey="desktop"
+          stroke="var(--color-desktop)"
+          strokeWidth={2}
+          dot={false}
+          activeDot={{ r: 4 }}
+        />
+      </LineChart>
     </ChartContainer>
   );
 };

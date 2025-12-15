@@ -1,0 +1,152 @@
+{
+  "setting": {
+    "title": "Cài Đặt",
+    "description": "Thiết lập và quản lý các tùy chỉnh tài khoản của bạn.",
+    "profile": {
+      "title": "Cài Đặt Hồ Sơ",
+      "description": "Cập nhật thông tin cá nhân, email, mật khẩu và ảnh đại diện."
+    },
+    "system": {
+      "title": "Cài Đặt Hệ Thống",
+      "description": "Quản lý các tùy chọn ở cấp hệ thống, bao gồm ngôn ngữ và bảo mật."
+    }
+  },
+  "profile": {
+    "title": "Cài Đặt Hồ Sơ",
+    "description": "Cập nhật thông tin cá nhân, email, mật khẩu và ảnh đại diện.",
+    "password": {
+      "title": "Cài Đặt Mật Khẩu",
+      "description": "Cập nhật mật khẩu của bạn",
+      "fields": {
+        "new-password": {
+          "label": "Mật khẩu mới",
+          "placeholder": "Nhập mật khẩu mới"
+        },
+        "confirmNewPassword": {
+          "label": "Xác nhận mật khẩu mới",
+          "placeholder": "Nhập lại mật khẩu mới"
+        }
+      }
+    },
+    "personal": {
+      "title": "Thông Tin Cá Nhân",
+      "description": "Cập nhật thông tin cá nhân của bạn",
+      "fields": {
+        "firstName": {
+          "label": "Tên",
+          "placeholder": "Nhập tên của bạn"
+        },
+        "lastName": {
+          "label": "Họ",
+          "placeholder": "Nhập họ của bạn"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Nhập email của bạn"
+        }
+      }
+    },
+    "avatar": {
+      "title": "Ảnh Đại Diện",
+      "description": "Cập nhật ảnh đại diện của bạn"
+    },
+    "errors": {
+      "MSG-1.3": "Họ và tên không được vượt quá 100 ký tự.",
+      "MSG-1.4": "Họ và tên không được chứa chữ số.",
+      "MSG-1.5": "Họ và tên không được chứa ký tự đặc biệt.",
+      "MSG-1.7": "Họ không được vượt quá 100 ký tự.",
+      "MSG-1.8": "Họ không được chứa chữ số.",
+      "MSG-1.9": "Họ không được chứa ký tự đặc biệt.",
+      "MSG-1.10": "Định dạng email không hợp lệ.",
+      "MSG-1.14": "Mật khẩu mới phải có độ dài từ 8 đến 50 ký tự.",
+      "MSG-1.15": "Mật khẩu phải bao gồm ít nhất 1 chữ hoa, chữ thường, số và ký tự đặc biệt.",
+      "MSG-1.19": "Mật khẩu mới không được chứa dấu cách.",
+      "MSG-1.20": "Mật khẩu xác nhận không khớp.",
+      "MSG-1.21": "Mật khẩu mới không được trùng với mật khẩu cũ."
+    },
+    "validation": {
+      "required": "Trường này là bắt buộc",
+      "minLength": "Yêu cầu tối thiểu {{min}} ký tự",
+      "maxLength": "Tối đa {{max}} ký tự được phép",
+      "passwordMatch": "Mật khẩu không khớp",
+      "invalidFormat": "Định dạng không hợp lệ"
+    },
+    "buttons": {
+      "update-password": "Cập Nhật Mật Khẩu",
+      "update-personal-information": "Cập Nhật Thông Tin Cá Nhân",
+      "update-avatar": "Lưu Ảnh Đại Diện"
+    }
+  },
+  "system": {
+  "title": "Cài Đặt Hệ Thống",
+  "description": "Quản lý các tùy chọn cấp hệ thống, bao gồm ngôn ngữ và các tùy chọn bảo mật.",
+  "labels": {
+    "languages": {
+      "title": "Ngôn Ngữ",
+      "description": "Chọn ngôn ngữ bạn muốn sử dụng trong hệ thống."
+    },
+    "currencies": {
+      "title": "Tiền Tệ",
+      "description": "Chọn loại tiền tệ bạn muốn sử dụng trong hệ thống.",
+      "placeholder": "Chọn tiền tệ"
+    },
+    "security": {
+      "title": "Bảo Mật",
+      "description": "Quản lý cài đặt bảo mật của bạn, bao gồm mật khẩu và xác thực hai yếu tố."
+    },
+    "two-fa": {
+      "title": "Xác Thực Hai Yếu Tố",
+      "description": "Bật hoặc tắt xác thực hai yếu tố cho tài khoản của bạn.",
+      "steps": {
+        "1": "Tải Ứng Dụng",
+        "2": "Quét Mã QR",
+        "3": "Lưu Khóa Dự Phòng",
+        "4": "Hoàn Tất"
+      },
+      "labels": {
+        "2fa": "2FA",
+        "authenticator-disabled": "Bạn chưa bật Google Authenticator",
+        "authenticator-enabled": "Bạn đã bật Google Authenticator",
+        "requesting-disable-2fa": "Yêu cầu tắt Google Authenticator của bạn đang chờ phê duyệt",
+        "enable-google-authentication": "Bật Google Authenticator",
+        "instruction1": "Tải và cài đặt ứng dụng Google Authenticator",
+        "instruction2": "Quét mã QR này bằng Google Authenticator",
+        "instruction3": "Vui lòng lưu lại khóa này để dùng làm dự phòng",
+        "step2-message": "Nếu bạn không thể quét mã QR,<br/> hãy nhập mã này thủ công vào ứng dụng.",
+        "step3-message": "Khóa này sẽ cho phép bạn khôi phục<br/> Google Authenticator như một phương thức dự phòng.",
+        "step4-message": "Bạn đã bật Google Authenticator."
+      },
+      "remove-modal": {
+        "title": "Gỡ Bỏ Xác Thực Hai Yếu Tố",
+        "description": "Bạn có chắc chắn muốn gỡ bỏ xác thực hai yếu tố không? Hành động này không thể hoàn tác.",
+        "fields": {
+            "password": {
+              "label": "Mật khẩu",
+              "placeholder": "Nhập mật khẩu của bạn"
+            }
+          },
+          "errors": {
+            "MSG-1.14": "Mật khẩu phải có độ dài từ 8 đến 50 ký tự.",
+            "MSG-1.15": "Mật khẩu phải bao gồm ít nhất 1 chữ hoa, chữ thường, số và ký tự đặc biệt.",
+            "MSG-1.19": "Mật khẩu không được chứa dấu cách.",
+            "MSG-1.20": "Mật khẩu không khớp."
+          },
+          "validation": {
+            "required": "Trường này là bắt buộc",
+            "minLength": "Yêu cầu tối thiểu {{min}} ký tự",
+            "maxLength": "Tối đa {{max}} ký tự được phép",
+            "passwordMatch": "Mật khẩu không khớp",
+            "invalidFormat": "Định dạng không hợp lệ"
+          }
+      }
+    }
+  },
+  "buttons": {
+    "update-language": "Cập Nhật Ngôn Ngữ",
+    "update-security": "Cập Nhật Bảo Mật",
+    "enable-two-fa": "Bật 2FA",
+    "remove-two-fa": "Gỡ Bỏ 2FA"
+  }
+}
+
+}

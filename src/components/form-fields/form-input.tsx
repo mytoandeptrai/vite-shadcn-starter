@@ -32,6 +32,7 @@ function FormInput<
   max,
   disabled,
   className,
+  readOnly,
 }: FormInputProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -53,6 +54,7 @@ function FormInput<
               min={min}
               max={max}
               disabled={disabled}
+              readOnly={readOnly}
               {...field}
               onChange={(e) => {
                 if (type === 'number') {

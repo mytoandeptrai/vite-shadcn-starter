@@ -1,0 +1,17 @@
+export const KEYS = {
+  WALLET_ADDRESS: "/wallet-addresses",
+  WALLET_ADDRESS_DETAIL: "/wallet-addresses/:id",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  REFRESH_TOKEN: "/refresh-token",
+  VERIFY: "/verify",
+  RESEND_VERIFICATION: "/resend-verification",
+  FORGOT_PASSWORD: "/forgot-password",
+  RESET_PASSWORD: "/reset-password",
+  TWO_FA_VERIFY: "/2fa/verify",
+  TWO_FA_VERIFY_SETUP: "/2fa/verify-setup",
+  TWO_FA_SETUP: "/2fa/setup",
+  TWO_FA_DISABLE: "/2fa/disable",
+  INFO: "/info",
+  SIGN_OUT: "/sign-out",
+};

@@ -1,20 +1,27 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { initialFormData, twoFaFormSchema, type TwoFaFormData } from './schema';
-import { useTranslation } from '@/integrations/i18n';
-import { useForm } from 'react-hook-form';
-import type { TwoFaDialogProps } from '../components/two-fa-dialog';
-import { useState } from 'react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { initialFormData, twoFaFormSchema, type TwoFaFormData } from "./schema";
+import { useTranslation } from "@/integrations/i18n";
+import { useForm } from "react-hook-form";
+import type { TwoFaDialogProps } from "../components/two-fa-dialog";
+import { useState } from "react";
+import { useVerifySetup } from "@/apis/auth";
 
-export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, onClose }: TwoFaDialogProps) => {
+export const useTwoFaDialog = ({
+  skipInitVerification,
+  closeOnSubmit,
+  onSubmit,
+  onClose,
+}: TwoFaDialogProps) => {
   const { t } = useTranslation();
   const [isGenerating2FaOtpCode, setIsGenerating2FaOtpCode] = useState(false);
 
-  const isLoading = false;
+  const verifySetupMutation = useVerifySetup();
+  const isLoading = verifySetupMutation.isPending;
 
   const form = useForm<TwoFaFormData>({
     resolver: zodResolver(twoFaFormSchema(t)),
     defaultValues: initialFormData,
-    mode: 'onChange',
+    mode: "onChange",
   });
 
   const submit = async (data: TwoFaFormData) => {
@@ -24,12 +31,12 @@ export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, 
     if (!skipInitVerification) {
       if (!code) return;
       /** TODO: Implement API here */
-      const res = { data: {} };
+      const res = await verifySetupMutation.mutateAsync({ code });
       isVerified = !!res.data;
 
       setIsGenerating2FaOtpCode(true);
       /** TODO: Implement API here */
-      const _res = { data: { code: '123456' } };
+      const _res = { data: { code: "123456" } };
       setIsGenerating2FaOtpCode(false);
       _code = _res.data?.code ?? null;
     } else {

@@ -5,6 +5,8 @@
         "continue": "Continue"
     },
     "start-guide": {
+        "title": "Get started with PWC Merchant",
+        "description": "Complete these steps to start accepting payments",
         "sub-labels": {
             "connect-wallet": "Connect your crypto wallet",
             "create-api-keys": "Create keys for your integration",
@@ -17,7 +19,7 @@
         },
         "descriptions": {
             "add-wallet-address": "Add your crypto wallet address to receive payments",
-            "generate-api-keys": "Generate API keys for server-to-server communication",
+            "generate-apiKeys": "Generate API keys for server-to-server communication",
             "download-sdk": "Quick integration with our SDK"
         }
     },

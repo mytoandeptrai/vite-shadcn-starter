@@ -65,7 +65,7 @@ interface ParagraphProps {
 }
 
 export function Paragraph({ children, className, color = 'default', size = 'default', as = 'p' }: ParagraphProps) {
-  const paragraphStyles = cva('font-geist', {
+  const paragraphStyles = cva('', {
     variants: {
       color: {
         default: 'text-foreground',

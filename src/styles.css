@@ -50,6 +50,8 @@ code {
   --sidebar-accent-foreground: #18181b;
   --sidebar-border: #e4e4e7;
   --sidebar-ring: #d4d4d8;
+  --color-mobile: #6366f1;   /* indigo-500 */
+  --color-desktop: #a855f7;  /* purple-500 */
 }
 
 .dark {
@@ -85,6 +87,8 @@ code {
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #27272a;
   --sidebar-ring: #52525c;
+  --color-mobile: #818cf8;   /* indigo-400 */
+  --color-desktop: #c084fc;  /* purple-400 */
 }
 
 @theme inline {
@@ -124,6 +128,8 @@ code {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-mobile: var(--color-mobile);
+  --color-desktop: var(--color-desktop);
 }
 
 @layer base {
@@ -186,4 +192,17 @@ img {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+::-webkit-scrollbar {
+  @apply w-2.5 h-2.5;
+ 
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-border border-[1px] border-transparent border-solid bg-clip-padding;
 }

@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as R404RouteImport } from './routes/404'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
@@ -16,7 +18,8 @@ import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-qu
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
-import { Route as publicProfileRouteImport } from './routes/(public)/profile'
+import { Route as publicWalletAddressRouteImport } from './routes/(public)/wallet-address'
+import { Route as publicTransactionsRouteImport } from './routes/(public)/transactions'
 import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
 import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
 import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
@@ -28,7 +31,20 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
+import { Route as publicSettingsIndexRouteImport } from './routes/(public)/settings/index'
+import { Route as publicSettingsSystemRouteImport } from './routes/(public)/settings/system'
+import { Route as publicSettingsProfileRouteImport } from './routes/(public)/settings/profile'
 
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const publicLayoutRoute = publicLayoutRouteImport.update({
   id: '/(public)',
   getParentRoute: () => rootRouteImport,
@@ -62,9 +78,14 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicProfileRoute = publicProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const publicWalletAddressRoute = publicWalletAddressRouteImport.update({
+  id: '/wallet-address',
+  path: '/wallet-address',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicTransactionsRoute = publicTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
   getParentRoute: () => publicLayoutRoute,
 } as any)
 const publicDeveloperRoute = publicDeveloperRouteImport.update({
@@ -122,8 +143,25 @@ const authActiveRoute = authActiveRouteImport.update({
   path: '/active',
   getParentRoute: () => authLayoutRoute,
 } as any)
+const publicSettingsIndexRoute = publicSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicSettingsSystemRoute = publicSettingsSystemRouteImport.update({
+  id: '/settings/system',
+  path: '/settings/system',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
+const publicSettingsProfileRoute = publicSettingsProfileRouteImport.update({
+  id: '/settings/profile',
+  path: '/settings/profile',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/active': typeof authActiveRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/link-expired': typeof authLinkExpiredRoute
@@ -135,14 +173,20 @@ export interface FileRoutesByFullPath {
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
   '/developer': typeof publicDeveloperRoute
-  '/profile': typeof publicProfileRoute
+  '/transactions': typeof publicTransactionsRoute
+  '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
+  '/settings/profile': typeof publicSettingsProfileRoute
+  '/settings/system': typeof publicSettingsSystemRoute
+  '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/active': typeof authActiveRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/link-expired': typeof authLinkExpiredRoute
@@ -154,17 +198,23 @@ export interface FileRoutesByTo {
   '/balance': typeof publicBalanceRoute
   '/dashboard': typeof publicDashboardRoute
   '/developer': typeof publicDeveloperRoute
-  '/profile': typeof publicProfileRoute
+  '/transactions': typeof publicTransactionsRoute
+  '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
+  '/settings/profile': typeof publicSettingsProfileRoute
+  '/settings/system': typeof publicSettingsSystemRoute
+  '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authLayoutRouteWithChildren
   '/(public)': typeof publicLayoutRouteWithChildren
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
   '/(auth)/active': typeof authActiveRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/link-expired': typeof authLinkExpiredRoute
@@ -176,16 +226,22 @@ export interface FileRoutesById {
   '/(public)/balance': typeof publicBalanceRoute
   '/(public)/dashboard': typeof publicDashboardRoute
   '/(public)/developer': typeof publicDeveloperRoute
-  '/(public)/profile': typeof publicProfileRoute
+  '/(public)/transactions': typeof publicTransactionsRoute
+  '/(public)/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/(public)/': typeof publicIndexRoute
+  '/(public)/settings/profile': typeof publicSettingsProfileRoute
+  '/(public)/settings/system': typeof publicSettingsSystemRoute
+  '/(public)/settings/': typeof publicSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/$'
+    | '/404'
     | '/active'
     | '/forgot-password'
     | '/link-expired'
@@ -197,14 +253,20 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
-    | '/profile'
+    | '/transactions'
+    | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/'
+    | '/settings/profile'
+    | '/settings/system'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/$'
+    | '/404'
     | '/active'
     | '/forgot-password'
     | '/link-expired'
@@ -216,16 +278,22 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
-    | '/profile'
+    | '/transactions'
+    | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/'
+    | '/settings/profile'
+    | '/settings/system'
+    | '/settings'
   id:
     | '__root__'
     | '/(auth)'
     | '/(public)'
+    | '/$'
+    | '/404'
     | '/(auth)/active'
     | '/(auth)/forgot-password'
     | '/(auth)/link-expired'
@@ -237,17 +305,23 @@ export interface FileRouteTypes {
     | '/(public)/balance'
     | '/(public)/dashboard'
     | '/(public)/developer'
-    | '/(public)/profile'
+    | '/(public)/transactions'
+    | '/(public)/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/(public)/'
+    | '/(public)/settings/profile'
+    | '/(public)/settings/system'
+    | '/(public)/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   authLayoutRoute: typeof authLayoutRouteWithChildren
   publicLayoutRoute: typeof publicLayoutRouteWithChildren
+  SplatRoute: typeof SplatRoute
+  R404Route: typeof R404Route
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
   DemoTableRoute: typeof DemoTableRoute
@@ -256,6 +330,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(public)': {
       id: '/(public)'
       path: ''
@@ -305,11 +393,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/profile': {
-      id: '/(public)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof publicProfileRouteImport
+    '/(public)/wallet-address': {
+      id: '/(public)/wallet-address'
+      path: '/wallet-address'
+      fullPath: '/wallet-address'
+      preLoaderRoute: typeof publicWalletAddressRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/transactions': {
+      id: '/(public)/transactions'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof publicTransactionsRouteImport
       parentRoute: typeof publicLayoutRoute
     }
     '/(public)/developer': {
@@ -389,6 +484,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authActiveRouteImport
       parentRoute: typeof authLayoutRoute
     }
+    '/(public)/settings/': {
+      id: '/(public)/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof publicSettingsIndexRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/settings/system': {
+      id: '/(public)/settings/system'
+      path: '/settings/system'
+      fullPath: '/settings/system'
+      preLoaderRoute: typeof publicSettingsSystemRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
+    '/(public)/settings/profile': {
+      id: '/(public)/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof publicSettingsProfileRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
   }
 }
 
@@ -422,16 +538,24 @@ interface publicLayoutRouteChildren {
   publicBalanceRoute: typeof publicBalanceRoute
   publicDashboardRoute: typeof publicDashboardRoute
   publicDeveloperRoute: typeof publicDeveloperRoute
-  publicProfileRoute: typeof publicProfileRoute
+  publicTransactionsRoute: typeof publicTransactionsRoute
+  publicWalletAddressRoute: typeof publicWalletAddressRoute
   publicIndexRoute: typeof publicIndexRoute
+  publicSettingsProfileRoute: typeof publicSettingsProfileRoute
+  publicSettingsSystemRoute: typeof publicSettingsSystemRoute
+  publicSettingsIndexRoute: typeof publicSettingsIndexRoute
 }
 
 const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicBalanceRoute: publicBalanceRoute,
   publicDashboardRoute: publicDashboardRoute,
   publicDeveloperRoute: publicDeveloperRoute,
-  publicProfileRoute: publicProfileRoute,
+  publicTransactionsRoute: publicTransactionsRoute,
+  publicWalletAddressRoute: publicWalletAddressRoute,
   publicIndexRoute: publicIndexRoute,
+  publicSettingsProfileRoute: publicSettingsProfileRoute,
+  publicSettingsSystemRoute: publicSettingsSystemRoute,
+  publicSettingsIndexRoute: publicSettingsIndexRoute,
 }
 
 const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
@@ -441,6 +565,8 @@ const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   authLayoutRoute: authLayoutRouteWithChildren,
   publicLayoutRoute: publicLayoutRouteWithChildren,
+  SplatRoute: SplatRoute,
+  R404Route: R404Route,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
   DemoTableRoute: DemoTableRoute,

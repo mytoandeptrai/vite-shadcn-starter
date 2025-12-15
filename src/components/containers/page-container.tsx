@@ -63,9 +63,7 @@ export const PageContainer: FCC<PageContainerProps> = ({
               <SectionHeading>{pageTitle ?? ''}</SectionHeading>
             </Show>
             <Show when={!!pageDescription}>
-              <Paragraph size='sm' className='mt-2 text-muted-foreground'>
-                {pageDescription ?? ''}
-              </Paragraph>
+              <Paragraph size='sm' className='mt-2 text-muted-foreground'>{pageDescription ?? ''}</Paragraph>
             </Show>
           </div>
           {pageHeaderAction ? <div>{pageHeaderAction}</div> : null}

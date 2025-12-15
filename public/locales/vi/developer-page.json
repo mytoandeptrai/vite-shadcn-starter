@@ -1,0 +1,78 @@
+{
+  "title": "Nhà Phát Triển",
+  "description": "Quản lý tài nguyên nhà phát triển của bạn",
+  "labels": {
+    "api-keys": "API Keys",
+    "wallet-address": "Địa Chỉ Ví",
+    "transactions": "Giao Dịch",
+    "created-at": "Ngày Tạo",
+    "used-at": "Đã Sử Dụng"
+  },
+  "actions": {
+    "add": "Thêm",
+    "edit": "Chỉnh Sửa",
+    "delete": "Xóa"
+  },
+  "api-keys": {
+    "labels": {
+      "title": "API Keys",
+      "description": "API Keys được sử dụng để xác thực các yêu cầu của bạn đến API",
+      "public-key": "Public Key",
+      "secret-key": "Secret Key",
+      "secret-key-description": "Giữ bí mật key của bạn an toàn và không bao giờ chia sẻ công khai."
+    },
+    "actions": {
+      "generate-new-key": "Tạo Secret Key Mới"
+    },
+    "dialogs": {
+      "generate-new-key": {
+        "title": "Tạo Secret Key Mới",
+        "description": "Các key hiện tại của bạn sẽ ngừng hoạt động ngay lập tức."
+      }
+    }
+  },
+  "api-urls": {
+    "labels": {
+      "title": "API URLs",
+      "description": "API URLs được sử dụng để xác thực các yêu cầu của bạn đến API",
+      "notify-url": "Notify URL",
+      "return-url": "Return URL"
+    },
+    "actions": {
+      "update-urls": "Cập Nhật URLs"
+    },
+    "dialogs": {
+      "update-urls": {
+        "title": "Cập Nhật URLs",
+        "description": "Các URL hiện tại của bạn sẽ được cập nhật ngay lập tức.",
+        "fields": {
+          "notify-url": {
+            "label": "Notify URL",
+            "placeholder": "Nhập Notify URL"
+          },
+          "return-url": {
+            "label": "Return URL",
+            "placeholder": "Nhập Return URL"
+          }
+        }
+      }
+    }
+  },
+  "sdks": {
+    "title": "SDKs",
+    "description": "Thư viện và công cụ để tương tác với giải pháp thanh toán crypto PWC.",
+    "modal": {
+      "version": "Phiên Bản",
+      "language": "Ngôn Ngữ",
+      "platform": "Nền Tảng",
+      "documentation": "Tài Liệu",
+      "documentationDescription": "Xem tài liệu đầy đủ và hướng dẫn tích hợp cho SDK này.",
+      "viewDocumentation": "Xem Tài Liệu",
+      "download": "Tải Xuống",
+      "downloadDescription": "Tải xuống phiên bản mới nhất của SDK này hoặc xem trên GitHub.",
+      "downloadSDK": "Tải SDK",
+      "viewOnGithub": "Xem trên GitHub",
+      "close": "Đóng"
+    }
+  }
+}

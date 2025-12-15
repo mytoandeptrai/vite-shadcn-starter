@@ -1,35 +1,43 @@
-import { useEffect } from 'react';
+import { useVerify } from "@/apis/auth";
+import { ROUTES } from "@/constant";
+import { useTranslation } from "@/integrations/i18n";
+import { useNavigate } from "@tanstack/react-router";
+import type { AxiosError } from "axios";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 type Props = {
-  email?: string;
-  code?: number;
-  to?: string;
+  token?: string;
 };
 
 export const useActiveContainer = (props: Props) => {
-  const { email, code, to } = props;
+  const { token } = props;
+  const { t } = useTranslation("common");
+  const navigate = useNavigate();
+
+  const verifyMutation = useVerify();
 
   useEffect(() => {
-    const activeUserRequest = async () => {
-      /** Todo: request base on email and code */
-      console.log('🚀 ~ activeUserRequest ~ email:', email);
-      console.log('🚀 ~ activeUserRequest ~ code:', code);
-    };
-
-    const forgotPasswordRequest = async () => {
-      /** Todo: request base on email and code */
-      console.log('🚀 ~ forgotPasswordRequest ~ email:', email);
-      console.log('🚀 ~ forgotPasswordRequest ~ code:', code);
-    };
-
-    if (to === 'activate') {
-      activeUserRequest();
-    }
-
-    if (to === 'forgot-password') {
-      forgotPasswordRequest();
-    }
-  }, [email, code, to]);
+    (async () => {
+      try {
+        await verifyMutation.mutateAsync({ token: token! });
+        toast.success(t("messages.active-success", { ns: "common" }));
+        navigate({
+          to: ROUTES.LOGIN,
+        });
+      } catch (e) {
+        const error = e as AxiosError;
+        if (+(error?.code ?? 0) === 1007) {
+          navigate({
+            to: ROUTES.LINK_EXPIRED,
+            search: {
+              email: "example@gmail.com",
+            },
+          });
+        }
+      }
+    })();
+  }, [token]);
 
   return {};
 };

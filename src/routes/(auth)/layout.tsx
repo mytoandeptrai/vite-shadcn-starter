@@ -1,6 +1,6 @@
-import { createFileRoute, Outlet, redirect, useLocation } from '@tanstack/react-router';
-import { useTranslation } from '@/integrations/i18n';
 import { ROUTES } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { createFileRoute, Outlet, redirect, useLocation } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/(auth)')({
   beforeLoad: ({ context, location }) => {

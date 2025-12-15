@@ -1,4 +1,5 @@
 import { FormInput } from '@/components/form-fields/form-input';
+import { FormSelect } from '@/components/form-fields/form-select';
 import { Button } from '@/components/ui/button';
 import { FormWrapper } from '@/components/ui/form';
 import { Modal } from '@/components/ui/modal';
@@ -12,11 +13,12 @@ export type BalanceWithdrawUiProps = React.ComponentProps<typeof DialogPrimitive
   onSubmit?: (code?: string) => void;
   onClose?: () => void;
   max: number;
+  selectedToken: string;
 };
 
 const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
-  const { open, onClose, max } = props;
-  const { t, form, isLoading, submit } = useBalanceWithdraw({ onClose, max });
+  const { open, onClose, max, selectedToken } = props;
+  const { t, form, isLoading, walletTokenOptions, submit } = useBalanceWithdraw({ onClose, max, selectedToken });
 
   return (
     <Modal
@@ -26,25 +28,45 @@ const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
       onClose={onClose ?? (() => {})}
     >
       <FormWrapper className='space-y-4' form={form} onSubmit={submit}>
-        <FormInput
+        <div className='flex items-start gap-1'>
+          <FormInput
+            control={form.control}
+            disabled={isLoading}
+            name='amount'
+            type='number'
+            label={t('dialogs.balance-withdraw.fields.amount.label')}
+            placeholder={t('dialogs.balance-withdraw.fields.amount.placeholder')}
+            className='flex-1'
+            required
+          />
+          <Button
+            className='mt-8 w-fit'
+            type='button'
+            variant='ghost'
+            size='sm'
+            onClick={() => form.setValue('amount', max, { shouldValidate: true })}
+          >
+            {t('buttons.max', { ns: 'common' })}
+          </Button>
+        </div>
+        <FormSelect
           control={form.control}
-          disabled={isLoading}
-          name='amount'
-          type="number"
-          label={t('dialogs.balance-withdraw.fields.amount.label')}
-          placeholder={t('dialogs.balance-withdraw.fields.amount.placeholder')}
-          required
+          name='address'
+          options={walletTokenOptions}
+          label={t('dialogs.balance-withdraw.fields.address.label')}
+          placeholder={t('dialogs.balance-withdraw.fields.address.placeholder')}
+          selectClassName='h-12! w-full'
         />
         <div className='flex items-center justify-between gap-2'>
-        <Button className='w-1/2' size='lg' type='button' variant='outline' disabled={isLoading} onClick={onClose}>
-          {t('buttons.cancel', {ns: "common"})}
-        </Button>
-        <Button className='w-1/2' size='lg' type='submit' disabled={isLoading}>
-          <Show when={isLoading}>
-            <Spinner />
-          </Show>
-          {t('buttons.ok', {ns: "common"})}
-        </Button>
+          <Button className='w-1/2' size='lg' type='button' variant='outline' disabled={isLoading} onClick={onClose}>
+            {t('buttons.cancel', { ns: 'common' })}
+          </Button>
+          <Button className='w-1/2' size='lg' type='submit' disabled={isLoading}>
+            <Show when={isLoading}>
+              <Spinner />
+            </Show>
+            {t('buttons.ok', { ns: 'common' })}
+          </Button>
         </div>
       </FormWrapper>
     </Modal>

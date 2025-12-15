@@ -9,7 +9,11 @@ import axios, {
 import qs from 'qs';
 import { env } from '@/constant';
 
-import type { TOptional } from '@/types';
+import type { BaseResponseType, TOptional } from '@/types';
+import { toast } from 'sonner';
+import { i18n } from '@/integrations/i18n';
+import { checkURLAndError } from './http-instance.helper';
+import { useSessionStore } from '@/stores/use-session-store';
 
 type TFailedRequests = {
   resolve: (value: AxiosResponse) => void;
@@ -33,6 +37,15 @@ type TRefreshToKenResponse = {
 export enum ECookie {
   ACCESS_TOKEN = 'access_token',
   REFRESH_TOKEN = 'refresh_token',
+}
+
+type ErrorResponseData = {
+  retryAfter?: number;
+  blockDuration?: number;
+}
+
+type ErrorResponse = Omit<BaseResponseType<null>, 'data'> & {
+  data?: ErrorResponseData;
 }
 
 class HttpInstance {
@@ -96,10 +109,10 @@ class HttpInstance {
   }
 
   private readonly onRequest = async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
-    const token = localStorage.getItem(ECookie.ACCESS_TOKEN);
+    const accessToken = useSessionStore.getState().accessToken;
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
     return config;
@@ -113,7 +126,6 @@ class HttpInstance {
 
   private readonly onResponse = (response: AxiosResponse) => {
     const { url } = response.config;
-    const result = response.data;
 
     const isExistedRefreshTokenCount = this.refreshTokenCount.has(url);
 
@@ -121,15 +133,27 @@ class HttpInstance {
       this.refreshTokenCount.set(url, 0);
     }
 
-    return result;
+    return response.data;
   };
 
   private readonly onResponseError = async (error: AxiosError) => {
     const originalRequest = error.config!;
-    const { url } = originalRequest;
-    const data = error.response?.data as any;
+    const url = originalRequest?.url;
+    const data = error.response?.data as unknown as ErrorResponse;
+    const errorCode = error?.message;
+    const errorMessageKey = (() => {
+      const msgKey = `errors.code.${errorCode}`;
+      return !i18n.exists(msgKey) ? 'errors.common.general' : `errors.code.${errorCode}`;
+    })();
 
-    if (data.statusCode !== 401) {
+    checkURLAndError(String(originalRequest?.url), String(errorCode), () => {
+      return toast.error(i18n.t(errorMessageKey))
+    });
+
+    return Promise.reject(data);
+
+    /** Handle 401 refresh later */
+    if (data.code !== 401) {
       return Promise.reject(data);
     }
 
@@ -156,7 +180,7 @@ class HttpInstance {
     this.isTokenRefreshing = true;
 
     try {
-      const refreshToken = localStorage.getItem(ECookie.REFRESH_TOKEN) ?? '';
+      const refreshToken = useSessionStore.getState().refreshToken;
       const urlEndpoint = `${this.baseURL}/auth/refresh`;
 
       const response = await axios.post(
@@ -225,6 +249,10 @@ class HttpInstance {
 
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.instance.delete(url, config);
+  }
+
+  public async put<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
+    return this.instance.put(url, data, config);
   }
 }
 

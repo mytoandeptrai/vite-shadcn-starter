@@ -11,6 +11,10 @@
         "with-draw": "Withdraw",
         "max": "max"
     },
+    "options": {
+        "placeholder": "Select a balance",
+        "label": "Balance"
+    },
     "dialogs": {
         "balance-withdraw": {
             "title": "Withdraw",
@@ -19,6 +23,10 @@
                 "amount": {
                     "label": "Amount",
                     "placeholder": "Enter the amount"
+                },
+                "address": {
+                    "label": "Address",
+                    "placeholder": "Select an address"
                 }
             }
         }

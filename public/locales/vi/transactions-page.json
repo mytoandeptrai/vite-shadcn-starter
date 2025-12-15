@@ -1,0 +1,54 @@
+{
+  "title": "Giao Dịch",
+  "description": "Xem và quản lý tất cả các giao dịch thanh toán và chi trả của bạn.",
+  "tabs": {
+    "payments": "Thanh Toán",
+    "payouts": "Chi Trả",
+    "allActivity": "Tất Cả Hoạt Động"
+  },
+  "table": {
+    "headers": {
+      "type": "Loại",
+      "amount": "Số Tiền",
+      "status": "Trạng Thái",
+      "date": "Ngày"
+    }
+  },
+  "filters": {
+    "search": {
+      "placeholder": "Tìm kiếm giao dịch..."
+    },
+    "status": {
+      "label": "Trạng Thái",
+      "placeholder": "Chọn trạng thái"
+    },
+    "type": {
+      "label": "Loại",
+      "placeholder": "Chọn loại"
+    },
+    "dateRange": {
+      "label": "Khoảng Thời Gian",
+      "placeholder": "Chọn khoảng thời gian"
+    }
+  },
+  "status": {
+    "completed": "Hoàn Thành",
+    "pending": "Đang Chờ",
+    "failed": "Thất Bại",
+    "cancelled": "Đã Hủy",
+    "all": "Tất Cả"
+  },
+  "types": {
+    "payment": "Thanh Toán",
+    "payout": "Chi Trả",
+    "all": "Tất Cả"
+  },
+  "labels": {
+    "status": "Trạng Thái",
+    "type": "Loại"
+  },
+  "placeholder": {
+    "search": "Tìm kiếm giao dịch...",
+    "dateRange": "Chọn khoảng thời gian"
+  }
+}

@@ -11,6 +11,10 @@
       "with-draw": "Rút tiền",
       "max": "Tối đa"
     },
+    "options": {
+      "placeholder": "Chọn số dư",
+      "label": "Số dư"
+    },
     "dialogs": {
       "balance-withdraw": {
         "title": "Rút tiền",
@@ -19,6 +23,10 @@
           "amount": {
             "label": "Số tiền",
             "placeholder": "Nhập số tiền"
+          },
+          "address": {
+            "label": "Địa chỉ",
+            "placeholder": "Chọn địa chỉ"
           }
         }
       }
