@@ -19,8 +19,8 @@ export interface GetTransactionListParams {
   sortBy?: string;
   sortOrder?: 'desc' | 'asc';
   search?: string;
-  type?: TransactionType;
-  status?: TransactionStatus;
+  type?: string[];
+  status?: string[];
   dateFrom?: string;
   dateTo?: string;
 }

@@ -35,10 +35,20 @@
     "completed": "Hoàn Thành",
     "pending": "Đang Chờ",
     "failed": "Thất Bại",
-    "cancelled": "Đã Hủy"
+    "cancelled": "Đã Hủy",
+    "all": "Tất Cả"
   },
   "types": {
     "payment": "Thanh Toán",
-    "payout": "Chi Trả"
+    "payout": "Chi Trả",
+    "all": "Tất Cả"
+  },
+  "labels": {
+    "status": "Trạng Thái",
+    "type": "Loại"
+  },
+  "placeholder": {
+    "search": "Tìm kiếm giao dịch...",
+    "dateRange": "Chọn khoảng thời gian"
   }
 }

@@ -1,9 +1,10 @@
-import type { ITransaction } from '@/apis/transactions';
-import { DataTable } from '@/components/ui/data-table';
-import { useTranslation } from '@/integrations/i18n';
-import type { SortingState } from '@tanstack/react-table';
-import { useMemo } from 'react';
-import { createColumns } from './create-columns';
+import type { ITransaction } from "@/apis/transactions";
+import { DataTable } from "@/components/ui/data-table";
+import { useTranslation } from "@/integrations/i18n";
+import type { SortingState } from "@tanstack/react-table";
+import { useMemo } from "react";
+import TableFilterContainer from "../table-filter-container";
+import { createColumns } from "./create-columns";
 
 export type TransactionTableContainerProps = {
   onPaginationChange: (page: number, pageSize: number) => void;
@@ -28,17 +29,12 @@ const TransactionTableContainer = ({
   tableData,
   onPaginationChange,
   onSortingChange,
-  searchValue,
-  onSearchValueChange,
 }: TransactionTableContainerProps) => {
-  const { t } = useTranslation('transactions-page');
+  const { t } = useTranslation("transactions-page");
   const columns = useMemo(() => createColumns({ t }), [t]);
 
   return (
     <DataTable
-      searchKey="transactions"
-      searchValue={searchValue}
-      onSearchValueChange={onSearchValueChange}
       columns={columns}
       data={tableData.data}
       pagination={tableData.pagination}
@@ -46,7 +42,9 @@ const TransactionTableContainer = ({
       isDataFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
-    />
+    >
+      <TableFilterContainer />
+    </DataTable>
   );
 };
 

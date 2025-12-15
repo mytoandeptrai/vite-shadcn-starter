@@ -1,14 +1,12 @@
-import {
-  useGetTransactionList
-} from '@/apis/transactions';
-import { PAGE_SIZE_OPTIONS } from '@/constant';
-import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/transactions';
-import type { SortingState } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useGetTransactionList } from "@/apis/transactions";
+import { PAGE_SIZE_OPTIONS } from "@/constant";
+import { useTranslation } from "@/integrations/i18n";
+import { Route } from "@/routes/(public)/transactions";
+import type { SortingState } from "@tanstack/react-table";
+import { useMemo } from "react";
 
 export const usePayoutsContainer = () => {
-  const { t } = useTranslation('transactions-page');
+  const { t } = useTranslation("transactions-page");
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -18,13 +16,14 @@ export const usePayoutsContainer = () => {
     sortBy: search.sortBy,
     sortOrder: search.sortOrder,
     search: search.search,
-    type: 'payout' as const,
-    status: search.status as any,
+    type: search.type ? search.type.filter((el) => Boolean(el)) : [],
+    status: search.status ? search.status.filter((el) => Boolean(el)) : [],
     dateFrom: search.dateFrom,
     dateTo: search.dateTo,
   };
 
-  const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);
+  const { data, isFetching, isLoading, refetch } =
+    useGetTransactionList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -43,7 +42,7 @@ export const usePayoutsContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          sortOrder: updatedSorting[0].desc ? "desc" : "asc",
         },
         replace: true,
       });
@@ -51,23 +50,12 @@ export const usePayoutsContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
-          sortBy: 'createdAt',
+          sortOrder: "desc",
+          sortBy: "createdAt",
         },
         replace: true,
       });
     }
-  };
-
-  const onSearchValueChange = (val: string) => {
-    navigate({
-      search: {
-        ...search,
-        search: val,
-        page: 1,
-      },
-      replace: true,
-    });
   };
 
   const tableData = useMemo(() => {
@@ -86,10 +74,8 @@ export const usePayoutsContainer = () => {
     isLoading,
     isFetching,
     tableData,
-    searchValue: search.search,
     onPaginationChange,
     onSortingChange,
-    onSearchValueChange,
     refetch,
   };
 };

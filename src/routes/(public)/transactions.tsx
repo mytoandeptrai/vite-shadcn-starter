@@ -10,8 +10,8 @@ const transactionsSearchSchema = z.object({
   sortBy: z.string().optional(),
   sortOrder: z.union([z.literal('asc'), z.literal('desc'), z.undefined()]),
   search: z.string().optional(),
-  status: z.string().optional(),
-  type: z.string().optional(),
+  status: z.array(z.string()).optional(),
+  type: z.array(z.string()).optional(),
   dateFrom: z.string().optional(),
   dateTo: z.string().optional(),
 });

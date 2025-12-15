@@ -6,10 +6,8 @@ const AllActivityContainer = () => {
     isLoading,
     isFetching,
     tableData,
-    searchValue,
     onPaginationChange,
     onSortingChange,
-    onSearchValueChange,
   } = useAllActivityContainer();
 
   return (
@@ -19,8 +17,6 @@ const AllActivityContainer = () => {
       isFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
-      searchValue={searchValue}
-      onSearchValueChange={onSearchValueChange}
     />
   );
 };

@@ -6,10 +6,8 @@ const PayoutsContainer = () => {
     isLoading,
     isFetching,
     tableData,
-    searchValue,
     onPaginationChange,
     onSortingChange,
-    onSearchValueChange,
   } = usePayoutsContainer();
 
   return (
@@ -19,8 +17,6 @@ const PayoutsContainer = () => {
       isFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
-      searchValue={searchValue}
-      onSearchValueChange={onSearchValueChange}
     />
   );
 };
