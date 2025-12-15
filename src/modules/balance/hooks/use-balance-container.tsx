@@ -46,7 +46,8 @@ export const useBalanceContainer = () => {
             sortBy: "createdAt",
             sortOrder: "desc",
             search: "",
-            forceAddWallet: true
+            forceAddWallet: true,
+            blockChain: []
           }}
           className="hover:underline"
         >

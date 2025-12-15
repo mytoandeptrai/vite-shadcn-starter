@@ -11,14 +11,22 @@ import { KEYS, useUpdateUserInfo } from "@/apis/auth";
 import { useAuthContext } from "@/integrations/auth/auth-provider";
 import { getContext } from "@/integrations/tanstack-query/root-provider";
 import isEqual from "lodash/isEqual";
+import { useDialogContext } from "@/integrations/dialog/dialog-provider";
+import { toast } from "sonner";
+import { Link } from "@tanstack/react-router";
+import { ROUTES } from "@/constant";
 
 export const useProfilePersonalContainer = () => {
   const { t } = useTranslation("settings-page");
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
+
   const { user, onRefetch } = useAuthContext();
+  const { onOpenTwoFAModal, onCloseModal } = useDialogContext();
   const { queryClient } = getContext();
+
   const updateUserInfoMutation = useUpdateUserInfo();
   const isLoading = updateUserInfoMutation.isPending;
+  const isEnabledTwoFa = user?.twoFAEnabled ?? false;
 
   const form = useForm<PersonalFormData>({
     resolver: zodResolver(personalFormSchema(t)),
@@ -29,8 +37,8 @@ export const useProfilePersonalContainer = () => {
   const onSubmit = async (data: PersonalFormData) => {
     if (
       isEqual(data, {
-        firstName: user?.name?.split(" ")[0] ?? "",
-        lastName: user?.name?.split(" ")[1] ?? "",
+        firstName: user?.firstname ?? "",
+        lastName: user?.lastname ?? "",
         email: user?.email,
       })
     ) {
@@ -38,24 +46,39 @@ export const useProfilePersonalContainer = () => {
       return;
     }
 
-    try {
-      await updateUserInfoMutation.mutateAsync({
-        email: data.email,
-        name: `${data.firstName} ${data.lastName}`,
-      });
-      queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
-      onRefetch();
-      setIsUpdated(false);
-    } catch (error) {
-      console.error(error);
+    if (!isEnabledTwoFa) {
+      toast.error(
+        <Link to={ROUTES.SYSTEM} className="hover:underline">
+          {t("messages.require-enable-two-fa", { ns: "common" })}
+        </Link>
+      );
+      return;
     }
+
+    onOpenTwoFAModal({
+      forceOpen: true,
+      skipInitVerification: true,
+      closeOnSubmit: false,
+      cb: async (code) => {
+        await updateUserInfoMutation.mutateAsync({
+          email: data.email,
+          firstname: data.firstName,
+          lastname: data.lastName,
+          twoFACode: code!,
+        });
+        queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
+        onRefetch();
+        setIsUpdated(false);
+        onCloseModal();
+      },
+    });
   };
 
   const onCancel = () => {
     setIsUpdated(false);
     form.reset({
-      firstName: user?.name?.split(" ")[0] ?? "",
-      lastName: user?.name?.split(" ")[1] ?? "",
+      firstName: user?.firstname ?? "",
+      lastName: user?.lastname ?? "",
       email: user?.email,
     });
   };
@@ -63,8 +86,8 @@ export const useProfilePersonalContainer = () => {
   useEffect(() => {
     if (user) {
       form.reset({
-        firstName: user?.name?.split(" ")[0] ?? "",
-        lastName: user?.name?.split(" ")[1] ?? "",
+        firstName: user?.firstname ?? "",
+        lastName: user?.lastname ?? "",
         email: user?.email,
       });
     }

@@ -9,6 +9,8 @@ export interface IUserInfo {
   createdAt: string;
   updatedAt: string;
   imageUrl?: string;
+  firstname: string;
+  lastname: string;
 }
 
 export interface LoginParams {
@@ -18,12 +20,15 @@ export interface LoginParams {
 
 export interface UpdateUserInfoParams {
   email: string;
-  name: string;
+  firstname: string;
+  lastname: string;
+  twoFACode: string;
 }
 
 export interface RegisterParams {
   email: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   password: string;
   confirmPassword: string;
 }
