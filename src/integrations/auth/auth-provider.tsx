@@ -36,9 +36,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const onSignout = async () => {
     if (signoutMutation.isPending || !payload.refreshToken) return;
-    // await signoutMutation.mutateAsync({
-    //   refreshToken: payload.refreshToken!,
-    // });
+    await signoutMutation.mutateAsync({
+      refreshToken: payload.refreshToken!,
+    });
     toast.success(t('messages.signout-success', { ns: 'common' }));
     queryClient.cancelQueries({});
     queryClient.removeQueries({});
