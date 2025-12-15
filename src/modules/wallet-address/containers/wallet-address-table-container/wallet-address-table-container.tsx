@@ -4,6 +4,7 @@ import { useTranslation } from "@/integrations/i18n";
 import type { SortingState } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { createColumns } from "./create-columns";
+import TableFilterContainer from "../table-filter-container";
 
 export type WalletAddressTableContainerProps = {
   onPaginationChange: (page: number, pageSize: number) => void;
@@ -20,8 +21,6 @@ export type WalletAddressTableContainerProps = {
       pageCount: number;
     };
   };
-  searchValue?: string;
-  onSearchValueChange?: (value: string) => void;
 };
 
 const WalletAddressTableContainer = ({
@@ -32,8 +31,6 @@ const WalletAddressTableContainer = ({
   onSortingChange,
   onEdit,
   onDelete,
-  searchValue,
-  onSearchValueChange,
 }: WalletAddressTableContainerProps) => {
   const { t } = useTranslation("wallet-address-page");
   const columns = useMemo(
@@ -43,9 +40,6 @@ const WalletAddressTableContainer = ({
 
   return (
     <DataTable
-      searchKey="address"
-      searchValue={searchValue}
-      onSearchValueChange={onSearchValueChange}
       columns={columns}
       data={tableData.data}
       pagination={tableData.pagination}
@@ -53,7 +47,9 @@ const WalletAddressTableContainer = ({
       isDataFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
-    />
+    >
+      <TableFilterContainer />
+    </DataTable>
   );
 };
 

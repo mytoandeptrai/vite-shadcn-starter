@@ -51,5 +51,11 @@
       "label": "Token",
       "placeholder": "Select your token"
     }
+  },
+  "labels": {
+    "blockchain": "Blockchain"
+  },
+  "placeholder": {
+    "search": "Search wallet address..."
   }
 }

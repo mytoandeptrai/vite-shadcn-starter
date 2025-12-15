@@ -12,10 +12,8 @@ const WalletAddressContainer = () => {
     tableData,
     editingWalletAddress,
     actionType,
-    searchValue,
     onRefetch,
     onPaginationChange,
-    onSearchValueChange,
     onSortingChange,
     onEdit,
     onDelete,
@@ -34,8 +32,6 @@ const WalletAddressContainer = () => {
           isFetching={isFetching}
           onPaginationChange={onPaginationChange}
           onSortingChange={onSortingChange}
-          searchValue={searchValue}
-          onSearchValueChange={onSearchValueChange}
           onEdit={onEdit}
           onDelete={onDelete}
         />

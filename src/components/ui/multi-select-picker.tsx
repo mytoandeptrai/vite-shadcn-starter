@@ -151,7 +151,7 @@ export default function MultiSelectPicker({
                       className={cn(
                         "border-primary flex size-4 items-center justify-center rounded-sm border",
                         isSelected
-                          ? "bg-primary"
+                          ? "bg-primary [&_svg]:text-white"
                           : "opacity-50 [&_svg]:invisible"
                       )}
                     >

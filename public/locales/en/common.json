@@ -247,7 +247,8 @@
   },
   "chains": {
     "ETH": "Ethereum",
-    "BNB": "Binance Smart Chain"
+    "BNB": "Binance Smart Chain",
+    "ALL": "All"
   },
   "chains-token": {
     "BNB-USDT": "BNB-USDT",
