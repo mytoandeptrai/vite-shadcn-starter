@@ -49,8 +49,8 @@ export interface Option<T> {
 export type CommonRequestType = {
   page?: number;
   pageSize?: number;
-  sort_by?: string;
-  order_by?: "desc" | "asc";
+  sortBy?: string;
+  orderBy?: "desc" | "asc";
   fields?: string;
   search?: string;
 };

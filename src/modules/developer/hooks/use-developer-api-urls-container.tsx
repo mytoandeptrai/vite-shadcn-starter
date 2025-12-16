@@ -1,19 +1,15 @@
-import { useTranslation } from "@/integrations/i18n";
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import {
-  developerApiUrlsFormSchema,
-  initialFormData,
-  type DeveloperApiUrlsFormData,
-} from "./schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { toast } from "sonner";
-import { Link } from "@tanstack/react-router";
-import { ROUTES } from "@/constant";
+import { useTranslation } from '@/integrations/i18n';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { developerApiUrlsFormSchema, initialFormData, type DeveloperApiUrlsFormData } from './schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { toast } from 'sonner';
+import { Link } from '@tanstack/react-router';
+import { ROUTES } from '@/constant';
 
 export const useDeveloperApiUrlsContainer = () => {
-  const { t } = useTranslation("developer-page");
+  const { t } = useTranslation('developer-page');
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const { user } = useAuthContext();
@@ -21,13 +17,13 @@ export const useDeveloperApiUrlsContainer = () => {
 
   /** TODO: Request API here */
   const isLoading = false;
-  const notifyUrl = "https://api.example.com/notify";
-  const returnUrl = "https://api.example.com/return";
+  const notifyUrl = 'https://api.example.com/notify';
+  const returnUrl = 'https://api.example.com/return';
 
   const form = useForm<DeveloperApiUrlsFormData>({
     resolver: zodResolver(developerApiUrlsFormSchema(t)),
     defaultValues: initialFormData,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const submit = async (data: DeveloperApiUrlsFormData) => {
@@ -44,8 +40,8 @@ export const useDeveloperApiUrlsContainer = () => {
   const onOpenDialog = useCallback(() => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className="hover:underline">
-          {t("messages.require-enable-two-fa", { ns: "common" })}
+        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+          {t('messages.require-enable-two-fa', { ns: 'common' })}
         </Link>
       );
       return;
@@ -58,7 +54,7 @@ export const useDeveloperApiUrlsContainer = () => {
       previousReturnUrl: returnUrl,
     });
     setIsOpenDialog(true);
-  }, [form.reset]);
+  }, [form.reset, isEnabledTwoFa, t]);
 
   return {
     t,

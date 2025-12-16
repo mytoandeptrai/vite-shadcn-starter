@@ -139,6 +139,7 @@ const registerFormSchema = (t: TFunction) => z
         ns: "common"
       }),
     }),
+    type: z.string().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.password) {
@@ -160,6 +161,7 @@ const initialFormData: RegisterFormData = {
   email: '',
   password: '',
   confirmPassword: '',
+  type: 'merchant'
 };
 
 export { registerFormSchema, type RegisterFormData, initialFormData };

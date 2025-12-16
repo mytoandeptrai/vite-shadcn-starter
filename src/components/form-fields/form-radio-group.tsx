@@ -5,6 +5,7 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { BaseFormFieldProps, RadioGroupOption } from '@/types/base-form';
+import { cn } from '@/lib/utils';
 
 interface FormRadioGroupProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -12,6 +13,7 @@ interface FormRadioGroupProps<
 > extends BaseFormFieldProps<TFieldValues, TName> {
   options: RadioGroupOption[];
   orientation?: 'horizontal' | 'vertical';
+  optionClassName?: string;
 }
 
 function FormRadioGroup<
@@ -27,6 +29,7 @@ function FormRadioGroup<
   orientation = 'vertical',
   disabled,
   className,
+  optionClassName,
 }: FormRadioGroupProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -49,7 +52,7 @@ function FormRadioGroup<
               className={orientation === 'horizontal' ? 'flex flex-row space-x-6' : 'space-y-2'}
             >
               {options.map((option) => (
-                <div key={option.value} className='flex items-center space-x-2'>
+                <div key={option.value} className={cn('flex items-center space-x-2', optionClassName)}>
                   <RadioGroupItem value={option.value} id={`${name}-${option.value}`} disabled={option.disabled} />
                   <Label
                     htmlFor={`${name}-${option.value}`}

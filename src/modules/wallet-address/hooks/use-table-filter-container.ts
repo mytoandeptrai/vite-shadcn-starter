@@ -3,8 +3,7 @@ import { Route } from "@/routes/(public)/wallet-address";
 import type { Option } from "@/types";
 import type { TFunction } from "i18next";
 import { useMemo } from "react";
-const BLOCKCHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t("chains.ALL", { ns: "common" }), value: "" },
+const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
   { label: t("chains.ETH", { ns: "common" }), value: "eth" },
   { label: t("chains.BNB", { ns: "common" }), value: "bnb" },
 ];
@@ -16,7 +15,7 @@ export const useTableFilterContainer = () => {
 
   const options = useMemo(
     () => ({
-      blockChain: BLOCKCHAIN_OPTIONS(t),
+      chain: CHAIN_OPTIONS(t),
     }),
     [t]
   );
@@ -28,9 +27,9 @@ export const useTableFilterContainer = () => {
     });
   };
 
-  const onBlockChainValueChange = (blockChain?: string[]) => {
+  const onChainValueChange = (chain?: string[]) => {
     navigate({
-      search: { ...search, blockChain: blockChain ?? undefined },
+      search: { ...search, chain: chain ?? undefined },
       replace: true,
     });
   };
@@ -39,8 +38,8 @@ export const useTableFilterContainer = () => {
     t,
     options,
     searchValue: search.search,
-    selectedBlockChain: search.blockChain,
+    selectedChain: search.chain,
     onSearchValueChange,
-    onBlockChainValueChange,
+    onChainValueChange,
   };
 };

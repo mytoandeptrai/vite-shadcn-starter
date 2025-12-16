@@ -22,6 +22,12 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
           ns: 'common',
         }),
       }),
+      label: z.string().min(1, {
+        message: t('errors.common.field-required', {
+          field: t('fields.label.label'),
+          ns: 'common',
+        }),
+      }),
       token: z.string().min(1, {
         message: t('errors.common.field-required', {
           field: t('fields.token.label'),
@@ -50,6 +56,7 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
 type WalletAddressCreateFormData = z.infer<ReturnType<typeof walletAddressCreateFormSchema>>;
 
 const initialWalletAddressCreateFormData: WalletAddressCreateFormData = {
+  label: '',
   address: '',
   chain: '',
   id: '',

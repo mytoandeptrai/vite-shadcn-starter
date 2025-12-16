@@ -13,11 +13,12 @@ type WalletAddressFormContainerProps = {
   onClose: () => void;
   onSuccess?: () => void;
   initialData?: Partial<IWalletAddress>;
-  actionType: 'create' | 'update' | 'delete' | null;
+  actionType: 'create' | 'update' | 'delete' | 'activate' | 'deactivate' | null;
 };
 
 const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
-  const { t, isLoading, form, options, tokenOptions, onCloseDialog, onSubmit, onSubmitDialog } = useWalletAddressFormContainer(props);
+  const { t, isLoading, form, options, tokenOptions, onCloseDialog, onSubmit, onSubmitDialog } =
+    useWalletAddressFormContainer(props);
 
   return (
     <Modal
@@ -28,30 +29,40 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
     >
       <FormWrapper form={form} onSubmit={onSubmit}>
         <div className='space-y-4'>
-          <Show when={props.actionType !== 'delete'}>
-          <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-            <FormSelect
-              control={form.control}
-              name='chain'
-              label={t('fields.blockchain.label')}
-              placeholder={t('fields.blockchain.placeholder')}
-              options={options}
-              required
-              selectClassName='w-full'
-            />
-            <FormSelect
-              control={form.control}
-              name='token'
-              label={t('fields.token.label')}
-              placeholder={t('fields.token.placeholder')}
-              options={tokenOptions}
-              required
-              selectClassName='w-full'
-            />
-          </div>
+          <Show when={['create', 'update'].includes(props.actionType ?? '')}>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+              <FormSelect
+                control={form.control}
+                name='chain'
+                label={t('fields.chain.label')}
+                placeholder={t('fields.chain.placeholder')}
+                options={options}
+                disabled={isLoading || props.actionType === 'update'}
+                required
+                selectClassName='w-full'
+              />
+              <FormSelect
+                control={form.control}
+                name='token'
+                label={t('fields.token.label')}
+                placeholder={t('fields.token.placeholder')}
+                options={tokenOptions}
+                disabled={isLoading || props.actionType === 'update'}
+                required
+                selectClassName='w-full'
+              />
+            </div>
             <FormInput
               control={form.control}
               disabled={isLoading}
+              name='label'
+              label={t('fields.label.label')}
+              placeholder={t('fields.label.placeholder')}
+              required
+            />
+            <FormInput
+              control={form.control}
+              disabled={isLoading || props.actionType === 'update'}
               name='address'
               label={t('fields.wallet-address.label')}
               placeholder={t('fields.wallet-address.placeholder')}

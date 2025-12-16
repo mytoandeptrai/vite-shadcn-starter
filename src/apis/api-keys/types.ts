@@ -1,17 +1,25 @@
-import type { BaseResponseType } from "@/types";
+import type { BaseResponseType } from '@/types';
 
 export interface ApiKey {
-  active: boolean;
-  createdAt: string;
-  environment: string;
-  expiresAt: string;
-  id: number;
-  key: string;
-  keyType: string;
-  lastUsedAt: string;
-  name: string;
-  permissions: string[];
-  rateLimitBucket: number;
+  MerchantID: number;
+  Name: string;
+  Key: string;
+  KeyHash: string;
+  KeyType: string;
+  KeyPrefix: string;
+  PairedKeyID: number;
+  Active: boolean;
+  SecretHash: string;
+  Environment: string;
+  Permissions: string[];
+  RateLimitBucket: number;
+  ExpiresAt: string;
+  LastUsedAt: string | null;
+  AllowedIPs: string[];
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: string | null;
 }
 
 export interface ApiKeyMetrics {
@@ -26,13 +34,14 @@ export interface CreateApiKeyParams {
   environment: string;
   expiresIn: number;
   permissions: string[];
+  twoFACode: string;
 }
 
 export interface ApiKeyDetailParams {
   id: string;
 }
 
-export type GetApiKeysResponse = BaseResponseType<ApiKey[]>;
+export type GetApiKeysResponse = BaseResponseType<{ keys: ApiKey[] }>;
 
 export type GetApiKeyResponse = BaseResponseType<ApiKey>;
 

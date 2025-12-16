@@ -15,10 +15,9 @@ const WalletAddressContainer = () => {
     onRefetch,
     onPaginationChange,
     onSortingChange,
-    onEdit,
-    onDelete,
     onClose,
     onCreate,
+    onAction,
   } = useWalletAddressContainer();
   return (
     <PageContainer pageTitle={t("title")} pageDescription={t("description")}>
@@ -32,8 +31,7 @@ const WalletAddressContainer = () => {
           isFetching={isFetching}
           onPaginationChange={onPaginationChange}
           onSortingChange={onSortingChange}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onAction={onAction}
         />
         <WalletAddressFormContainer
           open={!!actionType}

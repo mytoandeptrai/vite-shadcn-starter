@@ -31,6 +31,7 @@ export interface RegisterParams {
   lastname: string;
   password: string;
   confirmPassword: string;
+  userType?: string;
 }
 
 export interface ResendVerificationParams {
@@ -52,6 +53,10 @@ export interface VerifyParams {
 }
 
 export interface VerifyTwoFaSetupParams {
+  code: string;
+}
+
+export interface VerifyTwoFaSessionParams {
   code: string;
 }
 

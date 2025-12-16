@@ -17,5 +17,6 @@ export const ROUTES = {
   SYSTEM: '/settings/system',
   DEVELOPER: '/developer',
   NOT_FOUND: '/404',
+  MERCHANTS: '/merchants'
 } as const;
   

@@ -5,6 +5,7 @@ import type {
   CreateApiKeyParams,
   GetApiKeyMetricsResponse,
   GetApiKeyResponse,
+  GetApiKeysResponse,
 } from "./types";
 
 export const createApiKey = (
@@ -13,6 +14,12 @@ export const createApiKey = (
 ) => {
   return httpInstance
     .post<GetApiKeyResponse>(KEYS.API_KEYS, params, { signal })
+    .then((res) => res);
+};
+
+export const getApiKeys = (signal?: AbortSignal) => {
+  return httpInstance
+    .get<GetApiKeysResponse>(KEYS.API_KEYS, { signal })
     .then((res) => res);
 };
 

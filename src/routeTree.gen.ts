@@ -32,6 +32,7 @@ import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expire
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
 import { Route as publicSettingsIndexRouteImport } from './routes/(public)/settings/index'
+import { Route as publicMerchantsIndexRouteImport } from './routes/(public)/merchants/index'
 import { Route as publicSettingsSystemRouteImport } from './routes/(public)/settings/system'
 import { Route as publicSettingsProfileRouteImport } from './routes/(public)/settings/profile'
 
@@ -148,6 +149,11 @@ const publicSettingsIndexRoute = publicSettingsIndexRouteImport.update({
   path: '/settings/',
   getParentRoute: () => publicLayoutRoute,
 } as any)
+const publicMerchantsIndexRoute = publicMerchantsIndexRouteImport.update({
+  id: '/merchants/',
+  path: '/merchants/',
+  getParentRoute: () => publicLayoutRoute,
+} as any)
 const publicSettingsSystemRoute = publicSettingsSystemRouteImport.update({
   id: '/settings/system',
   path: '/settings/system',
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/': typeof publicIndexRoute
   '/settings/profile': typeof publicSettingsProfileRoute
   '/settings/system': typeof publicSettingsSystemRoute
+  '/merchants': typeof publicMerchantsIndexRoute
   '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -207,6 +214,7 @@ export interface FileRoutesByTo {
   '/': typeof publicIndexRoute
   '/settings/profile': typeof publicSettingsProfileRoute
   '/settings/system': typeof publicSettingsSystemRoute
+  '/merchants': typeof publicMerchantsIndexRoute
   '/settings': typeof publicSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/(public)/': typeof publicIndexRoute
   '/(public)/settings/profile': typeof publicSettingsProfileRoute
   '/(public)/settings/system': typeof publicSettingsSystemRoute
+  '/(public)/merchants/': typeof publicMerchantsIndexRoute
   '/(public)/settings/': typeof publicSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/'
     | '/settings/profile'
     | '/settings/system'
+    | '/merchants'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/'
     | '/settings/profile'
     | '/settings/system'
+    | '/merchants'
     | '/settings'
   id:
     | '__root__'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/(public)/'
     | '/(public)/settings/profile'
     | '/(public)/settings/system'
+    | '/(public)/merchants/'
     | '/(public)/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -491,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof publicSettingsIndexRouteImport
       parentRoute: typeof publicLayoutRoute
     }
+    '/(public)/merchants/': {
+      id: '/(public)/merchants/'
+      path: '/merchants'
+      fullPath: '/merchants'
+      preLoaderRoute: typeof publicMerchantsIndexRouteImport
+      parentRoute: typeof publicLayoutRoute
+    }
     '/(public)/settings/system': {
       id: '/(public)/settings/system'
       path: '/settings/system'
@@ -543,6 +562,7 @@ interface publicLayoutRouteChildren {
   publicIndexRoute: typeof publicIndexRoute
   publicSettingsProfileRoute: typeof publicSettingsProfileRoute
   publicSettingsSystemRoute: typeof publicSettingsSystemRoute
+  publicMerchantsIndexRoute: typeof publicMerchantsIndexRoute
   publicSettingsIndexRoute: typeof publicSettingsIndexRoute
 }
 
@@ -555,6 +575,7 @@ const publicLayoutRouteChildren: publicLayoutRouteChildren = {
   publicIndexRoute: publicIndexRoute,
   publicSettingsProfileRoute: publicSettingsProfileRoute,
   publicSettingsSystemRoute: publicSettingsSystemRoute,
+  publicMerchantsIndexRoute: publicMerchantsIndexRoute,
   publicSettingsIndexRoute: publicSettingsIndexRoute,
 }
 

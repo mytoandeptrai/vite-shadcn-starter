@@ -10,6 +10,7 @@ export const KEYS = {
   RESET_PASSWORD: "/reset-password",
   TWO_FA_VERIFY: "/2fa/verify",
   TWO_FA_VERIFY_SETUP: "/2fa/verify-setup",
+  TWO_FA_VERIFY_SESSION: "/2fa/verify-session",
   TWO_FA_SETUP: "/2fa/setup",
   TWO_FA_DISABLE: "/2fa/disable",
   INFO: "/info",

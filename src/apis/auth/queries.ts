@@ -17,6 +17,7 @@ import {
   updateUserInfo,
   verify,
   verifyTwoFa,
+  verifyTwoFaSession,
   verifyTwoFaSetup,
 } from "./requests";
 import type {
@@ -32,6 +33,7 @@ import type {
   UpdateUserInfoParams,
   VerifyParams,
   VerifyTwoFaParams,
+  VerifyTwoFaSessionParams,
   VerifyTwoFaSetupParams,
 } from "./types";
 
@@ -131,3 +133,10 @@ export const useUpdateUserInfo = () => {
     mutationFn: (data: UpdateUserInfoParams) => updateUserInfo(data),
   });
 } 
+
+export const useVerifyTwoFaSession = () => {
+  return useMutation({
+    mutationKey: [KEYS.TWO_FA_VERIFY_SESSION],
+    mutationFn: (data: VerifyTwoFaSessionParams) => verifyTwoFaSession(data),
+  });
+}

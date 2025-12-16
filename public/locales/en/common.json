@@ -112,6 +112,21 @@
       "REDEEM_REQUEST_LIMIT": "You have reached limit of redemption requests.",
       "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded."
     },
+    "validations": {
+      "MSG-1.3": "First name must not exceed 100 characters.",
+      "MSG-1.4": "First name cannot contain numbers.",
+      "MSG-1.5": "First name cannot contain special characters.",
+      "MSG-1.7": "Last name must not exceed 100 characters.",
+      "MSG-1.8": "Last name cannot contain numbers.",
+      "MSG-1.9": "Last name cannot contain special characters.",
+      "MSG-1.10": "Invalid email format.",
+      "MSG-1.14": "Password must be between 8 and 50 characters in length.",
+      "MSG-1.15": "Use at least 1 uppercase, lowercase, numbers & symbols.",
+      "MSG-1.17": "Entity name must not exceed 100 characters.",
+      "MSG-1.18": "Entity name cannot contain numbers.",
+      "MSG-1.19": "Password cannot contain space.",
+      "MSG-1.20": "Passwords do not match."
+    },
     "messages": {
       "you-do-not-have-access-to-this-page": "You do not have access to this page.",
       "copied-to-clipboard": "Copied to clipboard"
@@ -151,7 +166,8 @@
     "wallet-address": "Wallet Address",
     "developer": "Developer",
     "system": "System",
-    "no-options": "No options"
+    "no-options": "No options",
+    "merchants": "Merchants"
   },
   "buttons": {
     "continue": "Continue",

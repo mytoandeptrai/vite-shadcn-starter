@@ -35,6 +35,7 @@ export const useRegisterContainer = () => {
         confirmPassword: data.confirmPassword,
         firstname: data.firstName,
         lastname: data.lastName,
+        userType: data.type
       };
       await registerMutation.mutateAsync(payload);
       const timeStamp = Date.now();

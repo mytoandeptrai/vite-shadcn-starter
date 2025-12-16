@@ -1,37 +1,28 @@
-import {
-  useGetWalletAddressList,
-  type IWalletAddress,
-} from "@/apis/wallet-address";
-import { PAGE_SIZE_OPTIONS } from "@/constant";
-import { useTranslation } from "@/integrations/i18n";
-import { Route } from "@/routes/(public)/wallet-address";
-import type { SortingState } from "@tanstack/react-table";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-address';
+import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { Route } from '@/routes/(public)/wallet-address';
+import type { SortingState } from '@tanstack/react-table';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const useWalletAddressContainer = () => {
-  const { t } = useTranslation("wallet-address-page");
+  const { t } = useTranslation('wallet-address-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const [editingWalletAddress, setEditingWalletAddress] = useState<
-    IWalletAddress | undefined
-  >(undefined);
-  const [actionType, setActionType] = useState<
-    null | "create" | "update" | "delete"
-  >(null);
+  const [editingWalletAddress, setEditingWalletAddress] = useState<IWalletAddress | undefined>(undefined);
+  const [actionType, setActionType] = useState<null | 'create' | 'update' | 'delete' | 'activate' | 'deactivate'>(null);
   const [, setSorting] = useState<SortingState>([]);
 
-  /** TODO: Request API with filters */
   const filters = {
     page: search.page,
     pageSize: search.pageSize,
     sortBy: search.sortBy,
     sortOrder: search.sortOrder,
     search: search.search,
-    blockChain: search.blockChain ? search.blockChain.filter((el) => Boolean(el)) : [],
+    chain: search.chain ? search.chain.filter((el) => Boolean(el)) : [],
   };
-  const { data, isFetching, isLoading, refetch } =
-    useGetWalletAddressList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetWalletAddressList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -52,7 +43,7 @@ export const useWalletAddressContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? "desc" : "asc",
+          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -60,33 +51,17 @@ export const useWalletAddressContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: "desc",
-          sortBy: "createdAt",
+          sortOrder: 'desc',
+          sortBy: 'createdAt',
         },
         replace: true,
       });
     }
   };
 
-  const onSearchValueChange = (val: string) => {
-    navigate({
-      search: {
-        ...search,
-        search: val,
-        page: 1,
-      },
-      replace: true,
-    });
-  };
-
-  const onEdit = (walletAddress: IWalletAddress) => {
+  const onAction = (walletAddress: IWalletAddress, actionType: 'activate' | 'deactivate' | 'delete' | 'update' | 'create') => {
     setEditingWalletAddress(walletAddress);
-    setActionType("update");
-  };
-
-  const onDelete = (walletAddress: IWalletAddress) => {
-    setEditingWalletAddress(walletAddress);
-    setActionType("delete");
+    setActionType(actionType);
   };
 
   const onClose = useCallback(() => {
@@ -96,7 +71,7 @@ export const useWalletAddressContainer = () => {
 
   const onCreate = () => {
     setEditingWalletAddress(undefined);
-    setActionType("create");
+    setActionType('create');
   };
 
   const onRefetch = useCallback(() => {
@@ -106,7 +81,7 @@ export const useWalletAddressContainer = () => {
 
   const tableData = useMemo(() => {
     return {
-      data: data?.data ?? [],
+      data: data?.data?.wallets ?? [],
       pagination: {
         pageIndex: data?.page ?? 1,
         pageSize: data?.totalCount ?? PAGE_SIZE_OPTIONS[0],
@@ -117,24 +92,22 @@ export const useWalletAddressContainer = () => {
 
   useEffect(() => {
     if (search.forceAddWallet) {
-      onCreate();
+      setEditingWalletAddress(undefined);
+      setActionType('create');
     }
   }, [search.forceAddWallet]);
 
   return {
     t,
-    isLoading,
     isFetching,
+    isLoading,
     tableData,
     editingWalletAddress,
     actionType,
-    searchValue: search.search,
     onRefetch,
     onPaginationChange,
     onSortingChange,
-    onSearchValueChange,
-    onEdit,
-    onDelete,
+    onAction,
     onClose,
     onCreate,
   };

@@ -49,7 +49,7 @@ export const getTransactionList = (
         hasNextPage: false,
         page: params.page ?? 1,
         totalPage: 1,
-        totalCount: data.length,
+        totalCount: 10,
       });
     }, 1000);
   });
