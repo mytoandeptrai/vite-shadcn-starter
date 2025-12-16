@@ -10,12 +10,10 @@ import reportWebVitals from './reportWebVitals.ts';
 // Import the generated route tree
 import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
 import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
-import RecaptchaProvider from './integrations/recaptcha/recaptcha-provider.tsx';
 import { routeTree } from './routeTree.gen';
 import './styles.css';
 
 // Create a new router instance
-
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
 export const router = createRouter({
   routeTree,
@@ -51,15 +49,13 @@ if (rootElement && !rootElement.innerHTML) {
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
           <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
             <ErrorBoundary>
-              <RecaptchaProvider>
-                <DialogProvider>
-                  <AuthProvider>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <InnerApp />
-                    </Suspense>
-                  </AuthProvider>
-                </DialogProvider>
-              </RecaptchaProvider>
+              <DialogProvider>
+                <AuthProvider>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <InnerApp />
+                  </Suspense>
+                </AuthProvider>
+              </DialogProvider>
             </ErrorBoundary>
           </ThemeProvider>
         </TanStackQueryProvider.Provider>
