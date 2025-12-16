@@ -16,7 +16,7 @@ const registerFormSchema = (t: TFunction) => z
       .string()
       .min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.fullName.label'),
+          field: t('fields.firstName.label'),
           ns: "common"
         }),
       })
@@ -26,7 +26,7 @@ const registerFormSchema = (t: TFunction) => z
           ctx.addIssue({
             code: 'custom',
             message: t('errors.common.field-required', {
-              field: t('fields.fullName.label'),
+              field: t('fields.firstName.label'),
               ns: "common"
             }),
           });

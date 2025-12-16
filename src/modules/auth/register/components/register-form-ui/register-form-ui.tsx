@@ -36,8 +36,8 @@ const RegisterFormUi = ({ isLoading = false }: RegisterFormUiProps) => {
           control={control}
           disabled={isLoading}
           name='firstName'
-          label={t('fields.fullName.label')}
-          placeholder={t('fields.fullName.placeholder')}
+          label={t('fields.firstName.label')}
+          placeholder={t('fields.firstName.placeholder')}
           required
         />
         <FormInput
