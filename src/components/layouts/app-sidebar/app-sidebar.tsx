@@ -36,7 +36,6 @@ import {
   ChevronRightIcon,
   ChevronsDownIcon,
   LogOutIcon,
-  User2,
   UserCircle2Icon,
 } from "lucide-react";
 import { navItems } from "./app-sidebar.config";

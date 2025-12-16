@@ -220,7 +220,8 @@
   },
   "chains": {
     "ETH": "Ethereum",
-    "BNB": "Binance Smart Chain"
+    "BNB": "Binance Smart Chain",
+    "ALL": "Tất cả"
   },
   "chains-token": {
     "BNB-USDT": "BNB-USDT",

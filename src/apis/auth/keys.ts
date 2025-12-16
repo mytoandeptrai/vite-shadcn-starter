@@ -13,5 +13,5 @@ export const KEYS = {
   TWO_FA_SETUP: "/2fa/setup",
   TWO_FA_DISABLE: "/2fa/disable",
   INFO: "/info",
-  SIGN_OUT: "/sign-out",
+  SIGN_OUT: "/signout",
 };

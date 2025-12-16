@@ -26,6 +26,7 @@ export const getWalletAddressList = (
   params: GetWalletAddressListParams,
   signal?: AbortSignal
 ): Promise<GetWalletAddressListResponse> => {
+  console.log("🚀 ~ getWalletAddressList ~ signal:", params, signal)
   return new Promise<GetWalletAddressListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
     setTimeout(() => {

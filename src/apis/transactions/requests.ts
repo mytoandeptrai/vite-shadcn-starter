@@ -38,6 +38,7 @@ export const getTransactionList = (
   params: GetTransactionListParams,
   signal?: AbortSignal
 ): Promise<GetTransactionListResponse> => {
+  console.log("🚀 ~ getTransactionList ~ signal:", signal)
   return new Promise<GetTransactionListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
     setTimeout(() => {

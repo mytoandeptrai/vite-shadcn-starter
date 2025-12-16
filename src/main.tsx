@@ -49,7 +49,7 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <I18nProvider.Provider>
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-          <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
+          <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
             <ErrorBoundary>
               <RecaptchaProvider>
                 <DialogProvider>

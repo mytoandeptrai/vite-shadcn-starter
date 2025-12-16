@@ -28,6 +28,7 @@ export const useWalletAddressContainer = () => {
     sortBy: search.sortBy,
     sortOrder: search.sortOrder,
     search: search.search,
+    blockChain: search.blockChain ? search.blockChain.filter((el) => Boolean(el)) : [],
   };
   const { data, isFetching, isLoading, refetch } =
     useGetWalletAddressList(filters);
