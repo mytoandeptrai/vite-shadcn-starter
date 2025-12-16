@@ -29,7 +29,7 @@ const DashboardStartContainer = () => {
               sortOrder: "desc",
               forceAddWallet: true,
               search: "",
-              blockChain: [],
+              chain: [],
             },
           });
         },

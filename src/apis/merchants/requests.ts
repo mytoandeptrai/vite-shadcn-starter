@@ -70,6 +70,7 @@ export const createMerchant = (
   params: CreateMerchantParams,
   signal?: AbortSignal
 ): Promise<IMerchant> => {
+  console.log("🚀 ~ createMerchant ~ signal:", signal)
   // Mock implementation
   return new Promise<IMerchant>((resolve) => {
     setTimeout(() => {
@@ -92,6 +93,7 @@ export const updateMerchantStatus = (
   params: UpdateMerchantStatusParams,
   signal?: AbortSignal
 ): Promise<IMerchant> => {
+  console.log("🚀 ~ updateMerchantStatus ~ signal:", signal)
   // Mock implementation
   return new Promise<IMerchant>((resolve) => {
     setTimeout(() => {
