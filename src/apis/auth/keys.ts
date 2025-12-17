@@ -6,6 +6,7 @@ export const KEYS = {
   REFRESH_TOKEN: "/refresh-token",
   VERIFY: "/verify",
   RESEND_VERIFICATION: "/resend-verification",
+  UPDATE_PASSWORD: "/password",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   TWO_FA_VERIFY: "/2fa/verify",

@@ -20,6 +20,7 @@ import type {
   VerifyTwoFaSetupParams,
   VerifyTwoFaSetupResponse,
   VerifyTwoFaSessionParams,
+  UpdatePasswordParams,
 } from './types';
 
 export const getUserInfo = (signal?: AbortSignal) => {
@@ -88,4 +89,8 @@ export const setupTwoFa = (signal?: AbortSignal) => {
 
 export const signout = (params: SignoutParams, signal?: AbortSignal) => {
   return httpInstance.post(KEYS.SIGN_OUT, params, { signal }).then((res) => res);
+};
+
+export const updatePassword = (params: UpdatePasswordParams, signal?: AbortSignal) => {
+  return httpInstance.put(KEYS.UPDATE_PASSWORD, params, { signal }).then((res) => res);
 };

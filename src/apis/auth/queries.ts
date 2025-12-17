@@ -14,6 +14,7 @@ import {
   resetPassword,
   setupTwoFa,
   signout,
+  updatePassword,
   updateUserInfo,
   verify,
   verifyTwoFa,
@@ -30,6 +31,7 @@ import type {
   ResetPasswordParams,
   SetupTwoFaResponse,
   SignoutParams,
+  UpdatePasswordParams,
   UpdateUserInfoParams,
   VerifyParams,
   VerifyTwoFaParams,
@@ -138,5 +140,12 @@ export const useVerifyTwoFaSession = () => {
   return useMutation({
     mutationKey: [KEYS.TWO_FA_VERIFY_SESSION],
     mutationFn: (data: VerifyTwoFaSessionParams) => verifyTwoFaSession(data),
+  });
+}
+
+export const useUpdatePassword = () => {
+  return useMutation({
+    mutationKey: [KEYS.UPDATE_PASSWORD],
+    mutationFn: (data: UpdatePasswordParams) => updatePassword(data),
   });
 }

@@ -1,13 +1,16 @@
-import { useTranslation } from "@/integrations/i18n";
-import { useCallback, useMemo, useState } from "react";
-import { generateTokenOptions } from "./config";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { toast } from "sonner";
-import { PAGE_SIZE_OPTIONS, ROUTES } from "@/constant";
-import { Link } from "@tanstack/react-router";
+import { useTranslation } from '@/integrations/i18n';
+import { useCallback, useMemo, useState } from 'react';
+import { generateTokenOptions } from './config';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { toast } from 'sonner';
+import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
+import { Link } from '@tanstack/react-router';
+import type { Option } from '@/types';
 
 export const useBalanceContainer = () => {
-  const { t } = useTranslation("balance-page");
+  const { t } = useTranslation('balance-page');
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const { user } = useAuthContext();
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
@@ -18,9 +21,18 @@ export const useBalanceContainer = () => {
   /** TODO: Request API here */
   const balance = 1000;
   const incomingBalance = 250;
-  const hasWallets = false;
+  const hasWallets = (user?.wallets?.length ?? 0) > 0;
 
-  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  /** TODO: Filter wallet based on selected token here */
+  const walletTokenOptions: Option<string>[] = useMemo(() => {
+    if (!user || !user?.wallets?.length) return [];
+    return (
+      user?.wallets?.map((wallet) => ({
+        label: wallet?.address,
+        value: String(wallet?.id),
+      })) ?? []
+    );
+  }, [user]);
 
   const onCloseDialog = useCallback(() => {
     setIsOpenDialog(false);
@@ -29,8 +41,8 @@ export const useBalanceContainer = () => {
   const onOpenDialog = useCallback(() => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className="hover:underline">
-          {t("messages.require-enable-two-fa", { ns: "common" })}
+        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+          {t('messages.require-enable-two-fa', { ns: 'common' })}
         </Link>
       );
       return;
@@ -43,22 +55,22 @@ export const useBalanceContainer = () => {
           search={{
             page: 1,
             pageSize: PAGE_SIZE_OPTIONS[0],
-            sortBy: "createdAt",
-            sortOrder: "desc",
-            search: "",
+            sortBy: 'createdAt',
+            sortOrder: 'desc',
+            search: '',
             forceAddWallet: true,
-            chain: []
+            chain: [],
           }}
-          className="hover:underline"
+          className='hover:underline'
         >
-          {t("messages.require-add-wallet", { ns: "common" })}
+          {t('messages.require-add-wallet', { ns: 'common' })}
         </Link>
       );
       return;
     }
 
     setIsOpenDialog(true);
-  }, []);
+  }, [hasWallets, isEnabledTwoFa, t]);
 
   const onSelectToken = useCallback((value: string) => {
     setSelectedToken(value);
@@ -71,6 +83,7 @@ export const useBalanceContainer = () => {
     balance,
     incomingBalance,
     isOpenDialog,
+    walletTokenOptions,
     onCloseDialog,
     onOpenDialog,
     onSelectToken,

@@ -1,5 +1,6 @@
 import { useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-address';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(public)/wallet-address';
 import type { SortingState } from '@tanstack/react-table';
@@ -9,6 +10,7 @@ export const useWalletAddressContainer = () => {
   const { t } = useTranslation('wallet-address-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
+  const { onRefetch: onRefetchUser } = useAuthContext();
 
   const [editingWalletAddress, setEditingWalletAddress] = useState<IWalletAddress | undefined>(undefined);
   const [actionType, setActionType] = useState<null | 'create' | 'update' | 'delete' | 'activate' | 'deactivate'>(null);
@@ -77,7 +79,8 @@ export const useWalletAddressContainer = () => {
   const onRefetch = useCallback(() => {
     onClose();
     refetch();
-  }, [refetch, onClose]);
+    onRefetchUser();
+  }, [refetch, onClose, onRefetchUser]);
 
   const tableData = useMemo(() => {
     return {

@@ -144,7 +144,8 @@
     "two-fa-disabled-success": "Two-factor authentication disabled successfully.",
     "require-two-fa-to-access": "Please enable two-factor authentication to access this feature.",
     "require-enable-two-fa": "Enable 2FA to proceed this action.",
-    "require-add-wallet": "Add a wallet address to proceed this action."
+    "require-add-wallet": "Add a wallet address to proceed this action.",
+    "update-password-success": "Password updated successfully! Please login again to continue."
   },
   "labels": {
     "all": "All",

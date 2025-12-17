@@ -13,6 +13,7 @@ const BalanceContainer = () => {
     isOpenDialog,
     tokenOptions,
     selectedToken,
+    walletTokenOptions,
     onSelectToken,
     onCloseDialog,
     onOpenDialog,
@@ -43,7 +44,13 @@ const BalanceContainer = () => {
         />
       </div>
       <Show when={isOpenDialog}>
-        <BalanceWithDrawUi selectedToken={selectedToken} open={isOpenDialog} onClose={onCloseDialog} max={balance} />
+        <BalanceWithDrawUi
+          walletTokenOptions={walletTokenOptions}
+          selectedToken={selectedToken}
+          open={isOpenDialog}
+          max={balance}
+          onClose={onCloseDialog}
+        />
       </Show>
     </PageContainer>
   );

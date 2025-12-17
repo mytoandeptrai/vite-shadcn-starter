@@ -1,4 +1,5 @@
 import type { BaseResponseType } from "@/types";
+import type { IWalletAddress } from "../wallet-address";
 
 export interface IUserInfo {
   id: string;
@@ -11,6 +12,7 @@ export interface IUserInfo {
   imageUrl?: string;
   firstname: string;
   lastname: string;
+  wallets: IWalletAddress[];
 }
 
 export interface LoginParams {
@@ -46,6 +48,11 @@ export interface ResetPasswordParams {
   token: string;
   newPassword: string;
   confirmPassword: string;
+}
+
+export interface UpdatePasswordParams {
+  confirmPassword: string;
+  twoFACode: string;
 }
 
 export interface VerifyParams {

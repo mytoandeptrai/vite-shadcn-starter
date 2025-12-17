@@ -8,15 +8,20 @@ import { toast } from "sonner";
 import { Link } from "@tanstack/react-router";
 import { ROUTES } from "@/constant";
 import { useAuthContext } from "@/integrations/auth/auth-provider";
+import { useDialogContext } from "@/integrations/dialog/dialog-provider";
+import { useUpdatePassword } from "@/apis/auth";
 
 export const useProfilePasswordContainer = () => {
   const { t } = useTranslation("settings-page");
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
 
-  const isLoading = false;
+  const { user, onSignout } = useAuthContext();
+  const { onOpenTwoFAModal, onCloseModal } = useDialogContext();
 
-  const { user } = useAuthContext();
+  const updatePasswordMutation = useUpdatePassword();
+
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
+  const isLoading = updatePasswordMutation.isPending;
 
   const form = useForm<PasswordFormSchema>({
     resolver: zodResolver(passwordFormSchema(t)),
@@ -33,7 +38,23 @@ export const useProfilePasswordContainer = () => {
       );
       return;
     }
-    console.log("🚀 ~ onSubmit ~ data:", data);
+
+    onOpenTwoFAModal({
+      forceOpen: true,
+      skipInitVerification: true,
+      closeOnSubmit: false,
+      cb: async (code) => {
+        await updatePasswordMutation.mutateAsync({
+          confirmPassword: data.confirmNewPassword,
+          twoFACode: code!,
+        });
+        toast.success(t("messages.update-password-success", { ns: "common" }));
+        setIsUpdated(false);
+        form.reset(initialPasswordFormData);
+        onCloseModal();
+        await onSignout();
+      },
+    });
   };
 
   const onCancel = () => {

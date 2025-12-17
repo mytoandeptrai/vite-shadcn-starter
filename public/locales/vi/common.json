@@ -127,7 +127,8 @@
     "resend-forgot-password-success": "Hướng dẫn đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
     "two-fa-setup-success": "Xác thực hai yếu tố đã được bật thành công. Vui lòng đăng nhập lại để tiếp tục.",
     "two-fa-disabled-success": "Xác thực hai yếu tố đã được tắt thành công.",
-    "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này."
+    "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này.",
+    "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục."
   },
   "labels": {
     "all": "Tất cả",
