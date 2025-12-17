@@ -153,7 +153,8 @@
     "developer": "Phát triển",
     "system": "Hệ thống",
     "no-options": "Không có tùy chọn",
-    "merchants": "Thương nhân"
+    "merchants": "Thương nhân",
+    "search-kbar": "Tìm kiếm..."
   },
   "buttons": {
     "continue": "Tiếp tục",
@@ -253,5 +254,8 @@
     "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển. Vui lòng kiểm tra URL và thử lại.",
     "goHome": "Về Trang Chủ",
     "goBack": "Quay Lại"
+  },
+  "navigation": {
+    "go-to": "Đi đến {{page}}"
   }
 }

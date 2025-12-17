@@ -1,3 +1,4 @@
+import SearchKbarInput from '@/components/ui/kbar/search-kbar-input';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { UserAvatarProfile } from '@/components/ui/user-avatar-profile';
@@ -5,7 +6,6 @@ import { ROUTES } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { cn } from '@/lib/utils';
 import { useNavigate } from '@tanstack/react-router';
-import AppHeaderSearch from './app-header-search';
 
 export default function AppHeader() {
   const { user } = useAuthContext();
@@ -24,10 +24,19 @@ export default function AppHeader() {
       <div className='flex items-center gap-2 px-4'>
         <SidebarTrigger className='-ml-1' />
         <Separator orientation='vertical' className='mr-2 data-[orientation=vertical]:h-4' />
-        <AppHeaderSearch />
+        <div className='hidden md:flex'>
+          <SearchKbarInput />
+        </div>
       </div>
       <div className='flex items-center gap-3 pr-4'>
-        <div onClick={() => navigate({ to: ROUTES.PROFILE })}>
+        <div
+          onClick={() => navigate({ to: ROUTES.PROFILE })}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              navigate({ to: ROUTES.PROFILE });
+            }
+          }}
+        >
           <UserAvatarProfile user={user} />
         </div>
       </div>

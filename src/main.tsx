@@ -12,6 +12,7 @@ import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.
 import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
 import { routeTree } from './routeTree.gen';
 import './styles.css';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Create a new router instance
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
@@ -49,13 +50,15 @@ if (rootElement && !rootElement.innerHTML) {
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
           <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
             <ErrorBoundary>
-              <DialogProvider>
-                <AuthProvider>
-                  <Suspense fallback={<LoadingSpinner />}>
-                    <InnerApp />
-                  </Suspense>
-                </AuthProvider>
-              </DialogProvider>
+              <HelmetProvider>
+                <DialogProvider>
+                  <AuthProvider>
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <InnerApp />
+                    </Suspense>
+                  </AuthProvider>
+                </DialogProvider>
+              </HelmetProvider>
             </ErrorBoundary>
           </ThemeProvider>
         </TanStackQueryProvider.Provider>
