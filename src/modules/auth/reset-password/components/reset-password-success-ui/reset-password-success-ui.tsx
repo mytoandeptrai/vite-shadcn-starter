@@ -12,7 +12,7 @@ const ResetPasswordSuccessUi = ({ onClick }: Props) => {
   const { t } = useTranslation('reset-password-page');
   return (
     <HStack spacing={20} align='center' justify='center'>
-      <VStack spacing={10} align="center" justify="center" className='w-full px-0'>
+      <VStack spacing={10} align='center' justify='center' className='w-full px-0'>
         <CircledCheckIcon className='size-16' />
         <Heading className='text-center text-base'>{HtmlReactParser(t('labels.success-msg'))}</Heading>
       </VStack>

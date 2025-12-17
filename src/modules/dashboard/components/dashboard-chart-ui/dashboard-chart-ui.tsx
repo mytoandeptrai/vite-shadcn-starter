@@ -1,16 +1,6 @@
-import {
-  Line,
-  LineChart,
-  CartesianGrid,
-  XAxis,
-} from 'recharts';
+import { Line, LineChart, CartesianGrid, XAxis } from 'recharts';
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 
 type DashboardChartUiProps = {
   data: {
@@ -23,42 +13,33 @@ type DashboardChartUiProps = {
 
 const DashboardChartUi = ({ data, chartConfig }: DashboardChartUiProps) => {
   return (
-    <ChartContainer config={chartConfig} className="h-[300px] w-full">
-      <LineChart
-        data={data}
-        margin={{ left: 12, right: 12 }}
-      >
-        <CartesianGrid
-          vertical={false}
-          strokeOpacity={0.3}
-        />
+    <ChartContainer config={chartConfig} className='h-[300px] w-full'>
+      <LineChart data={data} margin={{ left: 12, right: 12 }}>
+        <CartesianGrid vertical={false} strokeOpacity={0.3} />
 
         <XAxis
-          dataKey="month"
+          dataKey='month'
           tickLine={false}
           axisLine={false}
           tickMargin={8}
           tickFormatter={(value) => value.slice(0, 3)}
         />
 
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent indicator="dot" />}
-        />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='dot' />} />
 
         <Line
-          type="monotone"
-          dataKey="mobile"
-          stroke="var(--color-mobile)"
+          type='monotone'
+          dataKey='mobile'
+          stroke='var(--color-mobile)'
           strokeWidth={2}
           dot={false}
           activeDot={{ r: 4 }}
         />
 
         <Line
-          type="monotone"
-          dataKey="desktop"
-          stroke="var(--color-desktop)"
+          type='monotone'
+          dataKey='desktop'
+          stroke='var(--color-desktop)'
           strokeWidth={2}
           dot={false}
           activeDot={{ r: 4 }}

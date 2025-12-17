@@ -1,9 +1,5 @@
-import {
-  useMutation,
-  useQuery,
-  type UseQueryOptions
-} from "@tanstack/react-query";
-import { KEYS } from "./keys";
+import { useMutation, useQuery, type UseQueryOptions } from '@tanstack/react-query';
+import { KEYS } from './keys';
 import {
   disabledTwoFa,
   forgotPassword,
@@ -20,7 +16,7 @@ import {
   verifyTwoFa,
   verifyTwoFaSession,
   verifyTwoFaSetup,
-} from "./requests";
+} from './requests';
 import type {
   DisableTwoFaParams,
   ForgotPasswordParams,
@@ -37,11 +33,9 @@ import type {
   VerifyTwoFaParams,
   VerifyTwoFaSessionParams,
   VerifyTwoFaSetupParams,
-} from "./types";
+} from './types';
 
-export const useGetUserInfo = (
-  options?: Omit<UseQueryOptions<GetUserInfoResponse, Error>, "queryKey">
-) => {
+export const useGetUserInfo = (options?: Omit<UseQueryOptions<GetUserInfoResponse, Error>, 'queryKey'>) => {
   return useQuery<GetUserInfoResponse, Error>({
     queryKey: [KEYS.INFO],
     queryFn: ({ signal }) => getUserInfo(signal),
@@ -49,9 +43,7 @@ export const useGetUserInfo = (
   });
 };
 
-export const useSetupTwoFa = (
-  options?: Omit<UseQueryOptions<SetupTwoFaResponse, Error>, "queryKey">
-) => {
+export const useSetupTwoFa = (options?: Omit<UseQueryOptions<SetupTwoFaResponse, Error>, 'queryKey'>) => {
   return useQuery<SetupTwoFaResponse, Error>({
     queryKey: [KEYS.TWO_FA_SETUP],
     queryFn: ({ signal }) => setupTwoFa(signal),
@@ -120,32 +112,32 @@ export const useVerifySetup = () => {
     mutationKey: [KEYS.TWO_FA_VERIFY_SETUP],
     mutationFn: (data: VerifyTwoFaSetupParams) => verifyTwoFaSetup(data),
   });
-}
+};
 
 export const useDisableTwoFa = () => {
   return useMutation({
     mutationKey: [KEYS.TWO_FA_DISABLE],
     mutationFn: (data: DisableTwoFaParams) => disabledTwoFa(data),
   });
-}
+};
 
 export const useUpdateUserInfo = () => {
   return useMutation({
     mutationKey: [KEYS.INFO],
     mutationFn: (data: UpdateUserInfoParams) => updateUserInfo(data),
   });
-} 
+};
 
 export const useVerifyTwoFaSession = () => {
   return useMutation({
     mutationKey: [KEYS.TWO_FA_VERIFY_SESSION],
     mutationFn: (data: VerifyTwoFaSessionParams) => verifyTwoFaSession(data),
   });
-}
+};
 
 export const useUpdatePassword = () => {
   return useMutation({
     mutationKey: [KEYS.UPDATE_PASSWORD],
     mutationFn: (data: UpdatePasswordParams) => updatePassword(data),
   });
-}
+};

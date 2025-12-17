@@ -1,10 +1,10 @@
-import { useVerify } from "@/apis/auth";
-import { ROUTES } from "@/constant";
-import { useTranslation } from "@/integrations/i18n";
-import { useNavigate } from "@tanstack/react-router";
-import type { AxiosError } from "axios";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { useVerify } from '@/apis/auth';
+import { ROUTES } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { useNavigate } from '@tanstack/react-router';
+import type { AxiosError } from 'axios';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 type Props = {
   token?: string;
@@ -12,7 +12,7 @@ type Props = {
 
 export const useActiveContainer = (props: Props) => {
   const { token } = props;
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
 
   const verifyMutation = useVerify();
@@ -21,7 +21,7 @@ export const useActiveContainer = (props: Props) => {
     (async () => {
       try {
         await verifyMutation.mutateAsync({ token: token! });
-        toast.success(t("messages.active-success", { ns: "common" }));
+        toast.success(t('messages.active-success', { ns: 'common' }));
         navigate({
           to: ROUTES.LOGIN,
         });
@@ -31,7 +31,7 @@ export const useActiveContainer = (props: Props) => {
           navigate({
             to: ROUTES.LINK_EXPIRED,
             search: {
-              email: "example@gmail.com",
+              email: 'example@gmail.com',
             },
           });
         }

@@ -22,12 +22,12 @@ const ENVIRONMENT_OPTIONS = (t: TFunction): FormOption[] => [
   {
     value: 'production',
     label: t('api-keys.options.environment.production'),
-    disabled: false
+    disabled: false,
   },
   {
     value: 'development',
     label: t('api-keys.options.environment.development'),
-    disabled: true
+    disabled: true,
   },
 ];
 

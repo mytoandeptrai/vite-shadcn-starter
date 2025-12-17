@@ -1,18 +1,18 @@
-import { useSetupTwoFa, useVerifySetup } from "@/apis/auth";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { useDialogContext } from "@/integrations/dialog/dialog-provider";
-import { useTranslation } from "@/integrations/i18n";
-import { useState } from "react";
+import { useSetupTwoFa, useVerifySetup } from '@/apis/auth';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { useDialogContext } from '@/integrations/dialog/dialog-provider';
+import { useTranslation } from '@/integrations/i18n';
+import { useState } from 'react';
 
 const steps = [
-  { label: "system.labels.two-fa.steps.1", value: 1 },
-  { label: "system.labels.two-fa.steps.2", value: 2 },
-  { label: "system.labels.two-fa.steps.3", value: 3 },
-  { label: "system.labels.two-fa.steps.4", value: 4 },
+  { label: 'system.labels.two-fa.steps.1', value: 1 },
+  { label: 'system.labels.two-fa.steps.2', value: 2 },
+  { label: 'system.labels.two-fa.steps.3', value: 3 },
+  { label: 'system.labels.two-fa.steps.4', value: 4 },
 ];
 
 export const useSystemTwoFaStepsContainer = () => {
-  const { t } = useTranslation("settings-page");
+  const { t } = useTranslation('settings-page');
   const [currentStep, setCurrentStep] = useState(1);
 
   const { user, isAuthenticated } = useAuthContext();
@@ -25,8 +25,8 @@ export const useSystemTwoFaStepsContainer = () => {
 
   const verifySetupMutation = useVerifySetup();
 
-  const authenticatorCode = data?.data?.base32 ?? "";
-  const otpUrl = data?.data?.otpauth_url ?? "";
+  const authenticatorCode = data?.data?.base32 ?? '';
+  const otpUrl = data?.data?.otpauth_url ?? '';
 
   const onSubmitStep4 = () => {
     /** Todo: Implement API here */

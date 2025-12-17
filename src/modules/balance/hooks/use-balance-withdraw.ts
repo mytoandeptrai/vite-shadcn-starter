@@ -25,7 +25,7 @@ export const useBalanceWithdraw = ({ onClose, max }: Props) => {
 
   const submit = async (data: BalanceWithdrawFormData) => {
     /** TODO: Request API here */
-    console.log("🚀 ~ submit ~ data:", data)
+    console.log('🚀 ~ submit ~ data:', data);
     onClose?.();
   };
 

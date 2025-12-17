@@ -9,10 +9,7 @@ const DeveloperSDKContainer = () => {
 
   return (
     <>
-      <SDKGridListUi 
-        sdks={data?.data || []} 
-        onSDKClick={handleSDKClick} 
-      />
+      <SDKGridListUi sdks={data?.data || []} onSDKClick={handleSDKClick} />
       <SDKDetailModalUi sdk={selectedSDK} isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );

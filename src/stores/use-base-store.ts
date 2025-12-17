@@ -5,9 +5,9 @@ import { persist, createJSONStorage } from 'zustand/middleware';
  * Currency domain model
  */
 export type Currency = {
-  code: string;          // ISO code: USD, VND, EUR
-  symbol: string;        // $, ₫, €
-  locale: string;        // en-US, vi-VN
+  code: string; // ISO code: USD, VND, EUR
+  symbol: string; // $, ₫, €
+  locale: string; // en-US, vi-VN
   decimalPlaces: number; // 2, 0
 };
 
@@ -47,7 +47,7 @@ export const DEFAULT_CURRENCY_STORE_STATE: CurrencyStoreState = {
  */
 export const useCurrencyStore = create<CurrencyStore>()(
   persist(
-    set => ({
+    (set) => ({
       ...DEFAULT_CURRENCY_STORE_STATE,
 
       setCurrency: (currency: Currency) => set({ currency }),

@@ -1,17 +1,14 @@
-import { useLoginMutation, useVerifyTwoFa } from "@/apis/auth";
-import {
-  sanitizeRedirect,
-  usePreviousLocation,
-} from "@/hooks/use-previous-location";
-import { useTranslation } from "@/integrations/i18n";
-import { useSessionStore } from "@/stores/use-session-store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
-import { initialFormData, loginFormSchema, type LoginFormData } from "./schema";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { toast } from "sonner";
-import { useDialogContext } from "@/integrations/dialog/dialog-provider";
+import { useLoginMutation, useVerifyTwoFa } from '@/apis/auth';
+import { sanitizeRedirect, usePreviousLocation } from '@/hooks/use-previous-location';
+import { useTranslation } from '@/integrations/i18n';
+import { useSessionStore } from '@/stores/use-session-store';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from '@tanstack/react-router';
+import { useForm } from 'react-hook-form';
+import { initialFormData, loginFormSchema, type LoginFormData } from './schema';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { toast } from 'sonner';
+import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 
 type OnSuccessPayload = {
   accessToken: string;
@@ -19,7 +16,7 @@ type OnSuccessPayload = {
 };
 
 export const useLoginContainer = () => {
-  const { t } = useTranslation("login-page");
+  const { t } = useTranslation('login-page');
   const navigate = useNavigate();
   const previousLocation = usePreviousLocation();
 
@@ -32,14 +29,14 @@ export const useLoginContainer = () => {
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema(t)),
     defaultValues: initialFormData,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const useLogin = useLoginMutation();
   const isLoading = useLogin.isPending;
 
   const onSuccess = async (payload: OnSuccessPayload) => {
-    toast.success(t("messages.login-success", { ns: "common" }));
+    toast.success(t('messages.login-success', { ns: 'common' }));
     setAccessToken(payload.accessToken!);
     setRefreshToken(payload.refreshToken!);
     await onRefetch();

@@ -7,11 +7,7 @@ interface HeadingProps {
 }
 
 export function Heading({ children, className }: HeadingProps) {
-  return (
-    <h1 className={cn('font-title text-2xl text-primary leading-tight', className)}>
-      {children}
-    </h1>
-  );
+  return <h1 className={cn('font-title text-2xl text-primary leading-tight', className)}>{children}</h1>;
 }
 
 interface PageHeadingProps {
@@ -49,11 +45,7 @@ interface SubheadingProps {
 }
 
 export function Subheading({ children, className }: SubheadingProps) {
-  return (
-    <h2 className={cn('font-semibold text-foreground text-xl', className)}>
-      {children}
-    </h2>
-  );
+  return <h2 className={cn('font-semibold text-foreground text-xl', className)}>{children}</h2>;
 }
 
 interface ParagraphProps {

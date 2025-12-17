@@ -24,13 +24,13 @@ export const getMerchantList = (
   params: GetMerchantListParams,
   signal?: AbortSignal
 ): Promise<GetMerchantListResponse> => {
-  console.log("🚀 ~ getMerchantList ~ params:", params, signal);
+  console.log('🚀 ~ getMerchantList ~ params:', params, signal);
   return new Promise<GetMerchantListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
     setTimeout(() => {
       // Apply filters
       let filteredData = mockMerchantList(random);
-      
+
       // Filter by search
       if (params.search) {
         const searchLower = params.search.toLowerCase();
@@ -42,17 +42,13 @@ export const getMerchantList = (
             merchant.id.toLowerCase().includes(searchLower)
         );
       }
-      
+
       // Filter by status
       if (params.status && params.status.length > 0) {
-        const statusArray = params.status.includes('all') 
-          ? ['active', 'inactive'] 
-          : params.status;
-        filteredData = filteredData.filter((merchant) => 
-          statusArray.includes(merchant.status)
-        );
+        const statusArray = params.status.includes('all') ? ['active', 'inactive'] : params.status;
+        filteredData = filteredData.filter((merchant) => statusArray.includes(merchant.status));
       }
-      
+
       resolve({
         data: filteredData,
         hasNextPage: false,
@@ -66,11 +62,8 @@ export const getMerchantList = (
   // return httpInstance.get<GetMerchantListResponse>(KEYS.MERCHANTS, { params, signal }).then((res) => res);
 };
 
-export const createMerchant = (
-  params: CreateMerchantParams,
-  signal?: AbortSignal
-): Promise<IMerchant> => {
-  console.log("🚀 ~ createMerchant ~ signal:", signal)
+export const createMerchant = (params: CreateMerchantParams, signal?: AbortSignal): Promise<IMerchant> => {
+  console.log('🚀 ~ createMerchant ~ signal:', signal);
   // Mock implementation
   return new Promise<IMerchant>((resolve) => {
     setTimeout(() => {
@@ -85,15 +78,12 @@ export const createMerchant = (
       });
     }, 500);
   });
-  
+
   // return httpInstance.post<IMerchant>(KEYS.MERCHANTS, params, { signal }).then((res) => res);
 };
 
-export const updateMerchantStatus = (
-  params: UpdateMerchantStatusParams,
-  signal?: AbortSignal
-): Promise<IMerchant> => {
-  console.log("🚀 ~ updateMerchantStatus ~ signal:", signal)
+export const updateMerchantStatus = (params: UpdateMerchantStatusParams, signal?: AbortSignal): Promise<IMerchant> => {
+  console.log('🚀 ~ updateMerchantStatus ~ signal:', signal);
   // Mock implementation
   return new Promise<IMerchant>((resolve) => {
     setTimeout(() => {
@@ -108,7 +98,7 @@ export const updateMerchantStatus = (
       });
     }, 500);
   });
-  
+
   // const url = KEYS.MERCHANT_STATUS.replace(':id', params.id);
   // return httpInstance.patch<IMerchant>(url, { status: params.status }, { signal }).then((res) => res);
 };

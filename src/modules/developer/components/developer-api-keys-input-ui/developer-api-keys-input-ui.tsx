@@ -15,7 +15,13 @@ type DeveloperApiKeysInputUiProps = {
   createdAt: string;
 };
 
-const DeveloperApiKeysInputUi = ({ isLoading, publicKey, secretKey, createdAt, onOpenDialog }: DeveloperApiKeysInputUiProps) => {
+const DeveloperApiKeysInputUi = ({
+  isLoading,
+  publicKey,
+  secretKey,
+  createdAt,
+  onOpenDialog,
+}: DeveloperApiKeysInputUiProps) => {
   const { t } = useTranslation('developer-page');
   return (
     <Card>

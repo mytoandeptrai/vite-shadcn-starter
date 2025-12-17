@@ -42,11 +42,11 @@ export enum ECookie {
 type ErrorResponseData = {
   retryAfter?: number;
   blockDuration?: number;
-}
+};
 
 type ErrorResponse = Omit<BaseResponseType<null>, 'data'> & {
   data?: ErrorResponseData;
-}
+};
 
 class HttpInstance {
   private readonly instance: AxiosInstance;
@@ -147,7 +147,7 @@ class HttpInstance {
     })();
 
     checkURLAndError(String(originalRequest?.url), String(errorCode), () => {
-      return toast.error(i18n.t(errorMessageKey))
+      return toast.error(i18n.t(errorMessageKey));
     });
 
     return Promise.reject(data);

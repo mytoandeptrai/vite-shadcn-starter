@@ -4,7 +4,7 @@ import QRCode from 'qrcode';
 import { Paragraph } from '@/components/ui/typography';
 import { Show } from '@/components/utilities';
 import CopyButton from '@/components/ui/copy-button';
-import HtmlReactParser from "html-react-parser";
+import HtmlReactParser from 'html-react-parser';
 
 type SystemTwoFaStep2UiProps = {
   otpUrl: string;
@@ -29,8 +29,10 @@ const SystemTwoFaStep2Ui = ({ authenticatorCode, otpUrl }: SystemTwoFaStep2UiPro
           <img src={imgData} alt='QR Code' />
         </div>
       </Show>
-      <Paragraph className='text-center text-muted-foreground text-sm'>{HtmlReactParser(t('system.labels.two-fa.labels.step2-message'))}</Paragraph>
-      <Paragraph className="max-w-md whitespace-normal break-all text-center font-bold text-sm">
+      <Paragraph className='text-center text-muted-foreground text-sm'>
+        {HtmlReactParser(t('system.labels.two-fa.labels.step2-message'))}
+      </Paragraph>
+      <Paragraph className='max-w-md whitespace-normal break-all text-center font-bold text-sm'>
         {authenticatorCode}
         <CopyButton className='ml-2' value={authenticatorCode} />
       </Paragraph>

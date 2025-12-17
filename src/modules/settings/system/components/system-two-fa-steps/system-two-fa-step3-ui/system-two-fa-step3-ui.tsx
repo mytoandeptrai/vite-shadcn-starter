@@ -13,7 +13,7 @@ const SystemTwoFaStep3Ui = ({ authenticatorCode }: SystemTwoFaStep3UiProps) => {
     <div className='flex flex-col justify-center gap-4'>
       <Paragraph className='text-center text-sm'>{t('system.labels.two-fa.labels.instruction3')}</Paragraph>
       <div className='bg-secondary p-4'>
-        <Paragraph className="max-w-md whitespace-normal break-all text-center font-bold text-sm">
+        <Paragraph className='max-w-md whitespace-normal break-all text-center font-bold text-sm'>
           {authenticatorCode}
           <CopyButton className='ml-2' value={authenticatorCode} />
         </Paragraph>

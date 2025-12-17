@@ -1,10 +1,10 @@
-import AppHeader from "@/components/layouts/app-header";
-import AppSidebar from "@/components/layouts/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { ROUTES } from "@/constant";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import AppHeader from '@/components/layouts/app-header';
+import AppSidebar from '@/components/layouts/app-sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { ROUTES } from '@/constant';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/(public)")({
+export const Route = createFileRoute('/(public)')({
   beforeLoad: ({ context }) => {
     const auth = context.auth;
     if (!auth.isAuthenticated) {

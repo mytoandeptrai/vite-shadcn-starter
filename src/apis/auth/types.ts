@@ -1,5 +1,5 @@
-import type { BaseResponseType } from "@/types";
-import type { IWalletAddress } from "../wallet-address";
+import type { BaseResponseType } from '@/types';
+import type { IWalletAddress } from '../wallet-address';
 
 export interface IUserInfo {
   id: string;

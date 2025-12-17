@@ -1,10 +1,10 @@
-import type { ITransaction } from "@/apis/transactions";
-import { DataTable } from "@/components/ui/data-table";
-import { useTranslation } from "@/integrations/i18n";
-import type { SortingState } from "@tanstack/react-table";
-import { useMemo } from "react";
-import TableFilterContainer from "../table-filter-container";
-import { createColumns } from "./create-columns";
+import type { ITransaction } from '@/apis/transactions';
+import { DataTable } from '@/components/ui/data-table';
+import { useTranslation } from '@/integrations/i18n';
+import type { SortingState } from '@tanstack/react-table';
+import { useMemo } from 'react';
+import TableFilterContainer from '../table-filter-container';
+import { createColumns } from './create-columns';
 
 export type TransactionTableContainerProps = {
   onPaginationChange: (page: number, pageSize: number) => void;
@@ -30,7 +30,7 @@ const TransactionTableContainer = ({
   onPaginationChange,
   onSortingChange,
 }: TransactionTableContainerProps) => {
-  const { t } = useTranslation("transactions-page");
+  const { t } = useTranslation('transactions-page');
   const columns = useMemo(() => createColumns({ t }), [t]);
 
   return (

@@ -1,2 +1,2 @@
-export { default } from "./register-container";
-export * from "./register-container";
+export { default } from './register-container';
+export * from './register-container';

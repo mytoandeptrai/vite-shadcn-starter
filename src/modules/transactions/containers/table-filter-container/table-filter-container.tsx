@@ -1,9 +1,9 @@
-import DateRangePicker from "@/components/ui/date-range-picker";
-import MultiSelectPicker from "@/components/ui/multi-select-picker";
-import { HStack, Show } from "@/components/utilities";
-import { DebouncedInput } from "@/modules/demo-table/components/debounced-input";
-import { addDays } from "date-fns";
-import { useTableFilterContainer } from "../../hooks";
+import DateRangePicker from '@/components/ui/date-range-picker';
+import MultiSelectPicker from '@/components/ui/multi-select-picker';
+import { HStack, Show } from '@/components/utilities';
+import { DebouncedInput } from '@/modules/demo-table/components/debounced-input';
+import { addDays } from 'date-fns';
+import { useTableFilterContainer } from '../../hooks';
 
 const TableFilterContainer = () => {
   const {
@@ -21,19 +21,19 @@ const TableFilterContainer = () => {
   } = useTableFilterContainer();
 
   return (
-    <div className="mt-4">
+    <div className='mt-4'>
       <HStack spacing={12}>
         <DebouncedInput
-          placeholder={t("placeholder.search")}
-          value={searchValue ?? ""}
+          placeholder={t('placeholder.search')}
+          value={searchValue ?? ''}
           onChange={(val) => {
             onSearchValueChange?.(String(val));
           }}
-          className="h-10! w-60 md:w-80"
+          className='h-10! w-60 md:w-80'
         />
 
         <MultiSelectPicker
-          title={t("labels.status")}
+          title={t('labels.status')}
           options={options.status}
           multiple
           value={selectedStatuses}
@@ -42,9 +42,9 @@ const TableFilterContainer = () => {
           }}
         />
 
-        <Show when={selectedTab === "all"}>
+        <Show when={selectedTab === 'all'}>
           <MultiSelectPicker
-            title={t("labels.type")}
+            title={t('labels.type')}
             options={options.type}
             multiple
             value={selectedTypes}
@@ -55,7 +55,7 @@ const TableFilterContainer = () => {
         </Show>
 
         <DateRangePicker
-          placeholder={t("placeholder.dateRange")}
+          placeholder={t('placeholder.dateRange')}
           dateRange={selectedDateRange}
           onOK={(value) => onDateRangeChange(value)}
           maxDate={addDays(new Date(), 1)}

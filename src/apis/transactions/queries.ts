@@ -1,10 +1,7 @@
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import { KEYS } from './keys';
 import { getTransactionList } from './requests';
-import type {
-  GetTransactionListParams,
-  GetTransactionListResponse,
-} from './types';
+import type { GetTransactionListParams, GetTransactionListResponse } from './types';
 
 export const useGetTransactionList = (
   params: GetTransactionListParams,

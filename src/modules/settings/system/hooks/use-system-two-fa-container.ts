@@ -1,12 +1,12 @@
-import { KEYS, useDisableTwoFa } from "@/apis/auth";
-import { useAuthContext } from "@/integrations/auth/auth-provider";
-import { useTranslation } from "@/integrations/i18n";
-import { getContext } from "@/integrations/tanstack-query/root-provider";
-import { useCallback, useState } from "react";
-import { toast } from "sonner";
+import { KEYS, useDisableTwoFa } from '@/apis/auth';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { useTranslation } from '@/integrations/i18n';
+import { getContext } from '@/integrations/tanstack-query/root-provider';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 
 export const useSystemTwoFaContainer = () => {
-  const { t } = useTranslation("settings-page");
+  const { t } = useTranslation('settings-page');
   const { user, onRefetch } = useAuthContext();
   const { queryClient } = getContext();
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
@@ -43,7 +43,7 @@ export const useSystemTwoFaContainer = () => {
       await disableTwoFaMutation.mutateAsync({ password });
       await queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
       onRefetch();
-      toast.success(t("messages.two-fa-disabled-success", { ns: "common" }));
+      toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
       setIsRemovedTwoFa(false);
     },
     [disableTwoFaMutation]

@@ -1,7 +1,7 @@
-import { ROUTES } from "@/constant";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { ROUTES } from '@/constant';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/(public)/")({
+export const Route = createFileRoute('/(public)/')({
   beforeLoad: ({ context }) => {
     const auth = context.auth;
     const to = auth.isAuthenticated ? ROUTES.DASHBOARD : ROUTES.LOGIN;

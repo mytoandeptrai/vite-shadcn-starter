@@ -38,12 +38,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <NavigationProgress />
       <Outlet />
       <Show when={env.ENVIRONMENT === 'dev'}>
-      <TanStackDevtools
-        config={{
-          position: 'bottom-right',
-        }}
-        plugins={[TanStackQueryDevtools]}
-      />
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[TanStackQueryDevtools]}
+        />
       </Show>
       <Toaster richColors position='top-right' />
     </HelmetProvider>

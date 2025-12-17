@@ -30,4 +30,3 @@ export const setLocalStorageItemWithTtl = (key: string, value: string, ttl?: num
 
   localStorage.setItem(key, JSON.stringify(item));
 };
-  

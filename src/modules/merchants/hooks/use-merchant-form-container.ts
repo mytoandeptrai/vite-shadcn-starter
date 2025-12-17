@@ -30,7 +30,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
   };
 
   const onSubmit = async (data: MerchantCreateFormData) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
+    console.log('🚀 ~ onSubmit ~ data:', data);
     switch (actionType) {
       case 'create':
         break;

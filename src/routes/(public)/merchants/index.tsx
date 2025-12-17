@@ -1,13 +1,13 @@
 import { PAGE_SIZE_OPTIONS } from '@/constant';
-import { MerchantContainer } from '@/modules/merchants'
-import { createFileRoute } from '@tanstack/react-router'
+import { MerchantContainer } from '@/modules/merchants';
+import { createFileRoute } from '@tanstack/react-router';
 import z from 'zod';
 
 const merchantsSearchSchema = z.object({
   page: z.number().optional(),
   pageSize: z.number().optional(),
   sortBy: z.string().optional(),
-  sortOrder: z.union([z.literal("asc"), z.literal("desc"), z.undefined()]),
+  sortOrder: z.union([z.literal('asc'), z.literal('desc'), z.undefined()]),
   status: z.array(z.string()).optional(),
   search: z.string().optional(),
 });
@@ -25,5 +25,4 @@ export const Route = createFileRoute('/(public)/merchants/')({
     };
   },
   component: MerchantContainer,
-})
-
+});

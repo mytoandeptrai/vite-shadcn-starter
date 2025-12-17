@@ -25,7 +25,7 @@ export const useDashboardSummaryContainer = () => {
   }, []);
 
   /** TODO: Request API with selectedValue */
-  const chartData = useMemo(() => monthChartData(Number(selectedValue)), [selectedValue])
+  const chartData = useMemo(() => monthChartData(Number(selectedValue)), [selectedValue]);
 
   return {
     t,

@@ -34,4 +34,3 @@ export const Route = createFileRoute('/(public)/transactions')({
   },
   component: TransactionContainer,
 });
-

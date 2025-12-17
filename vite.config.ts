@@ -24,7 +24,7 @@ export default defineConfig({
     tanstackRouter({
       target: 'react',
       autoCodeSplitting: true,
-      routeToken: "layout"
+      routeToken: 'layout',
     }),
     viteReact(),
     tailwindcss(),

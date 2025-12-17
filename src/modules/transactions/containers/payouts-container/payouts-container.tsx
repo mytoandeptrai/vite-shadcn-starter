@@ -2,13 +2,7 @@ import { usePayoutsContainer } from '../../hooks';
 import TransactionTableContainer from '../transaction-table-container';
 
 const PayoutsContainer = () => {
-  const {
-    isLoading,
-    isFetching,
-    tableData,
-    onPaginationChange,
-    onSortingChange,
-  } = usePayoutsContainer();
+  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange } = usePayoutsContainer();
 
   return (
     <TransactionTableContainer

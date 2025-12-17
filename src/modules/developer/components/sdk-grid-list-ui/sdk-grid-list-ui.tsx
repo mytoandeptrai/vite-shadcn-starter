@@ -18,11 +18,11 @@ const SDKGridListUi = ({ sdks, onSDKClick }: SDKGridListUiProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">{t('sdks.title')}</CardTitle>
+        <CardTitle className='text-lg'>{t('sdks.title')}</CardTitle>
         <CardDescription>{t('sdks.description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
           {sdks.map((sdk) => (
             <SDKGridItemUi key={sdk.id} sdk={sdk} onClick={() => onSDKClick(sdk)} />
           ))}

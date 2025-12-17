@@ -1,21 +1,15 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 import type {
   GetTransactionListParams,
   GetTransactionListResponse,
   ITransaction,
   TransactionStatus,
   TransactionType,
-} from "./types";
+} from './types';
 
-const mockTransactionList = (
-  count: number,
-  type?: TransactionType,
-  status?: TransactionStatus
-): ITransaction[] => {
-  const types: TransactionType[] = type ? [type] : ["payment", "payout"];
-  const statuses: TransactionStatus[] = status
-    ? [status]
-    : ["completed", "pending", "failed", "cancelled"];
+const mockTransactionList = (count: number, type?: TransactionType, status?: TransactionStatus): ITransaction[] => {
+  const types: TransactionType[] = type ? [type] : ['payment', 'payout'];
+  const statuses: TransactionStatus[] = status ? [status] : ['completed', 'pending', 'failed', 'cancelled'];
 
   return Array.from({ length: count }, () => {
     const transactionType = faker.helpers.arrayElement(types);
@@ -38,7 +32,7 @@ export const getTransactionList = (
   params: GetTransactionListParams,
   signal?: AbortSignal
 ): Promise<GetTransactionListResponse> => {
-  console.log("🚀 ~ getTransactionList ~ signal:", signal)
+  console.log('🚀 ~ getTransactionList ~ signal:', signal);
   return new Promise<GetTransactionListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
     setTimeout(() => {

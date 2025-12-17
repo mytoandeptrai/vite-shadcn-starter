@@ -97,7 +97,6 @@ export default function AvatarUpload({
         <p className='font-medium text-sm'>{currentFile ? 'Avatar uploaded' : 'Upload avatar'}</p>
         <p className='text-muted-foreground text-xs'>PNG, JPG up to {formatBytes(maxSize)}</p>
       </div>
-
     </div>
   );
 }

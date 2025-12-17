@@ -1,4 +1,3 @@
-
 import { regexEmail } from '@/constant';
 import type { TFunction } from 'i18next';
 import z from 'zod';
@@ -90,7 +89,7 @@ const personalFormSchema = (t: TFunction) =>
         if (!regexEmail.test(val.trim())) {
           ctx.addIssue({
             code: 'custom',
-            message: t('profile.errors.MSG-1.10'),  
+            message: t('profile.errors.MSG-1.10'),
           });
         }
       }),

@@ -1,4 +1,3 @@
-
 import { regexUrl } from '@/constant';
 import type { TFunction } from 'i18next';
 import z from 'zod';
@@ -95,14 +94,12 @@ const developerApiKeyFormSchema = (t: TFunction) =>
           });
         }
       }),
-    environment: z
-      .string()
-      .min(1, {
-        message: t('errors.common.field-required', {
-          field: t('api-keys.dialogs.generate-new-key.fields.environment.label'),
-          ns: 'common',
-        }),
+    environment: z.string().min(1, {
+      message: t('errors.common.field-required', {
+        field: t('api-keys.dialogs.generate-new-key.fields.environment.label'),
+        ns: 'common',
       }),
+    }),
     expiresIn: z
       .string()
       .min(1, {
@@ -111,23 +108,24 @@ const developerApiKeyFormSchema = (t: TFunction) =>
           ns: 'common',
         }),
       })
-      .refine((val) => {
-        const numVal = Number(val);
-        return !Number.isNaN(numVal);
-      }, {
-        message: t('errors.common.field-invalid', {
-          field: t('api-keys.dialogs.generate-new-key.fields.expiresIn.label'),
-          ns: 'common',
-        }),
+      .refine(
+        (val) => {
+          const numVal = Number(val);
+          return !Number.isNaN(numVal);
+        },
+        {
+          message: t('errors.common.field-invalid', {
+            field: t('api-keys.dialogs.generate-new-key.fields.expiresIn.label'),
+            ns: 'common',
+          }),
+        }
+      ),
+    permissions: z.array(z.string()).min(1, {
+      message: t('errors.common.field-required', {
+        field: t('api-keys.dialogs.generate-new-key.fields.permissions.label'),
+        ns: 'common',
       }),
-    permissions: z
-      .array(z.string())
-      .min(1, {
-        message: t('errors.common.field-required', {
-          field: t('api-keys.dialogs.generate-new-key.fields.permissions.label'),
-          ns: 'common',
-        }),
-      }),
+    }),
   });
 
 type DeveloperApiKeyFormData = z.infer<ReturnType<typeof developerApiKeyFormSchema>>;

@@ -15,7 +15,7 @@ export type BalanceWithdrawUiProps = React.ComponentProps<typeof DialogPrimitive
   onClose?: () => void;
   max: number;
   selectedToken: string;
-  walletTokenOptions: Option<string>[]
+  walletTokenOptions: Option<string>[];
 };
 
 const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {

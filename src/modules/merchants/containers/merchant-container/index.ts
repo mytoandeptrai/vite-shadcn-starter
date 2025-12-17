@@ -1,2 +1,2 @@
-export { default } from "./merchant-container";
-export * from "./merchant-container";
+export { default } from './merchant-container';
+export * from './merchant-container';

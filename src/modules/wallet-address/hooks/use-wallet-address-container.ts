@@ -61,7 +61,10 @@ export const useWalletAddressContainer = () => {
     }
   };
 
-  const onAction = (walletAddress: IWalletAddress, actionType: 'activate' | 'deactivate' | 'delete' | 'update' | 'create') => {
+  const onAction = (
+    walletAddress: IWalletAddress,
+    actionType: 'activate' | 'deactivate' | 'delete' | 'update' | 'create'
+  ) => {
     setEditingWalletAddress(walletAddress);
     setActionType(actionType);
   };

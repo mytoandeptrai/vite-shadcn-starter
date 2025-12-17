@@ -50,7 +50,7 @@ export type CommonRequestType = {
   page?: number;
   pageSize?: number;
   sortBy?: string;
-  orderBy?: "desc" | "asc";
+  orderBy?: 'desc' | 'asc';
   fields?: string;
   search?: string;
 };

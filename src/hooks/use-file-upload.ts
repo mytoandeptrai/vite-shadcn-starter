@@ -81,8 +81,8 @@ export const useFileUpload = (options: FileUploadOptions = {}): [FileUploadState
           return t('errors.common.file-size-exceeds', { file: { name: file.name }, maxSize: formatBytes(maxSize) });
         }
       } else if (file.size > maxSize) {
-          return t('errors.common.file-size-exceeds', { file: { name: file.name }, maxSize: formatBytes(maxSize) });
-        }
+        return t('errors.common.file-size-exceeds', { file: { name: file.name }, maxSize: formatBytes(maxSize) });
+      }
 
       if (accept !== '*') {
         const acceptedTypes = accept.split(',').map((type) => type.trim());

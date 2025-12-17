@@ -1,19 +1,11 @@
-import type {
-  GetSDKListParams,
-  GetSDKListResponse,
-  GetSDKDetailParams,
-  GetSDKDetailResponse,
-} from "./types";
-import { SDK_LIST } from "@/modules/developer/constants/sdk.constants";
-import type { ISDK } from "@/modules/developer/types/sdk.types";
+import type { GetSDKListParams, GetSDKListResponse, GetSDKDetailParams, GetSDKDetailResponse } from './types';
+import { SDK_LIST } from '@/modules/developer/constants/sdk.constants';
+import type { ISDK } from '@/modules/developer/types/sdk.types';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const getSDKList = async (
-  params: GetSDKListParams,
-  signal?: AbortSignal
-): Promise<GetSDKListResponse> => {
-  console.log("🚀 ~ getSDKList ~ signal:", signal)
+export const getSDKList = async (params: GetSDKListParams, signal?: AbortSignal): Promise<GetSDKListResponse> => {
+  console.log('🚀 ~ getSDKList ~ signal:', signal);
   await sleep(500);
 
   let filteredSDKs: ISDK[] = SDK_LIST;
@@ -27,17 +19,14 @@ export const getSDKList = async (
   };
 };
 
-export const getSDKDetail = async (
-  params: GetSDKDetailParams,
-  signal?: AbortSignal
-): Promise<GetSDKDetailResponse> => {
-  console.log("🚀 ~ getSDKDetail ~ signal:", signal)
+export const getSDKDetail = async (params: GetSDKDetailParams, signal?: AbortSignal): Promise<GetSDKDetailResponse> => {
+  console.log('🚀 ~ getSDKDetail ~ signal:', signal);
   await sleep(300);
 
   const sdk = SDK_LIST.find((s) => s.id === params.id);
 
   if (!sdk) {
-    throw new Error("SDK not found");
+    throw new Error('SDK not found');
   }
 
   return {
