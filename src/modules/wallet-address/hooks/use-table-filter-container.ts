@@ -4,8 +4,8 @@ import type { Option } from '@/types';
 import type { TFunction } from 'i18next';
 import { useMemo } from 'react';
 const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('chains.ETH', { ns: 'common' }), value: 'eth' },
-  { label: t('chains.BNB', { ns: 'common' }), value: 'bnb' },
+  { label: t('chains.ETH', { ns: 'common' }), value: 'ethereum' },
+  { label: t('chains.BNB', { ns: 'common' }), value: 'bsc' },
 ];
 
 export const useTableFilterContainer = () => {
