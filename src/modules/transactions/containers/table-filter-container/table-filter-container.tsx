@@ -29,7 +29,7 @@ const TableFilterContainer = () => {
           onChange={(val) => {
             onSearchValueChange?.(String(val));
           }}
-          className="w-60 md:w-80 h-10!"
+          className="h-10! w-60 md:w-80"
         />
 
         <MultiSelectPicker

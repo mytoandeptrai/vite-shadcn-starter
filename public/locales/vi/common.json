@@ -128,7 +128,9 @@
     "two-fa-setup-success": "Xác thực hai yếu tố đã được bật thành công. Vui lòng đăng nhập lại để tiếp tục.",
     "two-fa-disabled-success": "Xác thực hai yếu tố đã được tắt thành công.",
     "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này.",
-    "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục."
+    "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục.",
+    "no-results-found": "Không tìm thấy kết quả.",
+    "clear-filters": "Xóa bộ lọc"
   },
   "labels": {
     "all": "Tất cả",

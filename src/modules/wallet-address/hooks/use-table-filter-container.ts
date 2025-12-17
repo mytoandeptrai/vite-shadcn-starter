@@ -1,15 +1,15 @@
-import { useTranslation } from "@/integrations/i18n";
-import { Route } from "@/routes/(public)/wallet-address";
-import type { Option } from "@/types";
-import type { TFunction } from "i18next";
-import { useMemo } from "react";
+import { useTranslation } from '@/integrations/i18n';
+import { Route } from '@/routes/(public)/wallet-address';
+import type { Option } from '@/types';
+import type { TFunction } from 'i18next';
+import { useMemo } from 'react';
 const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t("chains.ETH", { ns: "common" }), value: "eth" },
-  { label: t("chains.BNB", { ns: "common" }), value: "bnb" },
+  { label: t('chains.ETH', { ns: 'common' }), value: 'eth' },
+  { label: t('chains.BNB', { ns: 'common' }), value: 'bnb' },
 ];
 
 export const useTableFilterContainer = () => {
-  const { t } = useTranslation("wallet-address-page");
+  const { t } = useTranslation('wallet-address-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 

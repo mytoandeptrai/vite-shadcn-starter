@@ -1,22 +1,20 @@
-import { useTranslation } from "@/integrations/i18n";
-import { Route } from "@/routes/(public)/transactions";
-import type { Option } from "@/types";
-import type { TFunction } from "i18next";
-import { useMemo } from "react";
-import type { DateRange } from "react-day-picker";
+import { useTranslation } from '@/integrations/i18n';
+import { Route } from '@/routes/(public)/transactions';
+import type { Option } from '@/types';
+import type { TFunction } from 'i18next';
+import { useMemo } from 'react';
+import type { DateRange } from 'react-day-picker';
 
 const STATUS_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t("status.all"), value: "" },
-  { label: t("status.completed"), value: "completed" },
-  { label: t("status.pending"), value: "pending" },
-  { label: t("status.failed"), value: "failed" },
-  { label: t("status.cancelled"), value: "cancelled" },
+  { label: t('status.completed'), value: 'completed' },
+  { label: t('status.pending'), value: 'pending' },
+  { label: t('status.failed'), value: 'failed' },
+  { label: t('status.cancelled'), value: 'cancelled' },
 ];
 
 const TYPE_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t("types.all"), value: "" },
-  { label: t("types.payment"), value: "payment" },
-  { label: t("types.payout"), value: "payout" },
+  { label: t('types.payment'), value: 'payment' },
+  { label: t('types.payout'), value: 'payout' },
 ];
 
 const generateSelectedDateRange = (dateFrom?: string, dateTo?: string) => {
@@ -39,7 +37,7 @@ const generateSelectedDateRange = (dateFrom?: string, dateTo?: string) => {
 };
 
 export const useTableFilterContainer = () => {
-  const { t } = useTranslation("transactions-page");
+  const { t } = useTranslation('transactions-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -96,10 +94,7 @@ export const useTableFilterContainer = () => {
     searchValue: search.search,
     selectedStatuses: search.status,
     selectedTypes: search.type,
-    selectedDateRange: generateSelectedDateRange(
-      search.dateFrom,
-      search.dateTo
-    ),
+    selectedDateRange: generateSelectedDateRange(search.dateFrom, search.dateTo),
     selectedTab: search.tab,
     onSearchValueChange,
     onStatusValueChange,

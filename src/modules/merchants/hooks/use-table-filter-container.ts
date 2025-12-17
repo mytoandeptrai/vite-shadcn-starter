@@ -5,7 +5,6 @@ import type { TFunction } from "i18next";
 import { useMemo } from "react";
 
 const STATUS_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t("status.all"), value: "all" },
   { label: t("status.active"), value: "active" },
   { label: t("status.inactive"), value: "inactive" },
 ];
