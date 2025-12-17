@@ -23,23 +23,23 @@ const NotFoundPage = () => {
         <EmptyHeader>
           <div className='relative mb-8'>
             <div className='absolute inset-0 flex items-center justify-center'>
-              <div className='text-[120px] font-bold leading-none text-muted-foreground/20 select-none'>404</div>
+              <div className='select-none font-bold text-[120px] text-muted-foreground/20 leading-none'>404</div>
             </div>
-            <EmptyMedia variant='icon' className='relative bg-transparent size-24'>
+            <EmptyMedia variant='icon' className='relative size-24 bg-transparent'>
               <FileQuestion className='size-12 text-muted-foreground' />
             </EmptyMedia>
           </div>
-          <EmptyTitle className='text-3xl font-bold'>
+          <EmptyTitle className='font-bold text-3xl'>
             {t('not-found.title', { defaultValue: 'Page Not Found' })}
           </EmptyTitle>
-          <EmptyDescription className='text-base max-w-md'>
+          <EmptyDescription className='max-w-md text-base'>
             {t('not-found.description', {
               defaultValue:
                 "The page you're looking for doesn't exist or has been moved. Please check the URL and try again.",
             })}
           </EmptyDescription>
         </EmptyHeader>
-        <div className='mt-8 flex flex-col sm:flex-row items-center justify-center gap-4'>
+        <div className='mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row'>
           <Button size='lg' onClick={handleGoHome} className='min-w-[160px]'>
             <Home className='size-4' />
             {t('not-found.goHome', { defaultValue: 'Go to Dashboard' })}

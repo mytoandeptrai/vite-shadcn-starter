@@ -1,9 +1,9 @@
 import DateRangePicker from '@/components/ui/date-range-picker';
 import MultiSelectPicker from '@/components/ui/multi-select-picker';
 import { HStack, Show } from '@/components/utilities';
-import { DebouncedInput } from '@/modules/demo-table/components/debounced-input';
 import { addDays } from 'date-fns';
 import { useTableFilterContainer } from '../../hooks';
+import { DebouncedInput } from '@/components/ui/debounced-input';
 
 const TableFilterContainer = () => {
   const {

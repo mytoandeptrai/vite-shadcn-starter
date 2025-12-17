@@ -1,5 +1,5 @@
+import { DebouncedInput } from '@/components/ui/debounced-input';
 import { useTranslation } from '@/integrations/i18n';
-import { DebouncedInput } from '@/modules/demo-table/components/debounced-input';
 import { useState } from 'react';
 
 const AppHeaderSearch = () => {

@@ -5,14 +5,14 @@ import LoadingSpinner from './components/shared/loading-spinner/loading-spinner.
 import { ErrorBoundary } from './components/ui/error-boundary.tsx';
 import * as I18nProvider from './integrations/i18n/root-provider';
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx';
-import { ThemeProvider } from './integrations/theme/theme-provider.tsx';
 import reportWebVitals from './reportWebVitals.ts';
+
+import { HelmetProvider } from 'react-helmet-async';
+import { useAuthContext } from './integrations/auth/auth-provider.tsx';
+import { InfraProviders } from './integrations/infra-providers.tsx';
 // Import the generated route tree
-import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
-import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
 import { routeTree } from './routeTree.gen';
 import './styles.css';
-import { HelmetProvider } from 'react-helmet-async';
 
 // Create a new router instance
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
@@ -48,19 +48,15 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <I18nProvider.Provider>
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-          <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
-            <ErrorBoundary>
-              <HelmetProvider>
-                <DialogProvider>
-                  <AuthProvider>
-                    <Suspense fallback={<LoadingSpinner />}>
-                      <InnerApp />
-                    </Suspense>
-                  </AuthProvider>
-                </DialogProvider>
-              </HelmetProvider>
-            </ErrorBoundary>
-          </ThemeProvider>
+          <HelmetProvider>
+            <InfraProviders>
+              <ErrorBoundary>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <InnerApp />
+                </Suspense>
+              </ErrorBoundary>
+            </InfraProviders>
+          </HelmetProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>
     </StrictMode>

@@ -14,8 +14,6 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
 import { Route as publicWalletAddressRouteImport } from './routes/(public)/wallet-address'
@@ -58,16 +56,6 @@ const publicIndexRoute = publicIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => publicLayoutRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStorybookRoute = DemoStorybookRouteImport.update({
   id: '/demo/storybook',
@@ -183,8 +171,6 @@ export interface FileRoutesByFullPath {
   '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
   '/settings/profile': typeof publicSettingsProfileRoute
   '/settings/system': typeof publicSettingsSystemRoute
@@ -209,8 +195,6 @@ export interface FileRoutesByTo {
   '/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/': typeof publicIndexRoute
   '/settings/profile': typeof publicSettingsProfileRoute
   '/settings/system': typeof publicSettingsSystemRoute
@@ -238,8 +222,6 @@ export interface FileRoutesById {
   '/(public)/wallet-address': typeof publicWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/(public)/': typeof publicIndexRoute
   '/(public)/settings/profile': typeof publicSettingsProfileRoute
   '/(public)/settings/system': typeof publicSettingsSystemRoute
@@ -266,8 +248,6 @@ export interface FileRouteTypes {
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
     | '/settings/profile'
     | '/settings/system'
@@ -292,8 +272,6 @@ export interface FileRouteTypes {
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
     | '/settings/profile'
     | '/settings/system'
@@ -320,8 +298,6 @@ export interface FileRouteTypes {
     | '/(public)/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/(public)/'
     | '/(public)/settings/profile'
     | '/(public)/settings/system'
@@ -336,8 +312,6 @@ export interface RootRouteChildren {
   R404Route: typeof R404Route
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -376,20 +350,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof publicIndexRouteImport
       parentRoute: typeof publicLayoutRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/demo/storybook': {
       id: '/demo/storybook'
@@ -590,8 +550,6 @@ const rootRouteChildren: RootRouteChildren = {
   R404Route: R404Route,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

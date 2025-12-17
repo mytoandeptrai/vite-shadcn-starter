@@ -1,7 +1,7 @@
 import MultiSelectPicker from '@/components/ui/multi-select-picker';
 import { HStack } from '@/components/utilities';
-import { DebouncedInput } from '@/modules/demo-table/components/debounced-input';
 import { useTableFilterContainer } from '../../hooks';
+import { DebouncedInput } from '@/components/ui/debounced-input';
 
 const TableFilterContainer = () => {
   const { t, options, searchValue, selectedStatus, onSearchValueChange, onStatusChange } = useTableFilterContainer();
