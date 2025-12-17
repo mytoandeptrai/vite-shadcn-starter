@@ -139,7 +139,7 @@ export default function MultiSelectPicker({
                         isSelected ? 'bg-primary [&_svg]:text-white' : 'opacity-50 [&_svg]:invisible'
                       )}
                     >
-                      <Check className='text-white' />
+                      <Check className='text-white dark:text-black' />
                     </div>
 
                     <span className='truncate'>{option.label}</span>

@@ -30,7 +30,7 @@ const DashboardChartUi = ({ data, chartConfig }: DashboardChartUiProps) => {
         <Line
           type='monotone'
           dataKey='mobile'
-          stroke='var(--color-mobile)'
+          stroke='var(--color-stroke-mobile)'
           strokeWidth={2}
           dot={false}
           activeDot={{ r: 4 }}
@@ -39,7 +39,7 @@ const DashboardChartUi = ({ data, chartConfig }: DashboardChartUiProps) => {
         <Line
           type='monotone'
           dataKey='desktop'
-          stroke='var(--color-desktop)'
+          stroke='var(--color-stroke-desktop)'
           strokeWidth={2}
           dot={false}
           activeDot={{ r: 4 }}
