@@ -1,7 +1,7 @@
 import { useGetTransactionList } from '@/apis/transactions';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/transactions';
+import { Route } from '@/routes/(private)/transactions';
 import type { SortingState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 

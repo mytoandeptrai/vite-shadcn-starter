@@ -1,7 +1,7 @@
 import { PageContainer } from '@/components/containers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/transactions';
+import { Route } from '@/routes/(private)/transactions';
 import AllActivityContainer from '../all-activity-container';
 import PaymentsContainer from '../payments-container';
 import PayoutsContainer from '../payouts-container';

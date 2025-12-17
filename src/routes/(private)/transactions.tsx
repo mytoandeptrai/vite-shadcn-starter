@@ -16,7 +16,7 @@ const transactionsSearchSchema = z.object({
   dateTo: z.string().optional(),
 });
 
-export const Route = createFileRoute('/(public)/transactions')({
+export const Route = createFileRoute('/(private)/transactions')({
   validateSearch: (search) => {
     const result = transactionsSearchSchema.parse(search);
     return {

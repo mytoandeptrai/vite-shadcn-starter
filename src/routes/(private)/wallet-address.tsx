@@ -13,7 +13,7 @@ const walletAddressSearchSchema = z.object({
   search: z.string().optional(),
 });
 
-export const Route = createFileRoute('/(public)/wallet-address')({
+export const Route = createFileRoute('/(private)/wallet-address')({
   validateSearch: (search) => {
     const result = walletAddressSearchSchema.parse(search);
     return {

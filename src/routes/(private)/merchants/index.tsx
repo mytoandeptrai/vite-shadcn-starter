@@ -12,7 +12,7 @@ const merchantsSearchSchema = z.object({
   search: z.string().optional(),
 });
 
-export const Route = createFileRoute('/(public)/merchants/')({
+export const Route = createFileRoute('/(private)/merchants/')({
   validateSearch: (search) => {
     const result = merchantsSearchSchema.parse(search);
     return {

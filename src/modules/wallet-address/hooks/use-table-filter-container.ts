@@ -1,5 +1,5 @@
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/wallet-address';
+import { Route } from '@/routes/(private)/wallet-address';
 import type { Option } from '@/types';
 import type { TFunction } from 'i18next';
 import { useMemo } from 'react';

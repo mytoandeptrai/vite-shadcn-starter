@@ -1,7 +1,7 @@
 import { useGetMerchantList, type IMerchant } from '@/apis/merchants';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/merchants';
+import { Route } from '@/routes/(private)/merchants';
 import type { SortingState } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
 

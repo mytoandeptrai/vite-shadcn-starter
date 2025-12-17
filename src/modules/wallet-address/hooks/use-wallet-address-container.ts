@@ -2,7 +2,7 @@ import { useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-addr
 import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/wallet-address';
+import { Route } from '@/routes/(private)/wallet-address';
 import type { SortingState } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 

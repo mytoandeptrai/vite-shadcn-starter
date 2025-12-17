@@ -1,5 +1,5 @@
 import { useTranslation } from '@/integrations/i18n';
-import { Route } from '@/routes/(public)/transactions';
+import { Route } from '@/routes/(private)/transactions';
 import type { Option } from '@/types';
 import type { TFunction } from 'i18next';
 import { useMemo } from 'react';
