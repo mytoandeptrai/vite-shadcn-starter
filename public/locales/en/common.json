@@ -271,10 +271,10 @@
     "ALL": "All"
   },
   "chains-token": {
-    "BNB-USDT": "BNB-USDT",
-    "BNB-USDC": "BNB-USDC",
-    "ETH-USDT": "ETH-USDT",
-    "ETH-USDC": "ETH-USDC"
+    "USDT-BRC20": "USDT-BRC20",
+    "USDC-BRC20": "USDC-BRC20",
+    "USDT-ERC20": "USDT-ERC20",
+    "USDC-ERC20": "USDC-ERC20"
   },
   "not-found": {
     "title": "Page Not Found",

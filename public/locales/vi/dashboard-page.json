@@ -40,6 +40,20 @@
     "7-days": "7 ngày gần đây",
     "30-days": "30 ngày gần đây",
     "placeholder": "Chọn khoảng thời gian",
-    "label": "Khoảng thời gian"
+    "label": "Khoảng thời gian",
+    "usdt-erc20": "USDT-ERC20",
+        "usdc-erc20": "USDC-ERC20",
+        "usdt-brc20": "USDT-BRC20",
+        "usdc-brc20": "USDC-BRC20"
+    },
+    "summary-chart": {
+        "orders": "Đơn hàng"
+    },
+    "api-chart": {
+        "success": "Thành công",
+        "failure": "Thất bại"
+    },
+    "balance-chart": {
+        "value": "Giá trị"
   }
 }

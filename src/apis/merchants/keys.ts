@@ -1,5 +1,7 @@
 export const KEYS = {
-  MERCHANTS: '/merchants',
-  MERCHANT_DETAIL: '/merchants/:id',
-  MERCHANT_STATUS: '/merchants/:id/status',
+  MERCHANTS: '',
+  MERCHANT_DETAIL: '/:id',
+  MERCHANT_STATUS: '/:id/status',
+  MERCHANT_EXCHANGE_RATES: '/exchange-rates',
+  MERCHANT_BALANCE: '/balance',
 };

@@ -1,5 +1,11 @@
+import httpInstance from '../http-instance';
+import { KEYS } from './keys';
 import type {
   CreateMerchantParams,
+  GetMerchantBalanceParams,
+  GetMerchantBalanceResponse,
+  GetMerchantExchangeRatesParams,
+  GetMerchantExchangeRatesResponse,
   GetMerchantListParams,
   GetMerchantListResponse,
   IMerchant,
@@ -101,4 +107,30 @@ export const updateMerchantStatus = (params: UpdateMerchantStatusParams, signal?
 
   // const url = KEYS.MERCHANT_STATUS.replace(':id', params.id);
   // return httpInstance.patch<IMerchant>(url, { status: params.status }, { signal }).then((res) => res);
+};
+
+export const getMerchantExchangeRates = (params: GetMerchantExchangeRatesParams, signal?: AbortSignal) => {
+  return httpInstance
+    .get<GetMerchantExchangeRatesResponse>(KEYS.MERCHANT_EXCHANGE_RATES, { params, signal })
+    .then((res) => res);
+};
+
+export const getMerchantBalance = (params: GetMerchantBalanceParams, signal?: AbortSignal) => {
+  console.log("🚀 ~ getMerchantBalance ~ signal:", signal)
+  console.log("🚀 ~ getMerchantBalance ~ params:", params)
+  return new Promise<GetMerchantBalanceResponse>((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data: {
+          availableBalance: Math.floor(Math.random() * 100000),
+          incomingBalance: Math.floor(Math.random() * 100000),
+        },
+        code: 200,
+        message: 'Success',
+      });
+    }, 500);
+  });
+  // return httpInstance
+  //   .get<GetMerchantBalanceResponse>(KEYS.MERCHANT_BALANCE, { params, signal })
+  //   .then((res) => res);
 };

@@ -13,6 +13,8 @@ export interface IUserInfo {
   firstname: string;
   lastname: string;
   wallets: IWalletAddress[];
+  role?: string;
+  permissions?: string[];
 }
 
 export interface LoginParams {

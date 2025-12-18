@@ -9,13 +9,7 @@ import { useMemo } from 'react';
  */
 const CURRENCY_OPTIONS: Currency[] = [
   {
-    code: 'USDT',
-    symbol: '$',
-    locale: 'en-US',
-    decimalPlaces: 2,
-  },
-  {
-    code: 'USDC',
+    code: 'USD',
     symbol: '$',
     locale: 'en-US',
     decimalPlaces: 2,

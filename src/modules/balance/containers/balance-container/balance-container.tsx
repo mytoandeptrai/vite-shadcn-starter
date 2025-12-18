@@ -8,15 +8,17 @@ import BalanceSelectUi from '../../components/balance-select-ui';
 const BalanceContainer = () => {
   const {
     t,
-    balance,
-    incomingBalance,
-    isOpenDialog,
     tokenOptions,
     selectedToken,
+    availableBalance,
+    incomingBalance,
+    isOpenDialog,
     walletTokenOptions,
-    onSelectToken,
+    isLoading,
+    exchangeRate,
     onCloseDialog,
     onOpenDialog,
+    onSelectToken,
   } = useBalanceContainer();
   return (
     <PageContainer
@@ -32,15 +34,21 @@ const BalanceContainer = () => {
         <BalanceSectionUi
           title={t('labels.available-balance')}
           description={t('labels.ready-to-withdraw')}
-          amount={balance}
           type='available'
+          amount={availableBalance}
+          selectedToken={selectedToken}
+          isLoading={isLoading}
+          exchangeRate={exchangeRate}
           onClick={onOpenDialog}
         />
         <BalanceSectionUi
           title={t('labels.incoming-balance')}
           description={t('labels.processing-transactions')}
-          amount={incomingBalance}
           type='incoming'
+          selectedToken={selectedToken}
+          amount={incomingBalance}
+          isLoading={isLoading}
+          exchangeRate={exchangeRate}
         />
       </div>
       <Show when={isOpenDialog}>
@@ -48,7 +56,7 @@ const BalanceContainer = () => {
           walletTokenOptions={walletTokenOptions}
           selectedToken={selectedToken}
           open={isOpenDialog}
-          max={balance}
+          max={availableBalance}
           onClose={onCloseDialog}
         />
       </Show>

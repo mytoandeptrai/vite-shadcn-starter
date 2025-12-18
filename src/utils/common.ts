@@ -170,6 +170,18 @@ export const groupByKey = <T>(array: T[], key: keyof T): Record<string, T[]> => 
   );
 };
 
+export function formatNaturalNumber(
+  value: number | null | undefined,
+  options?: Intl.NumberFormatOptions,
+  locale = 'en-US'
+): string {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '-';
+  }
+
+  return new Intl.NumberFormat(locale, options).format(value);
+}
+
 export const formatCurrency = (amount: number | string, currency: Currency): string => {
   const value = typeof amount === 'string' ? Number(amount) : amount;
 

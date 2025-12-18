@@ -57,8 +57,18 @@ export const messageError = {
 };
 
 export const CURRENCY_CODE_MAPPING: Record<string, string> = {
-  USDT: 'USD',
-  USDC: 'USD',
+  USD: 'USD',
   THB: 'THB',
   VND: 'VND',
+};
+
+export const CURRENCY_SYMBOL_MAPPING: Record<string, string> = {
+  USD: '$',
+  THB: '฿',
+  VND: '₫',
+};
+
+export const PROTOCOL_CHAIN_MAPPING: Record<string, string> = {
+  BRC20: 'BSC',
+  ERC20: 'ETH',
 };

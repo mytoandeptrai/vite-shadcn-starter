@@ -1,4 +1,4 @@
-import type { CommonRequestType, IPaginatedResponseType } from '@/types';
+import type { BaseResponseType, CommonRequestType, IPaginatedResponseType } from '@/types';
 
 export interface IMerchant {
   id: string;
@@ -8,6 +8,18 @@ export interface IMerchant {
   createdAt: string;
   balance: number;
   status: 'active' | 'inactive';
+}
+
+export interface IExchangeRate {
+  currency: string;
+  token: string;
+  rate: number;
+  source: string;
+}
+
+export interface IBalance{
+  availableBalance: number;
+  incomingBalance: number;
 }
 
 export interface GetMerchantListParams extends CommonRequestType {
@@ -26,4 +38,18 @@ export interface UpdateMerchantStatusParams {
   status: 'active' | 'inactive';
 }
 
+export interface GetMerchantExchangeRatesParams {
+  currency: string;
+  token: string;
+}
+
+export interface GetMerchantBalanceParams {
+  chain: string;
+  token: string;
+}
+
 export interface GetMerchantListResponse extends IPaginatedResponseType<IMerchant[]> {}
+
+export interface GetMerchantExchangeRatesResponse extends BaseResponseType<IExchangeRate> {}
+
+export interface GetMerchantBalanceResponse extends BaseResponseType<IBalance> {}

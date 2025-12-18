@@ -31,12 +31,15 @@ import { useLocation } from '@tanstack/react-router';
 import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon, UserCircle2Icon } from 'lucide-react';
 import { navItems } from './app-sidebar.config';
 import { Logo } from '@/components/ui/logo';
+import { useFilteredNavItems } from '@/hooks/use-nav';
 
 const AppSidebar = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const { t } = useTranslation();
   const { user, onSignout } = useAuthContext();
+
+  const filteredNavItems = useFilteredNavItems(navItems(t));
 
   return (
     <Sidebar collapsible='icon'>
@@ -54,7 +57,7 @@ const AppSidebar = () => {
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup>
           <SidebarMenu>
-            {navItems(t).map((item) => {
+            {filteredNavItems.map((item) => {
               const Icon = item.icon ? item.icon : undefined;
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
