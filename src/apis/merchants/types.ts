@@ -1,4 +1,5 @@
 import type { BaseResponseType, CommonRequestType, IPaginatedResponseType } from '@/types';
+import type { IWalletAddress } from '../wallet-address';
 
 export interface IMerchant {
   id: string;
@@ -8,6 +9,7 @@ export interface IMerchant {
   createdAt: string;
   balance: number;
   status: 'active' | 'inactive';
+  walletAddresses?: IWalletAddress[];
 }
 
 export interface IExchangeRate {

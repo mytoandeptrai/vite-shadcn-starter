@@ -11,25 +11,25 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
     .object({
       address: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.wallet-address.label'),
+          field: t('fields.wallet-address.label', { ns: 'wallet-address-page' }),
           ns: 'common',
         }),
       }),
       chain: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.blockchain.label'),
+          field: t('fields.chain.label', { ns: 'wallet-address-page' }),
           ns: 'common',
         }),
       }),
       label: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.label.label'),
+          field: t('fields.label.label', { ns: 'wallet-address-page' }),
           ns: 'common',
         }),
       }),
       token: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.token.label'),
+          field: t('fields.token.label', { ns: 'wallet-address-page' }),
           ns: 'common',
         }),
       }),

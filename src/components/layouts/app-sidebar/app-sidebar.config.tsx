@@ -53,9 +53,9 @@ export const navItems = (t: TFunction): NavItem[] => [
     shortcut: ['m', 'm'],
     isActive: false,
     items: [],
-    access: {
-      role: 'admin',
-    },
+    // access: {
+    //   role: 'admin',
+    // },
   },
   {
     title: t('labels.developer'),

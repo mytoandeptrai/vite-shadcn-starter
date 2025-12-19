@@ -68,5 +68,8 @@
   "messages": {
     "status-updated": "Cập nhật trạng thái thương nhân thành công",
     "status-update-failed": "Không thể cập nhật trạng thái thương nhân"
+  },
+  "errors": {
+    "wallet-addresses-required": "Cần ít nhất một địa chỉ ví"
   }
 }

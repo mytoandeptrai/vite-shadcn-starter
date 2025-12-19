@@ -77,5 +77,8 @@
   },
   "placeholder": {
     "search": "Tìm kiếm địa chỉ ví..."
+  },
+  "errors": {
+    "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, token, label và address)"
   }
 }

@@ -34,6 +34,14 @@
     "inactive": {
       "title": "Deactivate Merchant",
       "description": "Are you sure you want to deactivate this merchant?"
+    },
+    "create-merchant-wallet": {
+      "title": "Add New Wallet Address For Merchant",
+      "description": "Enter the wallet information to add it to the merchant."
+    },
+    "update-merchant-wallet": {
+      "title": "Update Wallet Address For Merchant",
+      "description": "Enter the wallet information to update it for the merchant."
     }
   },
   "status": {
@@ -63,6 +71,10 @@
   },
   "messages": {
     "status-updated": "Merchant status updated successfully",
-    "status-update-failed": "Failed to update merchant status"
+    "status-update-failed": "Failed to update merchant status",
+    "no-wallet-addresses": "No wallet addresses added yet. Click 'Add A New Wallet Address' to add one."
+  },
+  "errors": {
+    "wallet-addresses-required": "At least one wallet address is required"
   }
 }
