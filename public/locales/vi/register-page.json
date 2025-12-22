@@ -8,7 +8,12 @@
       "register": "Đăng ký",
       "login": "Đăng nhập",
       "alreadyHaveAccount": "Đã có tài khoản? Đăng nhập ở đây",
-      "dontHaveAccount": "Chưa có tài khoản? Đăng ký ở đây"
+      "dontHaveAccount": "Chưa có tài khoản? Đăng ký ở đây",
+      "iAmA": "Tôi là"
+  },
+  "options": {
+    "merchant": "Thương nhân",
+    "marketplace": "Thị trường"
   },
   "fields": {
     "firstName": {

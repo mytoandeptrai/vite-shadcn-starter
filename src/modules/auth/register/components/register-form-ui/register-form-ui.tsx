@@ -7,26 +7,30 @@ import { CustomLink } from '@/components/ui/custom-link';
 import { Show } from '@/components/utilities';
 import { Spinner } from '@/components/ui/spinner';
 import { FormRadioGroup } from '@/components/form-fields/form-radio-group';
+import { useMemo } from 'react';
 
 type RegisterFormUiProps = {
   isLoading?: boolean;
 };
 
-const genderOptions = [
-  { value: 'merchant', label: 'Merchant' },
-  { value: 'marketplace', label: 'Marketplace' },
-];
-
 const RegisterFormUi = ({ isLoading = false }: RegisterFormUiProps) => {
   const { control } = useFormContext<RegisterFormData>();
   const { t } = useTranslation('register-page');
+
+  const typeOptions = useMemo(() => {
+    return [
+      { value: 'merchant', label: t('options.merchant') },
+      { value: 'marketplace', label: t('options.marketplace') },
+    ];
+  }, [t]);
+
   return (
     <div className='space-y-6'>
       <FormRadioGroup
         control={control}
         name='type'
-        label='I am a'
-        options={genderOptions}
+        label={t('labels.iAmA')}
+        options={typeOptions}
         orientation='horizontal'
         required
         optionClassName='w-full py-1'

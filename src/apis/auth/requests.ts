@@ -21,6 +21,8 @@ import type {
   VerifyTwoFaSetupResponse,
   VerifyTwoFaSessionParams,
   UpdatePasswordParams,
+  UpdateMarketplaceInfoResponse,
+  UpdateMarketplaceInfoParams,
 } from './types';
 
 export const getUserInfo = (signal?: AbortSignal) => {
@@ -93,4 +95,8 @@ export const signout = (params: SignoutParams, signal?: AbortSignal) => {
 
 export const updatePassword = (params: UpdatePasswordParams, signal?: AbortSignal) => {
   return httpInstance.put(KEYS.UPDATE_PASSWORD, params, { signal }).then((res) => res);
+};
+
+export const updateMarketplaceInfo = (params: UpdateMarketplaceInfoParams, signal?: AbortSignal) => {
+  return httpInstance.put<UpdateMarketplaceInfoResponse>(KEYS.MARKETPLACE_INFO, params, { signal }).then((res) => res);
 };

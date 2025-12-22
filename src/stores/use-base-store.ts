@@ -32,7 +32,7 @@ export type CurrencyStore = CurrencyStoreState & CurrencyStoreActions;
  * Default currency (USD)
  */
 export const DEFAULT_CURRENCY: Currency = {
-  code: 'USDT',
+  code: 'USD',
   symbol: '$',
   locale: 'en-US',
   decimalPlaces: 2,

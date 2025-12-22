@@ -1,4 +1,4 @@
 export const KEYS = {
-  SDK: '/developer/sdks',
-  SDK_DETAIL: '/developer/sdks/:id',
+  SDK: 'merchants/developer/sdks',
+  SDK_DETAIL: 'merchants/developer/sdks/:id',
 };

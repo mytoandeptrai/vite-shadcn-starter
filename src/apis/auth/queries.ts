@@ -10,6 +10,7 @@ import {
   resetPassword,
   setupTwoFa,
   signout,
+  updateMarketplaceInfo,
   updatePassword,
   updateUserInfo,
   verify,
@@ -27,6 +28,7 @@ import type {
   ResetPasswordParams,
   SetupTwoFaResponse,
   SignoutParams,
+  UpdateMarketplaceInfoParams,
   UpdatePasswordParams,
   UpdateUserInfoParams,
   VerifyParams,
@@ -125,6 +127,13 @@ export const useUpdateUserInfo = () => {
   return useMutation({
     mutationKey: [KEYS.INFO],
     mutationFn: (data: UpdateUserInfoParams) => updateUserInfo(data),
+  });
+};
+
+export const useUpdateMarketplaceInfo = () => {
+  return useMutation({
+    mutationKey: [KEYS.MARKETPLACE_INFO],
+    mutationFn: (data: UpdateMarketplaceInfoParams) => updateMarketplaceInfo(data),
   });
 };
 

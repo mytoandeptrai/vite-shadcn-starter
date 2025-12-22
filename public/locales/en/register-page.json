@@ -9,7 +9,12 @@
     "register": "Register",
     "login": "Login",
     "alreadyHaveAccount": "Already have an account? Login here",
-    "dontHaveAccount": "Don't have an account? Register here"
+    "dontHaveAccount": "Don't have an account? Register here",
+    "iAmA": "I am a"
+  },
+  "options": {
+    "merchant": "Merchant",
+    "marketplace": "Marketplace"
   },
   "fields": {
     "firstName": {

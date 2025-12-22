@@ -45,13 +45,6 @@ export interface GetMerchantExchangeRatesParams {
   token: string;
 }
 
-export interface GetMerchantBalanceParams {
-  chain: string;
-  token: string;
-}
-
 export interface GetMerchantListResponse extends IPaginatedResponseType<IMerchant[]> {}
 
 export interface GetMerchantExchangeRatesResponse extends BaseResponseType<IExchangeRate> {}
-
-export interface GetMerchantBalanceResponse extends BaseResponseType<IBalance> {}

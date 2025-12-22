@@ -3,11 +3,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { generateTokenOptions } from './config';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { toast } from 'sonner';
-import { PAGE_SIZE_OPTIONS, PROTOCOL_CHAIN_MAPPING, ROUTES } from '@/constant';
+import { EUserType, PAGE_SIZE_OPTIONS, PROTOCOL_CHAIN_MAPPING, ROUTES } from '@/constant';
 import { Link } from '@tanstack/react-router';
 import type { Option } from '@/types';
-import { useGetMerchantBalance, useGetMerchantExchangeRates } from '@/apis/merchants';
 import { useCurrencyStore } from '@/stores/use-base-store';
+import { useGetBalanceMarketplace, useGetMerchantBalance } from '@/apis/balances';
+import { useGetMerchantExchangeRates } from '@/apis/merchants';
 
 const ONE_MINUTES = 1000 * 60 * 1;
 const TEN_SECONDS = 1000 * 10;
@@ -15,23 +16,34 @@ const FIFTY_SECONDS = 1000 * 50;
 
 export const useBalanceContainer = () => {
   const { t } = useTranslation('balance-page');
-
   const { user } = useAuthContext();
   const { currency } = useCurrencyStore();
 
-  const tokenOptions = useMemo(() => generateTokenOptions(t), [t]);
+  const userType = user?.type;
 
+  const tokenOptions = useMemo(() => generateTokenOptions(t), [t]);
   const [selectedToken, setSelectedToken] = useState(tokenOptions[0].value);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-  const { data: balanceData, isLoading: isLoadingBalance } = useGetMerchantBalance(
+  const payload = {
+    chain: PROTOCOL_CHAIN_MAPPING[selectedToken.split('-')[1]],
+    token: selectedToken.split('-')[0],
+  };
+
+  const { data: balanceData, isLoading: isLoadingBalance } = useGetMerchantBalance(payload, {
+    staleTime: TEN_SECONDS,
+    refetchInterval: FIFTY_SECONDS,
+  });
+
+  const { data: balanceMarketplaceData, isLoading: isLoadingBalanceMarketplace } = useGetBalanceMarketplace(
     {
-      chain: PROTOCOL_CHAIN_MAPPING[selectedToken.split('-')[1]],
-      token: selectedToken.split('-')[0],
+      ...payload,
+      id: user?.id!,
     },
     {
       staleTime: TEN_SECONDS,
       refetchInterval: FIFTY_SECONDS,
+      enabled: userType === EUserType.MARKETPLACE && !!user?.id,
     }
   );
 
@@ -46,11 +58,12 @@ export const useBalanceContainer = () => {
     }
   );
 
+  const data = userType === EUserType.MARKETPLACE ? balanceMarketplaceData : balanceData;
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
   const exchangeRate = exchangeRatesData?.data?.rate ? Number(exchangeRatesData?.data?.rate) : 0;
-  const availableBalance = balanceData?.data?.availableBalance ? Number(balanceData?.data?.availableBalance) : 0;
-  const incomingBalance = balanceData?.data?.incomingBalance ? Number(balanceData?.data?.incomingBalance) : 0;
-  const isLoading = isLoadingBalance || isLoadingExchangeRates;
+  const availableBalance = data?.data?.availableBalance ? Number(data?.data?.availableBalance) : 0;
+  const incomingBalance = data?.data?.incomingBalance ? Number(data?.data?.incomingBalance) : 0;
+  const isLoading = isLoadingBalance || isLoadingExchangeRates || isLoadingBalanceMarketplace;
   const hasWallets = (user?.wallets?.length ?? 0) > 0;
 
   /** TODO: Filter wallet based on selected token here */
