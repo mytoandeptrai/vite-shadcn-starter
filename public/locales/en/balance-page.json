@@ -30,5 +30,8 @@
                 }
             }
         }
+    },
+    "messages": {
+        "no-balance": "No balance available"
     }
 }

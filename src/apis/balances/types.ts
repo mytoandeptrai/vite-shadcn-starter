@@ -1,20 +1,26 @@
 import type { BaseResponseType } from '@/types';
 
 export interface IBalance {
-  balanceAvailable: number;
-  balanceIncoming: number;
+  balance_available: string
+  balance_incoming: string
+  chain: string
+  crypto: string
+  id: number
+  marketplace_id: number
+  merchant_id: number
+  updated_at: string
 }
 
 export interface GetBalanceMarketplaceParams {
-  id: string;
-  chain: string;
-  token: string;
+  id?: string;
+  chain?: string;
+  token?: string;
 }
 
 export interface GetBalanceMerchantParams {
-  chain: string;
-  token: string;
+  chain?: string;
+  token?: string;
 }
 
-export interface GetBalanceMarketplaceResponse extends BaseResponseType<IBalance> {}
-export interface GetBalanceMerchantResponse extends BaseResponseType<IBalance> {}
+export interface GetBalanceMarketplaceResponse extends BaseResponseType<IBalance[]> {}
+export interface GetBalanceMerchantResponse extends BaseResponseType<IBalance[]> {}

@@ -12,6 +12,7 @@ export const getMerchantBalance = (params: GetBalanceMerchantParams, signal?: Ab
 };
 
 export const getBalanceMarketplace = (params: GetBalanceMarketplaceParams, signal?: AbortSignal) => {
-  const url = KEYS.BALANCE_MARKETPLACE.replace(':id', params.id);
-  return httpInstance.get<GetBalanceMarketplaceResponse>(url, { params, signal }).then((res) => res);
+  return httpInstance
+    .get<GetBalanceMarketplaceResponse>(KEYS.BALANCE_MARKETPLACE, { params, signal })
+    .then((res) => res);
 };
