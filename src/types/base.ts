@@ -63,8 +63,12 @@ export type CommonRequestType = {
 
 export type IPaginatedResponseType<T> = {
   data: T;
-  hasNextPage: boolean;
-  page: number;
-  totalPage: number;
-  totalCount: number;
+  pagination: {
+    hasNext: boolean;
+    hasPrev: boolean;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalCount: number;
+  }
 };

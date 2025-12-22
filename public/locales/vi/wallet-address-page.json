@@ -10,7 +10,8 @@
       "updated-at": "Ngày Cập Nhật",
       "actions": "Thao Tác",
       "id": "ID",
-      "status": "Trạng Thái"
+      "status": "Trạng Thái",
+      "crypto": "Crypto"
     },
     "actions": {
       "edit": "Chỉnh Sửa",
@@ -63,9 +64,9 @@
       "label": "Blockchain",
       "placeholder": "Chọn blockchain"
     },
-    "token": {
-      "label": "Token",
-      "placeholder": "Chọn token"
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Chọn crypto"
     },
     "label": {
       "label": "Nhãn",
@@ -73,12 +74,13 @@
     }
   },
   "labels": {
-    "chain": "Blockchain"
+    "chain": "Blockchain",
+    "crypto": "Crypto"
   },
   "placeholder": {
     "search": "Tìm kiếm địa chỉ ví..."
   },
   "errors": {
-    "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, token, label và address)"
+    "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, crypto, label và address)"
   }
 }

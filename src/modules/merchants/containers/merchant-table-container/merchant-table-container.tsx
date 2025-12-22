@@ -18,6 +18,8 @@ export type MerchantTableContainerProps = {
       pageIndex: number;
       pageSize: number;
       pageCount: number;
+      hasNext: boolean;
+      hasPrev: boolean;
     };
   };
 };

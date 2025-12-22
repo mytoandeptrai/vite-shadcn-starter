@@ -33,6 +33,7 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
       const id = _row.id;
       return <div className='font-medium'>{id}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'label',
@@ -71,6 +72,15 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     },
   },
   {
+    accessorKey: 'crypto',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.crypto')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      const crypto = _row.crypto;
+      return <div className='font-medium'>{crypto}</div>;
+    },
+  },
+  {
     accessorKey: 'isActive',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.status')} />,
     cell: ({ row }) => {
@@ -82,9 +92,10 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
         </Badge>
       );
     },
+    enableSorting: false,
   },
   {
-    accessorKey: 'updatedAt',
+    accessorKey: 'created_at',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
     cell: ({ row }) => {
       const _row = row.original;

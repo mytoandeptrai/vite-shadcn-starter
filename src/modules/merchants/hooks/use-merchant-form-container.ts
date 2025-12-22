@@ -44,7 +44,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
   const onAddWalletAddress = () => {
     setInitialAddressData({
       chain: '',
-      token: '',
+      crypto: '',
       label: '',
       address: '',
     });
@@ -55,7 +55,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
     if (!walletAddress) return;
     setInitialAddressData({
       chain: walletAddress.chain,
-      token: walletAddress.token,
+      crypto: walletAddress.crypto,
       label: walletAddress.label,
       address: walletAddress.address,
       id: walletAddress.id,
@@ -72,7 +72,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
       // Map wallet addresses to form structure (extract only needed fields)
       const mappedWalletAddresses = walletAddresses.map((wa) => ({
         chain: wa?.chain,
-        token: wa?.token,
+        crypto: wa?.crypto,
         label: wa?.label,
         address: wa?.address,
         id: wa?.id ? String(wa.id) : undefined,

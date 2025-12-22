@@ -70,7 +70,7 @@ const MerchantAddressList = ({ onAdd, onEdit, isLoading }: MerchantAddressListPr
                             {field.chain?.toUpperCase()}
                           </Badge>
                           <Badge variant='secondary' className='text-xs'>
-                            {field.token?.toUpperCase()}
+                            {field.crypto?.toUpperCase()}
                           </Badge>
                         </div>
                       </div>

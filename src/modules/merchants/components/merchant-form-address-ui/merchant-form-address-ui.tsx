@@ -30,9 +30,9 @@ const MerchantFormAddressUi = ({ options, tokenOptions, onClose }: MerchantFormA
         />
         <FormSelect
           control={control}
-          name='token'
-          label={t('fields.token.label')}
-          placeholder={t('fields.token.placeholder')}
+          name='crypto'
+          label={t('fields.crypto.label')}
+          placeholder={t('fields.crypto.placeholder')}
           options={tokenOptions}
           required
           selectClassName='w-full'

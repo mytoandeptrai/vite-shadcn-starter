@@ -1,8 +1,8 @@
 import type { BaseResponseType } from '@/types';
 
 export interface IBalance {
-  availableBalance: number;
-  incomingBalance: number;
+  balanceAvailable: number;
+  balanceIncoming: number;
 }
 
 export interface GetBalanceMarketplaceParams {

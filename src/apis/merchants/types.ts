@@ -20,8 +20,8 @@ export interface IExchangeRate {
 }
 
 export interface IBalance{
-  availableBalance: number;
-  incomingBalance: number;
+  balanceAvailable: number;
+  balanceIncoming: number;
 }
 
 export interface GetMerchantListParams extends CommonRequestType {

@@ -27,9 +27,9 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
           ns: 'common',
         }),
       }),
-      token: z.string().min(1, {
+      crypto: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.token.label', { ns: 'wallet-address-page' }),
+          field: t('fields.crypto.label', { ns: 'wallet-address-page' }),
           ns: 'common',
         }),
       }),
@@ -59,7 +59,7 @@ const initialWalletAddressCreateFormData: WalletAddressCreateFormData = {
   address: '',
   chain: '',
   id: '',
-  token: '',
+  crypto: '',
 };
 
 export { initialWalletAddressCreateFormData, walletAddressCreateFormSchema, type WalletAddressCreateFormData };

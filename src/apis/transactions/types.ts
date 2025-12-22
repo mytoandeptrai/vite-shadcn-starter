@@ -17,7 +17,7 @@ export interface GetTransactionListParams {
   page?: number;
   pageSize?: number;
   sortBy?: string;
-  sortOrder?: 'desc' | 'asc';
+  orderBy?: 'desc' | 'asc';
   search?: string;
   type?: string[];
   status?: string[];

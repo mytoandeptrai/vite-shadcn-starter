@@ -2,7 +2,6 @@ import NoDataIcon from '@/assets/icons/no-data-icon.svg?react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableLoading, TableRow } from '@/components/ui/table';
 import { Show } from '@/components/utilities';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
-import { useTranslation } from '@/integrations/i18n';
 import { cn } from '@/lib/utils';
 import { type RankingInfo, rankItem } from '@tanstack/match-sorter-utils';
 import {
@@ -18,7 +17,6 @@ import {
   type VisibilityState,
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
-import { Input } from '../input';
 import { Skeleton } from '../skeleton';
 import { DataTablePagination } from './data-table-pagination';
 
@@ -44,42 +42,40 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey?: string;
-  onSortingChange?: (sorting: SortingState) => void;
-  onFilterChange?: (filters: ColumnFiltersState) => void;
-  onPaginationChange?: (page: number, pageSize: number) => void;
   pagination?: {
     pageIndex: number;
     pageSize: number;
     pageCount: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
   isInitialLoading?: boolean;
   isDataFetching?: boolean;
   children?: React.ReactNode;
   searchValue?: string;
-  onSearchValueChange?: (value: string) => void;
-  onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: TData) => void;
   containerClassName?: React.ComponentProps<'div'>['className'];
   tableContainerClassName?: React.ComponentProps<'div'>['className'];
+  onSearchValueChange?: (value: string) => void;
+  onSortingChange?: (sorting: SortingState) => void;
+  onFilterChange?: (filters: ColumnFiltersState) => void;
+  onPaginationChange?: (page: number, pageSize: number) => void;
+  onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: TData) => void;
 }
 
 export default function DataTable<TData, TValue>({
   columns,
   data,
-  onPaginationChange,
-  onSortingChange,
-  onFilterChange,
   pagination,
   children,
-  onRowClick,
   containerClassName,
   tableContainerClassName,
   isInitialLoading = false,
   isDataFetching = false,
-  searchKey,
-  searchValue,
-  onSearchValueChange,
+  onPaginationChange,
+  onSortingChange,
+  onFilterChange,
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
-  const { t } = useTranslation();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -138,18 +134,6 @@ export default function DataTable<TData, TValue>({
   return (
     <div className='space-y-4'>
       {children}
-      <Show when={!!searchKey}>
-        <div className='flex items-center py-4'>
-          <Input
-            placeholder={t(`data-table.labels.search`, { key: searchKey })}
-            value={searchValue ?? ''}
-            onChange={(value) => {
-              onSearchValueChange?.(String(value));
-            }}
-            className='w-60 md:w-80'
-          />
-        </div>
-      </Show>
       <div className={cn('flex w-full flex-col gap-4', containerClassName)}>
         <div className={cn('flex flex-2/3 flex-col overflow-hidden rounded-md border', tableContainerClassName)}>
           <Table aria-busy={isDataFetching}>

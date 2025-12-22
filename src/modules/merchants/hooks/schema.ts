@@ -28,9 +28,9 @@ const merchantCreateFormSchema = (t: TFunction) => {
           ns: 'common',
         }),
       }),
-      token: z.string().min(1, {
+      crypto: z.string().min(1, {
         message: t('errors.common.field-required', {
-          field: t('fields.token.label'),
+          field: t('fields.crypto.label'),
           ns: 'common',
         }),
       }),
@@ -96,19 +96,19 @@ const merchantCreateFormSchema = (t: TFunction) => {
       }),
     })
     .superRefine((data, ctx) => {
-      // Check for duplicate wallet addresses - must match all 4 fields: chain, token, label, address
+      // Check for duplicate wallet addresses - must match all 4 fields: chain, crypto, label, address
       const walletAddressKeys = new Set<string>();
 
       data.walletAddresses.forEach((wa, index) => {
         // Create composite key from all 4 fields (case-insensitive for address and label)
         const chainKey = wa.chain?.trim() || '';
-        const tokenKey = wa.token?.trim() || '';
+        const cryptoKey = wa.crypto?.trim() || '';
         const labelKey = wa.label?.toLowerCase().trim() || '';
         const addressKey = wa.address?.toLowerCase().trim() || '';
 
         // Only check if all fields are present
-        if (chainKey && tokenKey && labelKey && addressKey) {
-          const compositeKey = `${chainKey}|${tokenKey}|${labelKey}|${addressKey}`;
+        if (chainKey && cryptoKey && labelKey && addressKey) {
+          const compositeKey = `${chainKey}|${cryptoKey}|${labelKey}|${addressKey}`;
 
           if (walletAddressKeys.has(compositeKey)) {
             // Duplicate found - add error to all fields to make it clear

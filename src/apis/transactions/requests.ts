@@ -32,7 +32,7 @@ export const getTransactionList = (
   params: GetTransactionListParams,
   signal?: AbortSignal
 ): Promise<GetTransactionListResponse> => {
-  console.log('🚀 ~ getTransactionList ~ signal:', signal);
+  console.log('🚀 ~ getTransactionList ~ signal:', params, signal);
   return new Promise<GetTransactionListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
     setTimeout(() => {
@@ -40,10 +40,14 @@ export const getTransactionList = (
 
       resolve({
         data,
-        hasNextPage: false,
-        page: params.page ?? 1,
-        totalPage: 1,
-        totalCount: 10,
+        pagination: {
+          page: 1,
+          pageSize: 10,
+          totalPages: 1,
+          totalCount: 10,
+          hasNext: false,
+          hasPrev: false,
+        },
       });
     }, 1000);
   });

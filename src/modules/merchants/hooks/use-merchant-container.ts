@@ -18,7 +18,7 @@ export const useMerchantContainer = () => {
     page: search.page,
     pageSize: search.pageSize,
     sortBy: search.sortBy,
-    sortOrder: search.sortOrder,
+    orderBy: search.orderBy,
     search: search.search,
     status: search.status,
   };
@@ -43,7 +43,7 @@ export const useMerchantContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          orderBy: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -51,8 +51,8 @@ export const useMerchantContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
-          sortBy: 'createdAt',
+          orderBy: 'desc',
+          sortBy: 'created_at',
         },
         replace: true,
       });
@@ -83,9 +83,11 @@ export const useMerchantContainer = () => {
     return {
       data: data?.data ?? [],
       pagination: {
-        pageIndex: data?.page ?? 1,
-        pageSize: data?.totalCount ?? PAGE_SIZE_OPTIONS[0],
-        pageCount: data?.totalPage ?? 0,
+        pageIndex: data?.pagination.page ?? 1,
+        pageSize: data?.pagination.pageSize ?? PAGE_SIZE_OPTIONS[0],
+        hasNext: data?.pagination.hasNext ?? false,
+        hasPrev: data?.pagination.hasPrev ?? false,
+        pageCount: data?.pagination.totalPages ?? 0,
       },
     };
   }, [data]);

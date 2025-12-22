@@ -33,6 +33,7 @@ export const useBalanceContainer = () => {
   const { data: balanceData, isLoading: isLoadingBalance } = useGetMerchantBalance(payload, {
     staleTime: TEN_SECONDS,
     refetchInterval: FIFTY_SECONDS,
+    enabled: userType === EUserType.INDEPENDENT_MERCHANT,
   });
 
   const { data: balanceMarketplaceData, isLoading: isLoadingBalanceMarketplace } = useGetBalanceMarketplace(
@@ -61,8 +62,8 @@ export const useBalanceContainer = () => {
   const data = userType === EUserType.MARKETPLACE ? balanceMarketplaceData : balanceData;
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
   const exchangeRate = exchangeRatesData?.data?.rate ? Number(exchangeRatesData?.data?.rate) : 0;
-  const availableBalance = data?.data?.availableBalance ? Number(data?.data?.availableBalance) : 0;
-  const incomingBalance = data?.data?.incomingBalance ? Number(data?.data?.incomingBalance) : 0;
+  const balanceAvailable = data?.data?.balanceAvailable ? Number(data?.data?.balanceAvailable) : 0;
+  const balanceIncoming = data?.data?.balanceIncoming ? Number(data?.data?.balanceIncoming) : 0;
   const isLoading = isLoadingBalance || isLoadingExchangeRates || isLoadingBalanceMarketplace;
   const hasWallets = (user?.wallets?.length ?? 0) > 0;
 
@@ -98,11 +99,12 @@ export const useBalanceContainer = () => {
           search={{
             page: 1,
             pageSize: PAGE_SIZE_OPTIONS[0],
-            sortBy: 'createdAt',
-            sortOrder: 'desc',
+            sortBy: 'created_at',
+            orderBy: 'desc',
             search: '',
             forceAddWallet: true,
             chain: [],
+            crypto: [],
           }}
           className='hover:underline'
         >
@@ -123,8 +125,8 @@ export const useBalanceContainer = () => {
     t,
     tokenOptions,
     selectedToken,
-    availableBalance,
-    incomingBalance,
+    balanceAvailable,
+    balanceIncoming,
     isOpenDialog,
     walletTokenOptions,
     isLoading,

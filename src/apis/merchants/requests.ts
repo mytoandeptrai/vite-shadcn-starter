@@ -55,10 +55,14 @@ export const getMerchantList = (
 
       resolve({
         data: filteredData,
-        hasNextPage: false,
-        page: params.page ?? 1,
-        totalPage: 1,
-        totalCount: 10,
+        pagination: {
+          page: params.page ?? 1,
+          pageSize: params.pageSize ?? 10,
+          totalPages: 1,
+          totalCount: 10,
+          hasNext: false,
+          hasPrev: false,
+        },
       });
     }, 1000);
   });

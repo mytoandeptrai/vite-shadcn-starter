@@ -1,6 +1,6 @@
 import { useTranslation } from '@/integrations/i18n';
-import { generateOptions, generateTokenOptions } from '@/modules/wallet-address/hooks/config';
 import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from '@/modules/wallet-address/hooks/schema';
+import { CHAIN_OPTIONS, CRYPTO_OPTIONS } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
@@ -17,8 +17,8 @@ export const useMerchantFormAddressContainer = ({
   const { t } = useTranslation('wallet-address-page');
   const { form: formParent, fields, append } = useMerchantFormContext();
 
-  const options = useMemo(() => generateOptions(t), [t]);
-  const tokenOptions = useMemo(() => generateTokenOptions(t), [t]);
+  const options = useMemo(() => CHAIN_OPTIONS(t), [t]);
+  const tokenOptions = useMemo(() => CRYPTO_OPTIONS(t), [t]);
 
   const form = useForm<WalletAddressCreateFormData>({
     resolver: zodResolver(walletAddressCreateFormSchema(t)),
@@ -34,16 +34,16 @@ export const useMerchantFormAddressContainer = ({
     const currentWalletAddresses = fields;
     // Create composite key from all 4 fields (case-insensitive for address and label)
     const chainKey = data.chain?.trim() || '';
-    const tokenKey = data.token?.trim() || '';
+    const cryptoKey = data.crypto?.trim() || '';
     const labelKey = data.label?.toLowerCase().trim() || '';
     const addressKey = data.address?.toLowerCase().trim() || '';
 
     // Only check if all fields are present
-    if (!chainKey || !tokenKey || !labelKey || !addressKey) {
+    if (!chainKey || !cryptoKey || !labelKey || !addressKey) {
       return { isDuplicate: false, errorMessage: '' };
     }
 
-    const compositeKey = `${chainKey}|${tokenKey}|${labelKey}|${addressKey}`;
+    const compositeKey = `${chainKey}|${cryptoKey}|${labelKey}|${addressKey}`;
 
     for (let i = 0; i < currentWalletAddresses.length; i++) {
       // Skip the current item being edited
@@ -53,16 +53,16 @@ export const useMerchantFormAddressContainer = ({
 
       // Create composite key for existing wallet address
       const existingChainKey = existing.chain?.trim() || '';
-      const existingTokenKey = existing.token?.trim() || '';
+      const existingCryptoKey = existing.crypto?.trim() || '';
       const existingLabelKey = existing.label?.toLowerCase().trim() || '';
       const existingAddressKey = existing.address?.toLowerCase().trim() || '';
 
       // Skip if any field is missing
-      if (!existingChainKey || !existingTokenKey || !existingLabelKey || !existingAddressKey) {
+      if (!existingChainKey || !existingCryptoKey || !existingLabelKey || !existingAddressKey) {
         continue;
       }
 
-      const existingCompositeKey = `${existingChainKey}|${existingTokenKey}|${existingLabelKey}|${existingAddressKey}`;
+      const existingCompositeKey = `${existingChainKey}|${existingCryptoKey}|${existingLabelKey}|${existingAddressKey}`;
 
       // Check if all 4 fields match
       if (compositeKey === existingCompositeKey) {
@@ -98,7 +98,7 @@ export const useMerchantFormAddressContainer = ({
     } else {
       append({
         chain: data.chain,
-        token: data.token,
+        crypto: data.crypto,
         label: data.label,
         address: data.address,
         id: data.id,
