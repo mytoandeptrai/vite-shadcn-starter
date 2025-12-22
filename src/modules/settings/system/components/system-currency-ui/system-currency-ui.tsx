@@ -1,11 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/integrations/i18n';
 import { useCurrencyStore, type Currency } from '@/stores/use-base-store';
 import { useMemo } from 'react';
@@ -15,13 +9,7 @@ import { useMemo } from 'react';
  */
 const CURRENCY_OPTIONS: Currency[] = [
   {
-    code: 'USDT',
-    symbol: '$',
-    locale: 'en-US',
-    decimalPlaces: 2,
-  },
-  {
-    code: 'USDC',
+    code: 'USD',
     symbol: '$',
     locale: 'en-US',
     decimalPlaces: 2,

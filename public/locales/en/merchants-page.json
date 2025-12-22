@@ -1,0 +1,80 @@
+{
+  "title": "Merchants",
+  "description": "Manage your merchant users and their accounts.",
+  "table": {
+    "headers": {
+      "id": "ID",
+      "name": "Name",
+      "created-at": "Created At",
+      "balance": "Balance",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "labels": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "active": "Activate",
+      "inactive": "Deactivate"
+    }
+  },
+  "actions": {
+    "add": "Add New Merchant"
+  },
+  "dialogs": {
+    "create": {
+      "title": "Add New Merchant",
+      "description": "Enter the merchant information to create a new account."
+    },
+    "active": {
+      "title": "Activate Merchant",
+      "description": "Are you sure you want to activate this merchant?"
+    },
+    "inactive": {
+      "title": "Deactivate Merchant",
+      "description": "Are you sure you want to deactivate this merchant?"
+    },
+    "create-merchant-wallet": {
+      "title": "Add New Wallet Address For Merchant",
+      "description": "Enter the wallet information to add it to the merchant."
+    },
+    "update-merchant-wallet": {
+      "title": "Update Wallet Address For Merchant",
+      "description": "Enter the wallet information to update it for the merchant."
+    }
+  },
+  "status": {
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "fields": {
+    "first-name": {
+      "label": "First Name",
+      "placeholder": "Enter first name"
+    },
+    "last-name": {
+      "label": "Last Name",
+      "placeholder": "Enter last name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email address"
+    }
+  },
+  "labels": {
+    "status": "Status"
+  },
+  "placeholder": {
+    "search": "Search merchants..."
+  },
+  "messages": {
+    "status-updated": "Merchant status updated successfully",
+    "status-update-failed": "Failed to update merchant status",
+    "no-wallet-addresses": "No wallet addresses added yet. Click 'Add A New Wallet Address' to add one."
+  },
+  "errors": {
+    "wallet-addresses-required": "At least one wallet address is required"
+  }
+}

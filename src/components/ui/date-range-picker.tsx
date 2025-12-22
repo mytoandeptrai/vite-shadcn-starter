@@ -1,18 +1,14 @@
-import { format } from "date-fns";
-import * as React from "react";
+import { format } from 'date-fns';
+import * as React from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { useTranslation } from "@/integrations/i18n";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import type { DateRange } from "react-day-picker";
-import { HStack, VStack } from "../utilities";
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useTranslation } from '@/integrations/i18n';
+import { cn } from '@/lib/utils';
+import { CalendarIcon } from 'lucide-react';
+import type { DateRange } from 'react-day-picker';
+import { HStack, VStack } from '../utilities';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   dateRange?: DateRange;
@@ -30,7 +26,7 @@ export default function DateRangePicker({
   minDate,
   maxDate,
   disabledDates = [],
-  placeholder = "Pick a date",
+  placeholder = 'Pick a date',
 }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
@@ -53,38 +49,34 @@ export default function DateRangePicker({
   }, [dateRange]);
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn('grid gap-2', className)}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            id="date"
-            variant={"outline"}
-            className={cn(
-              "w-full justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-            size="sm"
+            id='date'
+            variant={'outline'}
+            className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}
+            size='sm'
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className='mr-2 h-4 w-4' />
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span className="font-medium">{placeholder}</span>
+              <span className='font-medium'>{placeholder}</span>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className='w-auto p-0' align='start'>
           <VStack>
             <Calendar
               initialFocus
-              mode="range"
+              mode='range'
               defaultMonth={date?.from}
               selected={date}
               onSelect={setDate}
@@ -92,28 +84,15 @@ export default function DateRangePicker({
               disabled={(date) => {
                 if (minDate && date < minDate) return true;
                 if (maxDate && date > maxDate) return true;
-                return disabledDates.some(
-                  (disabledDate) => date.getTime() === disabledDate.getTime()
-                );
+                return disabledDates.some((disabledDate) => date.getTime() === disabledDate.getTime());
               }}
             />
-            <HStack noWrap justify="end" spacing={12} className="p-4">
-              <Button
-                className="w-fit"
-                size="lg"
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-              >
-                {t("buttons.cancel", { ns: "common" })}
+            <HStack noWrap justify='end' spacing={12} className='p-4'>
+              <Button className='w-fit' size='lg' type='button' variant='outline' onClick={onCancel}>
+                {t('buttons.cancel', { ns: 'common' })}
               </Button>
-              <Button
-                className="w-20"
-                size="lg"
-                type="button"
-                onClick={onClick}
-              >
-                {t("buttons.ok", { ns: "common" })}
+              <Button className='w-20' size='lg' type='button' onClick={onClick}>
+                {t('buttons.ok', { ns: 'common' })}
               </Button>
             </HStack>
           </VStack>

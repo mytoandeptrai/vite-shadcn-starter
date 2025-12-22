@@ -2,9 +2,18 @@ import type { TFunction } from 'i18next';
 
 export const generateOptions = (t: TFunction) => {
   return [
-    { value: '2', label: t('options.today') },
-    { value: '7', label: t('options.7-days') },
+    { value: '10', label: t('options.today') },
+    { value: '20', label: t('options.7-days') },
     { value: '30', label: t('options.30-days') },
+  ];
+};
+
+export const generateCryptoOptions = (t: TFunction) => {
+  return [
+    { value: 'usdt-erc20', label: t('options.usdt-erc20') },
+    { value: 'usdc-erc20', label: t('options.usdc-erc20') },
+    { value: 'usdt-brc20', label: t('options.usdt-brc20') },
+    { value: 'usdc-brc20', label: t('options.usdc-brc20') },
   ];
 };
 

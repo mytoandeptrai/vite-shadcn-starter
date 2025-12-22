@@ -10,7 +10,7 @@ import type { ForgotPasswordFormData } from '../../hooks';
 
 type ForgotPasswordStep_1FormUiProps = {
   isLoading?: boolean;
-  onClick?: () => void
+  onClick?: () => void;
 };
 
 const ForgotPasswordStep_1FormUi = ({ isLoading = false, onClick }: ForgotPasswordStep_1FormUiProps) => {
@@ -32,11 +32,11 @@ const ForgotPasswordStep_1FormUi = ({ isLoading = false, onClick }: ForgotPasswo
         </Show>
         {t('buttons.continue')}
       </Button>
-      <HStack noWrap spacing={0} align="center" justify="center" className='text-sm'>
+      <HStack noWrap spacing={0} align='center' justify='center' className='text-muted-foreground text-sm'>
         <span className='inline-block'>{t('labels.return-to')}</span>
         <CustomLink
           to={ROUTES.LOGIN}
-          className='cursor-pointer px-1 underline hover:text-primary'
+          className='cursor-pointer px-1 text-muted-foreground underline hover:text-primary'
         >
           {t('labels.login-page')}
         </CustomLink>

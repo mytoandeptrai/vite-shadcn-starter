@@ -4,7 +4,7 @@ import type { LottieRefCurrentProps } from 'lottie-react';
 import Lottie from 'lottie-react';
 import { useEffect, useRef, useState } from 'react';
 import type { FCC } from '@/types';
-import animationData from '../../../public/lottie-loader.json';
+import animationData from '@/assets/lottie/lottie-loader.json';
 
 const sources: string[] = ['sample-1.jpeg', 'sample-2.jpeg', 'sample-3.jpeg', 'sample-4.jpeg'];
 

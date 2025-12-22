@@ -1,4 +1,3 @@
-
 import { regexEmail } from '@/constant';
 import type { TFunction } from 'i18next';
 import z from 'zod';

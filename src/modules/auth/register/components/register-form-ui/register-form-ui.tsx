@@ -6,23 +6,38 @@ import { Button } from '@/components/ui/button';
 import { CustomLink } from '@/components/ui/custom-link';
 import { Show } from '@/components/utilities';
 import { Spinner } from '@/components/ui/spinner';
+import { FormRadioGroup } from '@/components/form-fields/form-radio-group';
 
 type RegisterFormUiProps = {
   isLoading?: boolean;
 };
+
+const genderOptions = [
+  { value: 'merchant', label: 'Merchant' },
+  { value: 'marketplace', label: 'Marketplace' },
+];
 
 const RegisterFormUi = ({ isLoading = false }: RegisterFormUiProps) => {
   const { control } = useFormContext<RegisterFormData>();
   const { t } = useTranslation('register-page');
   return (
     <div className='space-y-6'>
+      <FormRadioGroup
+        control={control}
+        name='type'
+        label='I am a'
+        options={genderOptions}
+        orientation='horizontal'
+        required
+        optionClassName='w-full py-1'
+      />
       <div className='grid grid-cols-1 items-baseline gap-4 md:grid-cols-2'>
         <FormInput
           control={control}
           disabled={isLoading}
           name='firstName'
-          label={t('fields.fullName.label')}
-          placeholder={t('fields.fullName.placeholder')}
+          label={t('fields.firstName.label')}
+          placeholder={t('fields.firstName.placeholder')}
           required
         />
         <FormInput

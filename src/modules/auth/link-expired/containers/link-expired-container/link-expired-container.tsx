@@ -1,16 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
-import { Paragraph } from "@/components/ui/typography";
-import { Show } from "@/components/utilities";
-import { useLinkExpiredContainer } from "../../hooks";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
+import { Paragraph } from '@/components/ui/typography';
+import { Show } from '@/components/utilities';
+import { useLinkExpiredContainer } from '../../hooks';
 
 type LinkExpiredContainerProps = {
   email?: string;
 };
 
-
-const LinkExpiredContainer = ({email}: LinkExpiredContainerProps) => {
+const LinkExpiredContainer = ({ email }: LinkExpiredContainerProps) => {
   const { t, minutes, seconds, isCounting, _isCounting, isLoading, handleClickResend } = useLinkExpiredContainer(email);
   return (
     <Card className='w-full max-w-md gap-10'>

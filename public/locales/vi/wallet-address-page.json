@@ -1,20 +1,28 @@
 {
   "title": "Địa Chỉ Ví",
-  "description": "Bạn có thể thêm một địa chỉ ví cho mỗi blockchain.",
+  "description": "Bạn chỉ có thể thêm một địa chỉ ví cho mỗi blockchain.",
   "table": {
     "headers": {
       "label": "Nhãn",
-      "blockchain": "Blockchain",
+      "chain": "Blockchain",
       "address": "Địa Chỉ",
       "created-at": "Ngày Tạo",
       "updated-at": "Ngày Cập Nhật",
-      "actions": "Hành Động"
+      "actions": "Thao Tác",
+      "id": "ID",
+      "status": "Trạng Thái"
     },
     "actions": {
       "edit": "Chỉnh Sửa",
       "delete": "Xóa",
       "copy": "Sao Chép Địa Chỉ Ví",
-      "view-details": "Xem Chi Tiết"
+      "view-details": "Xem Chi Tiết",
+      "activate": "Kích Hoạt",
+      "deactivate": "Vô Hiệu Hóa"
+    },
+    "labels": {
+      "active": "Đang Hoạt Động",
+      "inactive": "Không Hoạt Động"
     }
   },
   "actions": {
@@ -31,7 +39,15 @@
     },
     "delete": {
       "title": "Xóa Địa Chỉ Ví",
-      "description": "Xác nhận xóa địa chỉ ví này khỏi hệ thống."
+      "description": "Xác nhận việc xóa địa chỉ ví này khỏi hệ thống."
+    },
+    "active": {
+      "title": "Kích Hoạt Địa Chỉ Ví",
+      "description": "Bạn có chắc chắn muốn kích hoạt địa chỉ ví này không?"
+    },
+    "deactivate": {
+      "title": "Vô Hiệu Hóa Địa Chỉ Ví",
+      "description": "Bạn có chắc chắn muốn vô hiệu hóa địa chỉ ví này không?"
     }
   },
   "blockchains": {
@@ -41,21 +57,28 @@
   "fields": {
     "wallet-address": {
       "label": "Địa Chỉ Ví",
-      "placeholder": "Nhập địa chỉ ví của bạn"
+      "placeholder": "Nhập địa chỉ ví"
     },
-    "blockchain": {
+    "chain": {
       "label": "Blockchain",
       "placeholder": "Chọn blockchain"
     },
     "token": {
       "label": "Token",
       "placeholder": "Chọn token"
+    },
+    "label": {
+      "label": "Nhãn",
+      "placeholder": "Nhập nhãn"
     }
   },
   "labels": {
-    "blockchain": "Blockchain"
+    "chain": "Blockchain"
   },
   "placeholder": {
     "search": "Tìm kiếm địa chỉ ví..."
+  },
+  "errors": {
+    "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, token, label và address)"
   }
 }

@@ -8,17 +8,19 @@ import { Show } from '@/components/utilities';
 import type * as DialogPrimitive from '@radix-ui/react-dialog';
 import type * as React from 'react';
 import { useBalanceWithdraw } from '../../hooks';
+import type { Option } from '@/types';
 
 export type BalanceWithdrawUiProps = React.ComponentProps<typeof DialogPrimitive.Root> & {
   onSubmit?: (code?: string) => void;
   onClose?: () => void;
   max: number;
   selectedToken: string;
+  walletTokenOptions: Option<string>[];
 };
 
 const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
-  const { open, onClose, max, selectedToken } = props;
-  const { t, form, isLoading, walletTokenOptions, submit } = useBalanceWithdraw({ onClose, max, selectedToken });
+  const { open, onClose, max, selectedToken, walletTokenOptions } = props;
+  const { t, form, isLoading, submit } = useBalanceWithdraw({ onClose, max, selectedToken });
 
   return (
     <Modal

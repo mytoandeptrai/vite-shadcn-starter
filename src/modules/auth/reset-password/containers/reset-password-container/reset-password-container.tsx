@@ -1,20 +1,19 @@
-import { Card, CardContent } from "@/components/ui/card";
-import ResetPasswordHeaderUi from "../../components/reset-password-header-ui";
-import { FormWrapper } from "@/components/ui/form";
-import { useResetPasswordContainer } from "../../hooks";
-import ResetPasswordFormUi from "../../components/reset-password-form-ui";
-import { Show } from "@/components/utilities";
-import ResetPasswordSuccessUi from "../../components/reset-password-success-ui";
+import { Card, CardContent } from '@/components/ui/card';
+import ResetPasswordHeaderUi from '../../components/reset-password-header-ui';
+import { FormWrapper } from '@/components/ui/form';
+import { useResetPasswordContainer } from '../../hooks';
+import ResetPasswordFormUi from '../../components/reset-password-form-ui';
+import { Show } from '@/components/utilities';
+import ResetPasswordSuccessUi from '../../components/reset-password-success-ui';
 
 type ResetPasswordContainerProps = {
   token?: string;
 };
 
 const ResetPasswordContainer = (props: ResetPasswordContainerProps) => {
-  const { form, done, isLoading, onSubmit, onClick } =
-    useResetPasswordContainer(props);
+  const { form, done, isLoading, onSubmit, onClick } = useResetPasswordContainer(props);
   return (
-    <Card className="w-full max-w-md gap-6">
+    <Card className='w-full max-w-md gap-6'>
       <ResetPasswordHeaderUi done={done} />
       <CardContent>
         <FormWrapper form={form} onSubmit={onSubmit}>

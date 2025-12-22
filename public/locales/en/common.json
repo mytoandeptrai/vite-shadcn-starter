@@ -112,6 +112,21 @@
       "REDEEM_REQUEST_LIMIT": "You have reached limit of redemption requests.",
       "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded."
     },
+    "validations": {
+      "MSG-1.3": "First name must not exceed 100 characters.",
+      "MSG-1.4": "First name cannot contain numbers.",
+      "MSG-1.5": "First name cannot contain special characters.",
+      "MSG-1.7": "Last name must not exceed 100 characters.",
+      "MSG-1.8": "Last name cannot contain numbers.",
+      "MSG-1.9": "Last name cannot contain special characters.",
+      "MSG-1.10": "Invalid email format.",
+      "MSG-1.14": "Password must be between 8 and 50 characters in length.",
+      "MSG-1.15": "Use at least 1 uppercase, lowercase, numbers & symbols.",
+      "MSG-1.17": "Entity name must not exceed 100 characters.",
+      "MSG-1.18": "Entity name cannot contain numbers.",
+      "MSG-1.19": "Password cannot contain space.",
+      "MSG-1.20": "Passwords do not match."
+    },
     "messages": {
       "you-do-not-have-access-to-this-page": "You do not have access to this page.",
       "copied-to-clipboard": "Copied to clipboard"
@@ -129,7 +144,10 @@
     "two-fa-disabled-success": "Two-factor authentication disabled successfully.",
     "require-two-fa-to-access": "Please enable two-factor authentication to access this feature.",
     "require-enable-two-fa": "Enable 2FA to proceed this action.",
-    "require-add-wallet": "Add a wallet address to proceed this action."
+    "require-add-wallet": "Add a wallet address to proceed this action.",
+    "update-password-success": "Password updated successfully! Please login again to continue.",
+    "no-results-found": "No results found.",
+    "clear-filters": "Clear filters"
   },
   "labels": {
     "all": "All",
@@ -151,7 +169,9 @@
     "wallet-address": "Wallet Address",
     "developer": "Developer",
     "system": "System",
-    "no-options": "No options"
+    "no-options": "No options",
+    "merchants": "Merchants",
+    "search-kbar": "Search..."
   },
   "buttons": {
     "continue": "Continue",
@@ -251,15 +271,18 @@
     "ALL": "All"
   },
   "chains-token": {
-    "BNB-USDT": "BNB-USDT",
-    "BNB-USDC": "BNB-USDC",
-    "ETH-USDT": "ETH-USDT",
-    "ETH-USDC": "ETH-USDC"
+    "USDT-BRC20": "USDT-BRC20",
+    "USDC-BRC20": "USDC-BRC20",
+    "USDT-ERC20": "USDT-ERC20",
+    "USDC-ERC20": "USDC-ERC20"
   },
   "not-found": {
     "title": "Page Not Found",
     "description": "The page you're looking for doesn't exist or has been moved. Please check the URL and try again.",
     "goHome": "Go to Dashboard",
     "goBack": "Go Back"
+  },
+  "navigation": {
+    "go-to": "Go to {{page}}"
   }
 }

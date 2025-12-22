@@ -1,58 +1,72 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Show } from "@/components/utilities";
-import { CURRENCY_CODE_MAPPING } from "@/constant";
-import { useTranslation } from "@/integrations/i18n";
-import { useCurrencyStore } from "@/stores/use-base-store";
-import { formatCurrency } from "@/utils";
-import { Clock4Icon, Wallet } from "lucide-react";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
+import { Show } from '@/components/utilities';
+import { PROTOCOL_CHAIN_MAPPING } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { useCurrencyStore } from '@/stores/use-base-store';
+import { formatCurrencyWithDecimals, formatNaturalNumber } from '@/utils';
+import { Clock4Icon, EqualApproximatelyIcon, Wallet } from 'lucide-react';
+import BigNumber from 'bignumber.js';
 
 type BalanceSectionUiProps = {
   title: string;
   description: string;
   onClick?: () => void;
-  type: "available" | "incoming" | "processing";
+  type: 'available' | 'incoming' | 'processing';
   amount: number;
+  selectedToken: string;
+  isLoading: boolean;
+  exchangeRate: number;
+};
+
+const calculateBalance = (amount: number, exchangeRate: number) => {
+  const _amount = new BigNumber(amount);
+  const _exchangeRate = new BigNumber(exchangeRate);
+  return _amount.multipliedBy(_exchangeRate).toNumber();
 };
 
 const BalanceSectionUi = ({
   title,
   description,
   amount,
-  onClick,
+  selectedToken,
   type,
+  isLoading,
+  exchangeRate,
+  onClick,
 }: BalanceSectionUiProps) => {
-  const { t } = useTranslation("balance-page");
+  const { t } = useTranslation('balance-page');
   const { currency } = useCurrencyStore();
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+      <CardHeader className='flex flex-row items-center justify-between pb-2'>
         <div>
-          <CardTitle className="text-base">{title}</CardTitle>
+          <CardTitle className='text-base'>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </div>
-        {type === "available" && <Wallet className="h-8 w-8 text-primary" />}
-        {type === "incoming" && (
-          <Clock4Icon className="h-8 w-8 text-muted-foreground" />
-        )}
+        {type === 'available' && <Wallet className='h-8 w-8 text-primary' />}
+        {type === 'incoming' && <Clock4Icon className='h-8 w-8 text-muted-foreground' />}
       </CardHeader>
       <CardContent>
-        <div className="text-balance font-bold text-4xl">
-          {formatCurrency(amount, currency)}
-          <span className="ml-2 text-lg text-muted-foreground">
-            {CURRENCY_CODE_MAPPING[currency.code] ?? "-"}
-          </span>
+        <div className='text-balance font-bold text-xl'>
+          {formatNaturalNumber(amount)}
+          <span className='ml-1'>{PROTOCOL_CHAIN_MAPPING[selectedToken.split('-')[1]] ?? '-'}</span>
         </div>
-        <Show when={type === "available"}>
-          <div className="mt-4 flex items-center gap-2">
-            <Button type="button" onClick={onClick}>
-              {t("actions.with-draw")}
+        <div className='flex items-center gap-0.5'>
+          <EqualApproximatelyIcon className='h-4 w-4 text-muted-foreground' />
+          <div className='flex items-center gap-1 text-base text-muted-foreground'>
+            {formatCurrencyWithDecimals({ num: calculateBalance(amount, exchangeRate) })}
+            <span>{currency.code}</span>
+            <Show when={isLoading}>
+              <Spinner className='size-3' />
+            </Show>
+          </div>
+        </div>
+        <Show when={type === 'available'}>
+          <div className='mt-4 flex items-center gap-2'>
+            <Button type='button' onClick={onClick}>
+              {t('actions.with-draw')}
             </Button>
           </div>
         </Show>

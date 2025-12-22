@@ -57,6 +57,7 @@ export interface RadioGroupOption {
   value: string;
   label: string;
   disabled?: boolean;
+  customLabel?: React.ReactElement;
 }
 
 // Textarea specific types

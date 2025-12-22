@@ -1,4 +1,3 @@
-
 import z from 'zod';
 import { regexLowerCase, regexNumber, regexSpace, regexSpecialCharacters, regexUpperCase } from '@/constant';
 import type { TFunction } from 'i18next';

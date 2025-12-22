@@ -16,7 +16,7 @@ type Props = {
   onClose: () => void;
   onSuccess?: () => void;
   initialData?: Partial<IWalletAddress>;
-  actionType: 'create' | 'update' | 'delete' | null;
+  actionType: 'create' | 'update' | 'delete' | 'activate' | 'deactivate' | null;
 };
 
 export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSuccess, actionType }: Props) => {
@@ -30,6 +30,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
 
   const defaultValue = useMemo(() => {
     return {
+      label: '',
       address: '',
       chain: options[0].value,
       token: tokenOptions[0].value,
@@ -58,6 +59,12 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       case 'update':
         await updateAddressMutation.mutateAsync({ ...data, id: data.id! });
         break;
+      case 'activate':
+        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: true });
+        break;
+      case 'deactivate':
+        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: false });
+        break;
       case 'delete':
         await deleteAddressMutation.mutateAsync({ id: data.id! });
         break;
@@ -75,9 +82,10 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
   useEffect(() => {
     form.reset({
       address: initialData?.address ?? '',
-      chain: initialData?.blockchain ?? options[0].value,
-      id: initialData?.id ?? '',
+      chain: initialData?.chain ?? options[0].value,
+      id: initialData?.id ? String(initialData.id) : '',
       token: initialData?.token ?? tokenOptions[0].value,
+      label: initialData?.label ?? '',
     });
   }, [initialData, form.reset, options[0].value, tokenOptions[0].value]);
 

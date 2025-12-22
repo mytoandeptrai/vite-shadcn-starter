@@ -1,6 +1,6 @@
-export const DEFAULT_COUNT_DOWN_VALUE = "--";
-export const DEFAULT_EXPIRED_COUNT_DOWN_VALUE = "0";
-export const COUNTERS = ["days", "hours", "minutes"];
+export const DEFAULT_COUNT_DOWN_VALUE = '--';
+export const DEFAULT_EXPIRED_COUNT_DOWN_VALUE = '0';
+export const COUNTERS = ['days', 'hours', 'minutes'];
 export const DEFAULT_COUNT_DOWN = [
   DEFAULT_COUNT_DOWN_VALUE,
   DEFAULT_COUNT_DOWN_VALUE,

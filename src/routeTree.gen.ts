@@ -11,18 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as SplatRouteImport } from './routes/$'
-import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
+import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
-import { Route as publicIndexRouteImport } from './routes/(public)/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
+import { Route as privateIndexRouteImport } from './routes/(private)/index'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
-import { Route as publicWalletAddressRouteImport } from './routes/(public)/wallet-address'
-import { Route as publicTransactionsRouteImport } from './routes/(public)/transactions'
-import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
-import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
-import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
+import { Route as privateWalletAddressRouteImport } from './routes/(private)/wallet-address'
+import { Route as privateTransactionsRouteImport } from './routes/(private)/transactions'
+import { Route as privateDeveloperRouteImport } from './routes/(private)/developer'
+import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
+import { Route as privateBalanceRouteImport } from './routes/(private)/balance'
 import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
 import { Route as authVerifiedEmailRouteImport } from './routes/(auth)/verified-email'
 import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
@@ -31,9 +29,10 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
-import { Route as publicSettingsIndexRouteImport } from './routes/(public)/settings/index'
-import { Route as publicSettingsSystemRouteImport } from './routes/(public)/settings/system'
-import { Route as publicSettingsProfileRouteImport } from './routes/(public)/settings/profile'
+import { Route as privateSettingsIndexRouteImport } from './routes/(private)/settings/index'
+import { Route as privateMerchantsIndexRouteImport } from './routes/(private)/merchants/index'
+import { Route as privateSettingsSystemRouteImport } from './routes/(private)/settings/system'
+import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 
 const R404Route = R404RouteImport.update({
   id: '/404',
@@ -45,28 +44,18 @@ const SplatRoute = SplatRouteImport.update({
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicLayoutRoute = publicLayoutRouteImport.update({
-  id: '/(public)',
+const privateLayoutRoute = privateLayoutRouteImport.update({
+  id: '/(private)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authLayoutRoute = authLayoutRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicIndexRoute = publicIndexRouteImport.update({
+const privateIndexRoute = privateIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => publicLayoutRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
 const DemoStorybookRoute = DemoStorybookRouteImport.update({
   id: '/demo/storybook',
@@ -78,30 +67,30 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicWalletAddressRoute = publicWalletAddressRouteImport.update({
+const privateWalletAddressRoute = privateWalletAddressRouteImport.update({
   id: '/wallet-address',
   path: '/wallet-address',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicTransactionsRoute = publicTransactionsRouteImport.update({
+const privateTransactionsRoute = privateTransactionsRouteImport.update({
   id: '/transactions',
   path: '/transactions',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicDeveloperRoute = publicDeveloperRouteImport.update({
+const privateDeveloperRoute = privateDeveloperRouteImport.update({
   id: '/developer',
   path: '/developer',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicDashboardRoute = publicDashboardRouteImport.update({
+const privateDashboardRoute = privateDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicBalanceRoute = publicBalanceRouteImport.update({
+const privateBalanceRoute = privateBalanceRouteImport.update({
   id: '/balance',
   path: '/balance',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
 const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -143,20 +132,25 @@ const authActiveRoute = authActiveRouteImport.update({
   path: '/active',
   getParentRoute: () => authLayoutRoute,
 } as any)
-const publicSettingsIndexRoute = publicSettingsIndexRouteImport.update({
+const privateSettingsIndexRoute = privateSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicSettingsSystemRoute = publicSettingsSystemRouteImport.update({
+const privateMerchantsIndexRoute = privateMerchantsIndexRouteImport.update({
+  id: '/merchants/',
+  path: '/merchants/',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
+const privateSettingsSystemRoute = privateSettingsSystemRouteImport.update({
   id: '/settings/system',
   path: '/settings/system',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicSettingsProfileRoute = publicSettingsProfileRouteImport.update({
+const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
   id: '/settings/profile',
   path: '/settings/profile',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -170,19 +164,18 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof authResetPasswordRoute
   '/verified-email': typeof authVerifiedEmailRoute
   '/verify-email': typeof authVerifyEmailRoute
-  '/balance': typeof publicBalanceRoute
-  '/dashboard': typeof publicDashboardRoute
-  '/developer': typeof publicDeveloperRoute
-  '/transactions': typeof publicTransactionsRoute
-  '/wallet-address': typeof publicWalletAddressRoute
+  '/balance': typeof privateBalanceRoute
+  '/dashboard': typeof privateDashboardRoute
+  '/developer': typeof privateDeveloperRoute
+  '/transactions': typeof privateTransactionsRoute
+  '/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/': typeof publicIndexRoute
-  '/settings/profile': typeof publicSettingsProfileRoute
-  '/settings/system': typeof publicSettingsSystemRoute
-  '/settings': typeof publicSettingsIndexRoute
+  '/': typeof privateIndexRoute
+  '/settings/profile': typeof privateSettingsProfileRoute
+  '/settings/system': typeof privateSettingsSystemRoute
+  '/merchants': typeof privateMerchantsIndexRoute
+  '/settings': typeof privateSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
@@ -195,24 +188,23 @@ export interface FileRoutesByTo {
   '/reset-password': typeof authResetPasswordRoute
   '/verified-email': typeof authVerifiedEmailRoute
   '/verify-email': typeof authVerifyEmailRoute
-  '/balance': typeof publicBalanceRoute
-  '/dashboard': typeof publicDashboardRoute
-  '/developer': typeof publicDeveloperRoute
-  '/transactions': typeof publicTransactionsRoute
-  '/wallet-address': typeof publicWalletAddressRoute
+  '/balance': typeof privateBalanceRoute
+  '/dashboard': typeof privateDashboardRoute
+  '/developer': typeof privateDeveloperRoute
+  '/transactions': typeof privateTransactionsRoute
+  '/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/': typeof publicIndexRoute
-  '/settings/profile': typeof publicSettingsProfileRoute
-  '/settings/system': typeof publicSettingsSystemRoute
-  '/settings': typeof publicSettingsIndexRoute
+  '/': typeof privateIndexRoute
+  '/settings/profile': typeof privateSettingsProfileRoute
+  '/settings/system': typeof privateSettingsSystemRoute
+  '/merchants': typeof privateMerchantsIndexRoute
+  '/settings': typeof privateSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authLayoutRouteWithChildren
-  '/(public)': typeof publicLayoutRouteWithChildren
+  '/(private)': typeof privateLayoutRouteWithChildren
   '/$': typeof SplatRoute
   '/404': typeof R404Route
   '/(auth)/active': typeof authActiveRoute
@@ -223,19 +215,18 @@ export interface FileRoutesById {
   '/(auth)/reset-password': typeof authResetPasswordRoute
   '/(auth)/verified-email': typeof authVerifiedEmailRoute
   '/(auth)/verify-email': typeof authVerifyEmailRoute
-  '/(public)/balance': typeof publicBalanceRoute
-  '/(public)/dashboard': typeof publicDashboardRoute
-  '/(public)/developer': typeof publicDeveloperRoute
-  '/(public)/transactions': typeof publicTransactionsRoute
-  '/(public)/wallet-address': typeof publicWalletAddressRoute
+  '/(private)/balance': typeof privateBalanceRoute
+  '/(private)/dashboard': typeof privateDashboardRoute
+  '/(private)/developer': typeof privateDeveloperRoute
+  '/(private)/transactions': typeof privateTransactionsRoute
+  '/(private)/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/(public)/': typeof publicIndexRoute
-  '/(public)/settings/profile': typeof publicSettingsProfileRoute
-  '/(public)/settings/system': typeof publicSettingsSystemRoute
-  '/(public)/settings/': typeof publicSettingsIndexRoute
+  '/(private)/': typeof privateIndexRoute
+  '/(private)/settings/profile': typeof privateSettingsProfileRoute
+  '/(private)/settings/system': typeof privateSettingsSystemRoute
+  '/(private)/merchants/': typeof privateMerchantsIndexRoute
+  '/(private)/settings/': typeof privateSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -257,11 +248,10 @@ export interface FileRouteTypes {
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
     | '/settings/profile'
     | '/settings/system'
+    | '/merchants'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -282,16 +272,15 @@ export interface FileRouteTypes {
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
     | '/settings/profile'
     | '/settings/system'
+    | '/merchants'
     | '/settings'
   id:
     | '__root__'
     | '/(auth)'
-    | '/(public)'
+    | '/(private)'
     | '/$'
     | '/404'
     | '/(auth)/active'
@@ -302,30 +291,27 @@ export interface FileRouteTypes {
     | '/(auth)/reset-password'
     | '/(auth)/verified-email'
     | '/(auth)/verify-email'
-    | '/(public)/balance'
-    | '/(public)/dashboard'
-    | '/(public)/developer'
-    | '/(public)/transactions'
-    | '/(public)/wallet-address'
+    | '/(private)/balance'
+    | '/(private)/dashboard'
+    | '/(private)/developer'
+    | '/(private)/transactions'
+    | '/(private)/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
-    | '/(public)/'
-    | '/(public)/settings/profile'
-    | '/(public)/settings/system'
-    | '/(public)/settings/'
+    | '/(private)/'
+    | '/(private)/settings/profile'
+    | '/(private)/settings/system'
+    | '/(private)/merchants/'
+    | '/(private)/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   authLayoutRoute: typeof authLayoutRouteWithChildren
-  publicLayoutRoute: typeof publicLayoutRouteWithChildren
+  privateLayoutRoute: typeof privateLayoutRouteWithChildren
   SplatRoute: typeof SplatRoute
   R404Route: typeof R404Route
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -344,11 +330,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)': {
-      id: '/(public)'
+    '/(private)': {
+      id: '/(private)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof publicLayoutRouteImport
+      preLoaderRoute: typeof privateLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
@@ -358,26 +344,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/': {
-      id: '/(public)/'
+    '/(private)/': {
+      id: '/(private)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof publicIndexRouteImport
-      parentRoute: typeof publicLayoutRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof privateIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
     '/demo/storybook': {
       id: '/demo/storybook'
@@ -393,40 +365,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/wallet-address': {
-      id: '/(public)/wallet-address'
+    '/(private)/wallet-address': {
+      id: '/(private)/wallet-address'
       path: '/wallet-address'
       fullPath: '/wallet-address'
-      preLoaderRoute: typeof publicWalletAddressRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateWalletAddressRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/transactions': {
-      id: '/(public)/transactions'
+    '/(private)/transactions': {
+      id: '/(private)/transactions'
       path: '/transactions'
       fullPath: '/transactions'
-      preLoaderRoute: typeof publicTransactionsRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateTransactionsRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/developer': {
-      id: '/(public)/developer'
+    '/(private)/developer': {
+      id: '/(private)/developer'
       path: '/developer'
       fullPath: '/developer'
-      preLoaderRoute: typeof publicDeveloperRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateDeveloperRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/dashboard': {
-      id: '/(public)/dashboard'
+    '/(private)/dashboard': {
+      id: '/(private)/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof publicDashboardRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateDashboardRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/balance': {
-      id: '/(public)/balance'
+    '/(private)/balance': {
+      id: '/(private)/balance'
       path: '/balance'
       fullPath: '/balance'
-      preLoaderRoute: typeof publicBalanceRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateBalanceRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
     '/(auth)/verify-email': {
       id: '/(auth)/verify-email'
@@ -484,26 +456,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authActiveRouteImport
       parentRoute: typeof authLayoutRoute
     }
-    '/(public)/settings/': {
-      id: '/(public)/settings/'
+    '/(private)/settings/': {
+      id: '/(private)/settings/'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof publicSettingsIndexRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateSettingsIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/settings/system': {
-      id: '/(public)/settings/system'
+    '/(private)/merchants/': {
+      id: '/(private)/merchants/'
+      path: '/merchants'
+      fullPath: '/merchants'
+      preLoaderRoute: typeof privateMerchantsIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
+    '/(private)/settings/system': {
+      id: '/(private)/settings/system'
       path: '/settings/system'
       fullPath: '/settings/system'
-      preLoaderRoute: typeof publicSettingsSystemRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateSettingsSystemRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/settings/profile': {
-      id: '/(public)/settings/profile'
+    '/(private)/settings/profile': {
+      id: '/(private)/settings/profile'
       path: '/settings/profile'
       fullPath: '/settings/profile'
-      preLoaderRoute: typeof publicSettingsProfileRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateSettingsProfileRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
   }
 }
@@ -534,43 +513,43 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
   authLayoutRouteChildren,
 )
 
-interface publicLayoutRouteChildren {
-  publicBalanceRoute: typeof publicBalanceRoute
-  publicDashboardRoute: typeof publicDashboardRoute
-  publicDeveloperRoute: typeof publicDeveloperRoute
-  publicTransactionsRoute: typeof publicTransactionsRoute
-  publicWalletAddressRoute: typeof publicWalletAddressRoute
-  publicIndexRoute: typeof publicIndexRoute
-  publicSettingsProfileRoute: typeof publicSettingsProfileRoute
-  publicSettingsSystemRoute: typeof publicSettingsSystemRoute
-  publicSettingsIndexRoute: typeof publicSettingsIndexRoute
+interface privateLayoutRouteChildren {
+  privateBalanceRoute: typeof privateBalanceRoute
+  privateDashboardRoute: typeof privateDashboardRoute
+  privateDeveloperRoute: typeof privateDeveloperRoute
+  privateTransactionsRoute: typeof privateTransactionsRoute
+  privateWalletAddressRoute: typeof privateWalletAddressRoute
+  privateIndexRoute: typeof privateIndexRoute
+  privateSettingsProfileRoute: typeof privateSettingsProfileRoute
+  privateSettingsSystemRoute: typeof privateSettingsSystemRoute
+  privateMerchantsIndexRoute: typeof privateMerchantsIndexRoute
+  privateSettingsIndexRoute: typeof privateSettingsIndexRoute
 }
 
-const publicLayoutRouteChildren: publicLayoutRouteChildren = {
-  publicBalanceRoute: publicBalanceRoute,
-  publicDashboardRoute: publicDashboardRoute,
-  publicDeveloperRoute: publicDeveloperRoute,
-  publicTransactionsRoute: publicTransactionsRoute,
-  publicWalletAddressRoute: publicWalletAddressRoute,
-  publicIndexRoute: publicIndexRoute,
-  publicSettingsProfileRoute: publicSettingsProfileRoute,
-  publicSettingsSystemRoute: publicSettingsSystemRoute,
-  publicSettingsIndexRoute: publicSettingsIndexRoute,
+const privateLayoutRouteChildren: privateLayoutRouteChildren = {
+  privateBalanceRoute: privateBalanceRoute,
+  privateDashboardRoute: privateDashboardRoute,
+  privateDeveloperRoute: privateDeveloperRoute,
+  privateTransactionsRoute: privateTransactionsRoute,
+  privateWalletAddressRoute: privateWalletAddressRoute,
+  privateIndexRoute: privateIndexRoute,
+  privateSettingsProfileRoute: privateSettingsProfileRoute,
+  privateSettingsSystemRoute: privateSettingsSystemRoute,
+  privateMerchantsIndexRoute: privateMerchantsIndexRoute,
+  privateSettingsIndexRoute: privateSettingsIndexRoute,
 }
 
-const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
-  publicLayoutRouteChildren,
+const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(
+  privateLayoutRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   authLayoutRoute: authLayoutRouteWithChildren,
-  publicLayoutRoute: publicLayoutRouteWithChildren,
+  privateLayoutRoute: privateLayoutRouteWithChildren,
   SplatRoute: SplatRoute,
   R404Route: R404Route,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,12 +1,12 @@
-import { useGetUserInfo, useSignout, type IUserInfo } from "@/apis/auth";
-import LoadingFluid from "@/components/shared/loading-fluid";
-import { ROUTES } from "@/constant";
-import { router } from "@/main";
-import { useSessionStore } from "@/stores/use-session-store";
-import { createContext, useContext, type ReactNode } from "react";
-import { getContext } from "../tanstack-query/root-provider";
-import { toast } from "sonner";
-import { useTranslation } from "../i18n";
+import { useGetUserInfo, useSignout, type IUserInfo } from '@/apis/auth';
+import LoadingFluid from '@/components/shared/loading-fluid';
+import { ROUTES } from '@/constant';
+import { router } from '@/main';
+import { useSessionStore } from '@/stores/use-session-store';
+import { createContext, useContext, type ReactNode } from 'react';
+import { getContext } from '../tanstack-query/root-provider';
+import { toast } from 'sonner';
+import { useTranslation } from '../i18n';
 
 export type AuthContextState = {
   isAuthenticating: boolean;
@@ -61,15 +61,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return <LoadingFluid />;
   }
 
-  return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 }
 
 export function useAuthContext() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
+    throw new Error('useAuthContext must be used within an AuthProvider');
   }
   return context;
 }

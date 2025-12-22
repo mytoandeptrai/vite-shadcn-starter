@@ -2,8 +2,8 @@ import type { TFunction } from 'i18next';
 
 export const generateOptions = (t: TFunction) => {
   return [
-    { value: 'ETH', label: t('chains.ETH', { ns: 'common' }) },
-    { value: 'BNB', label: t('chains.BNB', { ns: 'common' }) },
+    { value: 'bsc', label: t('chains.BNB', { ns: 'common' }), disabled: false },
+    { value: 'ethereum', label: t('chains.ETH', { ns: 'common' }), disabled: false },
   ];
 };
 

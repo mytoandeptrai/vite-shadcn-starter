@@ -4,17 +4,25 @@
   "table": {
     "headers": {
       "label": "Label",
-      "blockchain": "Blockchain",
+      "chain": "Chain",
       "address": "Address",
       "created-at": "Created At",
       "updated-at": "Updated At",
-      "actions": "Actions"
+      "actions": "Actions",
+      "id": "ID",
+      "status": "Status"
     },
     "actions": {
       "edit": "Edit",
       "delete": "Delete",
       "copy": "Copy Wallet Address",
-      "view-details": "View Details"
+      "view-details": "View Details",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    },
+    "labels": {
+      "active": "Active",
+      "inactive": "Inactive"
     }
   },
   "actions": {
@@ -32,6 +40,14 @@
     "delete": {
       "title": "Delete Wallet Address",
       "description": "Confirm the removal of this wallet address from the system."
+    },
+    "active": {
+      "title": "Activate Wallet Address",
+      "description": "Are you sure you want to activate this wallet address?"
+    },
+    "deactivate": {
+      "title": "Deactivate Wallet Address",
+      "description": "Are you sure you want to deactivate this wallet address?"
     }
   },
   "blockchains": {
@@ -43,19 +59,26 @@
       "label": "Wallet Address",
       "placeholder": "Enter your wallet address"
     },
-    "blockchain": {
-      "label": "Blockchain",
-      "placeholder": "Select your blockchain"
+    "chain": {
+      "label": "Chain",
+      "placeholder": "Select your chain"
     },
     "token": {
       "label": "Token",
       "placeholder": "Select your token"
+    },
+    "label": {
+      "label": "Label",
+      "placeholder": "Enter your label"
     }
   },
   "labels": {
-    "blockchain": "Blockchain"
+    "chain": "Chain"
   },
   "placeholder": {
     "search": "Search wallet address..."
+  },
+  "errors": {
+    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, token, label, and address)"
   }
 }

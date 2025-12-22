@@ -1,14 +1,15 @@
 import { GoogleAnalytics } from '@/components/ui/google-analytics';
+import KBar from '@/components/ui/kbar';
 import NavigationProgress from '@/components/ui/navigation-progress';
+import { Toaster } from '@/components/ui/sonner';
+import { Show } from '@/components/utilities';
 import { env, siteConfig } from '@/constant';
 import type { AuthContextState } from '@/integrations/auth/auth-provider';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import type { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
-import { Toaster } from '@/components/ui/sonner';
-import { Show } from '@/components/utilities';
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -17,7 +18,7 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
-    <HelmetProvider>
+    <KBar>
       {/* SEO  */}
       <Helmet>
         <title>{siteConfig.title}</title>
@@ -38,14 +39,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       <NavigationProgress />
       <Outlet />
       <Show when={env.ENVIRONMENT === 'dev'}>
-      <TanStackDevtools
-        config={{
-          position: 'bottom-right',
-        }}
-        plugins={[TanStackQueryDevtools]}
-      />
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[TanStackQueryDevtools]}
+        />
       </Show>
       <Toaster richColors position='top-right' />
-    </HelmetProvider>
+    </KBar>
   ),
 });

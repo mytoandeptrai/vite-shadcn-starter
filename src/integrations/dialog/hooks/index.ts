@@ -1,2 +1,2 @@
-export * from './schema'
-export * from './use-two-fa-dialog'
+export * from './schema';
+export * from './use-two-fa-dialog';

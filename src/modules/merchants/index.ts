@@ -1,0 +1,1 @@
+export { default as MerchantContainer } from './containers/merchant-container';

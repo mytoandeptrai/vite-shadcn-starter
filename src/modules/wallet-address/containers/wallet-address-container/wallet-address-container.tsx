@@ -1,8 +1,8 @@
-import { PageContainer } from "@/components/containers";
-import { Button } from "@/components/ui/button";
-import { useWalletAddressContainer } from "../../hooks";
-import WalletAddressFormContainer from "../wallet-address-form-container";
-import WalletAddressTableContainer from "../wallet-address-table-container";
+import { PageContainer } from '@/components/containers';
+import { Button } from '@/components/ui/button';
+import { useWalletAddressContainer } from '../../hooks';
+import WalletAddressFormContainer from '../wallet-address-form-container';
+import WalletAddressTableContainer from '../wallet-address-table-container';
 
 const WalletAddressContainer = () => {
   const {
@@ -15,16 +15,15 @@ const WalletAddressContainer = () => {
     onRefetch,
     onPaginationChange,
     onSortingChange,
-    onEdit,
-    onDelete,
     onClose,
     onCreate,
+    onAction,
   } = useWalletAddressContainer();
   return (
-    <PageContainer pageTitle={t("title")} pageDescription={t("description")}>
-      <div className="space-y-6">
-        <Button type="button" size="lg" onClick={onCreate}>
-          {t("actions.add")}
+    <PageContainer pageTitle={t('title')} pageDescription={t('description')}>
+      <div className='space-y-6'>
+        <Button type='button' size='lg' onClick={onCreate}>
+          {t('actions.add')}
         </Button>
         <WalletAddressTableContainer
           tableData={tableData}
@@ -32,8 +31,7 @@ const WalletAddressContainer = () => {
           isFetching={isFetching}
           onPaginationChange={onPaginationChange}
           onSortingChange={onSortingChange}
-          onEdit={onEdit}
-          onDelete={onDelete}
+          onAction={onAction}
         />
         <WalletAddressFormContainer
           open={!!actionType}

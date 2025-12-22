@@ -21,7 +21,7 @@ export const DEFAULT_SESSION_STORE_STATE: SessionStoreState = {
 
 export const useSessionStore = create<SessionStore>()(
   persist(
-    set => ({
+    (set) => ({
       ...DEFAULT_SESSION_STORE_STATE,
       reset: () => set(DEFAULT_SESSION_STORE_STATE),
       setAccessToken: (accessToken: string | null) => set({ accessToken }),

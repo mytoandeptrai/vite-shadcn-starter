@@ -1,17 +1,18 @@
 import type { CommonRequestType, IPaginatedResponseType } from '@/types';
 export interface IWalletAddress {
-  id: string;
-  label: string;
   address: string;
-  blockchain: string;
+  chain: string;
   token?: string;
   createdAt: string;
+  id: string;
+  isActive: boolean;
+  label: string;
+  merchantId: number;
   updatedAt: string;
 }
 
 export interface GetWalletAddressListParams extends CommonRequestType {
-  blockchain?: string;
-  address?: string;
+  chain?: string[];
 }
 
 export interface UpdateWalletAddressParams extends Partial<IWalletAddress> {
@@ -24,4 +25,4 @@ export interface DeleteWalletAddressParams {
   id: string;
 }
 
-export interface GetWalletAddressListResponse extends IPaginatedResponseType<IWalletAddress[]> {}
+export interface GetWalletAddressListResponse extends IPaginatedResponseType<{ wallets: IWalletAddress[] }> {}

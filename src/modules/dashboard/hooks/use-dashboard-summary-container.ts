@@ -1,7 +1,7 @@
+import type { ChartConfig } from '@/components/ui/chart';
 import { useTranslation } from '@/integrations/i18n';
 import { useCallback, useMemo, useState } from 'react';
-import { generateOptions, monthChartData } from './config';
-import type { ChartConfig } from '@/components/ui/chart';
+import { generateOptions } from './config';
 
 const chartConfig = {
   desktop: {
@@ -24,8 +24,16 @@ export const useDashboardSummaryContainer = () => {
     setSelectedValue(value);
   }, []);
 
-  /** TODO: Request API with selectedValue */
-  const chartData = useMemo(() => monthChartData(Number(selectedValue)), [selectedValue])
+  const chartData = useMemo(() => {
+    return Array.from({ length: +selectedValue }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (29 - i));
+      return {
+        date: date.toISOString().split('T')[0],
+        orders: Math.floor(Math.random() * 100) + 20,
+      };
+    });
+  }, [selectedValue]);
 
   return {
     t,

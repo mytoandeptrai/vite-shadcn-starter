@@ -1,14 +1,8 @@
-import { usePaymentsContainer } from "../../hooks";
-import TransactionTableContainer from "../transaction-table-container";
+import { usePaymentsContainer } from '../../hooks';
+import TransactionTableContainer from '../transaction-table-container';
 
 const PaymentsContainer = () => {
-  const {
-    isLoading,
-    isFetching,
-    tableData,
-    onPaginationChange,
-    onSortingChange,
-  } = usePaymentsContainer();
+  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange } = usePaymentsContainer();
 
   return (
     <TransactionTableContainer

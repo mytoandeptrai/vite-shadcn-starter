@@ -1,9 +1,8 @@
 import { useTranslation } from '@/integrations/i18n';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { balanceWithdrawFormSchema, initialFormData, type BalanceWithdrawFormData } from './schema';
-import { useEffect } from 'react';
-import type { Option } from '@/types';
 
 type Props = {
   onClose?: () => void;
@@ -17,7 +16,6 @@ export const useBalanceWithdraw = ({ onClose, max }: Props) => {
 
   /** TODO: Request API based on selected token here */
   const isLoading = false;
-  const walletTokenOptions: Option<string>[] = [];
 
   const form = useForm<BalanceWithdrawFormData>({
     resolver: zodResolver(balanceWithdrawFormSchema(t)),
@@ -27,8 +25,7 @@ export const useBalanceWithdraw = ({ onClose, max }: Props) => {
 
   const submit = async (data: BalanceWithdrawFormData) => {
     /** TODO: Request API here */
-    const amount = data?.amount;
-    console.log('🚀 ~ submit ~ amount:', amount);
+    console.log('🚀 ~ submit ~ data:', data);
     onClose?.();
   };
 
@@ -46,7 +43,6 @@ export const useBalanceWithdraw = ({ onClose, max }: Props) => {
     t,
     form,
     isLoading,
-    walletTokenOptions,
     submit,
   };
 };

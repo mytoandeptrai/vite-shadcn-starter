@@ -26,6 +26,11 @@ export interface IMeta {
   path: string;
 }
 
+export interface PermissionCheck {
+  permission?: string;
+  role?: string;
+}
+
 export interface NavItem {
   title: string;
   url: string;
@@ -37,7 +42,7 @@ export interface NavItem {
   description?: string;
   isActive?: boolean;
   items?: NavItem[];
-  access?: string[];
+  access?: PermissionCheck;
 }
 
 export interface Option<T> {
@@ -49,8 +54,8 @@ export interface Option<T> {
 export type CommonRequestType = {
   page?: number;
   pageSize?: number;
-  sort_by?: string;
-  order_by?: "desc" | "asc";
+  sortBy?: string;
+  orderBy?: 'desc' | 'asc';
   fields?: string;
   search?: string;
 };

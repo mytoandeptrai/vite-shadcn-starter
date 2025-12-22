@@ -1,0 +1,75 @@
+{
+  "title": "Thương Nhân",
+  "description": "Quản lý người dùng thương nhân và tài khoản của họ.",
+  "table": {
+    "headers": {
+      "id": "ID",
+      "name": "Tên",
+      "created-at": "Ngày Tạo",
+      "balance": "Số Dư",
+      "status": "Trạng Thái",
+      "actions": "Hành Động"
+    },
+    "actions": {
+      "active": "Kích Hoạt",
+      "inactive": "Vô Hiệu Hóa"
+    }
+  },
+  "actions": {
+    "add": "Thêm Thương Nhân Mới"
+  },
+  "dialogs": {
+    "create": {
+      "title": "Thêm Thương Nhân Mới",
+      "description": "Nhập thông tin thương nhân để tạo tài khoản mới."
+    },
+    "update": {
+      "title": "Cập Nhật Thương Nhân",
+      "description": "Điều chỉnh thông tin liên quan đến thương nhân này."
+    },
+    "status-change": {
+      "active": {
+        "title": "Kích Hoạt Thương Nhân",
+        "description": "Bạn có chắc chắn muốn kích hoạt {{name}}?",
+        "confirm": "Kích Hoạt"
+      },
+      "inactive": {
+        "title": "Vô Hiệu Hóa Thương Nhân",
+        "description": "Bạn có chắc chắn muốn vô hiệu hóa {{name}}?",
+        "confirm": "Vô Hiệu Hóa"
+      }
+    }
+  },
+  "status": {
+    "all": "Tất Cả",
+    "active": "Hoạt Động",
+    "inactive": "Không Hoạt Động"
+  },
+  "fields": {
+    "first-name": {
+      "label": "Tên",
+      "placeholder": "Nhập tên"
+    },
+    "last-name": {
+      "label": "Họ",
+      "placeholder": "Nhập họ"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Nhập địa chỉ email"
+    }
+  },
+  "labels": {
+    "status": "Trạng Thái"
+  },
+  "placeholder": {
+    "search": "Tìm kiếm thương nhân..."
+  },
+  "messages": {
+    "status-updated": "Cập nhật trạng thái thương nhân thành công",
+    "status-update-failed": "Không thể cập nhật trạng thái thương nhân"
+  },
+  "errors": {
+    "wallet-addresses-required": "Cần ít nhất một địa chỉ ví"
+  }
+}

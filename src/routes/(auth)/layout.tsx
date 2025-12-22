@@ -1,3 +1,4 @@
+import { Logo } from '@/components/ui/logo';
 import { ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { createFileRoute, Outlet, redirect, useLocation } from '@tanstack/react-router';
@@ -74,8 +75,8 @@ function RouteComponent() {
       <div className='hidden flex-col items-end justify-center bg-linear-to-br p-12 lg:flex lg:w-2/5'>
         <div className='max-w-md'>
           <div className='mb-12'>
-            <div className='mb-6 flex h-14 w-14 items-center justify-center rounded-lg bg-primary font-bold text-primary-foreground'>
-              PWC
+            <div className='mb-6 max-w-36'>
+              <Logo />
             </div>
             <h1 className='mb-2 font-bold text-3xl'>{t(sidebar.heading)}</h1>
             <p className='text-slate-600 text-sm'>{t(sidebar.description)}</p>

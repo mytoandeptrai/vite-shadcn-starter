@@ -1,9 +1,9 @@
-import DashboardChartUi from '../../components/dashboard-chart-ui';
 import DashboardHeaderUi from '../../components/dashboard-header-ui';
+import DashboardSummaryChartUi from '../../components/dashboard-summary-chart-ui';
 import { useDashboardSummaryContainer } from '../../hooks';
 
 const DashboardSummaryContainers = () => {
-  const { onSelect, options, selectedValue, t, chartData, chartConfig } = useDashboardSummaryContainer();
+  const { onSelect, options, selectedValue, t, chartData } = useDashboardSummaryContainer();
   return (
     <div className='rounded-md border border-border bg-card p-6'>
       <DashboardHeaderUi
@@ -13,7 +13,7 @@ const DashboardSummaryContainers = () => {
         options={options}
         onSelect={onSelect}
       />
-      <DashboardChartUi data={chartData} chartConfig={chartConfig} />
+      <DashboardSummaryChartUi data={chartData} />
     </div>
   );
 };

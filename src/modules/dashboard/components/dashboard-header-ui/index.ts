@@ -1,2 +1,2 @@
-export { default } from "./dashboard-header-ui";
-export * from "./dashboard-header-ui";
+export { default } from './dashboard-header-ui';
+export * from './dashboard-header-ui';

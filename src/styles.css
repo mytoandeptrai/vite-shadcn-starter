@@ -50,8 +50,12 @@ code {
   --sidebar-accent-foreground: #18181b;
   --sidebar-border: #e4e4e7;
   --sidebar-ring: #d4d4d8;
-  --color-mobile: #6366f1;   /* indigo-500 */
-  --color-desktop: #a855f7;  /* purple-500 */
+
+  /** Custom Colors */
+  --stroke-mobile: #6366f1;   /* indigo-500 */
+  --stroke-desktop: #a855f7;  /* purple-500 */
+  --stroke-success: #10b981;  /* emerald-500 */
+  --stroke-fail: #ef4444;  /* red-500 */
 }
 
 .dark {
@@ -87,8 +91,12 @@ code {
   --sidebar-accent-foreground: #fafafa;
   --sidebar-border: #27272a;
   --sidebar-ring: #52525c;
-  --color-mobile: #818cf8;   /* indigo-400 */
-  --color-desktop: #c084fc;  /* purple-400 */
+
+  /** Custom Colors */
+  --stroke-mobile: #818cf8;   /* indigo-400 */
+  --stroke-desktop: #c084fc;  /* purple-400 */
+  --stroke-success: #10b981;  /* emerald-500 */
+  --stroke-fail: #ef4444;  /* red-500 */
 }
 
 @theme inline {
@@ -128,8 +136,12 @@ code {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --color-mobile: var(--color-mobile);
-  --color-desktop: var(--color-desktop);
+
+  /** Custom Colors */
+  --color-stroke-mobile: var(--stroke-mobile);
+  --color-stroke-desktop: var(--stroke-desktop);
+  --color-stroke-success: var(--stroke-success);
+  --color-stroke-fail: var(--stroke-fail);
 }
 
 @layer base {

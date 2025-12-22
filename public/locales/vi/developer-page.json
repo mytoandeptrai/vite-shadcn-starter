@@ -21,13 +21,51 @@
       "secret-key": "Secret Key",
       "secret-key-description": "Giữ bí mật key của bạn an toàn và không bao giờ chia sẻ công khai."
     },
+    "options": {
+      "environment": {
+        "production": "Production",
+        "development": "Phát Triển"
+      },
+      "expiresIn": {
+        "30": "30 Ngày",
+        "90": "90 Ngày",
+        "180": "180 Ngày",
+        "365": "365 Ngày"
+      },
+      "permissions": {
+        "orders-read": "Đọc Đơn Hàng",
+        "orders-write": "Viết Đơn Hàng",
+        "transactions-read": "Đọc Giao Dịch",
+        "transactions-write": "Viết Giao Dịch",
+        "wallet-read": "Đọc Ví",
+        "wallet-write": "Viết Ví"
+      }
+    },
     "actions": {
       "generate-new-key": "Tạo Secret Key Mới"
     },
     "dialogs": {
       "generate-new-key": {
         "title": "Tạo Secret Key Mới",
-        "description": "Các key hiện tại của bạn sẽ ngừng hoạt động ngay lập tức."
+        "description": "Các key hiện tại của bạn sẽ ngừng hoạt động ngay lập tức.",
+        "fields": {
+          "name": {
+            "label": "Tên",
+            "placeholder": "Nhập tên API key"
+          },
+          "environment": {
+            "label": "Môi Trường",
+            "placeholder": "Chọn môi trường"
+          },
+          "expiresIn": {
+            "label": "Thời Hạn",
+            "placeholder": "Chọn thời hạn hết hạn"
+          },
+          "permissions": {
+            "label": "Quyền",
+            "placeholder": "Chọn quyền"
+          }
+        }
       }
     }
   },

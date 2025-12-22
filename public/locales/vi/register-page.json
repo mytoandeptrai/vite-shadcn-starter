@@ -11,9 +11,9 @@
       "dontHaveAccount": "Chưa có tài khoản? Đăng ký ở đây"
   },
   "fields": {
-    "fullName": {
-      "label": "Họ và tên",
-      "placeholder": "Nhập họ và tên"
+    "firstName": {
+      "label": "Họ",
+      "placeholder": "Nhập họ"
     },
     "email": {
       "label": "Địa chỉ email",
@@ -33,9 +33,9 @@
     }
   },
   "errors": {
-    "MSG-1.3": "Họ và tên không được vượt quá 100 ký tự.",
-    "MSG-1.4": "Họ và tên không được chứa số.",
-    "MSG-1.5": "Họ và tên không được chứa ký tự đặc biệt.",
+    "MSG-1.3": "Họ không được vượt quá 100 ký tự.",
+    "MSG-1.4": "Họ không được chứa số.",
+    "MSG-1.5": "Họ không được chứa ký tự đặc biệt.",
     "MSG-1.7": "Tên không được vượt quá 100 ký tự.",
     "MSG-1.8": "Tên không được chứa số.",
     "MSG-1.9": "Tên không được chứa ký tự đặc biệt.",

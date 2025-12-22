@@ -18,7 +18,7 @@ export type TwoFaDialogProps = React.ComponentProps<typeof DialogPrimitive.Root>
 
 const TwoFaDialog = (props: TwoFaDialogProps) => {
   const { open, onClose } = props;
-  const { t, form, isGenerating2FaOtpCode, isLoading, submit } = useTwoFaDialog(props);
+  const { t, form, isLoading, submit } = useTwoFaDialog(props);
 
   return (
     <Modal
@@ -30,14 +30,14 @@ const TwoFaDialog = (props: TwoFaDialogProps) => {
       <FormWrapper className='space-y-4' form={form} onSubmit={submit}>
         <FormInput
           control={form.control}
-          disabled={isLoading || isGenerating2FaOtpCode}
+          disabled={isLoading}
           name='code'
           label={t('dialogs.two-fa.fields.code.label')}
           placeholder={t('dialogs.two-fa.fields.code.placeholder')}
           required
         />
-        <Button className='w-full' size='lg' type='submit' disabled={isLoading || isGenerating2FaOtpCode}>
-          <Show when={isLoading || isGenerating2FaOtpCode}>
+        <Button className='w-full' size='lg' type='submit' disabled={isLoading}>
+          <Show when={isLoading}>
             <Spinner />
           </Show>
           {t('buttons.continue')}

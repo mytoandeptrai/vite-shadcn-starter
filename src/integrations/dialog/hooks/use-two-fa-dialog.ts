@@ -1,27 +1,19 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { initialFormData, twoFaFormSchema, type TwoFaFormData } from "./schema";
-import { useTranslation } from "@/integrations/i18n";
-import { useForm } from "react-hook-form";
-import type { TwoFaDialogProps } from "../components/two-fa-dialog";
-import { useState } from "react";
-import { useVerifySetup } from "@/apis/auth";
+import { useVerifyTwoFaSession } from '@/apis/auth';
+import { useTranslation } from '@/integrations/i18n';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import type { TwoFaDialogProps } from '../components/two-fa-dialog';
+import { initialFormData, twoFaFormSchema, type TwoFaFormData } from './schema';
 
-export const useTwoFaDialog = ({
-  skipInitVerification,
-  closeOnSubmit,
-  onSubmit,
-  onClose,
-}: TwoFaDialogProps) => {
+export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, onClose }: TwoFaDialogProps) => {
   const { t } = useTranslation();
-  const [isGenerating2FaOtpCode, setIsGenerating2FaOtpCode] = useState(false);
-
-  const verifySetupMutation = useVerifySetup();
-  const isLoading = verifySetupMutation.isPending;
+  const verifySessionMutation = useVerifyTwoFaSession();
+  const isLoading = verifySessionMutation.isPending;
 
   const form = useForm<TwoFaFormData>({
     resolver: zodResolver(twoFaFormSchema(t)),
     defaultValues: initialFormData,
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const submit = async (data: TwoFaFormData) => {
@@ -30,15 +22,9 @@ export const useTwoFaDialog = ({
     let _code = null;
     if (!skipInitVerification) {
       if (!code) return;
-      /** TODO: Implement API here */
-      const res = await verifySetupMutation.mutateAsync({ code });
+      const res = await verifySessionMutation.mutateAsync({ code });
       isVerified = !!res.data;
-
-      setIsGenerating2FaOtpCode(true);
-      /** TODO: Implement API here */
-      const _res = { data: { code: "123456" } };
-      setIsGenerating2FaOtpCode(false);
-      _code = _res.data?.code ?? null;
+      _code = code;
     } else {
       isVerified = true;
       _code = code;
@@ -56,7 +42,6 @@ export const useTwoFaDialog = ({
   return {
     t,
     form,
-    isGenerating2FaOtpCode,
     isLoading,
     submit,
   };

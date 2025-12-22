@@ -1,12 +1,12 @@
-import { useGetTransactionList } from "@/apis/transactions";
-import { PAGE_SIZE_OPTIONS } from "@/constant";
-import { useTranslation } from "@/integrations/i18n";
-import { Route } from "@/routes/(public)/transactions";
-import type { SortingState } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { useGetTransactionList } from '@/apis/transactions';
+import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { Route } from '@/routes/(private)/transactions';
+import type { SortingState } from '@tanstack/react-table';
+import { useMemo } from 'react';
 
 export const usePaymentsContainer = () => {
-  const { t } = useTranslation("transactions-page");
+  const { t } = useTranslation('transactions-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -22,8 +22,7 @@ export const usePaymentsContainer = () => {
     dateTo: search.dateTo,
   };
 
-  const { data, isFetching, isLoading, refetch } =
-    useGetTransactionList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -42,7 +41,7 @@ export const usePaymentsContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? "desc" : "asc",
+          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -50,8 +49,8 @@ export const usePaymentsContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: "desc",
-          sortBy: "createdAt",
+          sortOrder: 'desc',
+          sortBy: 'createdAt',
         },
         replace: true,
       });
