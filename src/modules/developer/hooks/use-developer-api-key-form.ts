@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import type { DeveloperApiKeysModalUiProps } from '../components/developer-api-keys-modal-ui';
 import { developerApiKeyFormSchema, initialApiKeyFormData, type DeveloperApiKeyFormData } from './schema';
 import { useDialogContext } from '@/integrations/dialog/dialog-provider';
+import { toast } from 'sonner';
 
 export const useDeveloperApiKeyForm = ({ isOpen, onClose, onSubmit }: DeveloperApiKeysModalUiProps) => {
   const { t } = useTranslation('developer-page');
@@ -37,6 +38,7 @@ export const useDeveloperApiKeyForm = ({ isOpen, onClose, onSubmit }: DeveloperA
           twoFACode: code!,
         };
         await createApiKeyMutation.mutateAsync(payload);
+        toast.success(t('api-keys.messages.generate-new-key-success'));
         onCloseModal();
         onSubmit?.(payload);
       },

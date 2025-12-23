@@ -80,7 +80,10 @@
   "messages": {
     "status-updated": "Cập nhật trạng thái thương nhân thành công",
     "status-update-failed": "Không thể cập nhật trạng thái thương nhân",
-    "no-wallet-addresses": "Không có địa chỉ ví nào. Vui lòng nhấp vào 'Thêm Địa Chỉ Ví Thương Nhân' để thêm."
+    "no-wallet-addresses": "Không có địa chỉ ví nào. Vui lòng nhấp vào 'Thêm Địa Chỉ Ví Thương Nhân' để thêm.",
+    "merchant-created": "Thương nhân đã được tạo thành công",
+    "merchant-updated": "Thương nhân đã được cập nhật thành công",
+    "merchant-deleted": "Thương nhân đã được xóa thành công"
   },
   "errors": {
     "wallet-addresses-required": "Cần ít nhất một địa chỉ ví"

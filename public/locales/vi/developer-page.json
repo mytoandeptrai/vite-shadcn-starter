@@ -67,6 +67,9 @@
           }
         }
       }
+    },
+    "messages": {
+      "generate-new-key-success": "Tạo Secret Key Mới Thành Công"
     }
   },
   "api-urls": {

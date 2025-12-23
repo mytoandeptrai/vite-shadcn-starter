@@ -82,5 +82,12 @@
   },
   "errors": {
     "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)"
+  },
+  "messages": {
+    "add-wallet-address-success": "Wallet address added successfully",
+    "update-wallet-address-success": "Wallet address updated successfully",
+    "activate-wallet-address-success": "Wallet address activated successfully",
+    "deactivate-wallet-address-success": "Wallet address deactivated successfully",
+    "delete-wallet-address-success": "Wallet address deleted successfully"
   }
 }

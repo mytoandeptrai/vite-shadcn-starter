@@ -67,6 +67,9 @@
           }
         }
       }
+    },
+    "messages": {
+      "generate-new-key-success": "New API key generated successfully"
     }
   },
   "api-urls": {

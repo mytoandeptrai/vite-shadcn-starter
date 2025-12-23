@@ -65,6 +65,7 @@ export const useProfilePersonalContainer = () => {
           lastname: data.lastName,
           twoFACode: code!,  
         });
+        toast.success(t('profile.messages.update-profile-success'));
         queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
         onRefetch();
         setIsUpdated(false);

@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
+import { toast } from 'sonner';
 
 type Props = {
   open: boolean;
@@ -54,18 +55,23 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     switch (actionType) {
       case 'create':
         await createAddressMutation.mutateAsync(data);
+        toast.success(t('messages.add-wallet-address-success'));
         break;
       case 'update':
         await updateAddressMutation.mutateAsync({ ...data, id: data.id! });
+        toast.success(t('messages.update-wallet-address-success'));
         break;
       case 'activate':
         await updateAddressMutation.mutateAsync({ id: data.id!, isActive: true });
+        toast.success(t('messages.activate-wallet-address-success'));
         break;
       case 'deactivate':
         await updateAddressMutation.mutateAsync({ id: data.id!, isActive: false });
+        toast.success(t('messages.deactivate-wallet-address-success'));
         break;
       case 'delete':
         await deleteAddressMutation.mutateAsync({ id: data.id! });
+        toast.success(t('messages.delete-wallet-address-success'));
         break;
       default:
         break;

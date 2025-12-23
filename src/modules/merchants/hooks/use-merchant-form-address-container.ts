@@ -76,34 +76,41 @@ export const useMerchantFormAddressContainer = ({
     return { isDuplicate: false, errorMessage: '' };
   };
 
+  const handleCreateWalletAddress = (data: WalletAddressCreateFormData) => {
+    append({
+      chain: data.chain,
+      crypto: data.crypto,
+      label: data.label,
+      address: data.address,
+      id: data.id,
+    });
+  };
+
+  const handleUpdateWalletAddress = (data: WalletAddressCreateFormData, index: number) => {
+    const updatedFields = [...fields];
+    updatedFields[index] = {
+      ...updatedFields[index],
+      ...data,
+    };
+    formParent.setValue('walletAddresses', updatedFields, { shouldValidate: true });
+  };
+
   const onSubmit = async (data: WalletAddressCreateFormData) => {
-    const duplicateCheck = onCheckDuplicateWalletAddress(data);
+    const isEdit = !!data?.id;
+    const currentIndex = isEdit ? fields.findIndex((field) => field.id === data.id) : undefined;
+
+    const duplicateCheck = onCheckDuplicateWalletAddress(data, currentIndex);
     if (duplicateCheck.isDuplicate) {
       toast.error(t(duplicateCheck?.errorMessage!));
       return;
     }
 
-    const isEdit = !!data?.id;
-    if (isEdit) {
-      // Update existing wallet address
-      const updatedFields = [...fields];
-      const index = updatedFields.findIndex((field) => field.id === data.id);
-      if (index !== -1) {
-        updatedFields[index] = {
-          ...updatedFields[index],
-          ...data,
-        };
-        formParent.setValue('walletAddresses', updatedFields, { shouldValidate: true });
-      }
+    if (isEdit && currentIndex !== undefined && currentIndex !== -1) {
+      handleUpdateWalletAddress(data, currentIndex);
     } else {
-      append({
-        chain: data.chain,
-        crypto: data.crypto,
-        label: data.label,
-        address: data.address,
-        id: data.id,
-      });
+      handleCreateWalletAddress(data);
     }
+
     form.reset({});
     onSuccess?.();
   };
