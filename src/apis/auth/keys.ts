@@ -15,6 +15,6 @@ export const KEYS = {
   TWO_FA_SETUP: 'merchants/2fa/setup',
   TWO_FA_DISABLE: 'merchants/2fa/disable',
   INFO: 'merchants/info',
-  MARKETPLACE_INFO: 'marketplace/info',
+  MARKETPLACE_INFO: 'marketplaces/info',
   SIGN_OUT: 'merchants/signout',
 };

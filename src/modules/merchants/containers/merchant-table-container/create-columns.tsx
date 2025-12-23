@@ -1,7 +1,7 @@
-import type { IMerchant } from '@/apis/merchants';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { DataTableColumnHeader } from '@/components/ui/data-table';
+import type { IMerchant } from "@/apis/marketplace";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { DataTableColumnHeader } from "@/components/ui/data-table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,89 +9,130 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { formatCurrencyUSD } from '@/utils';
-import type { ColumnDef } from '@tanstack/react-table';
-import type { TFunction } from 'i18next';
-import { MoreHorizontal } from 'lucide-react';
+} from "@/components/ui/dropdown-menu";
+import { formatDate, formatNaturalNumber } from "@/utils";
+import type { ColumnDef } from "@tanstack/react-table";
+import type { TFunction } from "i18next";
+import { MoreHorizontal } from "lucide-react";
+import type { ActionType } from "../../hooks";
 
 interface MerchantColumnsProps {
   t: TFunction;
-  onAction?: (merchant: IMerchant, actionType: 'create' | 'active' | 'inactive') => void;
+  onAction?: (merchant: IMerchant, actionType: ActionType) => void;
 }
 
-export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<IMerchant>[] => [
+export const createColumns = ({
+  t,
+  onAction,
+}: MerchantColumnsProps): ColumnDef<IMerchant>[] => [
   {
-    accessorKey: 'id',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.id')} />,
+    accessorKey: "id",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t("table.headers.id")} />
+    ),
     cell: ({ row }) => {
       const _row = row.original;
-      return <div className='font-medium'>{_row.id}</div>;
+      return <div className="font-medium">{_row.id}</div>;
     },
   },
   {
-    accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.name')} />,
+    accessorKey: "name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t("table.headers.name")} />
+    ),
     cell: ({ row }) => {
       const _row = row.original;
-      const name = `${_row.firstName} ${_row.lastName}`;
-      return <div className='font-medium'>{name}</div>;
+      const name = `${_row.firstname ?? "-"} ${_row.lastname ?? "-"}`;
+      return <div className="font-medium">{name}</div>;
     },
   },
   {
-    accessorKey: 'createdAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
+    accessorKey: "created_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t("table.headers.created-at")}
+      />
+    ),
     cell: ({ row }) => {
       const _row = row.original;
-      const date = new Date(_row.createdAt);
+      const date = formatDate(_row.createdAt);
+      return <div className="font-medium">{date}</div>;
+    },
+  },
+  {
+    accessorKey: "balance",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t("table.headers.balance")}
+      />
+    ),
+    cell: ({ row }) => {
+      const _row = row.original;
       return (
-        <div className='font-medium'>
-          {date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
-        </div>
+        <div className="font-medium">{formatNaturalNumber(_row.balance)}</div>
       );
     },
   },
   {
-    accessorKey: 'balance',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.balance')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{formatCurrencyUSD(_row.balance)}</div>;
-    },
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.status')} />,
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t("table.headers.status")}
+      />
+    ),
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status;
-      return <Badge variant={status === 'active' ? 'default' : 'secondary'}>{t(`table.labels.${status}`)}</Badge>;
+      return (
+        <Badge variant={status === "active" ? "default" : "secondary"}>
+          {t(`table.labels.${status}`)}
+        </Badge>
+      );
     },
   },
   {
-    id: 'actions',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.actions')} />,
+    id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={t("table.headers.actions")}
+      />
+    ),
     cell: ({ row }) => {
       const _row = row.original;
-      const status = _row.status;
+      // const status = _row.status;
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>{t('table.headers.actions')}</DropdownMenuLabel>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>{t("table.headers.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'active' ? 'inactive' : 'active')}>
-              {status === 'active' ? t('table.actions.inactive') : t('table.actions.active')}
+            {/* <DropdownMenuItem
+              onClick={() =>
+                onAction?.(_row, status === "active" ? "inactive" : "active")
+              }
+            >
+              {status === "active"
+                ? t("table.actions.inactive")
+                : t("table.actions.active")}
+            </DropdownMenuItem> */}
+            <DropdownMenuItem onClick={() => onAction?.(_row, "view")}>
+              {t("table.actions.view")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onAction?.(_row, "update")}>
+              {t("table.actions.edit")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onAction?.(_row, "delete")}>
+              {t("table.actions.delete")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

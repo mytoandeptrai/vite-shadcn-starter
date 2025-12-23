@@ -1,8 +1,8 @@
-import type { IMerchant } from '@/apis/merchants';
+import type { IMerchant } from '@/apis/marketplace';
 import { FormWrapper } from '@/components/ui/form';
 import { Modal } from '@/components/ui/modal';
 import MerchantFormUi from '../../components/merchant-form-ui';
-import { useMerchantFormContainer } from '../../hooks';
+import { useMerchantFormContainer, type ActionType } from '../../hooks';
 import MerchantFormAddressContainer from '../merchant-form-address-container';
 
 type MerchantFormContainerProps = {
@@ -10,7 +10,7 @@ type MerchantFormContainerProps = {
   onClose: () => void;
   onSuccess?: () => void;
   initialData?: Partial<IMerchant>;
-  actionType: 'create' | 'inactive' | 'active' | null;
+  actionType: ActionType;
 };
 
 const MerchantFormContainer = (props: MerchantFormContainerProps) => {
@@ -28,8 +28,8 @@ const MerchantFormContainer = (props: MerchantFormContainerProps) => {
 
   return (
     <Modal
-      title={t(`dialogs.${props.actionType}.title`)}
-      description={t(`dialogs.${props.actionType}.description`)}
+      title={t(`dialogs.${props.actionType ?? 'create'}.title`)}
+      description={t(`dialogs.${props.actionType ?? 'create'}.description`)}
       isOpen={!!props.open}
       onClose={onCloseDialog}
     >
