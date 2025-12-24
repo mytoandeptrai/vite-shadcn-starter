@@ -57,6 +57,10 @@
     "update-merchant-wallet": {
       "title": "Update Wallet Address For Merchant",
       "description": "Enter the wallet information to update it for the merchant."
+    },
+    "delete-merchant-wallet": {
+      "title": "Delete Wallet Address For Merchant",
+      "description": "Are you sure you want to delete this wallet address for the merchant?"
     }
   },
   "status": {

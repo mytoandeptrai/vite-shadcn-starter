@@ -1,0 +1,78 @@
+{
+  "title": "Merchant Details",
+  "description": "View and manage merchant information and wallet addresses",
+  "merchant-info": {
+    "title": "Merchant Information",
+    "fields": {
+      "firstName": {
+        "label": "First Name",
+        "placeholder": "Enter first name"
+      },
+      "lastName": {
+        "label": "Last Name",
+        "placeholder": "Enter last name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email address"
+      }
+    },
+    "buttons": {
+      "edit": "Edit Information"
+    },
+    "messages": {
+      "update-success": "Merchant information updated successfully"
+    }
+  },
+  "wallet-management": {
+    "title": "Wallet Management",
+    "fields": {
+      "walletAddress": {
+        "label": "Wallet Address",
+        "placeholder": "Enter wallet address"
+      }
+    },
+    "buttons": {
+      "add": "Add Wallet Address"
+    },
+    "messages": {
+      "create-merchant-wallet-success": "Wallet for merchant added successfully",
+      "update-merchant-wallet-success": "Wallet for merchant updated successfully",
+      "delete-merchant-wallet-success": "Wallet for merchant deleted successfully",
+      "activate-merchant-wallet-success": "Wallet for merchant activated successfully",
+      "deactivate-merchant-wallet-success": "Wallet for merchant deactivated successfully"
+    },
+    "tables": {
+      "headers": {
+        "id": "ID",
+        "chain": "Chain",
+        "crypto": "Crypto",
+        "address": "Address",
+        "label": "Label",
+        "actions": "Actions"
+      }
+    },
+    "dialogs": {
+      "create": {
+        "title": "Add Wallet Address",
+        "description": "Enter the wallet address to add it to the merchant."
+      },
+      "update": {
+        "title": "Update Wallet Address",
+        "description": "Update the wallet address information."
+      },
+      "delete": {
+        "title": "Delete Wallet Address",
+        "description": "Are you sure you want to delete this wallet address?"
+      },
+      "active": {
+        "title": "Activate Wallet Address",
+        "description": "Are you sure you want to activate this wallet address?"
+      },
+      "inactive": {
+        "title": "Deactivate Wallet Address",
+        "description": "Are you sure you want to deactivate this wallet address?"
+      }
+    }
+  }
+}

@@ -33,6 +33,7 @@ import { Route as privateSettingsIndexRouteImport } from './routes/(private)/set
 import { Route as privateMerchantsIndexRouteImport } from './routes/(private)/merchants/index'
 import { Route as privateSettingsSystemRouteImport } from './routes/(private)/settings/system'
 import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
+import { Route as privateMerchantsMerchantIdRouteImport } from './routes/(private)/merchants/$merchantId'
 
 const R404Route = R404RouteImport.update({
   id: '/404',
@@ -152,6 +153,12 @@ const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
   path: '/settings/profile',
   getParentRoute: () => privateLayoutRoute,
 } as any)
+const privateMerchantsMerchantIdRoute =
+  privateMerchantsMerchantIdRouteImport.update({
+    id: '/merchants/$merchantId',
+    path: '/merchants/$merchantId',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/': typeof privateIndexRoute
+  '/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/settings/profile': typeof privateSettingsProfileRoute
   '/settings/system': typeof privateSettingsSystemRoute
   '/merchants': typeof privateMerchantsIndexRoute
@@ -196,6 +204,7 @@ export interface FileRoutesByTo {
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/': typeof privateIndexRoute
+  '/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/settings/profile': typeof privateSettingsProfileRoute
   '/settings/system': typeof privateSettingsSystemRoute
   '/merchants': typeof privateMerchantsIndexRoute
@@ -223,6 +232,7 @@ export interface FileRoutesById {
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/(private)/': typeof privateIndexRoute
+  '/(private)/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/(private)/settings/profile': typeof privateSettingsProfileRoute
   '/(private)/settings/system': typeof privateSettingsSystemRoute
   '/(private)/merchants/': typeof privateMerchantsIndexRoute
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/demo/form'
     | '/demo/storybook'
     | '/'
+    | '/merchants/$merchantId'
     | '/settings/profile'
     | '/settings/system'
     | '/merchants'
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/demo/form'
     | '/demo/storybook'
     | '/'
+    | '/merchants/$merchantId'
     | '/settings/profile'
     | '/settings/system'
     | '/merchants'
@@ -299,6 +311,7 @@ export interface FileRouteTypes {
     | '/demo/form'
     | '/demo/storybook'
     | '/(private)/'
+    | '/(private)/merchants/$merchantId'
     | '/(private)/settings/profile'
     | '/(private)/settings/system'
     | '/(private)/merchants/'
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof privateSettingsProfileRouteImport
       parentRoute: typeof privateLayoutRoute
     }
+    '/(private)/merchants/$merchantId': {
+      id: '/(private)/merchants/$merchantId'
+      path: '/merchants/$merchantId'
+      fullPath: '/merchants/$merchantId'
+      preLoaderRoute: typeof privateMerchantsMerchantIdRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
   }
 }
 
@@ -520,6 +540,7 @@ interface privateLayoutRouteChildren {
   privateTransactionsRoute: typeof privateTransactionsRoute
   privateWalletAddressRoute: typeof privateWalletAddressRoute
   privateIndexRoute: typeof privateIndexRoute
+  privateMerchantsMerchantIdRoute: typeof privateMerchantsMerchantIdRoute
   privateSettingsProfileRoute: typeof privateSettingsProfileRoute
   privateSettingsSystemRoute: typeof privateSettingsSystemRoute
   privateMerchantsIndexRoute: typeof privateMerchantsIndexRoute
@@ -533,6 +554,7 @@ const privateLayoutRouteChildren: privateLayoutRouteChildren = {
   privateTransactionsRoute: privateTransactionsRoute,
   privateWalletAddressRoute: privateWalletAddressRoute,
   privateIndexRoute: privateIndexRoute,
+  privateMerchantsMerchantIdRoute: privateMerchantsMerchantIdRoute,
   privateSettingsProfileRoute: privateSettingsProfileRoute,
   privateSettingsSystemRoute: privateSettingsSystemRoute,
   privateMerchantsIndexRoute: privateMerchantsIndexRoute,

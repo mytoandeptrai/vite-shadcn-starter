@@ -1,30 +1,18 @@
-import {
-  useGetMarketplaceMerchantsList,
-  type IMerchant,
-} from "@/apis/marketplace";
-import { PAGE_SIZE_OPTIONS } from "@/constant";
-import { useTranslation } from "@/integrations/i18n";
-import { Route } from "@/routes/(private)/merchants";
-import type { SortingState } from "@tanstack/react-table";
-import { useCallback, useMemo, useState } from "react";
+import { useGetMarketplaceMerchantsList, type IMerchant } from '@/apis/marketplace';
+import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
+import { useTranslation } from '@/integrations/i18n';
+import { Route } from '@/routes/(private)/merchants';
+import type { SortingState } from '@tanstack/react-table';
+import { useCallback, useMemo, useState } from 'react';
 
-export type ActionType =
-  | "create"
-  | "inactive"
-  | "active"
-  | "view"
-  | "delete"
-  | "update"
-  | null;
+export type ActionType = 'create' | 'inactive' | 'active' | 'view' | 'delete' | 'update' | null;
 
 export const useMerchantContainer = () => {
-  const { t } = useTranslation("merchants-page");
+  const { t } = useTranslation('merchants-page');
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
 
-  const [editingMerchant, setEditingMerchant] = useState<IMerchant | undefined>(
-    undefined
-  );
+  const [editingMerchant, setEditingMerchant] = useState<IMerchant | undefined>(undefined);
   const [actionType, setActionType] = useState<ActionType>(null);
   const [, setSorting] = useState<SortingState>([]);
 
@@ -36,8 +24,7 @@ export const useMerchantContainer = () => {
     search: search.search,
     status: search.status,
   };
-  const { data, isFetching, isLoading, refetch } =
-    useGetMarketplaceMerchantsList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetMarketplaceMerchantsList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -58,7 +45,7 @@ export const useMerchantContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          orderBy: updatedSorting[0].desc ? "desc" : "asc",
+          orderBy: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -66,8 +53,8 @@ export const useMerchantContainer = () => {
       navigate({
         search: {
           ...search,
-          orderBy: "desc",
-          sortBy: "created_at",
+          orderBy: 'desc',
+          sortBy: 'created_at',
         },
         replace: true,
       });
@@ -76,10 +63,17 @@ export const useMerchantContainer = () => {
 
   const onAction = useCallback(
     (merchant: IMerchant, actionType: ActionType) => {
+      if (actionType === 'view') {
+        navigate({
+          to: ROUTES.MERCHANT_DETAILS,
+          params: { merchantId: merchant.id.toString() },
+        });
+        return;
+      }
       setEditingMerchant(merchant);
       setActionType(actionType);
     },
-    []
+    [navigate]
   );
 
   const onClose = useCallback(() => {
@@ -89,7 +83,7 @@ export const useMerchantContainer = () => {
 
   const onCreate = () => {
     setEditingMerchant(undefined);
-    setActionType("create");
+    setActionType('create');
   };
 
   const onRefetch = useCallback(() => {

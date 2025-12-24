@@ -1,8 +1,4 @@
-import {
-  useMutation,
-  useQuery,
-  type UseQueryOptions,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, type UseQueryOptions } from '@tanstack/react-query';
 import type {
   CreateMarketplaceMerchantParams,
   CreateMarketplaceMerchantWalletParams,
@@ -12,8 +8,8 @@ import type {
   GetMarketplaceMerchantsListParams,
   GetMarketplaceMerchantsListResponse,
   UpdateMarketplaceMerchantParams,
-} from "./types";
-import { KEYS } from "./keys";
+} from './types';
+import { KEYS } from './keys';
 import {
   createMarketplaceMerchant,
   createMarketplaceMerchantWallet,
@@ -21,14 +17,11 @@ import {
   getDetailsMarketplacesMerchant,
   getMarketplacesMerchantsList,
   updateMarketplacesMerchant,
-} from "./requests";
+} from './requests';
 
 export const useGetMarketplaceMerchantsList = (
   params: GetMarketplaceMerchantsListParams,
-  options?: Omit<
-    UseQueryOptions<GetMarketplaceMerchantsListResponse, Error>,
-    "queryKey"
-  >
+  options?: Omit<UseQueryOptions<GetMarketplaceMerchantsListResponse, Error>, 'queryKey'>
 ) => {
   return useQuery<GetMarketplaceMerchantsListResponse, Error>({
     queryKey: [KEYS.MERCHANTS, params],
@@ -39,10 +32,7 @@ export const useGetMarketplaceMerchantsList = (
 
 export const useGetDetailsMarketplaceMerchant = (
   params: GetDetailsMarketplaceMerchantParams,
-  options?: Omit<
-    UseQueryOptions<GetDetailsMarketplacesMerchantResponse, Error>,
-    "queryKey"
-  >
+  options?: Omit<UseQueryOptions<GetDetailsMarketplacesMerchantResponse, Error>, 'queryKey'>
 ) => {
   return useQuery<GetDetailsMarketplacesMerchantResponse, Error>({
     queryKey: [KEYS.MERCHANT_DETAIL, params],
@@ -54,31 +44,27 @@ export const useGetDetailsMarketplaceMerchant = (
 export const useCreateMarketplaceMerchant = () => {
   return useMutation({
     mutationKey: [KEYS.MERCHANTS],
-    mutationFn: (params: CreateMarketplaceMerchantParams) =>
-      createMarketplaceMerchant(params),
+    mutationFn: (params: CreateMarketplaceMerchantParams) => createMarketplaceMerchant(params),
   });
 };
 
 export const useCreateMarketplaceMerchantWallet = () => {
   return useMutation({
     mutationKey: [KEYS.MERCHANT_WALLETS],
-    mutationFn: (params: CreateMarketplaceMerchantWalletParams) =>
-      createMarketplaceMerchantWallet(params),
+    mutationFn: (params: CreateMarketplaceMerchantWalletParams) => createMarketplaceMerchantWallet(params),
   });
 };
 
 export const useUpdateMarketplaceMerchant = () => {
   return useMutation({
     mutationKey: [KEYS.MERCHANT_DETAIL],
-    mutationFn: (params: UpdateMarketplaceMerchantParams) =>
-      updateMarketplacesMerchant(params),
+    mutationFn: (params: UpdateMarketplaceMerchantParams) => updateMarketplacesMerchant(params),
   });
 };
 
 export const useDeleteMarketplaceMerchant = () => {
   return useMutation({
     mutationKey: [KEYS.MERCHANT_DETAIL],
-    mutationFn: (params: DeleteMarketplaceMerchantParams) =>
-      deleteMarketplacesMerchant(params),
+    mutationFn: (params: DeleteMarketplaceMerchantParams) => deleteMarketplacesMerchant(params),
   });
 };
