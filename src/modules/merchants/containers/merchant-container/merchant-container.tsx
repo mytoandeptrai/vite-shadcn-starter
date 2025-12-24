@@ -22,7 +22,7 @@ const MerchantContainer = () => {
   } = useMerchantContainer();
 
   return (
-    <PageContainer pageTitle={t('title')} pageDescription={t('description')}>
+    <PageContainer pageTitle={t('title')} pageDescription={t('description')} isLoading={isLoading}>
       <MerchantFormContextProvider>
         <div className='space-y-6'>
           <Button type='button' size='lg' onClick={onCreate}>

@@ -1,16 +1,29 @@
 import type { IPaginatedResponseType } from '@/types';
 
-export type TransactionType = 'payment' | 'payout';
-export type TransactionStatus = 'completed' | 'pending' | 'failed' | 'cancelled';
+export type TransactionType = 'PAYMENT' | 'PAYOUT';
+export type TransactionStatus = 'pending' | 'confirming' | 'confirmed' | 'failed';
+export type TransactionRelatedType = 'ORDER' | 'WITHDRAWAL';
 
 export interface ITransaction {
-  id: string;
+  id: number;
   type: TransactionType;
-  amount: string;
+  relatedType: TransactionRelatedType;
+  relatedId: number;
   status: TransactionStatus;
-  date: string;
-  createdAt: string;
-  updatedAt: string;
+  chainId: string;
+  txHash: string;
+  chain: string;
+  smartContract: string;
+  blockNumber: number;
+  confirmations: number;
+  blockTimestamp: string;
+  amount: number;
+  crypto: string;
+  fromAddress: string;
+  toAddress: string;
+  firstSeenAt: string;
+  confirmedAt: string;
+  rawData: Record<string, unknown>;
 }
 
 export interface GetTransactionListParams {

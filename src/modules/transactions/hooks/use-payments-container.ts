@@ -16,7 +16,7 @@ export const usePaymentsContainer = () => {
     sortBy: search.sortBy,
     orderBy: search.orderBy,
     search: search.search,
-    type: search.type ? search.type.filter((el) => Boolean(el)) : [],
+    type: ['PAYMENT'],
     status: search.status ? search.status.filter((el) => Boolean(el)) : [],
     dateFrom: search.dateFrom,
     dateTo: search.dateTo,
@@ -50,7 +50,7 @@ export const usePaymentsContainer = () => {
         search: {
           ...search,
           orderBy: 'desc',
-          sortBy: 'created_at',
+          sortBy: 'confirmedAt',
         },
         replace: true,
       });

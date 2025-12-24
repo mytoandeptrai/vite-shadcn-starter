@@ -29,6 +29,7 @@ import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
+import { Route as privateMerchantsLayoutRouteImport } from './routes/(private)/merchants/layout'
 import { Route as privateSettingsIndexRouteImport } from './routes/(private)/settings/index'
 import { Route as privateMerchantsIndexRouteImport } from './routes/(private)/merchants/index'
 import { Route as privateSettingsSystemRouteImport } from './routes/(private)/settings/system'
@@ -133,15 +134,20 @@ const authActiveRoute = authActiveRouteImport.update({
   path: '/active',
   getParentRoute: () => authLayoutRoute,
 } as any)
+const privateMerchantsLayoutRoute = privateMerchantsLayoutRouteImport.update({
+  id: '/merchants',
+  path: '/merchants',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
 const privateSettingsIndexRoute = privateSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
   getParentRoute: () => privateLayoutRoute,
 } as any)
 const privateMerchantsIndexRoute = privateMerchantsIndexRouteImport.update({
-  id: '/merchants/',
-  path: '/merchants/',
-  getParentRoute: () => privateLayoutRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => privateMerchantsLayoutRoute,
 } as any)
 const privateSettingsSystemRoute = privateSettingsSystemRouteImport.update({
   id: '/settings/system',
@@ -155,14 +161,15 @@ const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
 } as any)
 const privateMerchantsMerchantIdRoute =
   privateMerchantsMerchantIdRouteImport.update({
-    id: '/merchants/$merchantId',
-    path: '/merchants/$merchantId',
-    getParentRoute: () => privateLayoutRoute,
+    id: '/$merchantId',
+    path: '/$merchantId',
+    getParentRoute: () => privateMerchantsLayoutRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/merchants': typeof privateMerchantsLayoutRouteWithChildren
   '/active': typeof authActiveRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/link-expired': typeof authLinkExpiredRoute
@@ -182,7 +189,7 @@ export interface FileRoutesByFullPath {
   '/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/settings/profile': typeof privateSettingsProfileRoute
   '/settings/system': typeof privateSettingsSystemRoute
-  '/merchants': typeof privateMerchantsIndexRoute
+  '/merchants/': typeof privateMerchantsIndexRoute
   '/settings': typeof privateSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -216,6 +223,7 @@ export interface FileRoutesById {
   '/(private)': typeof privateLayoutRouteWithChildren
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/(private)/merchants': typeof privateMerchantsLayoutRouteWithChildren
   '/(auth)/active': typeof authActiveRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/link-expired': typeof authLinkExpiredRoute
@@ -243,6 +251,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$'
     | '/404'
+    | '/merchants'
     | '/active'
     | '/forgot-password'
     | '/link-expired'
@@ -262,7 +271,7 @@ export interface FileRouteTypes {
     | '/merchants/$merchantId'
     | '/settings/profile'
     | '/settings/system'
-    | '/merchants'
+    | '/merchants/'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -295,6 +304,7 @@ export interface FileRouteTypes {
     | '/(private)'
     | '/$'
     | '/404'
+    | '/(private)/merchants'
     | '/(auth)/active'
     | '/(auth)/forgot-password'
     | '/(auth)/link-expired'
@@ -469,6 +479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authActiveRouteImport
       parentRoute: typeof authLayoutRoute
     }
+    '/(private)/merchants': {
+      id: '/(private)/merchants'
+      path: '/merchants'
+      fullPath: '/merchants'
+      preLoaderRoute: typeof privateMerchantsLayoutRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
     '/(private)/settings/': {
       id: '/(private)/settings/'
       path: '/settings'
@@ -478,10 +495,10 @@ declare module '@tanstack/react-router' {
     }
     '/(private)/merchants/': {
       id: '/(private)/merchants/'
-      path: '/merchants'
-      fullPath: '/merchants'
+      path: '/'
+      fullPath: '/merchants/'
       preLoaderRoute: typeof privateMerchantsIndexRouteImport
-      parentRoute: typeof privateLayoutRoute
+      parentRoute: typeof privateMerchantsLayoutRoute
     }
     '/(private)/settings/system': {
       id: '/(private)/settings/system'
@@ -499,10 +516,10 @@ declare module '@tanstack/react-router' {
     }
     '/(private)/merchants/$merchantId': {
       id: '/(private)/merchants/$merchantId'
-      path: '/merchants/$merchantId'
+      path: '/$merchantId'
       fullPath: '/merchants/$merchantId'
       preLoaderRoute: typeof privateMerchantsMerchantIdRouteImport
-      parentRoute: typeof privateLayoutRoute
+      parentRoute: typeof privateMerchantsLayoutRoute
     }
   }
 }
@@ -533,31 +550,45 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
   authLayoutRouteChildren,
 )
 
+interface privateMerchantsLayoutRouteChildren {
+  privateMerchantsMerchantIdRoute: typeof privateMerchantsMerchantIdRoute
+  privateMerchantsIndexRoute: typeof privateMerchantsIndexRoute
+}
+
+const privateMerchantsLayoutRouteChildren: privateMerchantsLayoutRouteChildren =
+  {
+    privateMerchantsMerchantIdRoute: privateMerchantsMerchantIdRoute,
+    privateMerchantsIndexRoute: privateMerchantsIndexRoute,
+  }
+
+const privateMerchantsLayoutRouteWithChildren =
+  privateMerchantsLayoutRoute._addFileChildren(
+    privateMerchantsLayoutRouteChildren,
+  )
+
 interface privateLayoutRouteChildren {
+  privateMerchantsLayoutRoute: typeof privateMerchantsLayoutRouteWithChildren
   privateBalanceRoute: typeof privateBalanceRoute
   privateDashboardRoute: typeof privateDashboardRoute
   privateDeveloperRoute: typeof privateDeveloperRoute
   privateTransactionsRoute: typeof privateTransactionsRoute
   privateWalletAddressRoute: typeof privateWalletAddressRoute
   privateIndexRoute: typeof privateIndexRoute
-  privateMerchantsMerchantIdRoute: typeof privateMerchantsMerchantIdRoute
   privateSettingsProfileRoute: typeof privateSettingsProfileRoute
   privateSettingsSystemRoute: typeof privateSettingsSystemRoute
-  privateMerchantsIndexRoute: typeof privateMerchantsIndexRoute
   privateSettingsIndexRoute: typeof privateSettingsIndexRoute
 }
 
 const privateLayoutRouteChildren: privateLayoutRouteChildren = {
+  privateMerchantsLayoutRoute: privateMerchantsLayoutRouteWithChildren,
   privateBalanceRoute: privateBalanceRoute,
   privateDashboardRoute: privateDashboardRoute,
   privateDeveloperRoute: privateDeveloperRoute,
   privateTransactionsRoute: privateTransactionsRoute,
   privateWalletAddressRoute: privateWalletAddressRoute,
   privateIndexRoute: privateIndexRoute,
-  privateMerchantsMerchantIdRoute: privateMerchantsMerchantIdRoute,
   privateSettingsProfileRoute: privateSettingsProfileRoute,
   privateSettingsSystemRoute: privateSettingsSystemRoute,
-  privateMerchantsIndexRoute: privateMerchantsIndexRoute,
   privateSettingsIndexRoute: privateSettingsIndexRoute,
 }
 

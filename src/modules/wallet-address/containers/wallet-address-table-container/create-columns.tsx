@@ -86,7 +86,7 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     enableSorting: false,
   },
   {
-    accessorKey: 'created_at',
+    accessorKey: 'createdAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
     cell: ({ row }) => {
       const _row = row.original;

@@ -25,7 +25,7 @@ const DashboardStartContainer = () => {
             search: {
               page: 1,
               pageSize: PAGE_SIZE_OPTIONS[0],
-              sortBy: 'created_at',
+              sortBy: 'createdAt',
               orderBy: 'desc',
               forceAddWallet: true,
               search: '',

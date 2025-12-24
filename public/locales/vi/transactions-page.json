@@ -8,11 +8,24 @@
   },
   "table": {
     "headers": {
+      "id": "ID",
       "type": "Loại",
-      "amount": "Số Tiền",
+      "relatedType": "Loại Liên Quan",
+      "relatedId": "ID Liên Quan",
       "status": "Trạng Thái",
-      "date": "Ngày",
-      "id": "ID"
+      "chain": "Chuỗi",
+      "chainId": "ID Chuỗi",
+      "txHash": "Mã Hash Giao Dịch",
+      "smartContract": "Hợp Đồng Thông Minh",
+      "blockNumber": "Số Khối",
+      "confirmations": "Xác Nhận",
+      "amount": "Số Tiền",
+      "crypto": "Tiền Điện Tử",
+      "fromAddress": "Địa Chỉ Gửi",
+      "toAddress": "Địa Chỉ Nhận",
+      "blockTimestamp": "Thời Gian Khối",
+      "firstSeenAt": "Lần Đầu Thấy",
+      "date": "Đã Xác Nhận"
     }
   },
   "filters": {
@@ -33,16 +46,16 @@
     }
   },
   "status": {
-    "completed": "Hoàn Thành",
+    "all": "Tất Cả",
     "pending": "Đang Chờ",
-    "failed": "Thất Bại",
-    "cancelled": "Đã Hủy",
-    "all": "Tất Cả"
+    "confirming": "Đang Xác Nhận",
+    "confirmed": "Đã Xác Nhận",
+    "failed": "Thất Bại"
   },
   "types": {
-    "payment": "Thanh Toán",
-    "payout": "Chi Trả",
-    "all": "Tất Cả"
+    "all": "Tất Cả",
+    "PAYMENT": "Thanh Toán",
+    "PAYOUT": "Chi Trả"
   },
   "labels": {
     "status": "Trạng Thái",

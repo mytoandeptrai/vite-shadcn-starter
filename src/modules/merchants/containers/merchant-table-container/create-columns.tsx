@@ -40,7 +40,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     },
   },
   {
-    accessorKey: 'created_at',
+    accessorKey: 'createdAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
     cell: ({ row }) => {
       const _row = row.original;

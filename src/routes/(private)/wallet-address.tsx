@@ -20,7 +20,7 @@ export const Route = createFileRoute('/(private)/wallet-address')({
     return {
       page: result.page ?? 1,
       pageSize: result.pageSize ?? PAGE_SIZE_OPTIONS[0],
-      sortBy: result.sortBy ?? 'created_at',
+      sortBy: result.sortBy ?? 'createdAt',
       orderBy: result.orderBy ?? 'desc',
       chain: result.chain ?? undefined,
       crypto: result.crypto ?? undefined,

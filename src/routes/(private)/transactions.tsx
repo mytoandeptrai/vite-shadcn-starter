@@ -23,7 +23,7 @@ export const Route = createFileRoute('/(private)/transactions')({
       tab: result.tab ?? 'payments',
       page: result.page ?? 1,
       pageSize: result.pageSize ?? PAGE_SIZE_OPTIONS[0],
-      sortBy: result.sortBy ?? 'created_at',
+      sortBy: result.sortBy ?? 'confirmedAt',
       orderBy: result.orderBy ?? 'desc',
       search: result.search ?? undefined,
       status: result.status ?? undefined,

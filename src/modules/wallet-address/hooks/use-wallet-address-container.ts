@@ -55,7 +55,7 @@ export const useWalletAddressContainer = () => {
         search: {
           ...search,
           orderBy: 'desc',
-          sortBy: 'created_at',
+          sortBy: 'createdAt',
         },
         replace: true,
       });
