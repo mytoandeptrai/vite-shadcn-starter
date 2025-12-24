@@ -11,7 +11,8 @@
       "type": "Loại",
       "amount": "Số Tiền",
       "status": "Trạng Thái",
-      "date": "Ngày"
+      "date": "Ngày",
+      "id": "ID"
     }
   },
   "filters": {

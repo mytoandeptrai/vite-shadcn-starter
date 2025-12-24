@@ -11,7 +11,8 @@
       "type": "Type",
       "amount": "Amount",
       "status": "Status",
-      "date": "Date"
+      "date": "Date",
+      "id": "ID"
     }
   },
   "filters": {

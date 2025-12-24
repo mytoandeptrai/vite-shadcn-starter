@@ -87,7 +87,7 @@ const merchantCreateFormSchema = (t: TFunction) => {
           if (!regexEmail.test(val.trim())) {
             ctx.addIssue({
               code: 'custom',
-              message: t('errors.common.validations.MSG-1.10', { ns: 'common' }),
+              message: t('errors.validations.MSG-1.10', { ns: 'common' }),
             });
           }
         }),

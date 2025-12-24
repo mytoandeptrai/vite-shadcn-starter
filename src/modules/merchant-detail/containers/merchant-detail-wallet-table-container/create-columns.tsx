@@ -5,6 +5,8 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import { Check, Pencil, Trash2, X } from 'lucide-react';
 import type { WalletActionType } from '../../hooks';
+import TruncateParagraph from '@/components/ui/truncate-paragraph';
+import { formatAddress } from '@/utils';
 
 interface MerchantColumnsProps {
   t: TFunction;
@@ -28,7 +30,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     ),
     cell: ({ row }) => {
       const _row = row.original;
-      return <div className='font-medium'>{_row.label}</div>;
+      return <TruncateParagraph truncatedContent={_row.label} fullContent={_row.label} />;
     },
     enableSorting: false,
   },
@@ -51,7 +53,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     ),
     cell: ({ row }) => {
       const _row = row.original;
-      return <div className='font-medium'>{_row.address}</div>;
+      return <TruncateParagraph truncatedContent={formatAddress(_row.address)} fullContent={_row.address} />;
     },
     enableSorting: false,
   },

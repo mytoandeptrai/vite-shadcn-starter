@@ -1,6 +1,7 @@
 import type { ITransaction } from '@/apis/transactions';
+import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/components/ui/data-table';
-import { capitalizeFirstLetter } from '@/utils';
+import { capitalizeFirstLetter, formatDate } from '@/utils';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
@@ -9,6 +10,14 @@ interface TransactionColumnsProps {
 }
 
 export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransaction>[] => [
+  {
+    accessorKey: 'id',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.id')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{_row.id}</div>;
+    },
+  },
   {
     accessorKey: 'type',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.type')} />,
@@ -33,7 +42,11 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status;
-      return <div className='font-medium'>{capitalizeFirstLetter(status)}</div>;
+      return (
+        <Badge variant={status === 'completed' ? 'default' : status === 'pending' ? 'secondary' : 'destructive'}>
+          {capitalizeFirstLetter(status)}
+        </Badge>
+      );
     },
   },
   {
@@ -41,8 +54,8 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.date')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const date = new Date(_row.date);
-      return <div className='font-medium'>{date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>;
+      const date = _row.date;
+      return <div className='font-medium'>{formatDate(date)}</div>;
     },
   },
 ];
