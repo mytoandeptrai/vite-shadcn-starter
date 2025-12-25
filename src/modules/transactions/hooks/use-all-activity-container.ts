@@ -2,6 +2,7 @@ import { useGetTransactionList, type ITransaction } from '@/apis/transactions';
 import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
+import { filterBooleanArray } from '@/utils';
 import type { SortingState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
@@ -16,10 +17,13 @@ export const useAllActivityContainer = () => {
     sortBy: search.sortBy,
     orderBy: search.orderBy,
     search: search.search,
-    type: search.type ? search.type.filter((el) => Boolean(el)) : [],
-    status: search.status ? search.status.filter((el) => Boolean(el)) : [],
-    dateFrom: search.dateFrom,
-    dateTo: search.dateTo,
+    type: filterBooleanArray(search.type),
+    status: filterBooleanArray(search.status),
+    chain: filterBooleanArray(search.chain),
+    crypto: filterBooleanArray(search.crypto),
+    network: filterBooleanArray(search.network),
+    fromDate: search.fromDate,
+    toDate: search.toDate,
   };
 
   const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);

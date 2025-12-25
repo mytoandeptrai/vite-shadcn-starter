@@ -25,8 +25,11 @@ const TransactionContainer = () => {
         search: undefined,
         status: undefined,
         type: value === 'all' ? ['PAYMENT', 'PAYOUT'] : undefined,
-        dateFrom: undefined,
-        dateTo: undefined,
+        fromDate: undefined,
+        toDate: undefined,
+        chain: undefined,
+        crypto: undefined,
+        network: undefined,
       }),
       replace: true,
     });

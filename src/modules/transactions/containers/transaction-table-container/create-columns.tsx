@@ -44,6 +44,7 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const _row = row.original;
       return <div className='font-medium'>{getTypeDisplay(_row.type, t)}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'relatedType',
@@ -52,6 +53,7 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const _row = row.original;
       return <div className='font-medium'>{_row.relatedType}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'status',
@@ -61,6 +63,7 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const status = _row.status;
       return <Badge variant={getStatusVariant(status)}>{getStatusText(status, t)}</Badge>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'chain',
@@ -69,51 +72,26 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const _row = row.original;
       return <div className='font-medium'>{_row.chain}</div>;
     },
-  },
-  {
-    accessorKey: 'chainId',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.chainId')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.chainId}</div>;
-    },
-  },
-  {
-    accessorKey: 'txHash',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.txHash')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return (
-        <div className='flex items-center gap-1'>
-          <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />
-          <CopyButton value={_row.txHash} className='border-none bg-transparent! shadow-none!' />
-        </div>
-      );
-    },
     enableSorting: false,
   },
   {
-    accessorKey: 'blockNumber',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.blockNumber')} />,
+    accessorKey: 'network',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.network')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <div className='font-medium'>{formatNaturalNumber(_row.blockNumber)}</div>;
+      return <div className='font-medium'>{_row.network}</div>;
     },
-  },
-  {
-    accessorKey: 'confirmations',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.confirmations')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.confirmations}</div>;
-    },
+    enableSorting: false,
   },
   {
     accessorKey: 'amount',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.amount')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const amount = formatNaturalNumber(_row.amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const amount = formatNaturalNumber(Number(_row.amount ?? 0), {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
       return (
         <div className='font-medium'>
           {amount} {_row.crypto}
@@ -131,14 +109,31 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     enableSorting: false,
   },
   {
-    accessorKey: 'fromAddress',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.fromAddress')} />,
+    accessorKey: 'blockNumber',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.blockNumber')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{formatNaturalNumber(_row.blockNumber)}</div>;
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'confirmations',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.confirmations')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{_row.confirmations}</div>;
+    },
+  },
+  {
+    accessorKey: 'txHash',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.txHash')} />,
     cell: ({ row }) => {
       const _row = row.original;
       return (
         <div className='flex items-center gap-1'>
-          <TruncateParagraph truncatedContent={formatAddress(_row.fromAddress)} fullContent={_row.fromAddress} />
-          <CopyButton value={_row.fromAddress} className='border-none bg-transparent! shadow-none!' />
+          <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />
+          <CopyButton value={_row.txHash} className='border-none bg-transparent! shadow-none!' />
         </div>
       );
     },
@@ -168,20 +163,21 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     enableSorting: false,
   },
   {
-    accessorKey: 'firstSeenAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.firstSeenAt')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{formatDate(_row.firstSeenAt)}</div>;
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: 'confirmedAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.date')} />,
     cell: ({ row }) => {
       const _row = row.original;
       return <div className='font-medium'>{formatDate(_row.confirmedAt)}</div>;
     },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.updatedAt')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{formatDate(_row.updatedAt)}</div>;
+    },
+    enableSorting: false,
   },
 ];

@@ -24,7 +24,10 @@
     "related": "Liên quan",
     "first-seen": "Thời điểm phát hiện",
     "confirmed": "Thời điểm xác nhận",
-    "failed": "Thời điểm thất bại"
+    "failed": "Thời điểm thất bại",
+    "network": "Mạng",
+    "created-at": "Thời điểm tạo",
+    "updated-at": "Thời điểm cập nhật"
   },
   "types": {
     "all": "Tất cả",

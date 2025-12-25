@@ -3,6 +3,7 @@ import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/wallet-address';
+import { filterBooleanArray } from '@/utils';
 import type { SortingState } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
@@ -22,8 +23,8 @@ export const useWalletAddressContainer = () => {
     sortBy: search.sortBy,
     orderBy: search.orderBy,
     search: search.search,
-    chain: search.chain ? search.chain.filter((el) => Boolean(el)) : [],
-    crypto: search.crypto ? search.crypto.filter((el) => Boolean(el)) : [],
+    chain: filterBooleanArray(search.chain),
+    crypto: filterBooleanArray(search.crypto),
   };
   const { data, isFetching, isLoading, refetch } = useGetWalletAddressList(filters);
 

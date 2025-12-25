@@ -12,8 +12,11 @@ const transactionsSearchSchema = z.object({
   search: z.string().optional(),
   status: z.array(z.string()).optional(),
   type: z.array(z.string()).optional(),
-  dateFrom: z.string().optional(),
-  dateTo: z.string().optional(),
+  chain: z.array(z.string()).optional(),
+  crypto: z.array(z.string()).optional(),
+  network: z.array(z.string()).optional(),
+  fromDate: z.string().optional(),
+  toDate: z.string().optional(),
 });
 
 export const Route = createFileRoute('/(private)/transactions/')({
@@ -28,8 +31,11 @@ export const Route = createFileRoute('/(private)/transactions/')({
       search: result.search ?? undefined,
       status: result.status ?? undefined,
       type: result.type ?? undefined,
-      dateFrom: result.dateFrom ?? undefined,
-      dateTo: result.dateTo ?? undefined,
+      chain: result.chain ?? undefined,
+      crypto: result.crypto ?? undefined,
+      network: result.network ?? undefined,
+      fromDate: result.fromDate ?? undefined,
+      toDate: result.toDate ?? undefined,
     };
   },
   component: TransactionContainer,

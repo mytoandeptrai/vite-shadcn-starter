@@ -2,6 +2,7 @@ import { useGetTransactionList, type ITransaction } from '@/apis/transactions';
 import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
+import { filterBooleanArray } from '@/utils';
 import type { SortingState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
@@ -17,9 +18,12 @@ export const usePayoutsContainer = () => {
     orderBy: search.orderBy,
     search: search.search,
     type: ['PAYOUT'],
-    status: search.status ? search.status.filter((el) => Boolean(el)) : [],
-    dateFrom: search.dateFrom,
-    dateTo: search.dateTo,
+    status: filterBooleanArray(search.status),
+    chain: filterBooleanArray(search.chain),
+    crypto: filterBooleanArray(search.crypto),
+    network: filterBooleanArray(search.network),
+    fromDate: search.fromDate,
+    toDate: search.toDate,
   };
 
   const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);

@@ -25,7 +25,9 @@
       "toAddress": "Địa Chỉ Nhận",
       "blockTimestamp": "Thời Gian Khối",
       "firstSeenAt": "Lần Đầu Thấy",
-      "date": "Đã Xác Nhận"
+      "date": "Đã Xác Nhận",
+      "updatedAt": "Cập Nhật Lần Cuối",
+      "network": "Mạng"
     }
   },
   "filters": {
@@ -36,13 +38,21 @@
       "label": "Trạng Thái",
       "placeholder": "Chọn trạng thái"
     },
-    "type": {
-      "label": "Loại",
-      "placeholder": "Chọn loại"
+    "chain": {
+      "label": "Chain",
+      "placeholder": "Chọn chain"
+    },
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Chọn crypto"
     },
     "dateRange": {
       "label": "Khoảng Thời Gian",
       "placeholder": "Chọn khoảng thời gian"
+    },
+    "network": {
+      "label": "mạng",
+      "placeholder": "Chọn mạng"
     }
   },
   "status": {

@@ -1,6 +1,7 @@
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
 import type { Option } from '@/types';
+import { CHAIN_OPTIONS, CRYPTO_OPTIONS, NETWORK_OPTIONS } from '@/utils';
 import type { TFunction } from 'i18next';
 import { useMemo } from 'react';
 import type { DateRange } from 'react-day-picker';
@@ -17,17 +18,17 @@ const TYPE_OPTIONS = (t: TFunction): Option<string>[] => [
   { label: t('types.PAYOUT'), value: 'PAYOUT' },
 ];
 
-const generateSelectedDateRange = (dateFrom?: string, dateTo?: string) => {
-  if (dateFrom && dateTo) {
-    return { from: new Date(dateFrom), to: new Date(dateTo) };
+const generateSelectedDateRange = (fromDate?: string, toDate?: string) => {
+  if (fromDate && toDate) {
+    return { from: new Date(fromDate), to: new Date(toDate) };
   }
 
-  if (dateFrom) {
-    return { from: new Date(dateFrom), to: undefined };
+  if (fromDate) {
+    return { from: new Date(fromDate), to: undefined };
   }
 
-  if (dateTo) {
-    return { from: undefined, to: new Date(dateTo) };
+  if (toDate) {
+    return { from: undefined, to: new Date(toDate) };
   }
 
   return {
@@ -45,6 +46,9 @@ export const useTableFilterContainer = () => {
     () => ({
       status: STATUS_OPTIONS(t),
       type: TYPE_OPTIONS(t),
+      chain: CHAIN_OPTIONS(t),
+      crypto: CRYPTO_OPTIONS(t),
+      network: NETWORK_OPTIONS(t),
     }),
     [t]
   );
@@ -58,14 +62,14 @@ export const useTableFilterContainer = () => {
 
   const onStatusValueChange = (status: string[]) => {
     navigate({
-      search: { ...search, status: status.length ? status : undefined },
+      search: { ...search, status: status ?? undefined },
       replace: true,
     });
   };
 
   const onTypeValueChange = (type: string[]) => {
     navigate({
-      search: { ...search, type: type.length ? type : undefined },
+      search: { ...search, type: type ?? undefined },
       replace: true,
     });
   };
@@ -73,7 +77,7 @@ export const useTableFilterContainer = () => {
   const onDateRangeChange = (dateRange?: DateRange) => {
     if (!dateRange) {
       navigate({
-        search: { ...search, dateFrom: undefined, dateTo: undefined },
+        search: { ...search, fromDate: undefined, toDate: undefined },
         replace: true,
       });
       return;
@@ -81,9 +85,30 @@ export const useTableFilterContainer = () => {
     navigate({
       search: {
         ...search,
-        dateFrom: dateRange.from?.toISOString(),
-        dateTo: dateRange.to?.toISOString(),
+        fromDate: dateRange.from?.toISOString(),
+        toDate: dateRange.to?.toISOString(),
       },
+      replace: true,
+    });
+  };
+
+  const onChainValueChange = (chain?: string[]) => {
+    navigate({
+      search: { ...search, chain: chain ?? undefined },
+      replace: true,
+    });
+  };
+
+  const onCryptoValueChange = (crypto?: string[]) => {
+    navigate({
+      search: { ...search, crypto: crypto ?? undefined },
+      replace: true,
+    });
+  };
+
+  const onNetworkValueChange = (network?: string[]) => {
+    navigate({
+      search: { ...search, network: network ?? undefined },
       replace: true,
     });
   };
@@ -94,11 +119,17 @@ export const useTableFilterContainer = () => {
     searchValue: search.search,
     selectedStatuses: search.status,
     selectedTypes: search.type,
-    selectedDateRange: generateSelectedDateRange(search.dateFrom, search.dateTo),
+    selectedDateRange: generateSelectedDateRange(search.fromDate, search.toDate),
+    selectedChains: search.chain,
+    selectedCryptos: search.crypto,
+    selectedNetworks: search.network,
     selectedTab: search.tab,
     onSearchValueChange,
     onStatusValueChange,
     onTypeValueChange,
     onDateRangeChange,
+    onChainValueChange,
+    onCryptoValueChange,
+    onNetworkValueChange,
   };
 };

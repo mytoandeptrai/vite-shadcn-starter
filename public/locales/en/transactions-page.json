@@ -25,7 +25,9 @@
       "toAddress": "To Address",
       "blockTimestamp": "Block Timestamp",
       "firstSeenAt": "First Seen At",
-      "date": "Confirmed At"
+      "date": "Confirmed At",
+      "updatedAt": "Updated At",
+      "network": "Network"
     }
   },
   "filters": {
@@ -36,13 +38,21 @@
       "label": "Status",
       "placeholder": "Select status"
     },
-    "type": {
-      "label": "Type",
-      "placeholder": "Select type"
+    "chain": {
+      "label": "Chain",
+      "placeholder": "Select chain"
+    },
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Select crypto"
     },
     "dateRange": {
       "label": "Date Range",
       "placeholder": "Select date range"
+    },
+    "network": {
+      "label": "Network",
+      "placeholder": "Select network"
     }
   },
   "status": {

@@ -24,7 +24,10 @@
     "related": "Related",
     "first-seen": "First Seen At",
     "confirmed": "Confirmed At",
-    "failed": "Failed At"
+    "failed": "Failed At",
+    "network": "Network",
+    "created-at": "Created At",
+    "updated-at": "Updated At"
   },
   "types": {
     "all": "All",

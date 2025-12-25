@@ -15,7 +15,7 @@ type TransactionDetailOverviewUiProps = {
 
 const TransactionDetailOverviewUi = ({ transaction }: TransactionDetailOverviewUiProps) => {
   const { t } = useTranslation('transaction-detail-page');
-  const amount = formatNaturalNumber(transaction?.amount ?? 0, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const amount = formatNaturalNumber(Number(transaction?.amount ?? 0), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
     <Card>
