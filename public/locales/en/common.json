@@ -129,7 +129,8 @@
     },
     "messages": {
       "you-do-not-have-access-to-this-page": "You do not have access to this page.",
-      "copied-to-clipboard": "Copied to clipboard"
+      "copied-to-clipboard": "Copied to clipboard",
+      "error-loading-component": "Oops! Something went wrong."
     }
   },
   "messages": {

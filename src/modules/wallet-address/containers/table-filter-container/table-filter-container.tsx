@@ -4,7 +4,16 @@ import { useTableFilterContainer } from '../../hooks';
 import { DebouncedInput } from '@/components/ui/debounced-input';
 
 const TableFilterContainer = () => {
-  const { t, options, searchValue, selectedChain, onSearchValueChange, onChainValueChange } = useTableFilterContainer();
+  const {
+    t,
+    options,
+    searchValue,
+    selectedChain,
+    selectedCrypto,
+    onSearchValueChange,
+    onChainValueChange,
+    onCryptoValueChange,
+  } = useTableFilterContainer();
 
   return (
     <div className='mt-4'>
@@ -25,6 +34,16 @@ const TableFilterContainer = () => {
           multiple={false}
           onChange={(value) => {
             onChainValueChange(value);
+          }}
+        />
+
+        <MultiSelectPicker
+          title={t('labels.crypto')}
+          options={options.crypto}
+          value={selectedCrypto}
+          multiple
+          onChange={(value) => {
+            onCryptoValueChange(value);
           }}
         />
       </HStack>

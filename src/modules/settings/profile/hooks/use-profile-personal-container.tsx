@@ -3,14 +3,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { initialPersonalFormData, personalFormSchema, type PersonalFormData } from './personal.schema';
-import { KEYS, useUpdateUserInfo } from '@/apis/auth';
+import { KEYS, useUpdateMarketplaceInfo, useUpdateUserInfo } from '@/apis/auth';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { getContext } from '@/integrations/tanstack-query/root-provider';
 import isEqual from 'lodash/isEqual';
 import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 import { toast } from 'sonner';
 import { Link } from '@tanstack/react-router';
-import { ROUTES } from '@/constant';
+import { EUserType, ROUTES } from '@/constant';
 
 export const useProfilePersonalContainer = () => {
   const { t } = useTranslation('settings-page');
@@ -21,7 +21,10 @@ export const useProfilePersonalContainer = () => {
   const { queryClient } = getContext();
 
   const updateUserInfoMutation = useUpdateUserInfo();
-  const isLoading = updateUserInfoMutation.isPending;
+  const updateMarketplaceInfoMutation = useUpdateMarketplaceInfo();
+
+  const mutate = user?.type === EUserType.MARKETPLACE ? updateMarketplaceInfoMutation : updateUserInfoMutation;
+  const isLoading = updateUserInfoMutation.isPending || updateMarketplaceInfoMutation.isPending;
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
 
   const form = useForm<PersonalFormData>({
@@ -56,12 +59,13 @@ export const useProfilePersonalContainer = () => {
       skipInitVerification: true,
       closeOnSubmit: false,
       cb: async (code) => {
-        await updateUserInfoMutation.mutateAsync({
+        await mutate.mutateAsync({
           email: data.email,
           firstname: data.firstName,
           lastname: data.lastName,
-          twoFACode: code!,
+          twoFACode: code!,  
         });
+        toast.success(t('profile.messages.update-profile-success'));
         queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
         onRefetch();
         setIsUpdated(false);

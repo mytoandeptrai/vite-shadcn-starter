@@ -8,10 +8,24 @@
   },
   "table": {
     "headers": {
+      "id": "ID",
       "type": "Type",
-      "amount": "Amount",
+      "relatedType": "Related Type",
+      "relatedId": "Related ID",
       "status": "Status",
-      "date": "Date"
+      "chain": "Chain",
+      "chainId": "Chain ID",
+      "txHash": "Transaction Hash",
+      "smartContract": "Smart Contract",
+      "blockNumber": "Block Number",
+      "confirmations": "Confirmations",
+      "amount": "Amount",
+      "crypto": "Crypto",
+      "fromAddress": "From Address",
+      "toAddress": "To Address",
+      "blockTimestamp": "Block Timestamp",
+      "firstSeenAt": "First Seen At",
+      "date": "Confirmed At"
     }
   },
   "filters": {
@@ -33,15 +47,15 @@
   },
   "status": {
     "all": "All",
-    "completed": "Completed",
     "pending": "Pending",
-    "failed": "Failed",
-    "cancelled": "Cancelled"
+    "confirming": "Confirming",
+    "confirmed": "Confirmed",
+    "failed": "Failed"
   },
   "types": {
     "all": "All",
-    "payment": "Payment",
-    "payout": "Payout"
+    "PAYMENT": "Payment",
+    "PAYOUT": "Payout"
   },
   "labels": {
     "status": "Status",

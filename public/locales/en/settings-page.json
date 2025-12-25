@@ -75,6 +75,9 @@
       "update-password": "Update Password",
       "update-personal-information": "Update Personal Information",
       "update-avatar": "Save Avatar"
+    },
+    "messages": {
+      "update-profile-success": "Profile updated successfully"
     }
   },
   "system": {

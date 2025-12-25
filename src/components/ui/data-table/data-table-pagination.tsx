@@ -11,6 +11,8 @@ interface DataTablePaginationProps {
     pageIndex: number;
     pageSize: number;
     pageCount: number;
+    hasNext: boolean;
+    hasPrev: boolean;
   };
 }
 

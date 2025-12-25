@@ -12,6 +12,7 @@ type PageContainerProps = {
   pageTitle?: string;
   pageDescription?: string;
   pageHeaderAction?: React.ReactNode;
+  errorMessage?: string;
 };
 
 function PageSkeleton() {
@@ -38,6 +39,7 @@ export const PageContainer: FCC<PageContainerProps> = ({
   pageTitle,
   pageDescription,
   pageHeaderAction,
+  errorMessage = '',
 }) => {
   const { t } = useTranslation();
   if (!access) {
@@ -48,6 +50,14 @@ export const PageContainer: FCC<PageContainerProps> = ({
             {t('errors.messages.you-do-not-have-access-to-this-page')}
           </div>
         )}
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className='flex items-center justify-center py-12'>
+        <p className='text-destructive'>{errorMessage ?? t('errors.messages.error-loading-component')}</p>
       </div>
     );
   }

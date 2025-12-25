@@ -12,7 +12,10 @@
     },
     "actions": {
       "active": "Kích Hoạt",
-      "inactive": "Vô Hiệu Hóa"
+      "inactive": "Vô Hiệu Hóa",
+      "view": "Xem",
+      "edit": "Sửa",
+      "delete": "Xóa"
     }
   },
   "actions": {
@@ -23,9 +26,17 @@
       "title": "Thêm Thương Nhân Mới",
       "description": "Nhập thông tin thương nhân để tạo tài khoản mới."
     },
+    "view": {
+      "title": "Xem Thương Nhân",
+      "description": "Xem thông tin thương nhân."
+    },
     "update": {
       "title": "Cập Nhật Thương Nhân",
       "description": "Điều chỉnh thông tin liên quan đến thương nhân này."
+    },
+    "delete": {
+      "title": "Xóa Thương Nhân",
+      "description": "Bạn có chắc chắn muốn xóa thương nhân này?"
     },
     "status-change": {
       "active": {
@@ -43,7 +54,8 @@
   "status": {
     "all": "Tất Cả",
     "active": "Hoạt Động",
-    "inactive": "Không Hoạt Động"
+    "inactive": "Không Hoạt Động",
+    "suspended": "Tạm Ngưng"
   },
   "fields": {
     "first-name": {
@@ -67,7 +79,11 @@
   },
   "messages": {
     "status-updated": "Cập nhật trạng thái thương nhân thành công",
-    "status-update-failed": "Không thể cập nhật trạng thái thương nhân"
+    "status-update-failed": "Không thể cập nhật trạng thái thương nhân",
+    "no-wallet-addresses": "Không có địa chỉ ví nào. Vui lòng nhấp vào 'Thêm Địa Chỉ Ví Thương Nhân' để thêm.",
+    "merchant-created": "Thương nhân đã được tạo thành công",
+    "merchant-updated": "Thương nhân đã được cập nhật thành công",
+    "merchant-deleted": "Thương nhân đã được xóa thành công"
   },
   "errors": {
     "wallet-addresses-required": "Cần ít nhất một địa chỉ ví"

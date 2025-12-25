@@ -5,6 +5,7 @@
     "headers": {
       "label": "Label",
       "chain": "Chain",
+      "crypto": "Crypto",
       "address": "Address",
       "created-at": "Created At",
       "updated-at": "Updated At",
@@ -63,9 +64,9 @@
       "label": "Chain",
       "placeholder": "Select your chain"
     },
-    "token": {
-      "label": "Token",
-      "placeholder": "Select your token"
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Select your crypto"
     },
     "label": {
       "label": "Label",
@@ -73,12 +74,20 @@
     }
   },
   "labels": {
-    "chain": "Chain"
+    "chain": "Chain",
+    "crypto": "Crypto"
   },
   "placeholder": {
     "search": "Search wallet address..."
   },
   "errors": {
-    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, token, label, and address)"
+    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)"
+  },
+  "messages": {
+    "add-wallet-address-success": "Wallet address added successfully",
+    "update-wallet-address-success": "Wallet address updated successfully",
+    "activate-wallet-address-success": "Wallet address activated successfully",
+    "deactivate-wallet-address-success": "Wallet address deactivated successfully",
+    "delete-wallet-address-success": "Wallet address deleted successfully"
   }
 }

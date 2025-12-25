@@ -5,14 +5,17 @@ import type { Option } from '@/types';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/form-fields/form-input';
+import { Show } from '@/components/utilities';
+import { Spinner } from '@/components/ui/spinner';
 
 type MerchantFormAddressUiProps = {
   onClose: () => void;
   options: Option<string>[];
   tokenOptions: Option<string>[];
+  isLoading?: boolean;
 };
 
-const MerchantFormAddressUi = ({ options, tokenOptions, onClose }: MerchantFormAddressUiProps) => {
+const MerchantFormAddressUi = ({ options, tokenOptions, isLoading = false, onClose }: MerchantFormAddressUiProps) => {
   const { t } = useTranslation('wallet-address-page');
   const { control } = useFormContext<WalletAddressCreateFormData>();
 
@@ -30,9 +33,9 @@ const MerchantFormAddressUi = ({ options, tokenOptions, onClose }: MerchantFormA
         />
         <FormSelect
           control={control}
-          name='token'
-          label={t('fields.token.label')}
-          placeholder={t('fields.token.placeholder')}
+          name='crypto'
+          label={t('fields.crypto.label')}
+          placeholder={t('fields.crypto.placeholder')}
           options={tokenOptions}
           required
           selectClassName='w-full'
@@ -53,10 +56,13 @@ const MerchantFormAddressUi = ({ options, tokenOptions, onClose }: MerchantFormA
         required
       />
       <div className='flex items-center justify-between gap-2 pt-2'>
-        <Button className='w-1/2' size='lg' type='button' variant='outline' onClick={onClose}>
+        <Button className='w-1/2' size='lg' type='button' variant='outline' onClick={onClose} disabled={isLoading}>
           {t('buttons.cancel', { ns: 'common' })}
         </Button>
-        <Button className='w-1/2' size='lg' type='submit'>
+        <Button className='w-1/2' size='lg' type='submit' disabled={isLoading}>
+          <Show when={isLoading}>
+            <Spinner />
+          </Show>
           {t('buttons.ok', { ns: 'common' })}
         </Button>
       </div>

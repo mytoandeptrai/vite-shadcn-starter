@@ -17,7 +17,7 @@ type WalletAddressFormContainerProps = {
 };
 
 const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
-  const { t, isLoading, form, options, tokenOptions, onCloseDialog, onSubmit, onSubmitDialog } =
+  const { t, isLoading, form, options, cryptoOptions, onCloseDialog, onSubmit, onSubmitDialog } =
     useWalletAddressFormContainer(props);
 
   return (
@@ -43,10 +43,10 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
               />
               <FormSelect
                 control={form.control}
-                name='token'
-                label={t('fields.token.label')}
-                placeholder={t('fields.token.placeholder')}
-                options={tokenOptions}
+                name='crypto'
+                label={t('fields.crypto.label')}
+                placeholder={t('fields.crypto.placeholder')}
+                options={cryptoOptions}
                 disabled={isLoading || props.actionType === 'update'}
                 required
                 selectClassName='w-full'

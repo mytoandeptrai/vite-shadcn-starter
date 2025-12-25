@@ -21,6 +21,8 @@ export type WalletAddressTableContainerProps = {
       pageIndex: number;
       pageSize: number;
       pageCount: number;
+      hasNext: boolean;
+      hasPrev: boolean;
     };
   };
 };

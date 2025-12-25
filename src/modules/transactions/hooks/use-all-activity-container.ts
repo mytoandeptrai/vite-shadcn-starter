@@ -14,7 +14,7 @@ export const useAllActivityContainer = () => {
     page: search.page,
     pageSize: search.pageSize,
     sortBy: search.sortBy,
-    sortOrder: search.sortOrder,
+    orderBy: search.orderBy,
     search: search.search,
     type: search.type ? search.type.filter((el) => Boolean(el)) : [],
     status: search.status ? search.status.filter((el) => Boolean(el)) : [],
@@ -41,7 +41,7 @@ export const useAllActivityContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          orderBy: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -49,8 +49,8 @@ export const useAllActivityContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
-          sortBy: 'createdAt',
+          orderBy: 'desc',
+          sortBy: 'confirmedAt',
         },
         replace: true,
       });
@@ -61,9 +61,11 @@ export const useAllActivityContainer = () => {
     return {
       data: data?.data ?? [],
       pagination: {
-        pageIndex: data?.page ?? 1,
-        pageSize: data?.totalCount ?? PAGE_SIZE_OPTIONS[0],
-        pageCount: data?.totalPage ?? 0,
+        pageIndex: data?.pagination.page ?? 1,
+        pageSize: data?.pagination.pageSize ?? PAGE_SIZE_OPTIONS[0],
+        pageCount: data?.pagination.totalPages ?? 0,
+        hasNext: data?.pagination.hasNext ?? false,
+        hasPrev: data?.pagination.hasPrev ?? false,
       },
     };
   }, [data]);

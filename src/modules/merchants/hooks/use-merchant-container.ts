@@ -1,9 +1,11 @@
-import { useGetMerchantList, type IMerchant } from '@/apis/merchants';
-import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useGetMarketplaceMerchantsList, type IMerchant } from '@/apis/marketplace';
+import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/merchants';
 import type { SortingState } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
+
+export type ActionType = 'create' | 'inactive' | 'active' | 'view' | 'delete' | 'update' | null;
 
 export const useMerchantContainer = () => {
   const { t } = useTranslation('merchants-page');
@@ -11,18 +13,18 @@ export const useMerchantContainer = () => {
   const navigate = Route.useNavigate();
 
   const [editingMerchant, setEditingMerchant] = useState<IMerchant | undefined>(undefined);
-  const [actionType, setActionType] = useState<null | 'create' | 'inactive' | 'active'>(null);
+  const [actionType, setActionType] = useState<ActionType>(null);
   const [, setSorting] = useState<SortingState>([]);
 
   const filters = {
     page: search.page,
     pageSize: search.pageSize,
     sortBy: search.sortBy,
-    sortOrder: search.sortOrder,
+    orderBy: search.orderBy,
     search: search.search,
     status: search.status,
   };
-  const { data, isFetching, isLoading, refetch } = useGetMerchantList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetMarketplaceMerchantsList(filters);
 
   const onPaginationChange = (page: number, pageSize: number) => {
     navigate({
@@ -43,7 +45,7 @@ export const useMerchantContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          orderBy: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -51,7 +53,7 @@ export const useMerchantContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
+          orderBy: 'desc',
           sortBy: 'createdAt',
         },
         replace: true,
@@ -59,10 +61,20 @@ export const useMerchantContainer = () => {
     }
   };
 
-  const onAction = useCallback((merchant: IMerchant, actionType: 'create' | 'inactive' | 'active') => {
-    setEditingMerchant(merchant);
-    setActionType(actionType);
-  }, []);
+  const onAction = useCallback(
+    (merchant: IMerchant, actionType: ActionType) => {
+      if (actionType === 'view') {
+        navigate({
+          to: ROUTES.MERCHANT_DETAILS,
+          params: { merchantId: merchant.id.toString() },
+        });
+        return;
+      }
+      setEditingMerchant(merchant);
+      setActionType(actionType);
+    },
+    [navigate]
+  );
 
   const onClose = useCallback(() => {
     setEditingMerchant(undefined);
@@ -83,9 +95,11 @@ export const useMerchantContainer = () => {
     return {
       data: data?.data ?? [],
       pagination: {
-        pageIndex: data?.page ?? 1,
-        pageSize: data?.totalCount ?? PAGE_SIZE_OPTIONS[0],
-        pageCount: data?.totalPage ?? 0,
+        pageIndex: data?.pagination.page ?? 1,
+        pageSize: data?.pagination.pageSize ?? PAGE_SIZE_OPTIONS[0],
+        hasNext: data?.pagination.hasNext ?? false,
+        hasPrev: data?.pagination.hasPrev ?? false,
+        pageCount: data?.pagination.totalPages ?? 0,
       },
     };
   }, [data]);

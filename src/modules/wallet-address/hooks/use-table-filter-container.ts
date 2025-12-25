@@ -1,12 +1,7 @@
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/wallet-address';
-import type { Option } from '@/types';
-import type { TFunction } from 'i18next';
+import { CHAIN_OPTIONS, CRYPTO_OPTIONS } from '@/utils';
 import { useMemo } from 'react';
-const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('chains.ETH', { ns: 'common' }), value: 'ethereum' },
-  { label: t('chains.BNB', { ns: 'common' }), value: 'bsc' },
-];
 
 export const useTableFilterContainer = () => {
   const { t } = useTranslation('wallet-address-page');
@@ -16,6 +11,7 @@ export const useTableFilterContainer = () => {
   const options = useMemo(
     () => ({
       chain: CHAIN_OPTIONS(t),
+      crypto: CRYPTO_OPTIONS(t),
     }),
     [t]
   );
@@ -34,12 +30,21 @@ export const useTableFilterContainer = () => {
     });
   };
 
+  const onCryptoValueChange = (crypto?: string[]) => {
+    navigate({
+      search: { ...search, crypto: crypto ?? undefined },
+      replace: true,
+    });
+  };
+
   return {
     t,
     options,
     searchValue: search.search,
     selectedChain: search.chain,
+    selectedCrypto: search.crypto,
     onSearchValueChange,
     onChainValueChange,
+    onCryptoValueChange,
   };
 };

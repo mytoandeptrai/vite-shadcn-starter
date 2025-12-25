@@ -5,11 +5,12 @@ import {
   type IWalletAddress,
 } from '@/apis/wallet-address';
 import { useTranslation } from '@/integrations/i18n';
-import { useEffect, useMemo } from 'react';
-import { generateOptions, generateTokenOptions } from './config';
-import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
-import { useForm } from 'react-hook-form';
+import { CHAIN_OPTIONS, CRYPTO_OPTIONS } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
+import { toast } from 'sonner';
 
 type Props = {
   open: boolean;
@@ -21,9 +22,8 @@ type Props = {
 
 export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSuccess, actionType }: Props) => {
   const { t } = useTranslation('wallet-address-page');
-  const options = useMemo(() => generateOptions(t), [t]);
-  const tokenOptions = useMemo(() => generateTokenOptions(t), [t]);
-
+  const options = useMemo(() => CHAIN_OPTIONS(t), [t]);
+  const cryptoOptions = useMemo(() => CRYPTO_OPTIONS(t), [t]);
   const createAddressMutation = useCreateWalletAddress();
   const updateAddressMutation = useUpdateWalletAddress();
   const deleteAddressMutation = useDeleteWalletAddress();
@@ -33,9 +33,9 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       label: '',
       address: '',
       chain: options[0].value,
-      token: tokenOptions[0].value,
+      crypto: cryptoOptions[0].value,
     };
-  }, [options[0].value, tokenOptions[0].value]);
+  }, [options[0].value, cryptoOptions[0].value]);
 
   const form = useForm<WalletAddressCreateFormData>({
     resolver: zodResolver(walletAddressCreateFormSchema(t)),
@@ -55,18 +55,23 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     switch (actionType) {
       case 'create':
         await createAddressMutation.mutateAsync(data);
+        toast.success(t('messages.add-wallet-address-success'));
         break;
       case 'update':
         await updateAddressMutation.mutateAsync({ ...data, id: data.id! });
+        toast.success(t('messages.update-wallet-address-success'));
         break;
       case 'activate':
         await updateAddressMutation.mutateAsync({ id: data.id!, isActive: true });
+        toast.success(t('messages.activate-wallet-address-success'));
         break;
       case 'deactivate':
         await updateAddressMutation.mutateAsync({ id: data.id!, isActive: false });
+        toast.success(t('messages.deactivate-wallet-address-success'));
         break;
       case 'delete':
         await deleteAddressMutation.mutateAsync({ id: data.id! });
+        toast.success(t('messages.delete-wallet-address-success'));
         break;
       default:
         break;
@@ -84,10 +89,10 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       address: initialData?.address ?? '',
       chain: initialData?.chain ?? options[0].value,
       id: initialData?.id ? String(initialData.id) : '',
-      token: initialData?.token ?? tokenOptions[0].value,
+      crypto: initialData?.crypto ?? cryptoOptions[0].value,
       label: initialData?.label ?? '',
     });
-  }, [initialData, form.reset, options[0].value, tokenOptions[0].value]);
+  }, [initialData, form.reset, options[0].value, cryptoOptions[0].value]);
 
   return {
     t,
@@ -95,7 +100,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     open,
     form,
     options,
-    tokenOptions,
+    cryptoOptions,
     onCloseDialog,
     onSubmit,
     onSubmitDialog,

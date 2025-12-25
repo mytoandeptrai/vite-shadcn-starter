@@ -1,5 +1,6 @@
 import type { BaseResponseType } from '@/types';
 import type { IWalletAddress } from '../wallet-address';
+import type { EUserType } from '@/constant';
 
 export interface IUserInfo {
   id: string;
@@ -15,6 +16,8 @@ export interface IUserInfo {
   wallets: IWalletAddress[];
   role?: string;
   permissions?: string[];
+  type: EUserType;
+  status: 'ACTIVE' | 'INACTIVE';
 }
 
 export interface LoginParams {
@@ -29,13 +32,20 @@ export interface UpdateUserInfoParams {
   twoFACode: string;
 }
 
+export interface UpdateMarketplaceInfoParams {
+  email: string;
+  firstname: string;
+  lastname: string;
+  twoFACode: string;
+}
+
 export interface RegisterParams {
   email: string;
   firstname: string;
   lastname: string;
   password: string;
   confirmPassword: string;
-  userType?: string;
+  type: EUserType;
 }
 
 export interface ResendVerificationParams {
@@ -110,3 +120,5 @@ export type GetUserInfoResponse = BaseResponseType<IUserInfo>;
 export type VerifyTwoFaSetupResponse = BaseResponseType<boolean>;
 
 export type UpdateUserInfoResponse = BaseResponseType<IUserInfo>;
+
+export type UpdateMarketplaceInfoResponse = BaseResponseType<IUserInfo>;

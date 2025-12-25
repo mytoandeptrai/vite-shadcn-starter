@@ -31,11 +31,13 @@ export function useFilteredNavItems(items: NavItem[]) {
   const accessContext = useMemo(() => {
     const permissions = user?.permissions || [];
     const role = user?.role;
+    const type = user?.type;
 
     return {
       user: user ?? undefined,
       permissions: permissions as string[],
       role: role ?? undefined,
+      type: type ?? undefined,
     };
   }, [user]);
 
@@ -51,6 +53,13 @@ export function useFilteredNavItems(items: NavItem[]) {
         // Check permission
         if (item.access.permission) {
           if (!accessContext.permissions.includes(item.access.permission)) {
+            return false;
+          }
+        }
+
+        // Check type
+        if (item.access.type) {
+          if (accessContext.type !== item.access.type) {
             return false;
           }
         }
@@ -76,6 +85,13 @@ export function useFilteredNavItems(items: NavItem[]) {
             // Check permission
             if (childItem.access.permission) {
               if (!accessContext.permissions.includes(childItem.access.permission)) {
+                return false;
+              }
+            }
+
+            // Check type
+            if (childItem.access.type) {
+              if (accessContext.type !== childItem.access.type) {
                 return false;
               }
             }

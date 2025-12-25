@@ -1,0 +1,78 @@
+{
+  "title": "Thông tin Merchant",
+  "description": "Xem và quản lý thông tin merchant và địa chỉ ví",
+  "merchant-info": {
+    "title": "Thông tin Merchant",
+    "fields": {
+      "firstName": {
+        "label": "Tên",
+        "placeholder": "Nhập tên"
+      },
+      "lastName": {
+        "label": "Họ",
+        "placeholder": "Nhập họ"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập địa chỉ email"
+      }
+    },
+    "buttons": {
+      "edit": "Chỉnh sửa thông tin"
+    },
+    "messages": {
+      "update-success": "Cập nhật thông tin merchant thành công"
+    }
+  },
+  "wallet-management": {
+    "title": "Quản lý ví",
+    "fields": {
+      "walletAddress": {
+        "label": "Địa chỉ ví",
+        "placeholder": "Nhập địa chỉ ví"
+      }
+    },
+    "buttons": {
+      "add": "Thêm địa chỉ ví"
+    },
+    "messages": {
+      "create-merchant-wallet-success": "Thêm ví cho merchant thành công",
+      "update-merchant-wallet-success": "Cập nhật ví cho merchant thành công",
+      "delete-merchant-wallet-success": "Xóa ví của merchant thành công",
+      "activate-merchant-wallet-success": "Kích hoạt ví của merchant thành công",
+      "deactivate-merchant-wallet-success": "Vô hiệu hóa ví của merchant thành công"
+    },
+    "tables": {
+      "headers": {
+        "id": "ID",
+        "chain": "Blockchain",
+        "crypto": "Tiền điện tử",
+        "address": "Địa chỉ",
+        "label": "Nhãn",
+        "actions": "Thao tác"
+      }
+    },
+    "dialogs": {
+      "create": {
+        "title": "Thêm địa chỉ ví",
+        "description": "Nhập địa chỉ ví để thêm vào merchant."
+      },
+      "update": {
+        "title": "Cập nhật địa chỉ ví",
+        "description": "Cập nhật thông tin địa chỉ ví."
+      },
+      "delete": {
+        "title": "Xóa địa chỉ ví",
+        "description": "Bạn có chắc chắn muốn xóa địa chỉ ví này không?"
+      },
+      "active": {
+        "title": "Kích hoạt địa chỉ ví",
+        "description": "Bạn có chắc chắn muốn kích hoạt địa chỉ ví này không?"
+      },
+      "inactive": {
+        "title": "Vô hiệu hóa địa chỉ ví",
+        "description": "Bạn có chắc chắn muốn vô hiệu hóa địa chỉ ví này không?"
+      }
+    }
+  }
+}

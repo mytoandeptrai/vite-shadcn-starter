@@ -75,6 +75,9 @@
       "update-password": "Cập Nhật Mật Khẩu",
       "update-personal-information": "Cập Nhật Thông Tin Cá Nhân",
       "update-avatar": "Lưu Ảnh Đại Diện"
+    },
+    "messages": {
+      "update-profile-success": "Thông tin cá nhân đã được cập nhật thành công"
     }
   },
   "system": {

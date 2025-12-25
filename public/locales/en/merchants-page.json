@@ -16,7 +16,10 @@
     },
     "actions": {
       "active": "Activate",
-      "inactive": "Deactivate"
+      "inactive": "Deactivate",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
     }
   },
   "actions": {
@@ -35,6 +38,18 @@
       "title": "Deactivate Merchant",
       "description": "Are you sure you want to deactivate this merchant?"
     },
+    "view": {
+      "title": "View Merchant",
+      "description": "View the merchant information."
+    },
+    "update": {
+      "title": "Update Merchant",
+      "description": "Update the merchant information."
+    },
+    "delete": {
+      "title": "Delete Merchant",
+      "description": "Are you sure you want to delete this merchant?"
+    },
     "create-merchant-wallet": {
       "title": "Add New Wallet Address For Merchant",
       "description": "Enter the wallet information to add it to the merchant."
@@ -42,12 +57,17 @@
     "update-merchant-wallet": {
       "title": "Update Wallet Address For Merchant",
       "description": "Enter the wallet information to update it for the merchant."
+    },
+    "delete-merchant-wallet": {
+      "title": "Delete Wallet Address For Merchant",
+      "description": "Are you sure you want to delete this wallet address for the merchant?"
     }
   },
   "status": {
     "all": "All",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "suspended": "Suspended"
   },
   "fields": {
     "first-name": {
@@ -72,7 +92,10 @@
   "messages": {
     "status-updated": "Merchant status updated successfully",
     "status-update-failed": "Failed to update merchant status",
-    "no-wallet-addresses": "No wallet addresses added yet. Click 'Add A New Wallet Address' to add one."
+    "no-wallet-addresses": "No wallet addresses added yet. Click 'Add A New Wallet Address' to add one.",
+    "merchant-created": "Merchant created successfully",
+    "merchant-updated": "Merchant updated successfully",
+    "merchant-deleted": "Merchant deleted successfully"
   },
   "errors": {
     "wallet-addresses-required": "At least one wallet address is required"

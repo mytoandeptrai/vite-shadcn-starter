@@ -1,4 +1,4 @@
 export const KEYS = {
-  WALLET_ADDRESS: '/wallet-address',
-  WALLET_ADDRESS_DETAIL: '/wallet-address/:id',
+  WALLET_ADDRESS: 'merchants/wallet-address',
+  WALLET_ADDRESS_DETAIL: 'merchants/wallet-address/:id',
 };

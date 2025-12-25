@@ -6,15 +6,15 @@ import { useMemo } from 'react';
 import type { DateRange } from 'react-day-picker';
 
 const STATUS_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('status.completed'), value: 'completed' },
   { label: t('status.pending'), value: 'pending' },
+  { label: t('status.confirming'), value: 'confirming' },
+  { label: t('status.confirmed'), value: 'confirmed' },
   { label: t('status.failed'), value: 'failed' },
-  { label: t('status.cancelled'), value: 'cancelled' },
 ];
 
 const TYPE_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('types.payment'), value: 'payment' },
-  { label: t('types.payout'), value: 'payout' },
+  { label: t('types.PAYMENT'), value: 'PAYMENT' },
+  { label: t('types.PAYOUT'), value: 'PAYOUT' },
 ];
 
 const generateSelectedDateRange = (dateFrom?: string, dateTo?: string) => {

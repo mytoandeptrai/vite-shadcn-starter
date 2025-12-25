@@ -9,10 +9,12 @@ export interface IWalletAddress {
   label: string;
   merchantId: number;
   updatedAt: string;
+  crypto: string;
 }
 
 export interface GetWalletAddressListParams extends CommonRequestType {
   chain?: string[];
+  crypto?: string[];
 }
 
 export interface UpdateWalletAddressParams extends Partial<IWalletAddress> {
@@ -25,4 +27,4 @@ export interface DeleteWalletAddressParams {
   id: string;
 }
 
-export interface GetWalletAddressListResponse extends IPaginatedResponseType<{ wallets: IWalletAddress[] }> {}
+export interface GetWalletAddressListResponse extends IPaginatedResponseType<IWalletAddress[]> {}

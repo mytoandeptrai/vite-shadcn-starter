@@ -20,9 +20,10 @@ export const useWalletAddressContainer = () => {
     page: search.page,
     pageSize: search.pageSize,
     sortBy: search.sortBy,
-    sortOrder: search.sortOrder,
+    orderBy: search.orderBy,
     search: search.search,
     chain: search.chain ? search.chain.filter((el) => Boolean(el)) : [],
+    crypto: search.crypto ? search.crypto.filter((el) => Boolean(el)) : [],
   };
   const { data, isFetching, isLoading, refetch } = useGetWalletAddressList(filters);
 
@@ -45,7 +46,7 @@ export const useWalletAddressContainer = () => {
         search: {
           ...search,
           sortBy: updatedSorting[0].id,
-          sortOrder: updatedSorting[0].desc ? 'desc' : 'asc',
+          orderBy: updatedSorting[0].desc ? 'desc' : 'asc',
         },
         replace: true,
       });
@@ -53,7 +54,7 @@ export const useWalletAddressContainer = () => {
       navigate({
         search: {
           ...search,
-          sortOrder: 'desc',
+          orderBy: 'desc',
           sortBy: 'createdAt',
         },
         replace: true,
@@ -87,11 +88,13 @@ export const useWalletAddressContainer = () => {
 
   const tableData = useMemo(() => {
     return {
-      data: data?.data?.wallets ?? [],
+      data: data?.data ?? [],
       pagination: {
-        pageIndex: data?.page ?? 1,
-        pageSize: data?.totalCount ?? PAGE_SIZE_OPTIONS[0],
-        pageCount: data?.totalPage ?? 0,
+        pageIndex: data?.pagination.page ?? 1,
+        pageSize: data?.pagination.pageSize ?? PAGE_SIZE_OPTIONS[0],
+        pageCount: data?.pagination.totalPages ?? 0,
+        hasNext: data?.pagination.hasNext ?? false,
+        hasPrev: data?.pagination.hasPrev ?? false,
       },
     };
   }, [data]);

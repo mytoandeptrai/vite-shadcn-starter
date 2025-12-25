@@ -17,6 +17,8 @@ export type TransactionTableContainerProps = {
       pageIndex: number;
       pageSize: number;
       pageCount: number;
+      hasNext: boolean;
+      hasPrev: boolean;
     };
   };
   searchValue?: string;

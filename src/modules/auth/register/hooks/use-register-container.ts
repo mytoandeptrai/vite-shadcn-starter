@@ -1,5 +1,5 @@
 import { useRegister } from '@/apis/auth';
-import { keyLocalStorage, ROUTES } from '@/constant';
+import { EUserType, keyLocalStorage, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(auth)/register';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,7 +23,6 @@ export const useRegisterContainer = () => {
   const isLoading = registerMutation.isPending;
 
   const onSubmit = async (data: RegisterFormData) => {
-    /** TODO: Add first name and last name */
     try {
       const payload = {
         email: data.email,
@@ -31,7 +30,7 @@ export const useRegisterContainer = () => {
         confirmPassword: data.confirmPassword,
         firstname: data.firstName,
         lastname: data.lastName,
-        userType: data.type,
+        type: data.type === 'merchant' ? EUserType.INDEPENDENT_MERCHANT : EUserType.MARKETPLACE,
       };
       await registerMutation.mutateAsync(payload);
       const timeStamp = Date.now();

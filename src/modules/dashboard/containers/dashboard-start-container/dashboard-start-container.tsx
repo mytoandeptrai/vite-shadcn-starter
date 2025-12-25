@@ -26,10 +26,11 @@ const DashboardStartContainer = () => {
               page: 1,
               pageSize: PAGE_SIZE_OPTIONS[0],
               sortBy: 'createdAt',
-              sortOrder: 'desc',
+              orderBy: 'desc',
               forceAddWallet: true,
               search: '',
               chain: [],
+              crypto: [],
             },
           });
         },
@@ -59,7 +60,7 @@ const DashboardStartContainer = () => {
         },
       },
     ];
-  }, [t, completed.apiKeys, completed.sdk, completed.wallet]);
+  }, [t, completed.apiKeys, completed.sdk, completed.wallet, navigate]);
 
   return (
     <div className='rounded-md border border-border bg-card p-6'>

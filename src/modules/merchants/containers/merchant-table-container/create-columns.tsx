@@ -1,4 +1,4 @@
-import type { IMerchant } from '@/apis/merchants';
+import type { IMerchant } from '@/apis/marketplace';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DataTableColumnHeader } from '@/components/ui/data-table';
@@ -10,14 +10,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { formatCurrencyUSD } from '@/utils';
+import { formatDate, formatNaturalNumber } from '@/utils';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import { MoreHorizontal } from 'lucide-react';
+import type { ActionType } from '../../hooks';
 
 interface MerchantColumnsProps {
   t: TFunction;
-  onAction?: (merchant: IMerchant, actionType: 'create' | 'active' | 'inactive') => void;
+  onAction?: (merchant: IMerchant, actionType: ActionType) => void;
 }
 
 export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<IMerchant>[] => [
@@ -34,7 +35,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.name')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const name = `${_row.firstName} ${_row.lastName}`;
+      const name = `${_row.firstname ?? '-'} ${_row.lastname ?? '-'}`;
       return <div className='font-medium'>{name}</div>;
     },
   },
@@ -43,16 +44,8 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const date = new Date(_row.createdAt);
-      return (
-        <div className='font-medium'>
-          {date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-          })}
-        </div>
-      );
+      const date = formatDate(_row.createdAt);
+      return <div className='font-medium'>{date}</div>;
     },
   },
   {
@@ -60,7 +53,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.balance')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <div className='font-medium'>{formatCurrencyUSD(_row.balance)}</div>;
+      return <div className='font-medium'>{formatNaturalNumber(_row.balance)}</div>;
     },
   },
   {
@@ -68,7 +61,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.status')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const status = _row.status;
+      const status = _row.status.toLowerCase();
       return <Badge variant={status === 'active' ? 'default' : 'secondary'}>{t(`table.labels.${status}`)}</Badge>;
     },
   },
@@ -93,6 +86,8 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
             <DropdownMenuItem onClick={() => onAction?.(_row, status === 'active' ? 'inactive' : 'active')}>
               {status === 'active' ? t('table.actions.inactive') : t('table.actions.active')}
             </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onAction?.(_row, 'view')}>{t('table.actions.view')}</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onAction?.(_row, 'delete')}>{t('table.actions.delete')}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

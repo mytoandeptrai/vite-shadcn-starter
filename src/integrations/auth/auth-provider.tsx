@@ -22,7 +22,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation('common');
   const payload = useSessionStore();
   const { queryClient } = getContext();
-
   const signoutMutation = useSignout();
 
   const { data, isLoading, refetch } = useGetUserInfo({

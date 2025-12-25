@@ -1,15 +1,16 @@
-import type { IMerchant } from '@/apis/merchants';
 import { DataTable } from '@/components/ui/data-table';
 import { useTranslation } from '@/integrations/i18n';
 import type { SortingState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { createColumns } from './create-columns';
 import TableFilterContainer from '../table-filter-container';
+import type { ActionType } from '../../hooks';
+import type { IMerchant } from '@/apis/marketplace';
 
 export type MerchantTableContainerProps = {
   onPaginationChange: (page: number, pageSize: number) => void;
   onSortingChange: (updatedSorting: SortingState) => void;
-  onAction: (merchant: IMerchant, actionType: 'create' | 'active' | 'inactive') => void;
+  onAction: (merchant: IMerchant, actionType: ActionType) => void;
   isLoading: boolean;
   isFetching: boolean;
   tableData: {
@@ -18,6 +19,8 @@ export type MerchantTableContainerProps = {
       pageIndex: number;
       pageSize: number;
       pageCount: number;
+      hasNext: boolean;
+      hasPrev: boolean;
     };
   };
 };

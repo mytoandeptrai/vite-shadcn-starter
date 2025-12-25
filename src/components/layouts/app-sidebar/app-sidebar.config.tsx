@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constant';
+import { EUserType, ROUTES } from '@/constant';
 import type { NavItem } from '@/types';
 import type { TFunction } from 'i18next';
 import {
@@ -53,9 +53,9 @@ export const navItems = (t: TFunction): NavItem[] => [
     shortcut: ['m', 'm'],
     isActive: false,
     items: [],
-    // access: {
-    //   role: 'admin',
-    // },
+    access: {
+      type: EUserType.MARKETPLACE,
+    },
   },
   {
     title: t('labels.developer'),

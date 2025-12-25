@@ -10,8 +10,8 @@ const BalanceContainer = () => {
     t,
     tokenOptions,
     selectedToken,
-    availableBalance,
-    incomingBalance,
+    balanceAvailable,
+    balanceIncoming,
     isOpenDialog,
     walletTokenOptions,
     isLoading,
@@ -35,7 +35,7 @@ const BalanceContainer = () => {
           title={t('labels.available-balance')}
           description={t('labels.ready-to-withdraw')}
           type='available'
-          amount={availableBalance}
+          amount={balanceAvailable}
           selectedToken={selectedToken}
           isLoading={isLoading}
           exchangeRate={exchangeRate}
@@ -46,7 +46,7 @@ const BalanceContainer = () => {
           description={t('labels.processing-transactions')}
           type='incoming'
           selectedToken={selectedToken}
-          amount={incomingBalance}
+          amount={balanceIncoming}
           isLoading={isLoading}
           exchangeRate={exchangeRate}
         />
@@ -56,7 +56,7 @@ const BalanceContainer = () => {
           walletTokenOptions={walletTokenOptions}
           selectedToken={selectedToken}
           open={isOpenDialog}
-          max={availableBalance}
+          max={balanceAvailable}
           onClose={onCloseDialog}
         />
       </Show>

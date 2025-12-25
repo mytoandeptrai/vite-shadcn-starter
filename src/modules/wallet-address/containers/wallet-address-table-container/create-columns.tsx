@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import TruncateParagraph from '@/components/ui/truncate-paragraph';
 import { capitalizeFirstLetter, formatAddress, formatDate } from '@/utils';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
@@ -33,6 +33,7 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
       const id = _row.id;
       return <div className='font-medium'>{id}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'label',
@@ -40,7 +41,7 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     cell: ({ row }) => {
       const _row = row.original;
       const label = _row.label;
-      return <div className='font-medium'>{label}</div>;
+      return <TruncateParagraph truncatedContent={label} fullContent={label} />;
     },
   },
   {
@@ -49,16 +50,7 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     cell: ({ row }) => {
       const _row = row.original;
       const address = _row.address;
-      return (
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div className='font-medium'>{formatAddress(address)}</div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{address}</p>
-          </TooltipContent>
-        </Tooltip>
-      );
+      return <TruncateParagraph truncatedContent={formatAddress(address)} fullContent={address} />;
     },
   },
   {
@@ -68,6 +60,15 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
       const _row = row.original;
       const chain = _row.chain;
       return <div className='font-medium'>{capitalizeFirstLetter(chain)}</div>;
+    },
+  },
+  {
+    accessorKey: 'crypto',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.crypto')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      const crypto = _row.crypto;
+      return <div className='font-medium'>{crypto}</div>;
     },
   },
   {
@@ -82,9 +83,10 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
         </Badge>
       );
     },
+    enableSorting: false,
   },
   {
-    accessorKey: 'updatedAt',
+    accessorKey: 'createdAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
     cell: ({ row }) => {
       const _row = row.original;

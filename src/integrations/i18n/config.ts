@@ -37,6 +37,7 @@ i18n
       'balance-page',
       'wallet-address-page',
       'transactions-page',
+      'merchant-detail-page',
     ],
 
     /** Detection settings */

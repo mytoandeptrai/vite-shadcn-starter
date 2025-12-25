@@ -6,7 +6,7 @@ import timezone from 'dayjs/plugin/timezone';
 import { toast } from 'sonner';
 import { v4 as uuid } from 'uuid';
 import { CURRENCY_CODE_MAPPING, EMedia, FILE_FORMAT, NUMBER_FORMAT_LOOK_UP } from '@/constant';
-import type { IMedia } from '@/types';
+import type { IMedia, Option } from '@/types';
 import type { TFunction } from 'i18next';
 import type { Currency } from '@/stores/use-base-store';
 
@@ -307,3 +307,13 @@ export const formatTimeFromSeconds = (seconds: number, t: TFunction): string => 
 
   return `${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, 'second', 'seconds')}`;
 };
+
+export const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('chains.ETH', { ns: 'common' }), value: 'ETH' },
+  { label: t('chains.BNB', { ns: 'common' }), value: 'BSC' },
+];
+
+export const CRYPTO_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('tokens.USDT', { ns: 'common' }), value: 'USDT' },
+  { label: t('tokens.USDC', { ns: 'common' }), value: 'USDC' },
+];
