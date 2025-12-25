@@ -30,7 +30,7 @@
   },
   "filters": {
     "search": {
-      "placeholder": "Search transactions..."
+      "placeholder": "Search transactions by txHash or address..."
     },
     "status": {
       "label": "Status",

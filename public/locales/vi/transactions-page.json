@@ -30,7 +30,7 @@
   },
   "filters": {
     "search": {
-      "placeholder": "Tìm kiếm giao dịch..."
+      "placeholder": "Tìm kiếm giao dịch bằng txHash hoặc địa chỉ..."
     },
     "status": {
       "label": "Trạng Thái",

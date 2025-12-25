@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 import type {
+  GetTransactionDetailParams,
+  GetTransactionDetailResponse,
   GetTransactionListParams,
   GetTransactionListResponse,
   ITransaction,
@@ -15,15 +17,9 @@ const generateTxHash = (): string => {
   return `0x${faker.string.hexadecimal({ length: 64, casing: 'lower' }).replace('0x', '')}`;
 };
 
-const mockTransactionList = (
-  count: number,
-  type?: TransactionType,
-  status?: TransactionStatus
-): ITransaction[] => {
+const mockTransactionList = (count: number, type?: TransactionType, status?: TransactionStatus): ITransaction[] => {
   const types: TransactionType[] = type ? [type] : ['PAYMENT', 'PAYOUT'];
-  const statuses: TransactionStatus[] = status
-    ? [status]
-    : ['pending', 'confirming', 'confirmed', 'failed'];
+  const statuses: TransactionStatus[] = status ? [status] : ['pending', 'confirming', 'confirmed', 'failed'];
   const chainIds = ['11155111', '56'];
   const chains = ['Ethereum', 'Binance Smart Chain'];
   const cryptos = ['USDT', 'USDC'];
@@ -42,12 +38,12 @@ const mockTransactionList = (
     const blockTimestamp = faker.date.recent({ days: 30 });
     const firstSeenAt = faker.date.recent({ days: 31, refDate: blockTimestamp });
     // confirmedAt: use blockTimestamp for confirmed/failed, future date for confirming, recent past for pending
-    const confirmedAt = 
+    const confirmedAt =
       transactionStatus === 'confirmed' || transactionStatus === 'failed'
         ? blockTimestamp
         : transactionStatus === 'confirming'
-        ? faker.date.future({ refDate: blockTimestamp })
-        : faker.date.recent({ days: 1, refDate: blockTimestamp });
+          ? faker.date.future({ refDate: blockTimestamp })
+          : faker.date.recent({ days: 1, refDate: blockTimestamp });
 
     return {
       id: faker.number.int({ min: 1, max: 999999 }),
@@ -84,21 +80,19 @@ export const getTransactionList = (
   console.log('🚀 ~ getTransactionList ~ signal:', params, signal);
   return new Promise<GetTransactionListResponse>((resolve) => {
     const random = Math.floor(Math.random() * 10) + 1;
-    
+
     // Extract filter types and statuses from params
     // If type array is provided, use first one; otherwise undefined
-    const filterType = params.type && params.type.length > 0 
-      ? (params.type[0].toUpperCase() as TransactionType)
-      : undefined;
-    
+    const filterType =
+      params.type && params.type.length > 0 ? (params.type[0].toUpperCase() as TransactionType) : undefined;
+
     // If status array is provided, use first one; otherwise undefined
-    const filterStatus = params.status && params.status.length > 0
-      ? (params.status[0].toLowerCase() as TransactionStatus)
-      : undefined;
-    
+    const filterStatus =
+      params.status && params.status.length > 0 ? (params.status[0].toLowerCase() as TransactionStatus) : undefined;
+
     setTimeout(() => {
       const allData = mockTransactionList(random * 2, filterType, filterStatus);
-      
+
       // Apply pagination
       const page = params.page ?? 1;
       const pageSize = params.pageSize ?? 10;
@@ -116,6 +110,22 @@ export const getTransactionList = (
           hasNext: endIndex < allData.length,
           hasPrev: page > 1,
         },
+      });
+    }, 1000);
+  });
+};
+
+export const getTransactionDetail = (
+  params: GetTransactionDetailParams,
+  signal?: AbortSignal
+): Promise<GetTransactionDetailResponse> => {
+  console.log("🚀 ~ getTransactionDetail ~ params:", params, signal)
+  return new Promise<GetTransactionDetailResponse>((resolve) => {
+    setTimeout(() => {
+      resolve({
+        code: 200,
+        message: '',
+        data: mockTransactionList(1, undefined, undefined)[0],
       });
     }, 1000);
   });

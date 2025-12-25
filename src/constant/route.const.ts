@@ -19,4 +19,5 @@ export const ROUTES = {
   NOT_FOUND: '/404',
   MERCHANTS: '/merchants',
   MERCHANT_DETAILS: '/merchants/$merchantId',
+  TRANSACTION_DETAIL: '/transactions/$transactionId',
 } as const;

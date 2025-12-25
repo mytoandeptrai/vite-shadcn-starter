@@ -1,4 +1,4 @@
-import type { IPaginatedResponseType } from '@/types';
+import type { BaseResponseType, IPaginatedResponseType } from '@/types';
 
 export type TransactionType = 'PAYMENT' | 'PAYOUT';
 export type TransactionStatus = 'pending' | 'confirming' | 'confirmed' | 'failed';
@@ -38,4 +38,9 @@ export interface GetTransactionListParams {
   dateTo?: string;
 }
 
+export interface GetTransactionDetailParams {
+  id: string;
+}
+
 export interface GetTransactionListResponse extends IPaginatedResponseType<ITransaction[]> {}
+export interface GetTransactionDetailResponse extends BaseResponseType<ITransaction> {}

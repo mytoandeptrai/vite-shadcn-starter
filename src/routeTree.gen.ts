@@ -17,7 +17,6 @@ import { Route as privateIndexRouteImport } from './routes/(private)/index'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
 import { Route as privateWalletAddressRouteImport } from './routes/(private)/wallet-address'
-import { Route as privateTransactionsRouteImport } from './routes/(private)/transactions'
 import { Route as privateDeveloperRouteImport } from './routes/(private)/developer'
 import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
 import { Route as privateBalanceRouteImport } from './routes/(private)/balance'
@@ -30,8 +29,10 @@ import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expire
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authActiveRouteImport } from './routes/(auth)/active'
 import { Route as privateMerchantsLayoutRouteImport } from './routes/(private)/merchants/layout'
+import { Route as privateTransactionsIndexRouteImport } from './routes/(private)/transactions/index'
 import { Route as privateSettingsIndexRouteImport } from './routes/(private)/settings/index'
 import { Route as privateMerchantsIndexRouteImport } from './routes/(private)/merchants/index'
+import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
 import { Route as privateSettingsSystemRouteImport } from './routes/(private)/settings/system'
 import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 import { Route as privateMerchantsMerchantIdRouteImport } from './routes/(private)/merchants/$merchantId'
@@ -72,11 +73,6 @@ const DemoFormRoute = DemoFormRouteImport.update({
 const privateWalletAddressRoute = privateWalletAddressRouteImport.update({
   id: '/wallet-address',
   path: '/wallet-address',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const privateTransactionsRoute = privateTransactionsRouteImport.update({
-  id: '/transactions',
-  path: '/transactions',
   getParentRoute: () => privateLayoutRoute,
 } as any)
 const privateDeveloperRoute = privateDeveloperRouteImport.update({
@@ -139,6 +135,12 @@ const privateMerchantsLayoutRoute = privateMerchantsLayoutRouteImport.update({
   path: '/merchants',
   getParentRoute: () => privateLayoutRoute,
 } as any)
+const privateTransactionsIndexRoute =
+  privateTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
 const privateSettingsIndexRoute = privateSettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
@@ -149,6 +151,12 @@ const privateMerchantsIndexRoute = privateMerchantsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => privateMerchantsLayoutRoute,
 } as any)
+const privateTransactionsTransactionIdRoute =
+  privateTransactionsTransactionIdRouteImport.update({
+    id: '/transactions/$transactionId',
+    path: '/transactions/$transactionId',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
 const privateSettingsSystemRoute = privateSettingsSystemRouteImport.update({
   id: '/settings/system',
   path: '/settings/system',
@@ -181,7 +189,6 @@ export interface FileRoutesByFullPath {
   '/balance': typeof privateBalanceRoute
   '/dashboard': typeof privateDashboardRoute
   '/developer': typeof privateDeveloperRoute
-  '/transactions': typeof privateTransactionsRoute
   '/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -189,8 +196,10 @@ export interface FileRoutesByFullPath {
   '/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/settings/profile': typeof privateSettingsProfileRoute
   '/settings/system': typeof privateSettingsSystemRoute
+  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/merchants/': typeof privateMerchantsIndexRoute
   '/settings': typeof privateSettingsIndexRoute
+  '/transactions': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
@@ -206,7 +215,6 @@ export interface FileRoutesByTo {
   '/balance': typeof privateBalanceRoute
   '/dashboard': typeof privateDashboardRoute
   '/developer': typeof privateDeveloperRoute
-  '/transactions': typeof privateTransactionsRoute
   '/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -214,8 +222,10 @@ export interface FileRoutesByTo {
   '/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/settings/profile': typeof privateSettingsProfileRoute
   '/settings/system': typeof privateSettingsSystemRoute
+  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/merchants': typeof privateMerchantsIndexRoute
   '/settings': typeof privateSettingsIndexRoute
+  '/transactions': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -235,7 +245,6 @@ export interface FileRoutesById {
   '/(private)/balance': typeof privateBalanceRoute
   '/(private)/dashboard': typeof privateDashboardRoute
   '/(private)/developer': typeof privateDeveloperRoute
-  '/(private)/transactions': typeof privateTransactionsRoute
   '/(private)/wallet-address': typeof privateWalletAddressRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -243,8 +252,10 @@ export interface FileRoutesById {
   '/(private)/merchants/$merchantId': typeof privateMerchantsMerchantIdRoute
   '/(private)/settings/profile': typeof privateSettingsProfileRoute
   '/(private)/settings/system': typeof privateSettingsSystemRoute
+  '/(private)/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/(private)/merchants/': typeof privateMerchantsIndexRoute
   '/(private)/settings/': typeof privateSettingsIndexRoute
+  '/(private)/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -263,7 +274,6 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
-    | '/transactions'
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -271,8 +281,10 @@ export interface FileRouteTypes {
     | '/merchants/$merchantId'
     | '/settings/profile'
     | '/settings/system'
+    | '/transactions/$transactionId'
     | '/merchants/'
     | '/settings'
+    | '/transactions'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$'
@@ -288,7 +300,6 @@ export interface FileRouteTypes {
     | '/balance'
     | '/dashboard'
     | '/developer'
-    | '/transactions'
     | '/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -296,8 +307,10 @@ export interface FileRouteTypes {
     | '/merchants/$merchantId'
     | '/settings/profile'
     | '/settings/system'
+    | '/transactions/$transactionId'
     | '/merchants'
     | '/settings'
+    | '/transactions'
   id:
     | '__root__'
     | '/(auth)'
@@ -316,7 +329,6 @@ export interface FileRouteTypes {
     | '/(private)/balance'
     | '/(private)/dashboard'
     | '/(private)/developer'
-    | '/(private)/transactions'
     | '/(private)/wallet-address'
     | '/demo/form'
     | '/demo/storybook'
@@ -324,8 +336,10 @@ export interface FileRouteTypes {
     | '/(private)/merchants/$merchantId'
     | '/(private)/settings/profile'
     | '/(private)/settings/system'
+    | '/(private)/transactions/$transactionId'
     | '/(private)/merchants/'
     | '/(private)/settings/'
+    | '/(private)/transactions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -393,13 +407,6 @@ declare module '@tanstack/react-router' {
       path: '/wallet-address'
       fullPath: '/wallet-address'
       preLoaderRoute: typeof privateWalletAddressRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/transactions': {
-      id: '/(private)/transactions'
-      path: '/transactions'
-      fullPath: '/transactions'
-      preLoaderRoute: typeof privateTransactionsRouteImport
       parentRoute: typeof privateLayoutRoute
     }
     '/(private)/developer': {
@@ -486,6 +493,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof privateMerchantsLayoutRouteImport
       parentRoute: typeof privateLayoutRoute
     }
+    '/(private)/transactions/': {
+      id: '/(private)/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof privateTransactionsIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
     '/(private)/settings/': {
       id: '/(private)/settings/'
       path: '/settings'
@@ -499,6 +513,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/merchants/'
       preLoaderRoute: typeof privateMerchantsIndexRouteImport
       parentRoute: typeof privateMerchantsLayoutRoute
+    }
+    '/(private)/transactions/$transactionId': {
+      id: '/(private)/transactions/$transactionId'
+      path: '/transactions/$transactionId'
+      fullPath: '/transactions/$transactionId'
+      preLoaderRoute: typeof privateTransactionsTransactionIdRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
     '/(private)/settings/system': {
       id: '/(private)/settings/system'
@@ -571,12 +592,13 @@ interface privateLayoutRouteChildren {
   privateBalanceRoute: typeof privateBalanceRoute
   privateDashboardRoute: typeof privateDashboardRoute
   privateDeveloperRoute: typeof privateDeveloperRoute
-  privateTransactionsRoute: typeof privateTransactionsRoute
   privateWalletAddressRoute: typeof privateWalletAddressRoute
   privateIndexRoute: typeof privateIndexRoute
   privateSettingsProfileRoute: typeof privateSettingsProfileRoute
   privateSettingsSystemRoute: typeof privateSettingsSystemRoute
+  privateTransactionsTransactionIdRoute: typeof privateTransactionsTransactionIdRoute
   privateSettingsIndexRoute: typeof privateSettingsIndexRoute
+  privateTransactionsIndexRoute: typeof privateTransactionsIndexRoute
 }
 
 const privateLayoutRouteChildren: privateLayoutRouteChildren = {
@@ -584,12 +606,13 @@ const privateLayoutRouteChildren: privateLayoutRouteChildren = {
   privateBalanceRoute: privateBalanceRoute,
   privateDashboardRoute: privateDashboardRoute,
   privateDeveloperRoute: privateDeveloperRoute,
-  privateTransactionsRoute: privateTransactionsRoute,
   privateWalletAddressRoute: privateWalletAddressRoute,
   privateIndexRoute: privateIndexRoute,
   privateSettingsProfileRoute: privateSettingsProfileRoute,
   privateSettingsSystemRoute: privateSettingsSystemRoute,
+  privateTransactionsTransactionIdRoute: privateTransactionsTransactionIdRoute,
   privateSettingsIndexRoute: privateSettingsIndexRoute,
+  privateTransactionsIndexRoute: privateTransactionsIndexRoute,
 }
 
 const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(

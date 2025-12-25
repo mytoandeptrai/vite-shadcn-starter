@@ -1,5 +1,5 @@
-import { useGetTransactionList } from '@/apis/transactions';
-import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useGetTransactionList, type ITransaction } from '@/apis/transactions';
+import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
 import type { SortingState } from '@tanstack/react-table';
@@ -57,6 +57,16 @@ export const useAllActivityContainer = () => {
     }
   };
 
+  const onRowClick = (e: React.MouseEvent<HTMLTableRowElement>, row: ITransaction) => {
+    e.preventDefault();
+    navigate({
+      to: ROUTES.TRANSACTION_DETAIL,
+      params: {
+        transactionId: row.id.toString(),
+      },
+    });
+  };
+
   const tableData = useMemo(() => {
     return {
       data: data?.data ?? [],
@@ -77,6 +87,7 @@ export const useAllActivityContainer = () => {
     tableData,
     onPaginationChange,
     onSortingChange,
+    onRowClick,
     refetch,
   };
 };

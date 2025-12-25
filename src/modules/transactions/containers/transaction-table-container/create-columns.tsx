@@ -1,5 +1,6 @@
 import type { ITransaction } from '@/apis/transactions';
 import { Badge } from '@/components/ui/badge';
+import CopyButton from '@/components/ui/copy-button';
 import { DataTableColumnHeader } from '@/components/ui/data-table';
 import TruncateParagraph from '@/components/ui/truncate-paragraph';
 import { capitalizeFirstLetter, formatAddress, formatDate, formatNaturalNumber } from '@/utils';
@@ -10,17 +11,17 @@ interface TransactionColumnsProps {
   t: TFunction;
 }
 
-const getTypeDisplay = (type: string, t: TFunction): string => {
+export const getTypeDisplay = (type: string, t: TFunction): string => {
   if (type === 'PAYMENT') return t('types.PAYMENT');
   if (type === 'PAYOUT') return t('types.PAYOUT');
   return capitalizeFirstLetter(type);
 };
 
-const getStatusText = (status: string, t: TFunction): string => {
+export const getStatusText = (status: string, t: TFunction): string => {
   return t(`status.${status}`);
 };
 
-const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' => {
+export const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' => {
   if (status === 'confirmed') return 'default';
   if (status === 'pending' || status === 'confirming') return 'secondary';
   return 'destructive';
@@ -53,25 +54,12 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     },
   },
   {
-    accessorKey: 'relatedId',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.relatedId')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.relatedId}</div>;
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.status')} />,
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status;
-      return (
-        <Badge variant={getStatusVariant(status)}>
-          {getStatusText(status, t)}
-        </Badge>
-      );
+      return <Badge variant={getStatusVariant(status)}>{getStatusText(status, t)}</Badge>;
     },
   },
   {
@@ -95,16 +83,12 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.txHash')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'smartContract',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.smartContract')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.smartContract)} fullContent={_row.smartContract} />;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />
+          <CopyButton value={_row.txHash} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
     enableSorting: false,
   },
@@ -130,7 +114,11 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     cell: ({ row }) => {
       const _row = row.original;
       const amount = formatNaturalNumber(_row.amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      return <div className='font-medium'>{amount} {_row.crypto}</div>;
+      return (
+        <div className='font-medium'>
+          {amount} {_row.crypto}
+        </div>
+      );
     },
   },
   {
@@ -147,7 +135,12 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.fromAddress')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.fromAddress)} fullContent={_row.fromAddress} />;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(_row.fromAddress)} fullContent={_row.fromAddress} />
+          <CopyButton value={_row.fromAddress} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
     enableSorting: false,
   },
@@ -156,7 +149,12 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.toAddress')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.toAddress)} fullContent={_row.toAddress} />;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(_row.toAddress)} fullContent={_row.toAddress} />
+          <CopyButton value={_row.toAddress} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
     enableSorting: false,
   },

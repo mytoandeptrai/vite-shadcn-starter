@@ -11,7 +11,7 @@ const TruncateParagraph = ({ truncatedContent, fullContent, className }: Props) 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <span className={cn('w-32 truncate font-medium text-sm md:w-56', className)}>{truncatedContent}</span>
+        <span className={cn('min-w-32 max-w-32 truncate font-medium text-sm md:max-w-56', className)}>{truncatedContent}</span>
       </TooltipTrigger>
       <TooltipContent>
         <p className='text-sm'>{fullContent}</p>
