@@ -35,4 +35,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      include: ['src/utils/**/*.ts', 'src/components/ui/**/*.tsx'],
+      exclude: ['src/utils/storage.ts', 'src/utils/index.ts'],
+    },
+  },
 });
