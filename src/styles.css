@@ -50,6 +50,7 @@ code {
   --sidebar-accent-foreground: #18181b;
   --sidebar-border: #e4e4e7;
   --sidebar-ring: #d4d4d8;
+  --scrollbar-width: 10px; /* Scrollbar width: w-2.5 = 0.625rem = 10px */
 
   /** Custom Colors */
   --stroke-mobile: #6366f1;   /* indigo-500 */
@@ -217,4 +218,14 @@ img {
 
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-border border-[1px] border-transparent border-solid bg-clip-padding;
+}
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

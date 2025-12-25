@@ -2,7 +2,7 @@ import { usePaymentsContainer } from '../../hooks';
 import TransactionTableContainer from '../transaction-table-container';
 
 const PaymentsContainer = () => {
-  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange } = usePaymentsContainer();
+  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange, onRowClick } = usePaymentsContainer();
 
   return (
     <TransactionTableContainer
@@ -11,6 +11,7 @@ const PaymentsContainer = () => {
       isFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
+      onRowClick={onRowClick}
     />
   );
 };

@@ -20,7 +20,7 @@ export const Route = createFileRoute('/(private)/merchants/')({
       pageSize: result.pageSize ?? PAGE_SIZE_OPTIONS[0],
       sortBy: result.sortBy ?? 'createdAt',
       orderBy: result.orderBy ?? 'desc',
-      status: result.status ? result.status.filter((el) => Boolean(el)) : undefined,
+      status: result.status ?? undefined,
       search: result.search ?? '',
     };
   },

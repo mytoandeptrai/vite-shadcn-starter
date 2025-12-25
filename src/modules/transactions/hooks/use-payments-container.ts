@@ -1,7 +1,8 @@
-import { useGetTransactionList } from '@/apis/transactions';
-import { PAGE_SIZE_OPTIONS } from '@/constant';
+import { useGetTransactionList, type ITransaction } from '@/apis/transactions';
+import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
+import { filterBooleanArray } from '@/utils';
 import type { SortingState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
@@ -17,9 +18,12 @@ export const usePaymentsContainer = () => {
     orderBy: search.orderBy,
     search: search.search,
     type: ['PAYMENT'],
-    status: search.status ? search.status.filter((el) => Boolean(el)) : [],
-    dateFrom: search.dateFrom,
-    dateTo: search.dateTo,
+    status: filterBooleanArray(search.status),
+    chain: filterBooleanArray(search.chain),
+    crypto: filterBooleanArray(search.crypto),
+    network: filterBooleanArray(search.network),
+    fromDate: search.fromDate,
+    toDate: search.toDate,
   };
 
   const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);
@@ -57,6 +61,16 @@ export const usePaymentsContainer = () => {
     }
   };
 
+  const onRowClick = (e: React.MouseEvent<HTMLTableRowElement>, row: ITransaction) => {
+    e.preventDefault();
+    navigate({
+      to: ROUTES.TRANSACTION_DETAIL,
+      params: {
+        transactionId: row.id.toString(),
+      },
+    });
+  };
+
   const tableData = useMemo(() => {
     return {
       data: data?.data ?? [],
@@ -77,6 +91,7 @@ export const usePaymentsContainer = () => {
     tableData,
     onPaginationChange,
     onSortingChange,
+    onRowClick,
     refetch,
   };
 };

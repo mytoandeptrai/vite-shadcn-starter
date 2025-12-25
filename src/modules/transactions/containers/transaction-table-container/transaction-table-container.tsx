@@ -9,6 +9,7 @@ import { createColumns } from './create-columns';
 export type TransactionTableContainerProps = {
   onPaginationChange: (page: number, pageSize: number) => void;
   onSortingChange: (updatedSorting: SortingState) => void;
+  onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: ITransaction) => void;
   isLoading: boolean;
   isFetching: boolean;
   tableData: {
@@ -22,7 +23,6 @@ export type TransactionTableContainerProps = {
     };
   };
   searchValue?: string;
-  onSearchValueChange?: (value: string) => void;
 };
 
 const TransactionTableContainer = ({
@@ -31,6 +31,7 @@ const TransactionTableContainer = ({
   tableData,
   onPaginationChange,
   onSortingChange,
+  onRowClick,
 }: TransactionTableContainerProps) => {
   const { t } = useTranslation('transactions-page');
   const columns = useMemo(() => createColumns({ t }), [t]);
@@ -44,6 +45,7 @@ const TransactionTableContainer = ({
       isDataFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
+      onRowClick={onRowClick}
     >
       <TableFilterContainer />
     </DataTable>

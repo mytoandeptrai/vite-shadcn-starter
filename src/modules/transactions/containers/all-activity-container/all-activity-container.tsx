@@ -2,7 +2,7 @@ import { useAllActivityContainer } from '../../hooks';
 import TransactionTableContainer from '../transaction-table-container';
 
 const AllActivityContainer = () => {
-  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange } = useAllActivityContainer();
+  const { isLoading, isFetching, tableData, onPaginationChange, onSortingChange, onRowClick } = useAllActivityContainer();
 
   return (
     <TransactionTableContainer
@@ -11,6 +11,7 @@ const AllActivityContainer = () => {
       isFetching={isFetching}
       onPaginationChange={onPaginationChange}
       onSortingChange={onSortingChange}
+      onRowClick={onRowClick}
     />
   );
 };

@@ -1,9 +1,9 @@
 import DateRangePicker from '@/components/ui/date-range-picker';
+import { DebouncedInput } from '@/components/ui/debounced-input';
 import MultiSelectPicker from '@/components/ui/multi-select-picker';
-import { HStack, Show } from '@/components/utilities';
+import { HStack } from '@/components/utilities';
 import { addDays } from 'date-fns';
 import { useTableFilterContainer } from '../../hooks';
-import { DebouncedInput } from '@/components/ui/debounced-input';
 
 const TableFilterContainer = () => {
   const {
@@ -11,13 +11,16 @@ const TableFilterContainer = () => {
     options,
     searchValue,
     selectedStatuses,
-    selectedTab,
-    selectedTypes,
     selectedDateRange,
+    selectedChains,
+    selectedCryptos,
+    selectedNetworks,
     onSearchValueChange,
     onStatusValueChange,
-    onTypeValueChange,
     onDateRangeChange,
+    onChainValueChange,
+    onCryptoValueChange,
+    onNetworkValueChange,
   } = useTableFilterContainer();
 
   return (
@@ -33,7 +36,7 @@ const TableFilterContainer = () => {
         />
 
         <MultiSelectPicker
-          title={t('labels.status')}
+          title={t('filters.status.label')}
           options={options.status}
           multiple
           value={selectedStatuses}
@@ -42,17 +45,35 @@ const TableFilterContainer = () => {
           }}
         />
 
-        <Show when={selectedTab === 'all'}>
-          <MultiSelectPicker
-            title={t('labels.type')}
-            options={options.type}
-            multiple
-            value={selectedTypes}
-            onChange={(value) => {
-              onTypeValueChange(value ?? []);
-            }}
-          />
-        </Show>
+        <MultiSelectPicker
+          title={t('filters.chain.label')}
+          options={options.chain}
+          value={selectedChains}
+          multiple={false}
+          onChange={(value) => {
+            onChainValueChange(value);
+          }}
+        />
+
+        <MultiSelectPicker
+          title={t('filters.crypto.label')}
+          options={options.crypto}
+          value={selectedCryptos}
+          multiple={false}
+          onChange={(value) => {
+            onCryptoValueChange(value);
+          }}
+        />
+
+        <MultiSelectPicker
+          title={t('filters.network.label')}
+          options={options.network}
+          value={selectedNetworks}
+          multiple={false}
+          onChange={(value) => {
+            onNetworkValueChange(value);
+          }}
+        />
 
         <DateRangePicker
           placeholder={t('placeholder.dateRange')}

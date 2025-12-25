@@ -130,7 +130,8 @@
     "messages": {
       "you-do-not-have-access-to-this-page": "You do not have access to this page.",
       "copied-to-clipboard": "Copied to clipboard",
-      "error-loading-component": "Oops! Something went wrong."
+      "error-loading-component": "Oops! The data you’re looking for doesn’t exist or may have been removed..",
+      "error-title-loading-component": "Data is not found"
     }
   },
   "messages": {
@@ -192,7 +193,9 @@
     "previous": "Previous",
     "max": "Max",
     "signout": "Sign Out",
-    "profile": "Profile"
+    "profile": "Profile",
+    "go-back": "Go Back",
+    "reload": "Reload"
   },
   "layouts": {
     "auth": {
@@ -276,6 +279,10 @@
     "USDC-BRC20": "USDC-BRC20",
     "USDT-ERC20": "USDT-ERC20",
     "USDC-ERC20": "USDC-ERC20"
+  },
+  "networks": {
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "not-found": {
     "title": "Page Not Found",

@@ -1,28 +1,30 @@
-import type { IPaginatedResponseType } from '@/types';
+import type { BaseResponseType, IPaginatedResponseType } from '@/types';
 
 export type TransactionType = 'PAYMENT' | 'PAYOUT';
 export type TransactionStatus = 'pending' | 'confirming' | 'confirmed' | 'failed';
 export type TransactionRelatedType = 'ORDER' | 'WITHDRAWAL';
 
 export interface ITransaction {
-  id: number;
-  type: TransactionType;
-  relatedType: TransactionRelatedType;
-  relatedId: number;
-  status: TransactionStatus;
-  chainId: string;
-  txHash: string;
-  chain: string;
-  smartContract: string;
-  blockNumber: number;
-  confirmations: number;
-  blockTimestamp: string;
-  amount: number;
-  crypto: string;
-  fromAddress: string;
-  toAddress: string;
-  firstSeenAt: string;
-  confirmedAt: string;
+  amount: string
+  blockNumber: number
+  blockTimestamp: string
+  chain: string
+  confirmations: number
+  confirmedAt: string
+  createdAt: string
+  crypto: string
+  firstSeenAt: string
+  fromAddress: string
+  id: number
+  network: string
+  relatedId: number
+  relatedType: string
+  smartContract: string
+  status: string
+  toAddress: string
+  txHash: string
+  type: string
+  updatedAt: string
   rawData: Record<string, unknown>;
 }
 
@@ -34,8 +36,16 @@ export interface GetTransactionListParams {
   search?: string;
   type?: string[];
   status?: string[];
-  dateFrom?: string;
-  dateTo?: string;
+  fromDate?: string;
+  toDate?: string;
+  chain?: string[];
+  crypto?: string[];
+  network?: string[];
+}
+
+export interface GetTransactionDetailParams {
+  id: string;
 }
 
 export interface GetTransactionListResponse extends IPaginatedResponseType<ITransaction[]> {}
+export interface GetTransactionDetailResponse extends BaseResponseType<ITransaction> {}

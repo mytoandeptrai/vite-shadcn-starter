@@ -1,0 +1,44 @@
+{
+  "title": "Transaction - {{transactionId}}",
+  "description": "View the details of a transaction",
+  "labels": {
+    "type": "Type",
+    "status": "Status",
+    "chain": "Chain",
+    "chainId": "Chain ID",
+    "txHash": "Transaction Hash",
+    "smartContract": "Smart Contract",
+    "blockNumber": "Block Number",
+    "confirmations": "Confirmations",
+    "amount": "Amount",
+    "crypto": "Crypto",
+    "fromAddress": "From Address",
+    "toAddress": "To Address",
+    "blockTimestamp": "Block Timestamp",
+    "firstSeenAt": "First Seen At",
+    "date": "Confirmed At",
+    "transaction-overview": "Transaction Overview",
+    "blockchain-information": "Blockchain Information",
+    "raw-data": "Raw Data",
+    "timeline": "Timeline",
+    "related": "Related",
+    "first-seen": "First Seen At",
+    "confirmed": "Confirmed At",
+    "failed": "Failed At",
+    "network": "Network",
+    "created-at": "Created At",
+    "updated-at": "Updated At"
+  },
+  "types": {
+    "all": "All",
+    "PAYMENT": "Payment",
+    "PAYOUT": "Payout"
+  },
+  "status": {
+    "all": "All",
+    "pending": "Pending",
+    "confirming": "Confirming",
+    "confirmed": "Confirmed",
+    "failed": "Failed"
+  }
+}

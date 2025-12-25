@@ -317,3 +317,13 @@ export const CRYPTO_OPTIONS = (t: TFunction): Option<string>[] => [
   { label: t('tokens.USDT', { ns: 'common' }), value: 'USDT' },
   { label: t('tokens.USDC', { ns: 'common' }), value: 'USDC' },
 ];
+
+export const NETWORK_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('networks.testnet', { ns: 'common' }), value: 'testnet' },
+  { label: t('networks.mainnet', { ns: 'common' }), value: 'mainnet' },
+];
+
+export const filterBooleanArray = <T>(arr?: T[]): T[] => {
+  if (!arr || !Array.isArray(arr) || arr?.length === 0) return [];
+  return arr.filter((el) => Boolean(el));
+};

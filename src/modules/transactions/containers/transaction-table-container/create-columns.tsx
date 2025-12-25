@@ -1,5 +1,6 @@
 import type { ITransaction } from '@/apis/transactions';
 import { Badge } from '@/components/ui/badge';
+import CopyButton from '@/components/ui/copy-button';
 import { DataTableColumnHeader } from '@/components/ui/data-table';
 import TruncateParagraph from '@/components/ui/truncate-paragraph';
 import { capitalizeFirstLetter, formatAddress, formatDate, formatNaturalNumber } from '@/utils';
@@ -10,17 +11,17 @@ interface TransactionColumnsProps {
   t: TFunction;
 }
 
-const getTypeDisplay = (type: string, t: TFunction): string => {
+export const getTypeDisplay = (type: string, t: TFunction): string => {
   if (type === 'PAYMENT') return t('types.PAYMENT');
   if (type === 'PAYOUT') return t('types.PAYOUT');
   return capitalizeFirstLetter(type);
 };
 
-const getStatusText = (status: string, t: TFunction): string => {
+export const getStatusText = (status: string, t: TFunction): string => {
   return t(`status.${status}`);
 };
 
-const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' => {
+export const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' => {
   if (status === 'confirmed') return 'default';
   if (status === 'pending' || status === 'confirming') return 'secondary';
   return 'destructive';
@@ -43,6 +44,7 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const _row = row.original;
       return <div className='font-medium'>{getTypeDisplay(_row.type, t)}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'relatedType',
@@ -50,14 +52,6 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     cell: ({ row }) => {
       const _row = row.original;
       return <div className='font-medium'>{_row.relatedType}</div>;
-    },
-  },
-  {
-    accessorKey: 'relatedId',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.relatedId')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.relatedId}</div>;
     },
     enableSorting: false,
   },
@@ -67,12 +61,9 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status;
-      return (
-        <Badge variant={getStatusVariant(status)}>
-          {getStatusText(status, t)}
-        </Badge>
-      );
+      return <Badge variant={getStatusVariant(status)}>{getStatusText(status, t)}</Badge>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'chain',
@@ -81,56 +72,31 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
       const _row = row.original;
       return <div className='font-medium'>{_row.chain}</div>;
     },
-  },
-  {
-    accessorKey: 'chainId',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.chainId')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.chainId}</div>;
-    },
-  },
-  {
-    accessorKey: 'txHash',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.txHash')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />;
-    },
     enableSorting: false,
   },
   {
-    accessorKey: 'smartContract',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.smartContract')} />,
+    accessorKey: 'network',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.network')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.smartContract)} fullContent={_row.smartContract} />;
+      return <div className='font-medium'>{_row.network}</div>;
     },
     enableSorting: false,
-  },
-  {
-    accessorKey: 'blockNumber',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.blockNumber')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{formatNaturalNumber(_row.blockNumber)}</div>;
-    },
-  },
-  {
-    accessorKey: 'confirmations',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.confirmations')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{_row.confirmations}</div>;
-    },
   },
   {
     accessorKey: 'amount',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.amount')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const amount = formatNaturalNumber(_row.amount, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      return <div className='font-medium'>{amount} {_row.crypto}</div>;
+      const amount = formatNaturalNumber(Number(_row.amount ?? 0), {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return (
+        <div className='font-medium'>
+          {amount} {_row.crypto}
+        </div>
+      );
     },
   },
   {
@@ -143,11 +109,33 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     enableSorting: false,
   },
   {
-    accessorKey: 'fromAddress',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.fromAddress')} />,
+    accessorKey: 'blockNumber',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.blockNumber')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.fromAddress)} fullContent={_row.fromAddress} />;
+      return <div className='font-medium'>{formatNaturalNumber(_row.blockNumber)}</div>;
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'confirmations',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.confirmations')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{_row.confirmations}</div>;
+    },
+  },
+  {
+    accessorKey: 'txHash',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.txHash')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(_row.txHash)} fullContent={_row.txHash} />
+          <CopyButton value={_row.txHash} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
     enableSorting: false,
   },
@@ -156,7 +144,12 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.toAddress')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      return <TruncateParagraph truncatedContent={formatAddress(_row.toAddress)} fullContent={_row.toAddress} />;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(_row.toAddress)} fullContent={_row.toAddress} />
+          <CopyButton value={_row.toAddress} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
     enableSorting: false,
   },
@@ -170,20 +163,21 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     enableSorting: false,
   },
   {
-    accessorKey: 'firstSeenAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.firstSeenAt')} />,
-    cell: ({ row }) => {
-      const _row = row.original;
-      return <div className='font-medium'>{formatDate(_row.firstSeenAt)}</div>;
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: 'confirmedAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.date')} />,
     cell: ({ row }) => {
       const _row = row.original;
       return <div className='font-medium'>{formatDate(_row.confirmedAt)}</div>;
     },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'updatedAt',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.updatedAt')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{formatDate(_row.updatedAt)}</div>;
+    },
+    enableSorting: false,
   },
 ];

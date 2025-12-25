@@ -38,6 +38,7 @@ i18n
       'wallet-address-page',
       'transactions-page',
       'merchant-detail-page',
+      'transaction-detail-page',
     ],
 
     /** Detection settings */

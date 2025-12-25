@@ -116,7 +116,8 @@
     "messages": {
       "you-do-not-have-access-to-this-page": "Bạn không có quyền truy cập trang này.",
       "copied-to-clipboard": "Đã sao chép vào clipboard",
-      "error-loading-component": "Oops! Something went wrong."
+      "error-loading-component": "Oops! Dữ liệu bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.",
+      "error-title-loading-component": "Dữ liệu không tồn tại"
     }
   },
   "messages": {
@@ -173,7 +174,12 @@
     "view-details": "Xem chi tiết",
     "update": "Cập nhật",
     "next": "Tiếp theo",
-    "previous": "Trước đó"
+    "previous": "Trước đó",
+    "max": "Max",
+    "signout": "Đăng xuất",
+    "profile": "Hồ sơ",
+    "go-back": "Quay lại",
+    "reload": "Tải lại trang"
   },
   "layouts": {
     "auth": {
@@ -250,6 +256,10 @@
     "USDC-BRC20": "USDC-BRC20",
     "USDT-ERC20": "USDT-ERC20",
     "USDC-ERC20": "USDC-ERC20"
+  },
+  "networks": {
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
   },
   "not-found": {
     "title": "Không Tìm Thấy Trang",
