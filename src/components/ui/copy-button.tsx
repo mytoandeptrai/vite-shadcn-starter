@@ -17,7 +17,8 @@ const CopyButton = ({ value, className, isShowToast = true, toastMessage, iconCl
   const { t } = useTranslation();
   const [copied, copy] = useCopy();
 
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (copied) return;
     copy(value);
 
