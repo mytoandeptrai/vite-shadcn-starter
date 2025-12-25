@@ -1,7 +1,8 @@
-import { useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-address';
+import { KEYS, useGetWalletAddressList, type IWalletAddress } from '@/apis/wallet-address';
 import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
+import { getContext } from '@/integrations/tanstack-query/root-provider';
 import { Route } from '@/routes/(private)/wallet-address';
 import { filterBooleanArray } from '@/utils';
 import type { SortingState } from '@tanstack/react-table';
@@ -12,6 +13,7 @@ export const useWalletAddressContainer = () => {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
   const { onRefetch: onRefetchUser } = useAuthContext();
+  const { queryClient } = getContext();
 
   const [editingWalletAddress, setEditingWalletAddress] = useState<IWalletAddress | undefined>(undefined);
   const [actionType, setActionType] = useState<null | 'create' | 'update' | 'delete' | 'activate' | 'deactivate'>(null);
@@ -82,10 +84,11 @@ export const useWalletAddressContainer = () => {
   };
 
   const onRefetch = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: [KEYS.WALLET_ADDRESS] });
     onClose();
     refetch();
     onRefetchUser();
-  }, [refetch, onClose, onRefetchUser]);
+  }, [refetch, onClose, onRefetchUser, queryClient.invalidateQueries]);
 
   const tableData = useMemo(() => {
     return {

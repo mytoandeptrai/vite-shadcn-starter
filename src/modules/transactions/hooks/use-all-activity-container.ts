@@ -54,7 +54,7 @@ export const useAllActivityContainer = () => {
         search: {
           ...search,
           orderBy: 'desc',
-          sortBy: 'confirmedAt',
+          sortBy: 'updatedAt',
         },
         replace: true,
       });

@@ -60,7 +60,7 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.status')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const status = _row.status;
+      const status = _row.status.toLocaleLowerCase();
       return <Badge variant={getStatusVariant(status)}>{getStatusText(status, t)}</Badge>;
     },
     enableSorting: false,

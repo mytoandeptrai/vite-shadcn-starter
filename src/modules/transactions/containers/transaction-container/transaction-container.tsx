@@ -20,7 +20,7 @@ const TransactionContainer = () => {
         tab: value as 'payments' | 'payouts' | 'all',
         page: 1,
         pageSize: PAGE_SIZE_OPTIONS[0],
-        sortBy: 'confirmedAt',
+        sortBy: 'updatedAt',
         orderBy: 'desc',
         search: undefined,
         status: undefined,

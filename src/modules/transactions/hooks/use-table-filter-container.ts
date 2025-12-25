@@ -7,10 +7,10 @@ import { useMemo } from 'react';
 import type { DateRange } from 'react-day-picker';
 
 const STATUS_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('status.pending'), value: 'pending' },
-  { label: t('status.confirming'), value: 'confirming' },
-  { label: t('status.confirmed'), value: 'confirmed' },
-  { label: t('status.failed'), value: 'failed' },
+  { label: t('status.pending'), value: 'PENDING' },
+  { label: t('status.confirming'), value: 'CONFIRMING' },
+  { label: t('status.confirmed'), value: 'CONFIRMED' },
+  { label: t('status.failed'), value: 'FAILED' },
 ];
 
 const TYPE_OPTIONS = (t: TFunction): Option<string>[] => [

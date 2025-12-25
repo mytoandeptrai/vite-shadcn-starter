@@ -31,7 +31,7 @@ const TransactionDetailOverviewUi = ({ transaction }: TransactionDetailOverviewU
           <div>
             <p className='font-medium text-sm'>{t('labels.status')}</p>
             <div className='mt-2'>
-              <Badge variant={getStatusVariant(transaction?.status!)}>{getStatusText(transaction?.status!, t)}</Badge>
+              <Badge variant={getStatusVariant(transaction?.status?.toLocaleLowerCase() ?? '')}>{getStatusText(transaction?.status?.toLocaleLowerCase() ?? '', t)}</Badge>
             </div>
           </div>
           <div>

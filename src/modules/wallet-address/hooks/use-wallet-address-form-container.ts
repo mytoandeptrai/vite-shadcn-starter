@@ -9,8 +9,8 @@ import { CHAIN_OPTIONS, CRYPTO_OPTIONS } from '@/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
 import { toast } from 'sonner';
+import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
 
 type Props = {
   open: boolean;

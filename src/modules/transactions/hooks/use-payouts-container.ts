@@ -54,7 +54,7 @@ export const usePayoutsContainer = () => {
         search: {
           ...search,
           orderBy: 'desc',
-          sortBy: 'confirmedAt',
+          sortBy: 'updatedAt',
         },
         replace: true,
       });
