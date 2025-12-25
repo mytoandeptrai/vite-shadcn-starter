@@ -9,13 +9,13 @@ type DashboardBalanceTabsUiProps = {
 
 const DashboardBalanceTabsUi = ({ selectedCrypto, cryptoOptions, onSelectCrypto }: DashboardBalanceTabsUiProps) => {
   return (
-    <div className='my-6 flex gap-2 border-muted border-b'>
+    <div className='scrollbar-hide my-6 flex snap-x snap-mandatory scroll-px-4 flex-nowrap gap-2 overflow-x-auto border-muted border-b md:snap-none md:overflow-x-visible'>
       {cryptoOptions.map((crypto) => (
         <button
           key={crypto.value}
           type='button'
           onClick={() => onSelectCrypto(crypto.value)}
-          className={cn('border-transparent border-b-2 px-4 py-2 font-medium text-sm transition-colors', {
+          className={cn('shrink-0 snap-start border-transparent border-b-2 px-4 py-2 font-medium text-sm transition-colors', {
             'border-primary border-b-2 text-primary': selectedCrypto === crypto.value,
             'text-muted-foreground hover:text-foreground': selectedCrypto !== crypto.value,
           })}

@@ -14,9 +14,9 @@ export default function AppHeader() {
   return (
     <header
       className={cn(
-        'fixed top-0 z-10 flex h-16 w-[calc(100vw-var(--sidebar-width))] shrink-0 items-center justify-between gap-2 bg-background',
+        'fixed top-0 z-10 flex h-16 w-[calc(100dvw-var(--sidebar-width))] shrink-0 items-center justify-between gap-2 bg-background',
         {
-          'w-[calc(100vw-var(--sidebar-width-icon))]': !open,
+          'w-[calc(100dvw-var(--sidebar-width-icon))]': !open,
           'w-full': isMobile,
         }
       )}
