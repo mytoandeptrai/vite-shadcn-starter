@@ -7,7 +7,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import qs from 'qs';
-import { env } from '@/constant';
+import { env, ROUTES } from '@/constant';
 
 import type { BaseResponseType, TOptional } from '@/types';
 import { toast } from 'sonner';
@@ -150,8 +150,6 @@ class HttpInstance {
       return toast.error(i18n.t(errorMessageKey));
     });
 
-    return Promise.reject(data);
-
     /** Handle 401 refresh later */
     if (data.code !== 401) {
       return Promise.reject(data);
@@ -196,9 +194,8 @@ class HttpInstance {
       );
 
       const result: TRefreshToKenResponse = response.data;
-
-      localStorage.setItem(ECookie.ACCESS_TOKEN, result.token!);
-      localStorage.setItem(ECookie.REFRESH_TOKEN, result.refreshToken!);
+      useSessionStore.getState().setAccessToken(result.token!);
+      useSessionStore.getState().setRefreshToken(result.refreshToken!);
 
       this.failedRequests.forEach(({ resolve, reject, config }) => {
         this.instance(config)
@@ -208,7 +205,7 @@ class HttpInstance {
     } catch (error: unknown) {
       this.failedRequests.forEach(({ reject, error: errorFailedRequest }) => reject(errorFailedRequest));
       this.removeTokenCookie();
-      window.location.href = '/sign-in';
+      window.location.href = ROUTES.LOGIN;
 
       return Promise.reject(error);
     } finally {
@@ -231,8 +228,7 @@ class HttpInstance {
   }
 
   private removeTokenCookie() {
-    localStorage.removeItem(ECookie.ACCESS_TOKEN);
-    localStorage.removeItem(ECookie.REFRESH_TOKEN);
+    useSessionStore.getState().reset();
   }
 
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
