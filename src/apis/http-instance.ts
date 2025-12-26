@@ -27,7 +27,7 @@ type NonNullableObject<T> = {
 };
 
 type TRefreshToKenResponse = {
-  token?: string;
+  accessToken?: string;
   refreshToken?: string;
   tokenExpires?: number;
 };
@@ -157,7 +157,7 @@ class HttpInstance {
 
     try {
       const refreshToken = useSessionStore.getState().refreshToken;
-      const urlEndpoint = `${this.baseURL}/auth/refresh`;
+      const urlEndpoint = `${this.baseURL}/merchants/refresh-token`;
 
       const response = await axios.post(
         urlEndpoint,
@@ -172,7 +172,7 @@ class HttpInstance {
       );
 
       const result: TRefreshToKenResponse = response.data;
-      useSessionStore.getState().setAccessToken(result.token!);
+      useSessionStore.getState().setAccessToken(result.accessToken!);
       useSessionStore.getState().setRefreshToken(result.refreshToken!);
 
       this.failedRequests.forEach(({ resolve, reject, config }) => {
