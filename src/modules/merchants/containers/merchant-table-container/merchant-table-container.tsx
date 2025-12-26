@@ -8,7 +8,7 @@ import type { ActionType } from '../../hooks';
 import type { IMerchant } from '@/apis/marketplace';
 
 export type MerchantTableContainerProps = {
-  onPaginationChange: (page: number, pageSize: number) => void;
+  onPaginationChange?: (page: number, pageSize: number, action: 'pagination' | 'limiting') => void;
   onSortingChange: (updatedSorting: SortingState) => void;
   onAction: (merchant: IMerchant, actionType: ActionType) => void;
   isLoading: boolean;

@@ -58,7 +58,7 @@ interface DataTableProps<TData, TValue> {
   onSearchValueChange?: (value: string) => void;
   onSortingChange?: (sorting: SortingState) => void;
   onFilterChange?: (filters: ColumnFiltersState) => void;
-  onPaginationChange?: (page: number, pageSize: number) => void;
+  onPaginationChange?: (page: number, pageSize: number, action: 'pagination' | 'limiting') => void;
   onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: TData) => void;
 }
 

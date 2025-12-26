@@ -7,7 +7,7 @@ import { createColumns } from './create-columns';
 import TableFilterContainer from '../table-filter-container';
 
 export type WalletAddressTableContainerProps = {
-  onPaginationChange: (page: number, pageSize: number) => void;
+  onPaginationChange?: (page: number, pageSize: number, action: 'pagination' | 'limiting') => void;
   onSortingChange: (updatedSorting: SortingState) => void;
   onAction: (
     walletAddress: IWalletAddress,

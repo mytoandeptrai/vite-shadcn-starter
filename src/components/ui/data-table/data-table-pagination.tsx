@@ -6,7 +6,7 @@ import { PAGE_SIZE_OPTIONS } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 
 interface DataTablePaginationProps {
-  onPaginationChange?: (page: number, pageSize: number) => void;
+  onPaginationChange?: (page: number, pageSize: number, action: 'pagination' | 'limiting') => void;
   pagination?: {
     pageIndex: number;
     pageSize: number;
@@ -25,7 +25,7 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
         <Select
           value={pagination?.pageSize.toString() ?? PAGE_SIZE_OPTIONS[0].toString()}
           onValueChange={(value) => {
-            onPaginationChange?.(pagination?.pageIndex ?? 0, Number(value));
+            onPaginationChange?.(pagination?.pageIndex ?? 0, Number(value), 'limiting');
           }}
         >
           <SelectTrigger className='h-8 w-[70px]'>
@@ -52,8 +52,8 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             variant='outline'
             size='icon'
             className='hidden size-8 lg:flex'
-            onClick={() => onPaginationChange?.(0, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0])}
-            disabled={pagination?.pageIndex === 1}
+            onClick={() => onPaginationChange?.(1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')}
+            disabled={!pagination?.hasPrev}
           >
             <span className='sr-only'>{t('data-table.pagination.go-to-first-page')}</span>
             <ChevronsLeft className='h-4 w-4' />
@@ -63,9 +63,9 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='size-8'
             onClick={() =>
-              onPaginationChange?.(pagination?.pageIndex ?? 0 - 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0])
+              onPaginationChange?.((pagination?.pageIndex ?? 0) - 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
             }
-            disabled={pagination?.pageIndex === 1}
+            disabled={!pagination?.hasPrev}
           >
             <span className='sr-only'>{t('data-table.pagination.go-to-previous-page')}</span>
             <ChevronLeft className='h-4 w-4' />
@@ -75,9 +75,9 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='size-8'
             onClick={() =>
-              onPaginationChange?.(pagination?.pageIndex ?? 0 + 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0])
+              onPaginationChange?.((pagination?.pageIndex ?? 0) + 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
             }
-            disabled={pagination?.pageIndex === (pagination?.pageCount ?? 0) - 1}
+            disabled={!pagination?.hasNext}
           >
             <span className='sr-only'>{t('data-table.pagination.go-to-next-page')}</span>
             <ChevronRight className='h-4 w-4' />
@@ -87,9 +87,9 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='hidden size-8 lg:flex'
             onClick={() =>
-              onPaginationChange?.(pagination?.pageCount ?? 0 - 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0])
+              onPaginationChange?.((pagination?.pageCount ?? 0), pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
             }
-            disabled={pagination?.pageIndex === (pagination?.pageCount ?? 0) - 1}
+            disabled={!pagination?.hasNext}
           >
             <span className='sr-only'>{t('data-table.pagination.go-to-last-page')}</span>
             <ChevronsRight className='h-4 w-4' />

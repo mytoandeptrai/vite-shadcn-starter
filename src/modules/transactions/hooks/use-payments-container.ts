@@ -28,11 +28,11 @@ export const usePaymentsContainer = () => {
 
   const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);
 
-  const onPaginationChange = (page: number, pageSize: number) => {
+  const onPaginationChange = (page: number, pageSize: number, action: 'pagination' | 'limiting') => {
     navigate({
       search: {
         ...search,
-        page: page,
+        page: action === 'pagination' ? page : 1,
         pageSize: pageSize,
       },
       replace: true,

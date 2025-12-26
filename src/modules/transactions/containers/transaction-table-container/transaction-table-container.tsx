@@ -7,7 +7,7 @@ import TableFilterContainer from '../table-filter-container';
 import { createColumns } from './create-columns';
 
 export type TransactionTableContainerProps = {
-  onPaginationChange: (page: number, pageSize: number) => void;
+  onPaginationChange?: (page: number, pageSize: number, action: 'pagination' | 'limiting') => void;
   onSortingChange: (updatedSorting: SortingState) => void;
   onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: ITransaction) => void;
   isLoading: boolean;
