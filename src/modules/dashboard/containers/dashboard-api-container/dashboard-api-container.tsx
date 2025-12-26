@@ -3,7 +3,7 @@ import DashboardHeaderUi from '../../components/dashboard-header-ui';
 import { useDashboardApiContainer } from '../../hooks';
 
 const DashboardApiContainer = () => {
-  const { onSelect, options, selectedValue, t, chartData } = useDashboardApiContainer();
+  const { onSelect, options, selectedValue, t, chartData, isLoading } = useDashboardApiContainer();
   return (
     <div className='rounded-md border border-border bg-card p-6'>
       <DashboardHeaderUi
@@ -13,7 +13,7 @@ const DashboardApiContainer = () => {
         options={options}
         onSelect={onSelect}
       />
-      <DashboardApiChartUi data={chartData} />
+      <DashboardApiChartUi data={chartData} isLoading={isLoading} />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import DashboardSummaryChartUi from '../../components/dashboard-summary-chart-ui
 import { useDashboardSummaryContainer } from '../../hooks';
 
 const DashboardSummaryContainers = () => {
-  const { onSelect, options, selectedValue, t, chartData } = useDashboardSummaryContainer();
+  const { onSelect, options, selectedValue, t, chartData, isLoading } = useDashboardSummaryContainer();
   return (
     <div className='rounded-md border border-border bg-card p-6'>
       <DashboardHeaderUi
@@ -13,7 +13,7 @@ const DashboardSummaryContainers = () => {
         options={options}
         onSelect={onSelect}
       />
-      <DashboardSummaryChartUi data={chartData} />
+      <DashboardSummaryChartUi data={chartData} isLoading={isLoading} />
     </div>
   );
 };

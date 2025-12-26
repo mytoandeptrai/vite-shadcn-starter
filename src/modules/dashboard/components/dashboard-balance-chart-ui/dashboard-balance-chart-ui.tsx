@@ -1,16 +1,14 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 import { useTranslation } from '@/integrations/i18n';
+import type { ChartDaum2 } from '@/apis/dashboard';
+import { formatNaturalNumber } from '@/utils';
+import { memo } from 'react';
 
 type DashboardBalanceChartUiProps = {
-  data: Array<
-    {
-      date: string;
-    } & {
-      [key: string]: number | string;
-    }
-  >;
+  data: ChartDaum2[];
   selectedCrypto: string;
+  isLoading: boolean;
 };
 
 const CRYPTO_ASSETS: Record<string, string> = {
@@ -20,12 +18,12 @@ const CRYPTO_ASSETS: Record<string, string> = {
   'usdc-brc20': '#1565C0',
 };
 
-const DashboardBalanceChartUi = ({ data, selectedCrypto }: DashboardBalanceChartUiProps) => {
+const DashboardBalanceChartUi = ({ isLoading, data, selectedCrypto }: DashboardBalanceChartUiProps) => {
   const { t } = useTranslation('dashboard-page');
   return (
     <>
       <ResponsiveContainer width='100%' height={350}>
-        <AreaChart data={data}>
+        <AreaChart data={isLoading ? [] : data}>
           <CartesianGrid strokeDasharray='3 3' className='stroke-muted' />
           <XAxis dataKey='date' className='text-xs' />
           <YAxis className='text-xs' />
@@ -34,14 +32,14 @@ const DashboardBalanceChartUi = ({ data, selectedCrypto }: DashboardBalanceChart
               <div className='rounded-md border border-border bg-card px-4 py-1'>
                 <p className='font-medium text-sm'>{label}</p>
                 <p className='text-sm' style={{ color: CRYPTO_ASSETS[selectedCrypto] }}>
-                  {t('balance-chart.value')}: {payload?.[0]?.value}
+                  {t('balance-chart.value')}: {formatNaturalNumber(Number(payload?.[0]?.value ?? 0))}
                 </p>
               </div>
             )}
           />
           <Area
             type='monotone'
-            dataKey={selectedCrypto}
+            dataKey='amount'
             stroke={CRYPTO_ASSETS[selectedCrypto]}
             fillOpacity={1}
             fill='url(#colorBalance)'
@@ -53,4 +51,4 @@ const DashboardBalanceChartUi = ({ data, selectedCrypto }: DashboardBalanceChart
   );
 };
 
-export default DashboardBalanceChartUi;
+export default memo(DashboardBalanceChartUi);

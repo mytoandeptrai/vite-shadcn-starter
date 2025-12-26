@@ -2,6 +2,7 @@ import type { ChartConfig } from '@/components/ui/chart';
 import { useTranslation } from '@/integrations/i18n';
 import { useCallback, useMemo, useState } from 'react';
 import { generateCryptoOptions, generateOptions } from './config';
+import { useGetDashboardBalance } from '@/apis/dashboard';
 
 const chartConfig = {
   balance: {
@@ -26,19 +27,45 @@ export const useDashboardBalanceContainer = () => {
     setSelectedCrypto(value);
   }, []);
 
-  const chartData = useMemo(
-    () =>
-      Array.from({ length: +selectedValue }, (_, i) => {
-        const date = new Date();
-        date.setDate(date.getDate() - (29 - i));
-        const baseAmount = Math.random() * 50000 + 10000;
-        return {
-          date: date.toISOString().split('T')[0],
-          [selectedCrypto]: Number.parseFloat((baseAmount + Math.sin(i / 5) * 5000).toFixed(2)),
-        };
-      }),
-    [selectedCrypto, selectedValue]
+  const { data, isLoading } = useGetDashboardBalance(
+    {
+      period: selectedValue,
+      crypto: selectedCrypto,
+    },
+    {
+      placeholderData: (prev) => prev,
+    }
   );
+
+  const chartData = useMemo(() => {
+    const rawData = data?.data?.chartData ?? [];
+
+    if (rawData.length === 0) {
+      return [];
+    }
+
+    const groupedMap = new Map<string, { date: string; amount: number }>();
+
+    rawData.forEach((item) => {
+      const dateOnly = new Date(item.date).toISOString().split('T')[0];
+      const existing = groupedMap.get(dateOnly);
+
+      if (existing) {
+        existing.amount += item.amount ?? 0;
+      } else {
+        groupedMap.set(dateOnly, {
+          date: dateOnly,
+          amount: item.amount ?? 0,
+        });
+      }
+    });
+
+    const groupedArray = Array.from(groupedMap.values()).sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
+
+    return groupedArray;
+  }, [data?.data?.chartData]);
 
   return {
     t,
@@ -47,6 +74,7 @@ export const useDashboardBalanceContainer = () => {
     selectedValue,
     selectedCrypto,
     chartData,
+    isLoading,
     chartConfig,
     onSelect,
     onSelectCrypto,

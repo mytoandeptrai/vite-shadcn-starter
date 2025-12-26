@@ -2,6 +2,7 @@ import type { ChartConfig } from '@/components/ui/chart';
 import { useTranslation } from '@/integrations/i18n';
 import { useCallback, useMemo, useState } from 'react';
 import { generateOptions } from './config';
+import { useGetDashboardApiUsage } from '@/apis/dashboard';
 
 const chartConfig = {
   desktop: {
@@ -24,19 +25,49 @@ export const useDashboardApiContainer = () => {
     setSelectedValue(value);
   }, []);
 
+  const { data, isLoading } = useGetDashboardApiUsage(
+    {
+      period: selectedValue,
+    },
+    {
+      placeholderData: (prev) => prev,
+    }
+  );
+
   const chartData = useMemo(() => {
-    return Array.from({ length: +selectedValue }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (29 - i));
-      const totalCalls = Math.floor(Math.random() * 1000) + 500;
-      const successCalls = Math.floor(totalCalls * (0.92 + Math.random() * 0.08));
-      return {
-        date: date.toISOString().split('T')[0],
-        success: successCalls,
-        failure: totalCalls - successCalls,
-      };
+    const rawData = data?.data?.chartData ?? [];
+    
+    if (rawData.length === 0) {
+      return [];
+    }
+
+    const groupedMap = new Map<string, { date: string; success: number; failure: number }>();
+
+    rawData.forEach((item) => {
+      // Extract date only from date-time string (YYYY-MM-DD)
+      const dateOnly = new Date(item.date).toISOString().split('T')[0];
+      const existing = groupedMap.get(dateOnly);
+
+      if (existing) {
+        // Sum success and failure for the same date
+        existing.success += item.success ?? 0;
+        existing.failure += item.failure ?? 0;
+      } else {
+        groupedMap.set(dateOnly, {
+          date: dateOnly,
+          success: item.success ?? 0,
+          failure: item.failure ?? 0,
+        });
+      }
     });
-  }, [selectedValue]);
+
+    // Convert map to array and sort by date (ascending)
+    const groupedArray = Array.from(groupedMap.values()).sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    });
+
+    return groupedArray;
+  }, [data?.data?.chartData]);
 
   return {
     t,
@@ -44,6 +75,7 @@ export const useDashboardApiContainer = () => {
     selectedValue,
     chartData,
     chartConfig,
+    isLoading,
     onSelect,
   };
 };

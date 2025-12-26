@@ -4,7 +4,7 @@ import DashboardHeaderUi from '../../components/dashboard-header-ui/dashboard-he
 import { useDashboardBalanceContainer } from '../../hooks';
 
 const DashboardBalanceContainer = () => {
-  const { onSelect, onSelectCrypto, options, selectedValue, t, chartData, selectedCrypto, cryptoOptions } =
+  const { onSelect, onSelectCrypto, options, isLoading, selectedValue, t, chartData, selectedCrypto, cryptoOptions } =
     useDashboardBalanceContainer();
   return (
     <div className='rounded-md border border-border bg-card p-6'>
@@ -20,7 +20,7 @@ const DashboardBalanceContainer = () => {
         cryptoOptions={cryptoOptions}
         onSelectCrypto={onSelectCrypto}
       />
-      <DashboardBalanceChartUi data={chartData} selectedCrypto={selectedCrypto} />
+      <DashboardBalanceChartUi isLoading={isLoading} data={chartData} selectedCrypto={selectedCrypto} />
     </div>
   );
 };

@@ -1,9 +1,12 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
+import { Show } from '@/components/utilities';
 import { useTranslation } from '@/integrations/i18n';
 
 type DashboardStartInfoUiProps = {
+  isLoading: boolean;
   item: {
     value: string;
     label: string;
@@ -14,7 +17,7 @@ type DashboardStartInfoUiProps = {
   };
 };
 
-const DashboardStartInfoUi = ({ item }: DashboardStartInfoUiProps) => {
+const DashboardStartInfoUi = ({ isLoading, item }: DashboardStartInfoUiProps) => {
   const { t } = useTranslation('');
   return (
     <AccordionItem value={item.value}>
@@ -30,7 +33,10 @@ const DashboardStartInfoUi = ({ item }: DashboardStartInfoUiProps) => {
       <AccordionContent>
         <div className='flex items-center justify-between border-border border-t pt-4 pb-4'>
           <p className='text-muted-foreground text-sm'>{item.description}</p>
-          <Button className='w-fit' size='sm' type='button' onClick={item.onClick}>
+          <Button className='w-fit' size='sm' type='button' disabled={item.completed} onClick={item.onClick}>
+            <Show when={isLoading}> 
+              <Spinner />
+            </Show>
             {t('buttons.continue')}
           </Button>
         </div>
