@@ -37,7 +37,11 @@ export const useDashboardSummaryContainer = () => {
   const chartData = useMemo(() => {
     const rawData = data?.data?.chartData ?? [];
     if (rawData.length === 0) {
-      return [];
+      return {
+        data: [],
+        totalOrders: 0,
+        averageOrdersPerDay: 0,
+      };
     }
     const groupedMap = new Map<string, { date: string; orders: number }>();
 
@@ -59,8 +63,12 @@ export const useDashboardSummaryContainer = () => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
 
-    return groupedArray;
-  }, [data?.data?.chartData]);
+    return {
+      data: groupedArray,
+      totalOrders: data?.data?.totalOrders,
+      averageOrdersPerDay: data?.data?.averageOrdersPerDay,
+    };
+  }, [data?.data?.chartData, data?.data?.averageOrdersPerDay, data?.data?.totalOrders]);
 
   return {
     t,

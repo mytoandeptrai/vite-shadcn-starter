@@ -41,7 +41,11 @@ export const useDashboardBalanceContainer = () => {
     const rawData = data?.data?.chartData ?? [];
 
     if (rawData.length === 0) {
-      return [];
+      return {
+        chartData: [],
+        totalBalance: 0,
+        currency: '',
+      };
     }
 
     const groupedMap = new Map<string, { date: string; amount: number }>();
@@ -64,8 +68,12 @@ export const useDashboardBalanceContainer = () => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
 
-    return groupedArray;
-  }, [data?.data?.chartData]);
+    return {
+      chartData: groupedArray,
+      totalBalance: data?.data?.totalBalance,
+      currency: data?.data?.currency,
+    };
+  }, [data?.data?.chartData, data?.data?.currency, data?.data?.totalBalance]);
 
   return {
     t,

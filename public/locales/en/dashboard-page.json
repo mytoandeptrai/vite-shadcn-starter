@@ -4,6 +4,16 @@
     "buttons": {
         "continue": "Continue"
     },
+    "labels": {
+        "current-balance": "Current Balance",
+        "currency": "Currency",
+        "total-calls": "Total Calls",
+        "total-failure": "Total Failure",
+        "total-success": "Total Success",
+        "success-rate": "Success Rate",
+        "total-orders": "Total Orders",
+        "average-orders-per-day": "Average Orders per Day"
+    },
     "start-guide": {
         "title": "Get started with PWC Merchant",
         "description": "Complete these steps to start accepting payments",

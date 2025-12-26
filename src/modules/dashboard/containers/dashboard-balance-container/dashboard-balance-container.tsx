@@ -1,4 +1,5 @@
 import DashboardBalanceChartUi from '../../components/dashboard-balance-chart-ui';
+import DashboardBalanceInfoUi from '../../components/dashboard-balance-info-ui';
 import DashboardBalanceTabsUi from '../../components/dashboard-balance-tabs-ui';
 import DashboardHeaderUi from '../../components/dashboard-header-ui/dashboard-header-ui';
 import { useDashboardBalanceContainer } from '../../hooks';
@@ -20,7 +21,8 @@ const DashboardBalanceContainer = () => {
         cryptoOptions={cryptoOptions}
         onSelectCrypto={onSelectCrypto}
       />
-      <DashboardBalanceChartUi isLoading={isLoading} data={chartData} selectedCrypto={selectedCrypto} />
+      <DashboardBalanceChartUi isLoading={isLoading} data={chartData.chartData} selectedCrypto={selectedCrypto} />
+      <DashboardBalanceInfoUi totalBalance={chartData.totalBalance} currency={chartData.currency} />
     </div>
   );
 };

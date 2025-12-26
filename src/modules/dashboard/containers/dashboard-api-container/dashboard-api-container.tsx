@@ -1,6 +1,7 @@
 import DashboardApiChartUi from '../../components/dashboard-api-chart-ui';
 import DashboardHeaderUi from '../../components/dashboard-header-ui';
 import { useDashboardApiContainer } from '../../hooks';
+import DashboardApiInfoUi from '../../components/dashboard-api-info-ui';
 
 const DashboardApiContainer = () => {
   const { onSelect, options, selectedValue, t, chartData, isLoading } = useDashboardApiContainer();
@@ -13,7 +14,13 @@ const DashboardApiContainer = () => {
         options={options}
         onSelect={onSelect}
       />
-      <DashboardApiChartUi data={chartData} isLoading={isLoading} />
+      <DashboardApiChartUi data={chartData.data} isLoading={isLoading} />
+      <DashboardApiInfoUi
+        totalCalls={chartData.totalCalls}
+        totalFailure={chartData.totalFailure}
+        totalSuccess={chartData.totalSuccess}
+        successRate={chartData.successRate}
+      />
     </div>
   );
 };

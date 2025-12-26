@@ -38,7 +38,13 @@ export const useDashboardApiContainer = () => {
     const rawData = data?.data?.chartData ?? [];
     
     if (rawData.length === 0) {
-      return [];
+      return {
+        data: [],
+        totalCalls: 0,
+        totalFailure: 0,
+        totalSuccess: 0,
+        successRate: 0,
+      };
     }
 
     const groupedMap = new Map<string, { date: string; success: number; failure: number }>();
@@ -66,8 +72,14 @@ export const useDashboardApiContainer = () => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
 
-    return groupedArray;
-  }, [data?.data?.chartData]);
+    return {
+      data: groupedArray,
+      totalCalls: data?.data?.totalCalls,
+      totalFailure: data?.data?.totalFailure,
+      totalSuccess: data?.data?.totalSuccess,
+      successRate: data?.data?.successRate,
+    };
+  }, [data?.data?.chartData, data?.data?.successRate, data?.data?.totalCalls, data?.data?.totalFailure, data?.data?.totalSuccess]);
 
   return {
     t,

@@ -4,6 +4,16 @@
   "buttons": {
     "continue": "Tiếp tục"
   },
+  "labels": {
+    "current-balance": "Số dư hiện tại",
+    "currency": "Tiền tệ",
+    "total-calls": "Tổng số lượng cuộc gọi",
+    "total-failure": "Tổng số lượng thất bại",
+    "total-success": "Tổng số lượng thành công",
+    "success-rate": "Tỷ lệ thành công",
+    "total-orders": "Tổng số lượng đơn hàng",
+    "average-orders-per-day": "Số lượng đơn hàng trung bình trong ngày"
+  },
   "start-guide": {
     "title": "Bắt đầu sử dụng PWC Merchant",
     "description": "Hoàn thành các bước để bắt đầu nhận thanh toán",
@@ -42,18 +52,18 @@
     "placeholder": "Chọn khoảng thời gian",
     "label": "Khoảng thời gian",
     "usdt-erc20": "USDT-ERC20",
-        "usdc-erc20": "USDC-ERC20",
-        "usdt-brc20": "USDT-BRC20",
-        "usdc-brc20": "USDC-BRC20"
-    },
-    "summary-chart": {
-        "orders": "Đơn hàng"
-    },
-    "api-chart": {
-        "success": "Thành công",
-        "failure": "Thất bại"
-    },
-    "balance-chart": {
-        "value": "Giá trị"
+    "usdc-erc20": "USDC-ERC20",
+    "usdt-brc20": "USDT-BRC20",
+    "usdc-brc20": "USDC-BRC20"
+  },
+  "summary-chart": {
+    "orders": "Đơn hàng"
+  },
+  "api-chart": {
+    "success": "Thành công",
+    "failure": "Thất bại"
+  },
+  "balance-chart": {
+    "value": "Giá trị"
   }
 }
