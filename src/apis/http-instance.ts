@@ -1,3 +1,4 @@
+import { env, ROUTES } from '@/constant';
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -7,13 +8,12 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import qs from 'qs';
-import { env, ROUTES } from '@/constant';
 
-import type { BaseResponseType, TOptional } from '@/types';
-import { toast } from 'sonner';
 import { i18n } from '@/integrations/i18n';
-import { checkURLAndError } from './http-instance.helper';
 import { useSessionStore } from '@/stores/use-session-store';
+import type { BaseResponseType } from '@/types';
+import { toast } from 'sonner';
+import { checkURLAndError } from './http-instance.helper';
 
 type TFailedRequests = {
   resolve: (value: AxiosResponse) => void;
@@ -25,8 +25,6 @@ type TFailedRequests = {
 type NonNullableObject<T> = {
   [K in keyof T]: T[K] extends object ? NonNullableObject<T[K]> : NonNullable<T[K]>;
 };
-
-const MAXIMUM_RETRY_UN_AUTHENTICATION = 5;
 
 type TRefreshToKenResponse = {
   token?: string;
@@ -56,8 +54,6 @@ class HttpInstance {
   private isTokenRefreshing = false;
 
   private baseURL = '';
-
-  private readonly refreshTokenCount = new Map<TOptional<string>, number>();
 
   constructor(config?: CreateAxiosDefaults) {
     this.baseURL = env.API_URL;
@@ -125,22 +121,14 @@ class HttpInstance {
   };
 
   private readonly onResponse = (response: AxiosResponse) => {
-    const { url } = response.config;
-
-    const isExistedRefreshTokenCount = this.refreshTokenCount.has(url);
-
-    if (isExistedRefreshTokenCount) {
-      this.refreshTokenCount.set(url, 0);
-    }
-
     return response.data;
   };
 
   private readonly onResponseError = async (error: AxiosError) => {
     const originalRequest = error.config!;
-    const url = originalRequest?.url;
     const data = error.response?.data as unknown as ErrorResponse;
-    const errorCode = error?.message;
+    const errorCode = data?.message;
+    const isTokenExpired = data.code === 401 && data?.message === 'TOKEN_EXPIRED';
     const errorMessageKey = (() => {
       const msgKey = `errors.code.${errorCode}`;
       return !i18n.exists(msgKey) ? 'errors.common.general' : `errors.code.${errorCode}`;
@@ -150,8 +138,7 @@ class HttpInstance {
       return toast.error(i18n.t(errorMessageKey));
     });
 
-    /** Handle 401 refresh later */
-    if (data.code !== 401) {
+    if (!isTokenExpired) {
       return Promise.reject(data);
     }
 
@@ -166,15 +153,6 @@ class HttpInstance {
       });
     }
 
-    const existedRefreshTokenCount = this.refreshTokenCount.get(url) ?? 0;
-
-    if (existedRefreshTokenCount >= MAXIMUM_RETRY_UN_AUTHENTICATION) {
-      window.location.href = '/';
-
-      return Promise.reject(new Error('Maximum retry attempts exceeded. Redirecting to login.'));
-    }
-
-    this.refreshTokenCount.set(url, existedRefreshTokenCount + 1);
     this.isTokenRefreshing = true;
 
     try {
@@ -217,7 +195,7 @@ class HttpInstance {
       return this.instance(originalRequest);
     }
 
-    return Promise.reject(new Error('Original request is undefined.'));
+    return Promise.reject(data);
   };
 
   private setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
