@@ -1,11 +1,7 @@
 import { regexEmail } from '@/constant';
 import type { TFunction } from 'i18next';
 import z from 'zod';
-
-/** Validate Ethereum address format (0x followed by 40 hex characters) */
-const isValidEthereumAddress = (address: string): boolean => {
-  return /^0x[a-fA-F0-9]{40}$/.test(address);
-};
+import { isValidEthereumAddress } from '@/utils/common';
 
 const merchantCreateFormSchema = (t: TFunction) => {
   const walletAddressItemSchema = z

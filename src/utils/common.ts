@@ -3,6 +3,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
+import { isAddress } from 'ethers';
 import { toast } from 'sonner';
 import { v4 as uuid } from 'uuid';
 import { CURRENCY_CODE_MAPPING, EMedia, FILE_FORMAT, NUMBER_FORMAT_LOOK_UP } from '@/constant';
@@ -346,3 +347,8 @@ export function formatDuration(ms: number) {
 
   return parts.join(' ');
 }
+
+/** Validate Ethereum address format using ethers library */
+export const isValidEthereumAddress = (address: string): boolean => {
+  return isAddress(address);
+};
