@@ -327,3 +327,22 @@ export const filterBooleanArray = <T>(arr?: T[]): T[] => {
   if (!arr || !Array.isArray(arr) || arr?.length === 0) return [];
   return arr.filter((el) => Boolean(el));
 };
+
+export function formatDuration(ms: number) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const days = Math.floor(totalSeconds / 86400);
+  const seconds = totalSeconds % 60;
+
+  const parts: string[] = [];
+
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (seconds > 0) parts.push(`${seconds}s`);
+
+  if (parts.length === 0) return '0s';
+
+  return parts.join(' ');
+}

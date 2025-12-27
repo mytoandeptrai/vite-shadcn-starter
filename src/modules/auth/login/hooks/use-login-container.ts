@@ -47,35 +47,31 @@ export const useLoginContainer = () => {
 
   const onSubmit = async (payload: LoginFormData & { code?: string }) => {
     if (isLoading) return;
-    try {
-      const { data } = await useLogin.mutateAsync(payload);
 
-      if (!data) return;
+    const { data } = await useLogin.mutateAsync(payload);
+    if (!data) return;
 
-      if (!data?.requiresTwoFA) {
-        return await onSuccess(data);
-      }
-
-      onOpenTwoFAModal({
-        forceOpen: true,
-        skipInitVerification: true,
-        isLoading: useLogin.isPending,
-        closeOnSubmit: false,
-        cb: async (code) => {
-          const res = await verifyTwoFaMutation.mutateAsync({
-            email: payload.email,
-            password: payload.password,
-            code: code!,
-          });
-
-          if (res.data) {
-            await onSuccess(res.data);
-          }
-        },
-      });
-    } catch (error) {
-      console.error(error);
+    if (!data?.requiresTwoFA) {
+      return await onSuccess(data);
     }
+
+    onOpenTwoFAModal({
+      forceOpen: true,
+      skipInitVerification: true,
+      isLoading: useLogin.isPending,
+      closeOnSubmit: false,
+      cb: async (code) => {
+        const res = await verifyTwoFaMutation.mutateAsync({
+          email: payload.email,
+          password: payload.password,
+          code: code!,
+        });
+
+        if (res.data) {
+          await onSuccess(res.data);
+        }
+      },
+    });
   };
 
   return {

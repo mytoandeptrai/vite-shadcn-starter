@@ -103,7 +103,7 @@
       "KEY_NOT_FOUND": "Key not found.",
       "INVALID_WALLET": "Invalid wallet address.",
       "SECURITY_INPUT": "Security risk detected. Action not allowed.",
-      "TOO_MANY_REQUESTS": "Too many attempts. Please try again in {{retryAfter}}",
+      "TOO_MANY_REQUESTS": "Too many attempts. Please try again later.",
       "INVALID_RECAPTCHA": "Invalid recaptcha token.",
       "INTERNAL_SERVER_ERROR": "Something went wrong. Please try again.",
       "FILE_INVALID_SIZE": "The file size is invalid. Please try uploading a different one.",
@@ -149,7 +149,8 @@
     "require-add-wallet": "Add a wallet address to proceed this action.",
     "update-password-success": "Password updated successfully! Please login again to continue.",
     "no-results-found": "No results found.",
-    "clear-filters": "Clear filters"
+    "clear-filters": "Clear filters",
+    "link-expired-success": "Link has been created again. Please try again."
   },
   "labels": {
     "all": "All",

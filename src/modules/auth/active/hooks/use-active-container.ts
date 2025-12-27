@@ -1,8 +1,8 @@
 import { useVerify } from '@/apis/auth';
 import { ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
+import type { BaseResponseType } from '@/types';
 import { useNavigate } from '@tanstack/react-router';
-import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -26,18 +26,23 @@ export const useActiveContainer = (props: Props) => {
           to: ROUTES.LOGIN,
         });
       } catch (e) {
-        const error = e as AxiosError;
-        if (+(error?.code ?? 0) === 1007) {
+        const error = e as unknown as BaseResponseType<{ email: string }>;
+        if (error?.message === 'ACTIVE_CODE_EXPIRED') {
           navigate({
             to: ROUTES.LINK_EXPIRED,
             search: {
-              email: 'example@gmail.com',
+              email: error?.data?.email,
             },
           });
+          return;
         }
+
+        navigate({
+          to: ROUTES.REGISTER,
+        });
       }
     })();
-  }, [token]);
+  }, [token, navigate, t]);
 
   return {};
 };

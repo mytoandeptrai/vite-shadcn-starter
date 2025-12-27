@@ -12,7 +12,7 @@ type ForgotPasswordStep_2ContainerProps = {
 };
 
 const ForgotPasswordStep_2Container = ({ expirationTime, onSubmit }: ForgotPasswordStep_2ContainerProps) => {
-  const { t, isLoading, minutes, seconds, isCounting, _isCounting, submit } = useForgotPasswordStep_2Container({
+  const { t, isLoading, formatTime, isEnd, submit } = useForgotPasswordStep_2Container({
     onSubmit,
     expirationTime,
   });
@@ -20,14 +20,14 @@ const ForgotPasswordStep_2Container = ({ expirationTime, onSubmit }: ForgotPassw
     <Card className='w-full gap-10'>
       <ForgotPasswordHeaderUi title={t('resend.title')} description={t('resend.description')} />
       <CardContent>
-        <Button type='button' disabled={isLoading || _isCounting} size='lg' className='w-full' onClick={submit}>
+        <Button type='button' disabled={isLoading || !isEnd} size='lg' className='w-full' onClick={submit}>
           <Show when={isLoading}>
             <Spinner />
           </Show>
           {t('resend.buttons.resend')}
         </Button>
-        <Show when={isCounting}>
-          <Paragraph className='mt-5 text-center'>{`${minutes}:${seconds}`}</Paragraph>
+        <Show when={!isEnd}>
+          <Paragraph className='mt-5 text-center'>{formatTime}</Paragraph>
         </Show>
       </CardContent>
     </Card>

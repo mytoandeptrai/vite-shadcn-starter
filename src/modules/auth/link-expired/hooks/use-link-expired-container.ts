@@ -1,34 +1,34 @@
+import { useResendVerification } from '@/apis/auth';
 import { keyLocalStorage } from '@/constant';
-import useCountDown from '@/hooks/use-count-down';
+import { useCountdownTimer } from '@/hooks/use-count-down-timer';
 import { useTranslation } from '@/integrations/i18n';
-import { setLocalStorageItem } from '@/utils';
+import { formatDuration, setLocalStorageItem } from '@/utils';
 import { addMinutes, isAfter } from 'date-fns';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export const useLinkExpiredContainer = (email?: string) => {
   const { t } = useTranslation('link-expired-page');
-  const isLoading = false;
+  
+  const resendVerificationMutation = useResendVerification();
+  const isLoading = resendVerificationMutation.isPending;
 
-  const [expiredDate, setExpiredDate] = useState<Date | undefined>(() => {
+  const [expiredDate, setExpiredDate] = useState<number>(() => {
     const storedDate = localStorage.getItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME);
-    return storedDate ? new Date(Number(storedDate)) : undefined;
+    return storedDate ? new Date(Number(storedDate)).getTime() : 0;
   });
 
-  const { countdown, isReady, isCounting } = useCountDown(expiredDate);
-  const [minutes, seconds] = countdown.slice(2);
-  const _isCounting = isCounting || !isReady;
+  const { left, isEnd } = useCountdownTimer(expiredDate ? new Date(expiredDate).getTime() : 0);
+  const formatTime = formatDuration(left);
 
   const handleClickResend = async () => {
     if (!email) return;
-    try {
-      /** Todo: Handle logic API here */
-      const newExpiredDate = addMinutes(new Date(), 5);
-      const newExpiredTimestamp = newExpiredDate.getTime();
-      setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${newExpiredTimestamp}`);
-      setExpiredDate(newExpiredDate);
-    } catch (error) {
-      console.log('🚀 ~ handleClickResend ~ error:', error);
-    }
+    await resendVerificationMutation.mutateAsync({ email: email! });
+    const newExpiredDate = addMinutes(new Date(), 5);
+    const newExpiredTimestamp = newExpiredDate.getTime();
+    setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${newExpiredTimestamp}`);
+    setExpiredDate(newExpiredTimestamp);
+    toast.success(t('messages.resend-verification-success', { ns: 'common' }));
   };
 
   useEffect(() => {
@@ -37,17 +37,15 @@ export const useLinkExpiredContainer = (email?: string) => {
       const expiredDateObj = new Date(Number(storedDate));
       if (isAfter(new Date(), expiredDateObj)) {
         localStorage.removeItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME);
-        setExpiredDate(undefined);
+        setExpiredDate(0);
       }
     }
   }, []);
 
   return {
     t,
-    minutes,
-    seconds,
-    isCounting,
-    _isCounting,
+    formatTime,
+    isEnd,
     isLoading,
     handleClickResend,
   };

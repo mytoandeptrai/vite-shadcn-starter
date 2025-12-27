@@ -10,7 +10,7 @@ type VerifyEmailContainerProps = {
 };
 
 const VerifyEmailContainer = ({ email }: VerifyEmailContainerProps) => {
-  const { t, minutes, seconds, isCounting, _isCounting, isLoading, handleClickResend } = useVerifyEmailContainer(email);
+  const { t, formatTime, isEnd, isLoading, handleClickResend } = useVerifyEmailContainer(email);
   return (
     <Card className='w-full max-w-md gap-10'>
       <CardHeader className='text-center'>
@@ -20,14 +20,14 @@ const VerifyEmailContainer = ({ email }: VerifyEmailContainerProps) => {
         <CardDescription className='text-gray-500 text-sm dark:text-gray-400'>{t('description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Button disabled={isLoading || _isCounting} size='lg' className='w-full' onClick={handleClickResend}>
+        <Button disabled={isLoading || !isEnd} size='lg' className='w-full' onClick={handleClickResend}>
           <Show when={isLoading}>
             <Spinner />
           </Show>
           {t('buttons.resend-verification')}
         </Button>
-        <Show when={isCounting}>
-          <Paragraph className='mt-5 text-center'>{`${minutes}:${seconds}`}</Paragraph>
+        <Show when={!isEnd}>
+          <Paragraph className='mt-5 text-center'>{formatTime}</Paragraph>
         </Show>
       </CardContent>
     </Card>

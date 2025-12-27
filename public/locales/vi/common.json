@@ -89,7 +89,7 @@
       "KEY_NOT_FOUND": "Mã khóa không tồn tại.",
       "INVALID_WALLET": "Ví không hợp lệ.",
       "SECURITY_INPUT": "Rủi ro bảo mật đã được phát hiện. Hành động không được phép.",
-      "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng thử lại sau {{retryAfter}}",
+      "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng thử lại sau.",
       "INVALID_RECAPTCHA": "Mã recaptcha không hợp lệ.",
       "INTERNAL_SERVER_ERROR": "Đã xảy ra lỗi. Vui lòng thử lại.",
       "FILE_INVALID_SIZE": "Kích thước file không hợp lệ. Vui lòng tải lại file khác.",
@@ -97,7 +97,7 @@
       "LOGIN_FAILED": "Thông tin đăng nhập của bạn không chính xác. Vui lòng kiểm tra và thử lại.",
       "REDEEM_REQUEST_LIMIT": "Bạn đã đạt được số lượng yêu cầu rút tiền tối đa.",
       "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống."
-    },
+      },
     "validations": {
       "MSG-1.3": "Họ không được vượt quá 100 ký tự.",
       "MSG-1.4": "Họ không được chứa số.",
@@ -133,7 +133,8 @@
     "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này.",
     "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục.",
     "no-results-found": "Không tìm thấy kết quả.",
-    "clear-filters": "Xóa bộ lọc"
+    "clear-filters": "Xóa bộ lọc",
+    "link-expired-success": "Liên kết đã được tạo mới. Vui lòng thử lại."
   },
   "labels": {
     "all": "Tất cả",

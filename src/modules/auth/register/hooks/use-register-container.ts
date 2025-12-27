@@ -23,32 +23,22 @@ export const useRegisterContainer = () => {
   const isLoading = registerMutation.isPending;
 
   const onSubmit = async (data: RegisterFormData) => {
-    try {
-      const payload = {
-        email: data.email,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-        firstname: data.firstName,
-        lastname: data.lastName,
-        type: data.type === 'merchant' ? EUserType.INDEPENDENT_MERCHANT : EUserType.MARKETPLACE,
-      };
-      await registerMutation.mutateAsync(payload);
-      const timeStamp = Date.now();
-      setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${timeStamp + 300000}`);
-      toast.success(t('messages.register-success', { ns: 'common' }));
-      navigate({
-        to: ROUTES.VERIFY_EMAIL,
-        search: { email: data.email },
-      });
-    } catch (error) {
-      console.error('🚀', error);
-      // if (error.code === 400 && error.message === messageError.EMAIL_EXISTED) {
-      //   setError("email", {
-      //     type: "manual",
-      //     message: t("errors.code.EMAIL_EXISTED"),
-      //   });
-      // }
-    }
+    const payload = {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      firstname: data.firstName,
+      lastname: data.lastName,
+      type: data.type === 'merchant' ? EUserType.INDEPENDENT_MERCHANT : EUserType.MARKETPLACE,
+    };
+    await registerMutation.mutateAsync(payload);
+    const timeStamp = Date.now();
+    setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${timeStamp + 10000}`);
+    toast.success(t('messages.register-success', { ns: 'common' }));
+    navigate({
+      to: ROUTES.VERIFY_EMAIL,
+      search: { email: data.email },
+    });
   };
 
   return {
