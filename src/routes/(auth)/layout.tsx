@@ -1,3 +1,4 @@
+import { CustomLink } from '@/components/ui/custom-link';
 import { Logo } from '@/components/ui/logo';
 import { ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
@@ -76,7 +77,9 @@ function RouteComponent() {
         <div className='max-w-md'>
           <div className='mb-12'>
             <div className='mb-6 max-w-36'>
-              <Logo />
+              <CustomLink to={ROUTES.LOGIN}>
+                <Logo />
+              </CustomLink>
             </div>
             <h1 className='mb-2 font-bold text-3xl'>{t(sidebar.heading)}</h1>
             <p className='text-slate-600 text-sm'>{t(sidebar.description)}</p>

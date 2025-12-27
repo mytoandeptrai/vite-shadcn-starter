@@ -46,7 +46,7 @@ export const useSystemTwoFaContainer = () => {
       toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
       setIsRemovedTwoFa(false);
     },
-    [disableTwoFaMutation]
+    [disableTwoFaMutation, onRefetch, queryClient.invalidateQueries, t]
   );
 
   return {
