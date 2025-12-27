@@ -30,7 +30,7 @@ const DeveloperApiKeysInputUi = ({
           <div>
             <CardTitle className='text-lg'>{t('api-keys.labels.title')}</CardTitle>
             <CardDescription>
-              {t('labels.created-at')}: {formatDate(createdAt)}
+              {t('labels.created-at')}: {createdAt ? formatDate(createdAt) : '-'}
             </CardDescription>
           </div>
           <Button variant='outline' size='sm' onClick={onOpenDialog} disabled={isLoading}>
