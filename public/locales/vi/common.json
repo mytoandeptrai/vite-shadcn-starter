@@ -97,7 +97,8 @@
       "MAX_DELETE_WALLET": "Bạn đã đạt được số lượng ví xóa tối đa.",
       "LOGIN_FAILED": "Thông tin đăng nhập của bạn không chính xác. Vui lòng kiểm tra và thử lại.",
       "REDEEM_REQUEST_LIMIT": "Bạn đã đạt được số lượng yêu cầu rút tiền tối đa.",
-      "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống."
+      "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống.",
+      "DUPLICATE_WALLET_ADDRESS": "Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto."
       },
     "validations": {
       "MSG-1.3": "Họ không được vượt quá 100 ký tự.",

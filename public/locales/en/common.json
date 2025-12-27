@@ -110,7 +110,8 @@
       "MAX_DELETE_WALLET": "You have reached the maximum number of wallet deletions.",
       "LOGIN_FAILED": "Your login information is incorrect. Please check and try again.",
       "REDEEM_REQUEST_LIMIT": "You have reached limit of redemption requests.",
-      "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded."
+      "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded.",
+      "DUPLICATE_WALLET_ADDRESS": "Only one wallet address is allowed per chain and crypto."
     },
     "validations": {
       "MSG-1.3": "First name must not exceed 100 characters.",
