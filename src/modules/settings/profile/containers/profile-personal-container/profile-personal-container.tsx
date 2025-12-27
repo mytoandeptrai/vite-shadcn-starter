@@ -11,7 +11,7 @@ const ProfilePersonalContainer = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('profile.password.title')}</CardTitle>
+        <CardTitle>{t('profile.personal.title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <FormWrapper className='space-y-6' form={form} onSubmit={onSubmit}>
