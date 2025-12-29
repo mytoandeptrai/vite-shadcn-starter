@@ -19,7 +19,8 @@
     }
   },
   "actions": {
-    "add": "Thêm Thương Nhân Mới"
+    "add": "Thêm Thương Nhân Mới",
+    "add-wallet": "Thêm Địa Chỉ Ví Thương Nhân"
   },
   "dialogs": {
     "create": {
@@ -72,7 +73,8 @@
     }
   },
   "labels": {
-    "status": "Trạng Thái"
+    "status": "Trạng Thái",
+    "merchant-wallets": "Danh sách địa chỉ ví của thương nhân"
   },
   "placeholder": {
     "search": "Tìm kiếm thương nhân..."

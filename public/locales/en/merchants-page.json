@@ -23,7 +23,8 @@
     }
   },
   "actions": {
-    "add": "Add New Merchant"
+    "add": "Add New Merchant",
+    "add-wallet": "Add A New Wallet Address"
   },
   "dialogs": {
     "create": {
@@ -84,7 +85,8 @@
     }
   },
   "labels": {
-    "status": "Status"
+    "status": "Status",
+    "merchant-wallets": "List of Merchant Wallets"
   },
   "placeholder": {
     "search": "Search merchants..."
