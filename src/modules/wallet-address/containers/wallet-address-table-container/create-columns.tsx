@@ -1,6 +1,7 @@
 import type { IWalletAddress } from '@/apis/wallet-address';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import CopyButton from '@/components/ui/copy-button';
 import { DataTableColumnHeader } from '@/components/ui/data-table';
 import {
   DropdownMenu,
@@ -50,7 +51,12 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     cell: ({ row }) => {
       const _row = row.original;
       const address = _row.address;
-      return <TruncateParagraph truncatedContent={formatAddress(address)} fullContent={address} />;
+      return (
+        <div className='flex items-center gap-1'>
+          <TruncateParagraph truncatedContent={formatAddress(address)} fullContent={address} />
+          <CopyButton value={address} className='border-none bg-transparent! shadow-none!' />
+        </div>
+      );
     },
   },
   {
@@ -112,9 +118,6 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>{t('table.headers.actions')}</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(address)}>
-              {t('table.actions.copy')}
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => onAction?.(_row, 'update')}>{t('table.actions.edit')}</DropdownMenuItem>
             <DropdownMenuItem onClick={() => onAction?.(_row, isActive ? 'deactivate' : 'activate')}>
