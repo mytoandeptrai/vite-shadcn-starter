@@ -78,7 +78,7 @@
     "crypto": "Crypto"
   },
   "placeholder": {
-    "search": "Tìm kiếm địa chỉ ví..."
+    "search": "Tìm kiếm ví theo nhãn hoặc địa chỉ..."
   },
   "errors": {
     "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, crypto, label và address)"

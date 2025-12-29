@@ -62,14 +62,14 @@ export const useTableFilterContainer = () => {
 
   const onStatusValueChange = (status: string[]) => {
     navigate({
-      search: { ...search, status: status ?? undefined },
+      search: { ...search, status: status ?? undefined, page: 1 },
       replace: true,
     });
   };
 
   const onTypeValueChange = (type: string[]) => {
     navigate({
-      search: { ...search, type: type ?? undefined },
+      search: { ...search, type: type ?? undefined, page: 1 },
       replace: true,
     });
   };
@@ -77,7 +77,7 @@ export const useTableFilterContainer = () => {
   const onDateRangeChange = (dateRange?: DateRange) => {
     if (!dateRange) {
       navigate({
-        search: { ...search, fromDate: undefined, toDate: undefined },
+        search: { ...search, fromDate: undefined, toDate: undefined, page: 1 },
         replace: true,
       });
       return;
@@ -87,6 +87,7 @@ export const useTableFilterContainer = () => {
         ...search,
         fromDate: dateRange.from?.toISOString(),
         toDate: dateRange.to?.toISOString(),
+        page: 1,
       },
       replace: true,
     });
@@ -94,21 +95,21 @@ export const useTableFilterContainer = () => {
 
   const onChainValueChange = (chain?: string[]) => {
     navigate({
-      search: { ...search, chain: chain ?? undefined },
+      search: { ...search, chain: chain ?? undefined, page: 1 },
       replace: true,
     });
   };
 
   const onCryptoValueChange = (crypto?: string[]) => {
     navigate({
-      search: { ...search, crypto: crypto ?? undefined },
+      search: { ...search, crypto: crypto ?? undefined, page: 1 },
       replace: true,
     });
   };
 
   const onNetworkValueChange = (network?: string[]) => {
     navigate({
-      search: { ...search, network: network ?? undefined },
+      search: { ...search, network: network ?? undefined, page: 1 },
       replace: true,
     });
   };

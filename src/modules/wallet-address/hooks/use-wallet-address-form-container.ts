@@ -11,6 +11,8 @@ import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { walletAddressCreateFormSchema, type WalletAddressCreateFormData } from './schema';
+import { getContext } from '@/integrations/tanstack-query/root-provider';
+import { KEYS } from '@/apis/dashboard';
 
 type Props = {
   open: boolean;
@@ -22,6 +24,7 @@ type Props = {
 
 export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSuccess, actionType }: Props) => {
   const { t } = useTranslation('wallet-address-page');
+  const { queryClient } = getContext();
   const options = useMemo(() => CHAIN_OPTIONS(t), [t]);
   const cryptoOptions = useMemo(() => CRYPTO_OPTIONS(t), [t]);
   const createAddressMutation = useCreateWalletAddress();
@@ -55,6 +58,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
     switch (actionType) {
       case 'create':
         await createAddressMutation.mutateAsync(data);
+        queryClient.invalidateQueries({ queryKey: [KEYS.START_GUIDE] });
         toast.success(t('messages.add-wallet-address-success'));
         break;
       case 'update':

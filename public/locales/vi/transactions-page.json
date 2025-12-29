@@ -27,12 +27,13 @@
       "firstSeenAt": "Lần Đầu Thấy",
       "date": "Đã Xác Nhận",
       "updatedAt": "Cập Nhật Lần Cuối",
-      "network": "Mạng"
+      "network": "Mạng",
+      "createdAt": "Ngày tạo"
     }
   },
   "filters": {
     "search": {
-      "placeholder": "Tìm kiếm giao dịch bằng txHash hoặc địa chỉ..."
+      "placeholder": "Tìm kiếm giao dịch bằng mã hash giao dịch"
     },
     "status": {
       "label": "Trạng Thái",
@@ -72,7 +73,7 @@
     "type": "Loại"
   },
   "placeholder": {
-    "search": "Tìm kiếm giao dịch...",
+    "search": "Tìm kiếm giao dịch bằng mã hash giao dịch",
     "dateRange": "Chọn khoảng thời gian"
   }
 }

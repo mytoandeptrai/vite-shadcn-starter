@@ -25,14 +25,14 @@ export const useTableFilterContainer = () => {
 
   const onChainValueChange = (chain?: string[]) => {
     navigate({
-      search: { ...search, chain: chain ?? undefined },
+      search: { ...search, chain: chain ?? undefined, page: 1 },
       replace: true,
     });
   };
 
   const onCryptoValueChange = (crypto?: string[]) => {
     navigate({
-      search: { ...search, crypto: crypto ?? undefined },
+      search: { ...search, crypto: crypto ?? undefined, page: 1 },
       replace: true,
     });
   };

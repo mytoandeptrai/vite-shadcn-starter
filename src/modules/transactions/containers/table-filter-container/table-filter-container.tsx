@@ -1,9 +1,9 @@
 import DateRangePicker from '@/components/ui/date-range-picker';
-import { DebouncedInput } from '@/components/ui/debounced-input';
 import MultiSelectPicker from '@/components/ui/multi-select-picker';
 import { HStack } from '@/components/utilities';
 import { addDays } from 'date-fns';
 import { useTableFilterContainer } from '../../hooks';
+import DebouncedInput from '@/components/ui/debounced-input';
 
 const TableFilterContainer = () => {
   const {
@@ -38,7 +38,6 @@ const TableFilterContainer = () => {
         <MultiSelectPicker
           title={t('filters.status.label')}
           options={options.status}
-          multiple
           value={selectedStatuses}
           onChange={(value) => {
             onStatusValueChange(value ?? []);
@@ -49,7 +48,6 @@ const TableFilterContainer = () => {
           title={t('filters.chain.label')}
           options={options.chain}
           value={selectedChains}
-          multiple={false}
           onChange={(value) => {
             onChainValueChange(value);
           }}
@@ -59,7 +57,6 @@ const TableFilterContainer = () => {
           title={t('filters.crypto.label')}
           options={options.crypto}
           value={selectedCryptos}
-          multiple={false}
           onChange={(value) => {
             onCryptoValueChange(value);
           }}
@@ -69,7 +66,6 @@ const TableFilterContainer = () => {
           title={t('filters.network.label')}
           options={options.network}
           value={selectedNetworks}
-          multiple={false}
           onChange={(value) => {
             onNetworkValueChange(value);
           }}

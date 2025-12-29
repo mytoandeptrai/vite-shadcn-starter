@@ -27,12 +27,13 @@
       "firstSeenAt": "First Seen At",
       "date": "Confirmed At",
       "updatedAt": "Updated At",
-      "network": "Network"
+      "network": "Network",
+      "createdAt": "Created At"
     }
   },
   "filters": {
     "search": {
-      "placeholder": "Search transactions by txHash or address..."
+      "placeholder": "Search transactions by transaction hash"
     },
     "status": {
       "label": "Status",
@@ -72,7 +73,7 @@
     "type": "Type"
   },
   "placeholder": {
-    "search": "Search transactions...",
+    "search": "Search transactions by transaction hash",
     "dateRange": "Select date range"
   }
 }

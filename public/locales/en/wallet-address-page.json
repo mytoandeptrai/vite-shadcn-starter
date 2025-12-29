@@ -78,7 +78,7 @@
     "crypto": "Crypto"
   },
   "placeholder": {
-    "search": "Search wallet address..."
+    "search": "Search wallet by label or address..."
   },
   "errors": {
     "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)"

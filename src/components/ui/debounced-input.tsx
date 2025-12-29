@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   value: string | number;
@@ -7,7 +7,7 @@ interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputEl
   debounce?: number;
 }
 
-export function DebouncedInput({ value: initialValue, onChange, debounce = 500, ...props }: DebouncedInputProps) {
+const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...props }: DebouncedInputProps) => {
   const [value, setValue] = useState(initialValue);
 
   useEffect(() => {
@@ -23,4 +23,6 @@ export function DebouncedInput({ value: initialValue, onChange, debounce = 500, 
   }, [value, debounce, onChange]);
 
   return <Input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
-}
+};
+
+export default memo(DebouncedInput);

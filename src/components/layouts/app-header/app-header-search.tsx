@@ -1,4 +1,5 @@
-import { DebouncedInput } from '@/components/ui/debounced-input';
+import DebouncedInput from '@/components/ui/debounced-input';
+
 import { useTranslation } from '@/integrations/i18n';
 import { useState } from 'react';
 

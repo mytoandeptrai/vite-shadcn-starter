@@ -24,7 +24,7 @@ export const useTableFilterContainer = () => {
 
   const onSearchValueChange = (value: string) => {
     navigate({
-      search: { ...search, search: value, page: 1 },
+      search: { ...search, search: value },
       replace: true,
     });
   };

@@ -172,6 +172,15 @@ export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransa
     enableSorting: false,
   },
   {
+    accessorKey: 'createdAt',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.createdAt')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      return <div className='font-medium'>{formatDate(_row.createdAt)}</div>;
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: 'updatedAt',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.updatedAt')} />,
     cell: ({ row }) => {
