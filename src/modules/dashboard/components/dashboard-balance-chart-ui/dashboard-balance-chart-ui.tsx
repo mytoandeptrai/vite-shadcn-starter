@@ -14,8 +14,8 @@ type DashboardBalanceChartUiProps = {
 const CRYPTO_ASSETS: Record<string, string> = {
   'usdt-erc20': '#26A69A',
   'usdc-erc20': '#2E7D32',
-  'usdt-brc20': '#F57C00',
-  'usdc-brc20': '#1565C0',
+  'usdt-bep20': '#F57C00',
+  'usdc-bep20': '#1565C0',
 };
 
 const DashboardBalanceChartUi = ({ isLoading, data, selectedCrypto }: DashboardBalanceChartUiProps) => {

@@ -279,8 +279,8 @@
     "ALL": "All"
   },
   "chains-token": {
-    "USDT-BRC20": "USDT-BRC20",
-    "USDC-BRC20": "USDC-BRC20",
+    "USDT-BEP20": "USDT-BEP20",
+    "USDC-BEP20": "USDC-BEP20",
     "USDT-ERC20": "USDT-ERC20",
     "USDC-ERC20": "USDC-ERC20"
   },

@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     toast.success(t('messages.signout-success', { ns: 'common' }));
     queryClient.cancelQueries({});
     queryClient.removeQueries({});
+    queryClient.resetQueries({});
     payload.reset();
     router.navigate({
       to: ROUTES.LOGIN,

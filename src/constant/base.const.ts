@@ -69,6 +69,6 @@ export const CURRENCY_SYMBOL_MAPPING: Record<string, string> = {
 };
 
 export const PROTOCOL_CHAIN_MAPPING: Record<string, string> = {
-  BRC20: 'BSC',
+  BEP20: 'BSC',
   ERC20: 'ETH',
 };

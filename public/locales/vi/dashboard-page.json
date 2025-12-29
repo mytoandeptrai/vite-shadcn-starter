@@ -57,8 +57,8 @@
     "label": "Khoảng thời gian",
     "usdt-erc20": "USDT-ERC20",
     "usdc-erc20": "USDC-ERC20",
-    "usdt-brc20": "USDT-BRC20",
-    "usdc-brc20": "USDC-BRC20"
+    "usdt-bep20": "USDT-BEP20",
+    "usdc-bep20": "USDC-BEP20"
   },
   "summary-chart": {
     "orders": "Đơn hàng"

@@ -12,8 +12,8 @@ export const generateCryptoOptions = (t: TFunction) => {
   return [
     { value: 'usdt-erc20', label: t('options.usdt-erc20') },
     { value: 'usdc-erc20', label: t('options.usdc-erc20') },
-    { value: 'usdt-bsc', label: t('options.usdt-brc20') },
-    { value: 'usdc-bsc', label: t('options.usdc-brc20') },
+    { value: 'usdt-bsc', label: t('options.usdt-bep20') },
+    { value: 'usdc-bsc', label: t('options.usdc-bep20') },
   ];
 };
 
