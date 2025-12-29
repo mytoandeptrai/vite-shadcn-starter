@@ -31,6 +31,10 @@
             "add-wallet-address": "Add your crypto wallet address to receive payments",
             "generate-apiKeys": "Generate API keys for server-to-server communication",
             "download-sdk": "Quick integration with our SDK"
+        },
+        "status": {
+            "completed": "Completed",
+            "not-started": "Not started"
         }
     },
     "dashboard-balance": {

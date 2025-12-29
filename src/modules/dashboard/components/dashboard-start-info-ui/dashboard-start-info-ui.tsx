@@ -18,7 +18,7 @@ type DashboardStartInfoUiProps = {
 };
 
 const DashboardStartInfoUi = ({ isLoading, item }: DashboardStartInfoUiProps) => {
-  const { t } = useTranslation('');
+  const { t } = useTranslation('dashboard-page');
   return (
     <AccordionItem value={item.value}>
       <AccordionTrigger className='hover:no-underline'>
@@ -28,7 +28,7 @@ const DashboardStartInfoUi = ({ isLoading, item }: DashboardStartInfoUiProps) =>
             <p className='text-muted-foreground text-xs'>{item.subLabel}</p>
           </div>
         </div>
-        <Badge variant={item.completed ? 'default' : 'secondary'}>{item.completed ? 'Completed' : 'Not started'}</Badge>
+        <Badge variant={item.completed ? 'default' : 'secondary'}>{item.completed ? t('start-guide.status.completed') : t('start-guide.status.not-started')}</Badge>
       </AccordionTrigger>
       <AccordionContent>
         <div className='flex items-center justify-between border-border border-t pt-4 pb-4'>

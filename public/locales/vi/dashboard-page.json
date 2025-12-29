@@ -31,6 +31,10 @@
       "add-wallet-address": "Thêm địa chỉ ví tiền điện tử của bạn để nhận thanh toán",
       "generate-apiKeys": "Tạo khóa API cho giao tiếp server-to-server",
       "download-sdk": "Tích hợp nhanh vào hệ thống của bạn bằng SDK"
+    },
+    "status": {
+      "completed": "Hoàn thành",
+      "not-started": "Chưa bắt đầu"
     }
   },
   "dashboard-balance": {
