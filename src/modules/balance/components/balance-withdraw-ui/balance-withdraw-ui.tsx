@@ -16,11 +16,12 @@ export type BalanceWithdrawUiProps = React.ComponentProps<typeof DialogPrimitive
   max: number;
   selectedToken: string;
   walletTokenOptions: Option<string>[];
+  balanceId?: number;
 };
 
 const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
-  const { open, onClose, max, selectedToken, walletTokenOptions } = props;
-  const { t, form, isLoading, submit } = useBalanceWithdraw({ onClose, max, selectedToken });
+  const { open, onClose, max, walletTokenOptions } = props;
+  const { t, form, isLoading, submit } = useBalanceWithdraw(props);
 
   return (
     <Modal

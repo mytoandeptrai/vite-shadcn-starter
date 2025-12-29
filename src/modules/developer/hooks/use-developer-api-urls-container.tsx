@@ -7,6 +7,7 @@ import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { toast } from 'sonner';
 import { Link } from '@tanstack/react-router';
 import { ROUTES } from '@/constant';
+import { useGetCallbackConfig, useUpdateCallbackConfig } from '@/apis/callback-config';
 
 export const useDeveloperApiUrlsContainer = () => {
   const { t } = useTranslation('developer-page');
@@ -15,10 +16,11 @@ export const useDeveloperApiUrlsContainer = () => {
   const { user } = useAuthContext();
   const isEnabledTwoFa = user?.twoFAEnabled ?? false;
 
-  /** TODO: Request API here */
-  const isLoading = false;
-  const notifyUrl = 'https://api.example.com/notify';
-  const returnUrl = 'https://api.example.com/return';
+  const { data, isLoading, refetch } = useGetCallbackConfig();
+  const updateCallbackConfigMutation = useUpdateCallbackConfig();
+
+  const notifyUrl = data?.data?.callbackUrl ?? '-';
+  const returnUrl = data?.data?.redirectUrl ?? '-';
 
   const form = useForm<DeveloperApiUrlsFormData>({
     resolver: zodResolver(developerApiUrlsFormSchema(t)),
@@ -27,8 +29,15 @@ export const useDeveloperApiUrlsContainer = () => {
   });
 
   const submit = async (data: DeveloperApiUrlsFormData) => {
-    console.log(data);
-    /** TODO: Implement API here */
+    if (updateCallbackConfigMutation.isPending) return;
+    await updateCallbackConfigMutation.mutateAsync({
+      callback_url: data.notifyUrl,
+      eventTypes: ['all'] /** Replace in the next phase */,
+      redirectUrl: data.returnUrl,
+      webhookSecret: 'stringstringstringstringstringst' /** Replace in the next phase */,
+    });
+    toast.success(t('api-urls.messages.update-urls-success'));
+    refetch();
     onCloseDialog();
   };
 
@@ -54,7 +63,7 @@ export const useDeveloperApiUrlsContainer = () => {
       previousReturnUrl: returnUrl,
     });
     setIsOpenDialog(true);
-  }, [form.reset, isEnabledTwoFa, t]);
+  }, [form.reset, isEnabledTwoFa, t, notifyUrl, returnUrl]);
 
   return {
     t,
@@ -62,6 +71,7 @@ export const useDeveloperApiUrlsContainer = () => {
     notifyUrl,
     returnUrl,
     isOpenDialog,
+    isPending: updateCallbackConfigMutation.isPending,
     form,
     onCloseDialog,
     onOpenDialog,

@@ -21,10 +21,11 @@ export const getStatusText = (status: string, t: TFunction): string => {
   return t(`status.${status}`);
 };
 
-export const getStatusVariant = (status: string): 'default' | 'secondary' | 'destructive' => {
-  if (status === 'confirmed') return 'default';
-  if (status === 'pending' || status === 'confirming') return 'secondary';
-  return 'destructive';
+export const getStatusVariant = (status: string): 'pending' | 'confirming' | 'confirmed' | 'failed' | 'default' => {
+  if (status === 'confirmed') return 'confirmed';
+  if (status === 'pending' || status === 'confirming') return 'pending';
+  if (status === 'failed') return 'failed';
+  return 'default';
 };
 
 export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransaction>[] => [

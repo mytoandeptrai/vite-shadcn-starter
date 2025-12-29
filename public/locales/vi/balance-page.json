@@ -32,6 +32,7 @@
     }
   },
   "messages": {
-    "no-balance": "Không có số dư khả dụng"
+    "no-balance": "Không có số dư khả dụng",
+    "withdrawal-success": "Yêu cầu rút tiền đang được xử lý. Bạn sẽ được thông báo khi hoàn tất."  
   }
 }

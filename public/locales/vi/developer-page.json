@@ -97,6 +97,9 @@
           }
         }
       }
+    },
+    "messages": {
+      "update-urls-success": "URLs đã được cập nhật thành công"
     }
   },
   "sdks": {

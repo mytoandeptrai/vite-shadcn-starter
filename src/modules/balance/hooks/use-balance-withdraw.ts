@@ -3,19 +3,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { balanceWithdrawFormSchema, initialFormData, type BalanceWithdrawFormData } from './schema';
+import type { BalanceWithdrawUiProps } from '../components/balance-withdraw-ui';
+import { useCreateWithdrawal } from '@/apis/withdrawals';
+import { getContext } from '@/integrations/tanstack-query/root-provider';
+import { KEYS } from '@/apis/transactions';
+import { toast } from 'sonner';
 
-type Props = {
-  onClose?: () => void;
-  onSubmit?: () => void;
-  max: number;
-  selectedToken: string;
-};
-
-export const useBalanceWithdraw = ({ onClose, max }: Props) => {
+export const useBalanceWithdraw = ({ onClose, max, balanceId }: BalanceWithdrawUiProps) => {
   const { t } = useTranslation('balance-page');
+  const { queryClient } = getContext();
 
-  /** TODO: Request API based on selected token here */
-  const isLoading = false;
+  const createWithdrawalMutation = useCreateWithdrawal();
+  const isLoading = createWithdrawalMutation.isPending;
 
   const form = useForm<BalanceWithdrawFormData>({
     resolver: zodResolver(balanceWithdrawFormSchema(t)),
@@ -24,8 +23,14 @@ export const useBalanceWithdraw = ({ onClose, max }: Props) => {
   });
 
   const submit = async (data: BalanceWithdrawFormData) => {
-    /** TODO: Request API here */
-    console.log('🚀 ~ submit ~ data:', data);
+    if (!balanceId) return;
+    await createWithdrawalMutation.mutateAsync({
+      amount: data.amount,
+      external_wallet_id: +data.address,
+      wallet_balance_id: balanceId,
+    });
+    queryClient.invalidateQueries({ queryKey: [KEYS.TRANSACTIONS] });
+    toast.success(t('messages.withdrawal-success'));
     onClose?.();
   };
 

@@ -9,6 +9,7 @@ import { useCurrencyStore } from '@/stores/use-base-store';
 import { useGetBalanceMarketplace, useGetMerchantBalance } from '@/apis/balances';
 import { useGetMerchantExchangeRates } from '@/apis/merchants';
 import { useGetWalletAddressList } from '@/apis/wallet-address';
+import BigNumber from 'bignumber.js';
 
 const ONE_MINUTES = 1000 * 60 * 1;
 const TEN_SECONDS = 1000 * 10;
@@ -72,22 +73,28 @@ export const useBalanceContainer = () => {
     const balances =
       userType === EUserType.INDEPENDENT_MERCHANT ? (balanceData?.data ?? []) : (balanceMarketplaceData?.data ?? []);
 
-    if (!balances)
+    if (!balances) {
       return {
         balanceAvailable: 0,
         balanceIncoming: 0,
+        balanceId: undefined,
       };
+    }
 
     const existedBalances = balances.find((balance) => balance.chain === chain && balance.crypto === crypto);
-    if (existedBalances)
+    if (existedBalances) {
+      /** To fixed 2 decimals with big number */
       return {
-        balanceAvailable: Number(existedBalances.balance_available),
-        balanceIncoming: Number(existedBalances.balance_incoming),
+        balanceAvailable: +new BigNumber(existedBalances.balance_available).toFixed(2),
+        balanceIncoming: +new BigNumber(existedBalances.balance_incoming).toFixed(2),
+        balanceId: existedBalances.id,
       };
+    }
 
     return {
       balanceAvailable: 0,
       balanceIncoming: 0,
+      balanceId: undefined,
     };
   }, [userType, selectedToken, balanceData?.data, balanceMarketplaceData?.data]);
 
@@ -159,6 +166,7 @@ export const useBalanceContainer = () => {
     selectedToken,
     balanceAvailable: finalBalanceData.balanceAvailable,
     balanceIncoming: finalBalanceData.balanceIncoming,
+    balanceId: finalBalanceData.balanceId,
     isOpenDialog,
     walletTokenOptions,
     isLoading,

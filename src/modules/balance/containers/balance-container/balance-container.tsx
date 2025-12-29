@@ -12,6 +12,7 @@ const BalanceContainer = () => {
     selectedToken,
     balanceAvailable,
     balanceIncoming,
+    balanceId,
     isOpenDialog,
     walletTokenOptions,
     isLoading,
@@ -57,6 +58,7 @@ const BalanceContainer = () => {
           selectedToken={selectedToken}
           open={isOpenDialog}
           max={balanceAvailable}
+          balanceId={balanceId}
           onClose={onCloseDialog}
         />
       </Show>

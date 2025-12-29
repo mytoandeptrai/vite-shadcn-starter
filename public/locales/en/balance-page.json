@@ -32,6 +32,7 @@
         }
     },
     "messages": {
-        "no-balance": "No balance available"
+        "no-balance": "No balance available",
+        "withdrawal-success": "Withdrawal is processing. You’ll be notified once it’s completed."
     }
 }

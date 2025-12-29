@@ -5,7 +5,7 @@ import DeveloperApiUrlsInputUi from '../../components/developer-api-urls-input-u
 import { useDeveloperApiUrlsContainer } from '../../hooks';
 
 const DeveloperApiUrlsContainer = () => {
-  const { t, isLoading, notifyUrl, returnUrl, isOpenDialog, form, onCloseDialog, onOpenDialog, submit } =
+  const { t, isLoading, notifyUrl, returnUrl, isOpenDialog, form, isPending, onCloseDialog, onOpenDialog, submit } =
     useDeveloperApiUrlsContainer();
   return (
     <div>
@@ -22,7 +22,7 @@ const DeveloperApiUrlsContainer = () => {
         description={t('api-urls.dialogs.update-urls.description')}
       >
         <FormWrapper form={form} onSubmit={submit}>
-          <DeveloperApiUrlsFormUi isLoading={isLoading} onClose={onCloseDialog} />
+          <DeveloperApiUrlsFormUi isLoading={isLoading || isPending} onClose={onCloseDialog} />
         </FormWrapper>
       </Modal>
     </div>

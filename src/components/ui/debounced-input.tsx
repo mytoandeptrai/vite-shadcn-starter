@@ -1,5 +1,5 @@
 import { Input } from '@/components/ui/input';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   value: string | number;
@@ -8,21 +8,27 @@ interface DebouncedInputProps extends Omit<React.InputHTMLAttributes<HTMLInputEl
 }
 
 const DebouncedInput = ({ value: initialValue, onChange, debounce = 500, ...props }: DebouncedInputProps) => {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(() => initialValue);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValue(value);
+
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    typingTimeoutRef.current = setTimeout(() => {
       onChange(value);
-    }, debounce);
+    }, 300);
+  };
 
-    return () => clearTimeout(timeout);
-  }, [value, debounce, onChange]);
-
-  return <Input {...props} value={value} onChange={(e) => setValue(e.target.value)} />;
+  return <Input {...props} value={value} onChange={onInputChange} />;
 };
 
 export default memo(DebouncedInput);
