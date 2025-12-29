@@ -105,7 +105,6 @@ export const createColumns = ({ t, onAction }: WalletAddressActionsProps): Colum
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.actions')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const address = _row.address;
       const isActive = _row.isActive;
 
       return (
