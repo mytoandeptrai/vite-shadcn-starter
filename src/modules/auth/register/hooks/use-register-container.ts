@@ -33,7 +33,7 @@ export const useRegisterContainer = () => {
     };
     await registerMutation.mutateAsync(payload);
     const timeStamp = Date.now();
-    setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${timeStamp + 10000}`);
+    setLocalStorageItem(keyLocalStorage.EXPIRED_SIGN_UP_TIME, `${timeStamp + 300000}`);
     toast.success(t('messages.register-success', { ns: 'common' }));
     navigate({
       to: ROUTES.VERIFY_EMAIL,
