@@ -11,6 +11,13 @@ export const getWithdrawalList = (params: GetWithdrawalListParams, signal?: Abor
   return httpInstance.get<GetWithdrawalListResponse>(KEYS.WITH_DRAWALS, { params, signal }).then((res) => res);
 };
 
-export const createWithdrawal = (params: CreateWithdrawalParams, signal?: AbortSignal) => {
-  return httpInstance.post<CreateWithdrawalResponse>(KEYS.WITH_DRAWALS, params, { signal }).then((res) => res);
+export const createWithdrawal = ({ idempotencyKey, ...params }: CreateWithdrawalParams, signal?: AbortSignal) => {
+  return httpInstance
+    .post<CreateWithdrawalResponse>(KEYS.WITH_DRAWALS, params, {
+      signal,
+      headers: {
+        'Idempotency-Key': idempotencyKey,
+      },
+    })
+    .then((res) => res);
 };

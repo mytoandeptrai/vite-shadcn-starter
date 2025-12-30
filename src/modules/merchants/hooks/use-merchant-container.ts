@@ -24,7 +24,9 @@ export const useMerchantContainer = () => {
     search: search.search,
     status: search.status,
   };
-  const { data, isFetching, isLoading, refetch } = useGetMarketplaceMerchantsList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetMarketplaceMerchantsList(filters, {
+    placeholderData: (prev) => prev,
+  });
 
   const onPaginationChange = (page: number, pageSize: number, action: 'pagination' | 'limiting') => {
     navigate({

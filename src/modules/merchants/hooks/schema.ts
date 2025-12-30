@@ -1,4 +1,4 @@
-import { regexEmail } from '@/constant';
+import { regexEmail, MAX_WALLETS_PER_CHAIN } from '@/constant';
 import type { TFunction } from 'i18next';
 import z from 'zod';
 import { isValidEthereumAddress } from '@/utils/common';
@@ -92,29 +92,38 @@ const merchantCreateFormSchema = (t: TFunction) => {
       }),
     })
     .superRefine((data, ctx) => {
-      // Check for duplicate wallet addresses - must match all 4 fields: chain, crypto, label, address
-      const walletAddressKeys = new Set<string>();
+      const walletKeys = new Set<string>(); // chain + crypto + address
+      const chainCounts = new Map<string, number>(); // count wallets per chain
 
       data.walletAddresses.forEach((wa, index) => {
-        // Create composite key from all 4 fields (case-insensitive for address and label)
         const chainKey = wa.chain?.trim() || '';
         const cryptoKey = wa.crypto?.trim() || '';
-        const labelKey = wa.label?.toLowerCase().trim() || '';
         const addressKey = wa.address?.toLowerCase().trim() || '';
 
-        // Only check if all fields are present
-        if (chainKey && cryptoKey && labelKey && addressKey) {
-          const compositeKey = `${chainKey}|${cryptoKey}|${labelKey}|${addressKey}`;
-
-          if (walletAddressKeys.has(compositeKey)) {
-            // Duplicate found - add error to all fields to make it clear
+        // Only validate if required fields are present
+        if (chainKey && cryptoKey && addressKey) {
+          // 1. Check for duplicate wallet: chain + crypto + address
+          const compositeKey = `${chainKey}|${cryptoKey}|${addressKey}`;
+          if (walletKeys.has(compositeKey)) {
             ctx.addIssue({
               code: 'custom',
               path: ['walletAddresses', index, 'address'],
               message: t('errors.duplicate-wallet-address'),
             });
           } else {
-            walletAddressKeys.add(compositeKey);
+            walletKeys.add(compositeKey);
+          }
+
+          // 2. Count wallets per chain and validate max limit
+          const currentCount = chainCounts.get(chainKey) || 0;
+          chainCounts.set(chainKey, currentCount + 1);
+
+          if (chainCounts.get(chainKey)! > MAX_WALLETS_PER_CHAIN) {
+            ctx.addIssue({
+              code: 'custom',
+              path: ['walletAddresses', index, 'chain'],
+              message: t('errors.max-wallets-per-chain', { max: MAX_WALLETS_PER_CHAIN }),
+            });
           }
         }
       });

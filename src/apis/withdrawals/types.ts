@@ -17,6 +17,7 @@ export interface CreateWithdrawalParams {
   amount: number;
   external_wallet_id: number;
   wallet_balance_id: number;
+  idempotencyKey: string;
 }
 
 export interface GetWithdrawalListParams extends CommonRequestType {

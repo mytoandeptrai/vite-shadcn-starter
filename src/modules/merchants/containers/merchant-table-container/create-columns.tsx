@@ -15,6 +15,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import { MoreHorizontal } from 'lucide-react';
 import type { ActionType } from '../../hooks';
+import TruncateParagraph from '@/components/ui/truncate-paragraph';
 
 interface MerchantColumnsProps {
   t: TFunction;
@@ -29,6 +30,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
       const _row = row.original;
       return <div className='font-medium'>{_row.id}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'name',
@@ -36,17 +38,18 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     cell: ({ row }) => {
       const _row = row.original;
       const name = `${_row.firstname ?? '-'} ${_row.lastname ?? '-'}`;
-      return <div className='font-medium'>{name}</div>;
+      return <TruncateParagraph truncatedContent={name} fullContent={name} />;
     },
+    enableSorting: false,
   },
   {
-    accessorKey: 'createdAt',
-    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
+    accessorKey: 'email',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.email')} />,
     cell: ({ row }) => {
       const _row = row.original;
-      const date = formatDate(_row.createdAt);
-      return <div className='font-medium'>{date}</div>;
+      return <div className='font-medium'>{_row.email}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'balance',
@@ -55,6 +58,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
       const _row = row.original;
       return <div className='font-medium'>{formatNaturalNumber(_row.balance)}</div>;
     },
+    enableSorting: false,
   },
   {
     accessorKey: 'status',
@@ -64,6 +68,17 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
       const status = _row.status.toLowerCase();
       return <Badge variant={status === 'active' ? 'default' : 'secondary'}>{t(`table.labels.${status}`)}</Badge>;
     },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'createdAt',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.created-at')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      const date = formatDate(_row.createdAt);
+      return <div className='font-medium'>{date}</div>;
+    },
+    enableSorting: false,
   },
   {
     id: 'actions',

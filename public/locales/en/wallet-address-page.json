@@ -81,7 +81,10 @@
     "search": "Search wallet by label or address..."
   },
   "errors": {
-    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)"
+    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)",
+    "duplicate-chain-crypto": "A wallet with this chain and crypto combination already exists",
+    "duplicate-address": "This wallet address already exists in your wallet list",
+    "max-wallets-per-chain": "You have reached the maximum limit of {{max}} wallets for this chain"
   },
   "messages": {
     "add-wallet-address-success": "Wallet address added successfully",

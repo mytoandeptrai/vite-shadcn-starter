@@ -5,6 +5,7 @@
     "headers": {
       "id": "ID",
       "name": "Name",
+      "email": "Email",
       "created-at": "Created At",
       "balance": "Balance",
       "status": "Status",
@@ -89,7 +90,7 @@
     "merchant-wallets": "List of Merchant Wallets"
   },
   "placeholder": {
-    "search": "Search merchants..."
+    "search": "Search merchants by email or name..."
   },
   "messages": {
     "status-updated": "Merchant status updated successfully",
@@ -100,6 +101,10 @@
     "merchant-deleted": "Merchant deleted successfully"
   },
   "errors": {
-    "wallet-addresses-required": "At least one wallet address is required"
+    "wallet-addresses-required": "At least one wallet address is required",
+    "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)",
+    "duplicate-chain-crypto": "A wallet with this chain and crypto combination already exists",
+    "duplicate-address": "This wallet address already exists in your wallet list",
+    "max-wallets-per-chain": "You have reached the maximum limit of {{max}} wallets for this chain"
   }
 }

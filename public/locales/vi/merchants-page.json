@@ -6,6 +6,7 @@
       "id": "ID",
       "name": "Tên",
       "created-at": "Ngày Tạo",
+      "email": "Email",
       "balance": "Số Dư",
       "status": "Trạng Thái",
       "actions": "Hành Động"
@@ -77,7 +78,7 @@
     "merchant-wallets": "Danh sách địa chỉ ví của thương nhân"
   },
   "placeholder": {
-    "search": "Tìm kiếm thương nhân..."
+    "search": "Tìm kiếm thương nhân theo email hoặc tên..."
   },
   "messages": {
     "status-updated": "Cập nhật trạng thái thương nhân thành công",
@@ -88,6 +89,10 @@
     "merchant-deleted": "Thương nhân đã được xóa thành công"
   },
   "errors": {
-    "wallet-addresses-required": "Cần ít nhất một địa chỉ ví"
+    "wallet-addresses-required": "Cần ít nhất một địa chỉ ví",
+    "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, crypto, label và address)",
+    "duplicate-chain-crypto": "Ví với cặp chain và crypto này đã tồn tại",
+    "duplicate-address": "Địa chỉ ví này đã tồn tại trong danh sách ví của bạn",
+    "max-wallets-per-chain": "Bạn đã đạt đến giới hạn tối đa {{max}} ví cho chain này"
   }
 }

@@ -8,7 +8,6 @@ import { MerchantFormContextProvider } from '../../contexts';
 const MerchantContainer = () => {
   const {
     t,
-    isFetching,
     isLoading,
     tableData,
     editingMerchant,
@@ -31,7 +30,7 @@ const MerchantContainer = () => {
           <MerchantTableContainer
             tableData={tableData}
             isLoading={isLoading}
-            isFetching={isFetching}
+            isFetching={isLoading}
             onPaginationChange={onPaginationChange}
             onSortingChange={onSortingChange}
             onAction={onAction}
