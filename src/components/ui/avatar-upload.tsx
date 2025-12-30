@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { formatBytes, useFileUpload, type FileWithPreview } from '@/hooks/use-file-upload';
+import { useTranslation } from '@/integrations/i18n';
 import { cn } from '@/lib/utils';
 import { User, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -19,6 +20,7 @@ export default function AvatarUpload({
   onFileChange,
   defaultAvatar,
 }: AvatarUploadProps) {
+  const { t } = useTranslation('');
   const [
     { files, isDragging },
     { removeFile, handleDragEnter, handleDragLeave, handleDragOver, handleDrop, openFileDialog, getInputProps },
@@ -94,8 +96,8 @@ export default function AvatarUpload({
 
       {/* Upload Instructions */}
       <div className='space-y-0.5 text-center'>
-        <p className='font-medium text-sm'>{currentFile ? 'Avatar uploaded' : 'Upload avatar'}</p>
-        <p className='text-muted-foreground text-xs'>PNG, JPG up to {formatBytes(maxSize)}</p>
+        <p className='font-medium text-sm'>{currentFile ? t('labels.avatar-uploaded') : t('labels.upload-avatar')}</p>
+        <p className='text-muted-foreground text-xs'>{t('labels.png-jpg-up-to', { size: formatBytes(maxSize) })}</p>
       </div>
     </div>
   );

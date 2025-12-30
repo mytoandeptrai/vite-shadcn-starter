@@ -178,7 +178,10 @@
     "system": "System",
     "no-options": "No options",
     "merchants": "Merchants",
-    "search-kbar": "Search..."
+    "search-kbar": "Search...",
+    "avatar-uploaded": "Avatar uploaded",
+    "upload-avatar": "Upload avatar",
+    "png-jpg-up-to": "PNG, JPG up to {{size}}"
   },
   "buttons": {
     "continue": "Continue",

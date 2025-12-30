@@ -31,10 +31,17 @@ const DashboardApiChartUi = ({ data, isLoading }: DashboardApiChartUiProps) => {
             </div>
           )}
         />
-        <Legend />
+        <Legend
+          formatter={(value) => {
+            if (value === 'success') return t('api-chart.success');
+            if (value === 'failure') return t('api-chart.failure');
+            return value;
+          }}
+        />
         <Line
           type='monotone'
           dataKey='success'
+          name={t('api-chart.success')}
           stroke='#22c55e'
           strokeWidth={2}
           dot={{ fill: '#22c55e', r: 4 }}
@@ -43,6 +50,7 @@ const DashboardApiChartUi = ({ data, isLoading }: DashboardApiChartUiProps) => {
         <Line
           type='monotone'
           dataKey='failure'
+          name={t('api-chart.failure')}
           stroke='#ef4444'
           strokeWidth={2}
           dot={{ fill: '#ef4444', r: 4 }}

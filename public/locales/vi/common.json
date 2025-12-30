@@ -135,6 +135,8 @@
     "two-fa-setup-success": "Xác thực hai yếu tố đã được bật thành công. Vui lòng đăng nhập lại để tiếp tục.",
     "two-fa-disabled-success": "Xác thực hai yếu tố đã được tắt thành công.",
     "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này.",
+    "require-enable-two-fa": "Vui lòng bật xác thực hai yếu tố để tiếp tục hành động này.",
+    "require-add-wallet": "Vui lòng thêm địa chỉ ví để tiếp tục hành động này.",
     "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục.",
     "no-results-found": "Không tìm thấy kết quả.",
     "clear-filters": "Xóa bộ lọc",
@@ -163,7 +165,10 @@
     "system": "Hệ thống",
     "no-options": "Không có tùy chọn",
     "merchants": "Thương nhân",
-    "search-kbar": "Tìm kiếm..."
+    "search-kbar": "Tìm kiếm...",
+    "avatar-uploaded": "Ảnh đại diện đã được tải lên",
+    "upload-avatar": "Tải lên ảnh đại diện",
+    "png-jpg-up-to": "PNG, JPG tối đa {{size}}"
   },
   "buttons": {
     "continue": "Tiếp tục",
