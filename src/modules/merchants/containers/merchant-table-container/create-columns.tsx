@@ -66,7 +66,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status.toLowerCase();
-      return <Badge variant={status === 'active' ? 'default' : 'secondary'}>{t(`table.labels.${status}`)}</Badge>;
+      return <Badge variant={status === 'active' ? 'default' : 'failed'}>{t(`table.labels.${status}`)}</Badge>;
     },
     enableSorting: false,
   },
@@ -98,8 +98,8 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>{t('table.headers.actions')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'active' ? 'inactive' : 'active')}>
-              {status === 'active' ? t('table.actions.inactive') : t('table.actions.active')}
+            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'ACTIVE' ? 'inactive' : 'active')}>
+              {status === 'ACTIVE' ? t('table.actions.inactive') : t('table.actions.active')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onAction?.(_row, 'view')}>{t('table.actions.view')}</DropdownMenuItem>
             <DropdownMenuItem onClick={() => onAction?.(_row, 'delete')}>{t('table.actions.delete')}</DropdownMenuItem>

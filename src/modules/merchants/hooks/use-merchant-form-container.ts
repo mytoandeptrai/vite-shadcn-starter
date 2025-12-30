@@ -4,7 +4,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useMerchantFormContext } from '../contexts';
 import { initialMerchantCreateFormData, type MerchantCreateFormData } from './schema';
 import type { ActionType } from './use-merchant-container';
-import { useCreateMarketplaceMerchant, useDeleteMarketplaceMerchant, useUpdateMarketplaceMerchant, type IMerchant } from '@/apis/marketplace';
+import {
+  useCreateMarketplaceMerchant,
+  useDeleteMarketplaceMerchant,
+  useUpdateMarketplaceMerchant,
+  type IMerchant,
+} from '@/apis/marketplace';
 import { toast } from 'sonner';
 
 type Props = {
@@ -25,20 +30,23 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
   const createMarketplaceMerchantMutation = useCreateMarketplaceMerchant();
   const deleteMarketplaceMerchantMutation = useDeleteMarketplaceMerchant();
 
-  const isLoading = updateMarketplaceMerchantMutation.isPending || createMarketplaceMerchantMutation.isPending || deleteMarketplaceMerchantMutation.isPending;
+  const isLoading =
+    updateMarketplaceMerchantMutation.isPending ||
+    createMarketplaceMerchantMutation.isPending ||
+    deleteMarketplaceMerchantMutation.isPending;
 
   const onCloseDialog = () => {
     onClose?.();
   };
 
   const onSubmit = async (data: MerchantCreateFormData) => {
-    if(isLoading) return;
+    if (isLoading) return;
     const payload = {
       firstname: data.firstName,
       lastname: data.lastName,
       email: data.email,
       walletAddresses: data.walletAddresses,
-    }
+    };
     switch (actionType) {
       case 'create':
         await createMarketplaceMerchantMutation.mutateAsync(payload);
@@ -51,8 +59,22 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
         });
         toast.success(t('messages.merchant-updated'));
         break;
+      case 'inactive':
+        await updateMarketplaceMerchantMutation.mutateAsync({
+          id: initialData?.id?.toString() ?? '',
+          status: 'INACTIVE',
+        });
+        toast.success(t('messages.merchant-updated'));
+        break;
+      case 'active':
+        await updateMarketplaceMerchantMutation.mutateAsync({
+          id: initialData?.id?.toString() ?? '',
+          status: 'ACTIVE',
+        });
+        toast.success(t('messages.merchant-updated'));
+        break;
       case 'delete':
-        await deleteMarketplaceMerchantMutation.mutateAsync({id: initialData?.id?.toString() ?? ''});
+        await deleteMarketplaceMerchantMutation.mutateAsync({ id: initialData?.id?.toString() ?? '' });
         toast.success(t('messages.merchant-deleted'));
         break;
       default:
@@ -90,7 +112,6 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
   useEffect(() => {
     if (open && initialData) {
       const walletAddresses = initialData?.walletAddresses ?? [];
-      // Map wallet addresses to form structure (extract only needed fields)
       const mappedWalletAddresses = walletAddresses.map((wa) => ({
         chain: wa?.chain,
         crypto: wa?.crypto,

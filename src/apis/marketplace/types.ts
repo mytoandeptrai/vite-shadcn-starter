@@ -19,14 +19,15 @@ export interface GetMarketplaceMerchantsListParams extends CommonRequestType {
 }
 
 export interface CreateMarketplaceMerchantParams {
-  firstname: string;
-  lastname: string;
-  email: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
   walletAddresses?: Partial<IWalletAddress>[];
 }
 
 export interface UpdateMarketplaceMerchantParams extends CreateMarketplaceMerchantParams {
   id: string;
+  status?: string;
 }
 
 export interface DeleteMarketplaceMerchantParams {
