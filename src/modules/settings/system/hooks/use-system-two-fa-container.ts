@@ -1,5 +1,6 @@
 import { KEYS, useDisableTwoFa } from '@/apis/auth';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { getContext } from '@/integrations/tanstack-query/root-provider';
 import { useCallback, useState } from 'react';
@@ -7,12 +8,13 @@ import { toast } from 'sonner';
 
 export const useSystemTwoFaContainer = () => {
   const { t } = useTranslation('settings-page');
+
+  const { onOpenTwoFAModal, onCloseModal } = useDialogContext();
   const { user, onRefetch } = useAuthContext();
   const { queryClient } = getContext();
-  const isEnabledTwoFa = user?.twoFAEnabled ?? false;
-
   const disableTwoFaMutation = useDisableTwoFa();
 
+  const isEnabledTwoFa = user?.twoFAEnabled ?? false;
   const isLoading = disableTwoFaMutation.isPending;
 
   const [isOpenSteps, setIsOpenSteps] = useState(false);
@@ -40,13 +42,21 @@ export const useSystemTwoFaContainer = () => {
 
   const onSubmitRemoveTwoFa = useCallback(
     async (password: string) => {
-      await disableTwoFaMutation.mutateAsync({ password });
-      await queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
-      onRefetch();
-      toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
-      setIsRemovedTwoFa(false);
+      onOpenTwoFAModal({
+        forceOpen: true,
+        skipInitVerification: true,
+        closeOnSubmit: false,
+        cb: async (code) => {
+          await disableTwoFaMutation.mutateAsync({ password, twoFACode: code! });
+          await queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
+          onRefetch();
+          toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
+          setIsRemovedTwoFa(false);
+          onCloseModal();
+        },
+      });
     },
-    [disableTwoFaMutation, onRefetch, queryClient.invalidateQueries, t]
+    [disableTwoFaMutation, onRefetch, queryClient.invalidateQueries, t, onCloseModal, onOpenTwoFAModal]
   );
 
   return {

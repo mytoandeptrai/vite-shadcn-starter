@@ -1,5 +1,5 @@
 import { useGetTransactionList, type ITransaction } from '@/apis/transactions';
-import { PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
+import { BASE_REFRESH_INTERVAL, PAGE_SIZE_OPTIONS, ROUTES } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { Route } from '@/routes/(private)/transactions';
 import { filterBooleanArray } from '@/utils';
@@ -26,7 +26,10 @@ export const useAllActivityContainer = () => {
     toDate: search.toDate,
   };
 
-  const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters);
+  const { data, isFetching, isLoading, refetch } = useGetTransactionList(filters, {
+    refetchInterval: BASE_REFRESH_INTERVAL,
+    placeholderData: (prev) => prev,
+  });
 
   const onPaginationChange = (page: number, pageSize: number, action: 'pagination' | 'limiting') => {
     navigate({

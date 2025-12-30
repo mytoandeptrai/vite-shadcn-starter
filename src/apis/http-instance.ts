@@ -157,7 +157,7 @@ class HttpInstance {
 
     try {
       const refreshToken = useSessionStore.getState().refreshToken;
-      const urlEndpoint = `${this.baseURL}/merchants/refresh-token`;
+      const urlEndpoint = `${this.baseURL}merchants/refresh-token`;
 
       const response = await axios.post(
         urlEndpoint,

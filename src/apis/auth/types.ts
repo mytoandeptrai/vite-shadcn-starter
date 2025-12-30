@@ -87,6 +87,7 @@ export interface VerifyTwoFaParams {
 
 export interface DisableTwoFaParams {
   password: string;
+  twoFACode: string;
 }
 
 export interface SignoutParams {

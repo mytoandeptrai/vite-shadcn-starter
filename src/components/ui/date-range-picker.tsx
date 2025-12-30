@@ -6,9 +6,9 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useTranslation } from '@/integrations/i18n';
 import { cn } from '@/lib/utils';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, XCircle } from 'lucide-react';
 import type { DateRange } from 'react-day-picker';
-import { HStack, VStack } from '../utilities';
+import { HStack, Show, VStack } from '../utilities';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   dateRange?: DateRange;
@@ -32,6 +32,14 @@ export default function DateRangePicker({
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<DateRange | undefined>(undefined);
   const draftRef = React.useRef(dateRange);
+
+  const onReset = (e?: React.MouseEvent<HTMLDivElement>) => {
+    e?.stopPropagation();
+    draftRef.current = undefined;
+    setDate(undefined);
+    onOK?.(undefined);
+    setOpen(false);
+  };
 
   const onCancel = () => {
     setDate(draftRef.current);
@@ -70,6 +78,22 @@ export default function DateRangePicker({
             ) : (
               <span className='font-medium'>{placeholder}</span>
             )}
+            <Show when={!!date?.from || !!date?.to}>
+              <div
+                onClick={onReset}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event?.stopPropagation();
+                    onReset();
+                  }
+                }}
+                role='button'
+                tabIndex={0}
+                className='rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring'
+              >
+                <XCircle />
+              </div>
+            </Show>
           </Button>
         </PopoverTrigger>
         <PopoverContent className='w-auto p-0' align='start'>

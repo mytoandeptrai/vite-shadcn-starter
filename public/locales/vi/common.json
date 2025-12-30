@@ -201,7 +201,13 @@
         "secureLogin": "Đăng nhập an toàn",
         "protectYourAccountWithStrongEncryption": "Bảo vệ tài khoản của bạn bằng mã hóa mạnh",
         "fastAccess": "Truy cập nhanh",
-        "quickAccessToYourDashboard": "Truy cập nhanh vào bảng điều khiển của bạn"
+        "quickAccessToYourDashboard": "Truy cập nhanh vào bảng điều khiển của bạn",
+        "stayInControl": "Toàn quyền kiểm soát",
+        "manageYourBusinessConfidently": "Quản lý doanh nghiệp một cách tự tin",
+        "builtForMerchants": "Được thiết kế dành riêng cho nhà bán hàng",
+        "optimizedForDailyOperations": "Tối ưu cho vận hành hằng ngày",
+        "reliableAuthentication": "Xác thực đáng tin cậy",
+        "zeroDowntimeGuaranteed": "Đảm bảo không gián đoạn hệ thống"
       }
     }
   },

@@ -72,3 +72,5 @@ export const PROTOCOL_CHAIN_MAPPING: Record<string, string> = {
   BEP20: 'BSC',
   ERC20: 'ETH',
 };
+
+export const BASE_REFRESH_INTERVAL = 1000 * 10; // 10 seconds
