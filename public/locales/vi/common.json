@@ -138,7 +138,8 @@
     "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục.",
     "no-results-found": "Không tìm thấy kết quả.",
     "clear-filters": "Xóa bộ lọc",
-    "link-expired-success": "Liên kết đã được tạo mới. Vui lòng thử lại."
+    "link-expired-success": "Liên kết đã được tạo mới. Vui lòng thử lại.",
+    "reset-password-success": "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại để tiếp tục."
   },
   "labels": {
     "all": "Tất cả",
