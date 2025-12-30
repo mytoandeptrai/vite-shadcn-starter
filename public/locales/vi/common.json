@@ -101,7 +101,8 @@
       "DUPLICATE_WALLET_ADDRESS": "Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
       "WALLET_ADDRESS_ALREADY_EXISTS": "Địa chỉ ví này đã tồn tại. Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
       "INSUFFICIENT_BALANCE": "Số dư không đủ để rút tiền",
-      "WITHDRAWAL_NOT_FOUND": "Yêu cầu rút tiền không tồn tại"
+      "WITHDRAWAL_NOT_FOUND": "Yêu cầu rút tiền không tồn tại",
+      "INVALID_EMAIL": "Địa chỉ email không hợp lệ."
     },
     "validations": {
       "MSG-1.3": "Họ không được vượt quá 100 ký tự.",
