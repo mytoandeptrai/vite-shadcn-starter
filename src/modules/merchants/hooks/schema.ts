@@ -50,18 +50,70 @@ const merchantCreateFormSchema = (t: TFunction) => {
 
   return z
     .object({
-      firstName: z.string().min(1, {
-        message: t('errors.common.field-required', {
-          field: t('fields.first-name.label'),
-          ns: 'common',
+      firstName: z
+        .string()
+        .min(1, {
+          message: t('errors.common.field-required', {
+            field: t('fields.first-name.label'),
+            ns: 'common',
+          }),
+        })
+        .max(100, t('errors.validations.MSG-1.3', { ns: 'common' }))
+        .superRefine((val, ctx) => {
+          if (val.trim().length === 0) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.common.field-required', {
+                field: t('fields.first-name.label'),
+                ns: 'common',
+              }),
+            });
+          }
+          if (/[^a-zA-Z\d\s]/.test(val)) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.validations.MSG-1.5', { ns: 'common' }),
+            });
+          }
+          if (/\d/.test(val)) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.validations.MSG-1.4', { ns: 'common' }),
+            });
+          }
         }),
-      }),
-      lastName: z.string().min(1, {
-        message: t('errors.common.field-required', {
-          field: t('fields.last-name.label'),
-          ns: 'common',
+      lastName: z
+        .string()
+        .min(1, {
+          message: t('errors.common.field-required', {
+            field: t('fields.last-name.label'),
+            ns: 'common',
+          }),
+        })
+        .max(100, t('errors.validations.MSG-1.7'))
+        .superRefine((val, ctx) => {
+          if (val.trim().length === 0) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.common.field-required', {
+                field: t('fields.last-name.label'),
+                ns: 'common',
+              }),
+            });
+          }
+          if (/[^a-zA-Z\d\s]/.test(val)) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.validations.MSG-1.9', { ns: 'common' }),
+            });
+          }
+          if (/\d/.test(val)) {
+            ctx.addIssue({
+              code: 'custom',
+              message: t('errors.validations.MSG-1.8', { ns: 'common' }),
+            });
+          }
         }),
-      }),
       email: z
         .string()
         .min(1, {

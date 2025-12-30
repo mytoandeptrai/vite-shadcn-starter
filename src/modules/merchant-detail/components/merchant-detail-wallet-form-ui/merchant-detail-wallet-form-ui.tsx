@@ -65,6 +65,7 @@ const MerchantDetailWalletFormUi = ({
           label={t('fields.wallet-address.label')}
           placeholder={t('fields.wallet-address.placeholder')}
           required
+          disabled={actionType === 'update'}
         />
       </Show>
       <div className='flex items-center justify-between gap-2 pt-2'>
