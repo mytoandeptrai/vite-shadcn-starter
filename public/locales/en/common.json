@@ -112,6 +112,7 @@
       "REDEEM_REQUEST_LIMIT": "You have reached limit of redemption requests.",
       "MALICIOUS_FILE_UPLOAD": "This file has been identified as malware or spam and cannot be downloaded.",
       "DUPLICATE_WALLET_ADDRESS": "Only one wallet address is allowed per chain and crypto.",
+      "WALLET_ADDRESS_ALREADY_EXISTS": "This wallet address already exists. nly one wallet address is allowed per chain and crypto.",
       "INSUFFICIENT_BALANCE": "Insufficient balance for withdrawal",
       "WITHDRAWAL_NOT_FOUND": "Withdrawal not found"
     },

@@ -99,6 +99,7 @@
       "REDEEM_REQUEST_LIMIT": "Bạn đã đạt được số lượng yêu cầu rút tiền tối đa.",
       "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống.",
       "DUPLICATE_WALLET_ADDRESS": "Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
+      "WALLET_ADDRESS_ALREADY_EXISTS": "Địa chỉ ví này đã tồn tại. Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
       "INSUFFICIENT_BALANCE": "Số dư không đủ để rút tiền",
       "WITHDRAWAL_NOT_FOUND": "Yêu cầu rút tiền không tồn tại"
     },
