@@ -5,6 +5,7 @@ export const env = {
   APP_SUPPORT_EMAIL: import.meta.env.VITE_APP_SUPPORT_EMAIL || '',
   ENVIRONMENT: import.meta.env.VITE_ENV || '',
   RECAPTCHA_SITE_KEY: import.meta.env.VITE_RECAPTCHA_SITE_KEY || '',
+  SDK_LIST: import.meta.env.VITE_SDK_LIST || '',
 };
 
 export const NUMBER_FORMAT_LOOK_UP = [

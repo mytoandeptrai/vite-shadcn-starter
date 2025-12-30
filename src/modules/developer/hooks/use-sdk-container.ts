@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { ISDK } from '../types/sdk.types';
-import { useGetSDKList } from '@/apis/developer';
+import { getSDKListFromEnv } from '../constants/sdk.constants';
 
 export const useSDKContainer = () => {
   const [selectedSDK, setSelectedSDK] = useState<ISDK | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data } = useGetSDKList();
+  const data = useMemo(() => {
+    const sdkList = getSDKListFromEnv();
+    return {
+      data: sdkList,
+    };
+  }, []);
 
   const handleSDKClick = (sdk: ISDK) => {
     setSelectedSDK(sdk);
