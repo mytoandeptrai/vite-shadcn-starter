@@ -7,7 +7,6 @@ import { useMemo } from "react";
 const STATUS_OPTIONS = (t: TFunction): Option<string>[] => [
   { label: t("status.active"), value: "ACTIVE" },
   { label: t("status.inactive"), value: "INACTIVE" },
-  { label: t("status.suspended"), value: "SUSPENDED" },
 ];
 
 export const useTableFilterContainer = () => {
