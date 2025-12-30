@@ -98,11 +98,10 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>{t('table.headers.actions')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'ACTIVE' ? 'inactive' : 'active')}>
-              {status === 'ACTIVE' ? t('table.actions.inactive') : t('table.actions.active')}
+            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'ACTIVE' ? 'suspend' : 'active')}>
+              {status === 'ACTIVE' ? t('table.actions.suspend') : t('table.actions.active')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onAction?.(_row, 'view')}>{t('table.actions.view')}</DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onAction?.(_row, 'delete')}>{t('table.actions.delete')}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

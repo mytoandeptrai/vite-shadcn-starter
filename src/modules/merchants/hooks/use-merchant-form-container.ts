@@ -73,9 +73,9 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
         });
         toast.success(t('messages.merchant-updated'));
         break;
-      case 'delete':
+      case 'suspend':
         await deleteMarketplaceMerchantMutation.mutateAsync({ id: initialData?.id?.toString() ?? '' });
-        toast.success(t('messages.merchant-deleted'));
+        toast.success(t('messages.merchant-suspended'));
         break;
       default:
         break;

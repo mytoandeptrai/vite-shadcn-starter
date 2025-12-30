@@ -5,7 +5,7 @@ import { Route } from '@/routes/(private)/merchants';
 import type { SortingState } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
 
-export type ActionType = 'create' | 'inactive' | 'active' | 'view' | 'delete' | 'update' | null;
+export type ActionType = 'create' | 'inactive' | 'active' | 'view' | 'suspend' | 'update' | null;
 
 export const useMerchantContainer = () => {
   const { t } = useTranslation('merchants-page');
