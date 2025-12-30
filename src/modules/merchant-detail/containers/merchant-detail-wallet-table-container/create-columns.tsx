@@ -6,7 +6,7 @@ import type { TFunction } from 'i18next';
 import { Check, Pencil, Trash2, X } from 'lucide-react';
 import type { WalletActionType } from '../../hooks';
 import TruncateParagraph from '@/components/ui/truncate-paragraph';
-import { formatAddress } from '@/utils';
+import { capitalizeFirstLetter, formatAddress } from '@/utils';
 
 interface MerchantColumnsProps {
   t: TFunction;
@@ -31,6 +31,16 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     cell: ({ row }) => {
       const _row = row.original;
       return <TruncateParagraph truncatedContent={_row.label} fullContent={_row.label} />;
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'chain',
+    header: ({ column }) => <DataTableColumnHeader column={column} title={t('wallet-management.tables.headers.chain')} />,
+    cell: ({ row }) => {
+      const _row = row.original;
+      const chain = _row.chain;
+      return <div className='font-medium'>{capitalizeFirstLetter(chain)}</div>;
     },
     enableSorting: false,
   },
