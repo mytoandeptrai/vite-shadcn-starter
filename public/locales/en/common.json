@@ -28,6 +28,7 @@
       "field-cannot-contain-space": "{{field}} cannot contain space.",
       "invalid-file-type": "Invalid file extension, only {{text}} is accepted.",
       "invalid-file-size": "File size cannot exceed {{size}}.",
+      "field-gt": "{{field}} has to be greater than {{amount}}.",
       "field-gte": "{{field}} has to be greater than or equal to {{amount}}.",
       "field-lt": "{{field}} cannot be greater than {{amount}}.",
       "special-chars": "{{field}} cannot contain special characters.",

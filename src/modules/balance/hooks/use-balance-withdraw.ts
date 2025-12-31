@@ -23,7 +23,7 @@ export const useBalanceWithdraw = ({ onClose, max, balanceId }: BalanceWithdrawU
   });
 
   const submit = async (data: BalanceWithdrawFormData) => {
-    if (!balanceId || data.amount === undefined) return;
+    if (!balanceId || !data.amount) return;
     await createWithdrawalMutation.mutateAsync({
       amount: data.amount,
       external_wallet_id: +data.address,

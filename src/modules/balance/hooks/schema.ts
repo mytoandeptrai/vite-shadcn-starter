@@ -10,8 +10,14 @@ const balanceWithdrawFormSchema = (t: TFunction) =>
           field: t('dialogs.balance-withdraw.fields.amount.label'),
           ns: 'common',
         }),
+      }).gt(0, {
+        error: t('errors.common.field-gt', {
+          field: t('dialogs.balance-withdraw.fields.amount.label'),
+          amount: 0,
+          ns: 'common',
+        }),
       }),
-      previousAmount: z.number().optional(),
+      previousAmount: z.number().nonnegative().optional(),
       address: z.string().min(1, {
         message: t('errors.common.field-required', {
           field: t('dialogs.balance-withdraw.fields.address.label'),
