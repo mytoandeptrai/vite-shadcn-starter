@@ -72,3 +72,8 @@ export const PROTOCOL_CHAIN_MAPPING: Record<string, string> = {
   BRC20: 'BSC',
   ERC20: 'ETH',
 };
+
+export const STABLE_TOKEN: Record<string, string> = {
+  USDC: "USDC",
+  USDT: "USDT"
+}
