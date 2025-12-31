@@ -4,20 +4,17 @@ import type { FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import type { BaseFormFieldProps } from '@/types/base-form';
+import type * as React from 'react';
 
-interface FormInputProps<
+interface FormattedNumberInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends BaseFormFieldProps<TFieldValues, TName> {
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
   placeholder?: string;
-  step?: string | number;
-  min?: string | number;
-  max?: string | number;
   suffix?: React.ReactNode;
 }
 
-function FormInput<
+function FormattedNumberInput<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
@@ -26,16 +23,12 @@ function FormInput<
   label,
   description,
   required,
-  type = 'text',
   placeholder,
-  step,
-  min,
-  max,
   disabled,
   className,
   readOnly,
   suffix,
-}: FormInputProps<TFieldValues, TName>) {
+}: FormattedNumberInputProps<TFieldValues, TName>) {
   return (
     <FormField
       control={control}
@@ -50,23 +43,21 @@ function FormInput<
           )}
           <FormControl>
             <Input
-              type={type}
+              type="text"
               placeholder={placeholder}
-              step={step}
-              min={min}
-              max={max}
               disabled={disabled}
               readOnly={readOnly}
               suffix={suffix}
-              {...field}
+              value={field.value !== undefined && field.value !== null && !Number.isNaN(Number(field.value)) ? Number(field.value).toLocaleString('en-US') : ''}
               onChange={(e) => {
-                if (type === 'number') {
-                  const value = e.target.value;
-                  field.onChange(value === '' ? undefined : Number.parseFloat(value));
-                } else {
-                  field.onChange(e.target.value);
+                const value = e.target.value.replace(/,/g, '');
+                if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                  const numValue = value === '' ? undefined : Number.parseFloat(value);
+                  field.onChange(numValue);
                 }
               }}
+              onBlur={field.onBlur}
+              name={field.name}
             />
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
@@ -77,4 +68,4 @@ function FormInput<
   );
 }
 
-export { FormInput };
+export { FormattedNumberInput };
