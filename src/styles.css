@@ -57,6 +57,7 @@ code {
   --stroke-desktop: #a855f7;  /* purple-500 */
   --stroke-success: #10b981;  /* emerald-500 */
   --stroke-fail: #ef4444;  /* red-500 */
+  --warning: #f59e0b;
 }
 
 .dark {
@@ -98,6 +99,7 @@ code {
   --stroke-desktop: #c084fc;  /* purple-400 */
   --stroke-success: #10b981;  /* emerald-500 */
   --stroke-fail: #ef4444;  /* red-500 */
+  --warning: #f59e0b;
 }
 
 @theme inline {
@@ -143,6 +145,8 @@ code {
   --color-stroke-desktop: var(--stroke-desktop);
   --color-stroke-success: var(--stroke-success);
   --color-stroke-fail: var(--stroke-fail);
+
+  --color-warning: var(--warning);
 }
 
 @layer base {

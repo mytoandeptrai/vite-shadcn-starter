@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/integrations/i18n';
 import { formatDate } from '@/utils';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, TriangleAlertIcon } from 'lucide-react';
 
 type DeveloperApiKeysInputUiProps = {
   onOpenDialog: () => void;
@@ -59,7 +59,10 @@ const DeveloperApiKeysInputUi = ({
             />
             <CopyButton value={secretKey} />
           </div>
-          <p className='text-destructive text-xs'>{t('api-keys.labels.secret-key-description')}</p>
+          <div className='flex items-center gap-2'>
+            <TriangleAlertIcon size={16} className='text-warning' />
+            <p className='font-semibold text-xs'>{t('api-keys.labels.secret-key-description')}</p>
+          </div>
         </div>
       </CardContent>
     </Card>
