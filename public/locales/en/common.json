@@ -157,7 +157,8 @@
     "no-results-found": "No results found.",
     "clear-filters": "Clear filters",
     "link-expired-success": "Link has been created again. Please try again.",
-    "reset-password-success": "Password reset successfully. Please login again to continue."
+    "reset-password-success": "Password reset successfully. Please login again to continue.",
+    "unpermitted": "You do not have permission to perform this action."
   },
   "labels": {
     "all": "All",

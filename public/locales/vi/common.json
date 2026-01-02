@@ -144,7 +144,8 @@
     "no-results-found": "Không tìm thấy kết quả.",
     "clear-filters": "Xóa bộ lọc",
     "link-expired-success": "Liên kết đã được tạo mới. Vui lòng thử lại.",
-    "reset-password-success": "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại để tiếp tục."
+    "reset-password-success": "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại để tiếp tục.",
+    "unpermitted": "Bạn không có quyền thực hiện hành động này."
   },
   "labels": {
     "all": "Tất cả",
