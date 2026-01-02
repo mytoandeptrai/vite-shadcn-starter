@@ -310,8 +310,8 @@ export const formatTimeFromSeconds = (seconds: number, t: TFunction): string => 
 };
 
 export const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('chains.ETH', { ns: 'common' }), value: 'ETH' },
-  { label: t('chains.BNB', { ns: 'common' }), value: 'BSC' },
+  { label: t('chains.ETH', { ns: 'common' }), value: 'ETH', disabled: false },
+  { label: t('chains.BNB', { ns: 'common' }), value: 'BSC', disabled: true },
 ];
 
 export const CRYPTO_OPTIONS = (t: TFunction): Option<string>[] => [
