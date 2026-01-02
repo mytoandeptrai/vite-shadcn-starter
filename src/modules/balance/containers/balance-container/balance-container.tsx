@@ -55,7 +55,7 @@ const BalanceContainer = () => {
       <Show when={isOpenDialog}>
         <BalanceWithDrawUi
           walletTokenOptions={walletTokenOptions}
-          selectedToken={selectedToken}
+          selectedToken={selectedToken.split('-')[0] ?? undefined}
           open={isOpenDialog}
           max={balanceAvailable}
           balanceId={balanceId}

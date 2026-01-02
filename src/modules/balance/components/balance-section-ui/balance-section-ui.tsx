@@ -2,12 +2,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { Show } from '@/components/utilities';
-import { PROTOCOL_CHAIN_MAPPING } from '@/constant';
+import { STABLE_TOKEN } from '@/constant';
 import { useTranslation } from '@/integrations/i18n';
 import { useCurrencyStore } from '@/stores/use-base-store';
 import { formatCurrencyWithDecimals, formatNaturalNumber } from '@/utils';
-import { Clock4Icon, EqualApproximatelyIcon, Wallet } from 'lucide-react';
 import BigNumber from 'bignumber.js';
+import { Clock4Icon, EqualApproximatelyIcon, Wallet } from 'lucide-react';
 
 type BalanceSectionUiProps = {
   title: string;
@@ -51,7 +51,7 @@ const BalanceSectionUi = ({
       <CardContent>
         <div className='text-balance font-bold text-xl'>
           {formatNaturalNumber(amount)}
-          <span className='ml-1'>{PROTOCOL_CHAIN_MAPPING[selectedToken.split('-')[1]] ?? '-'}</span>
+          <span className='ml-1'>{STABLE_TOKEN[selectedToken.split('-')[0]] ?? '-'}</span>
         </div>
         <div className='flex items-center gap-0.5'>
           <EqualApproximatelyIcon className='h-4 w-4 text-muted-foreground' />

@@ -1,4 +1,4 @@
-import { FormInput } from '@/components/form-fields/form-input';
+import { FormNumberInput } from '@/components/form-fields/form-number-input';
 import { FormSelect } from '@/components/form-fields/form-select';
 import { Button } from '@/components/ui/button';
 import { FormWrapper } from '@/components/ui/form';
@@ -20,7 +20,7 @@ export type BalanceWithdrawUiProps = React.ComponentProps<typeof DialogPrimitive
 };
 
 const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
-  const { open, onClose, max, walletTokenOptions } = props;
+  const { open, onClose, max, walletTokenOptions, selectedToken } = props;
   const { t, form, isLoading, submit } = useBalanceWithdraw(props);
 
   return (
@@ -32,15 +32,17 @@ const BalanceWithdrawUi = (props: BalanceWithdrawUiProps) => {
     >
       <FormWrapper className='space-y-4' form={form} onSubmit={submit}>
         <div className='flex items-start gap-1'>
-          <FormInput
+          <FormNumberInput
             control={form.control}
             disabled={isLoading}
             name='amount'
-            type='number'
             label={t('dialogs.balance-withdraw.fields.amount.label')}
             placeholder={t('dialogs.balance-withdraw.fields.amount.placeholder')}
             className='flex-1'
             required
+            suffix={selectedToken ? ` ${selectedToken}` : undefined}
+            decimalScale={2}
+            thousandSeparator
           />
           <Button
             className='mt-8 w-fit'

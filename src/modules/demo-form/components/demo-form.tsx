@@ -17,6 +17,7 @@ import { FormSlider } from '@/components/form-fields/form-slider';
 import { FormSwitch } from '@/components/form-fields/form-switch';
 import { FormTextarea } from '@/components/form-fields/form-textarea';
 import { FormDateRangePicker } from '@/components/form-fields/form-date-range-picker';
+import { FormNumberInput } from '@/components/form-fields/form-number-input';
 
 // Demo form schema
 const demoFormSchema = z.object({
@@ -53,6 +54,7 @@ const demoFormSchema = z.object({
   // File upload
   avatar: z.array(z.any()).optional(),
 
+  // Date range picker
   dateRange: z
     .object({
       from: z.date().optional(),
@@ -76,6 +78,22 @@ const demoFormSchema = z.object({
         });
       }
     }),
+
+  // Token selection
+  token: z.string().min(1, 'Please select a token'),
+
+  // Withdrawal amount with dynamic validation
+  withdrawAmount: z.number().min(0, 'Amount must be at least 0'),
+  maxBalance: z.number().optional(),
+}).superRefine((data, ctx) => {
+  // Validate withdrawAmount <= maxBalance
+  if (data.maxBalance !== undefined && data.withdrawAmount > data.maxBalance) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['withdrawAmount'],
+      message: `Amount must not exceed max balance: ${data.maxBalance.toFixed(2)}`,
+    });
+  }
 });
 
 type DemoFormData = z.infer<typeof demoFormSchema>;
@@ -106,6 +124,14 @@ const genderOptions = [
   { value: 'prefer-not-to-say', label: 'Prefer not to say' },
 ];
 
+const tokenOptions: FormOption[] = [
+  { value: 'USDT', label: 'USDT (Tether)' },
+  { value: 'BTC', label: 'BTC (Bitcoin)' },
+  { value: 'ETH', label: 'ETH (Ethereum)' },
+  { value: 'BNB', label: 'BNB (Binance Coin)' },
+  { value: 'USDC', label: 'USDC (USD Coin)' },
+];
+
 const fileUploadConfig: FileUploadConfig = {
   maxSize: 5000000, // 5MB
   acceptedTypes: ['image/jpeg', 'image/png', 'image/webp'],
@@ -134,6 +160,9 @@ export function DemoForm() {
         from: undefined,
         to: undefined,
       },
+      token: '',
+      withdrawAmount: 0,
+      maxBalance: 10000, // Demo max balance
     },
   });
 
@@ -253,6 +282,46 @@ export function DemoForm() {
               }}
               showValue={true}
             />
+
+            {/* Withdrawal Demo - Token Selection */}
+            <FormSelect
+              control={form.control}
+              name='token'
+              label='Select Token'
+              placeholder='Choose a cryptocurrency'
+              options={tokenOptions}
+              description='Select token for withdrawal demo'
+              required
+            />
+
+            {/* Withdrawal Demo - Amount with Dynamic Suffix */}
+            <div className='space-y-2'>
+              <div className='flex items-start gap-1'>
+                <FormNumberInput
+                  control={form.control}
+                  name='withdrawAmount'
+                  label='Withdrawal Amount'
+                  placeholder='Enter withdrawal amount'
+                  className='flex-1'
+                  required
+                  suffix={form.watch('token') ? ` ${form.watch('token')}` : undefined}
+                  decimalScale={2}
+                  thousandSeparator
+                />
+                <Button
+                  className='mt-8 w-fit'
+                  type='button'
+                  variant='ghost'
+                  size='sm'
+                  onClick={() => form.setValue('withdrawAmount', form.getValues('maxBalance') || 10000, { shouldValidate: true })}
+                >
+                  Max
+                </Button>
+              </div>
+              <p className='text-muted-foreground text-sm'>
+                Max balance: {form.watch('maxBalance')?.toLocaleString() || 0} (validation: amount must be ≥ 0 and ≤ max balance)
+              </p>
+            </div>
 
             {/* Date Picker */}
             <FormDatePicker

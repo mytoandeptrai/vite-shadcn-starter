@@ -5,12 +5,15 @@ import z from 'zod';
 const balanceWithdrawFormSchema = (t: TFunction) =>
   z
     .object({
-      amount: z.number({
-        error: t('errors.common.field-required', {
-          field: t('dialogs.balance-withdraw.fields.amount.label'),
-          ns: 'common',
+      amount: z
+        .number()
+        .min(0, {
+          message: t('errors.common.field-gte', {
+            field: t('dialogs.balance-withdraw.fields.amount.label'),
+            amount: 0,
+            ns: 'common',
+          }),
         }),
-      }),
       previousAmount: z.number().optional(),
       address: z.string().min(1, {
         message: t('errors.common.field-required', {
@@ -20,17 +23,7 @@ const balanceWithdrawFormSchema = (t: TFunction) =>
       }),
     })
     .superRefine((data, ctx) => {
-      if (!data.amount && data.amount !== 0) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['amount'],
-          message: t('errors.common.field-required', {
-            field: t('dialogs.balance-withdraw.fields.amount.label'),
-            ns: 'common',
-          }),
-        });
-      }
-
+      // Validate amount <= previousAmount (max balance)
       if (data.previousAmount !== undefined && data.amount > data.previousAmount) {
         ctx.addIssue({
           code: 'custom',

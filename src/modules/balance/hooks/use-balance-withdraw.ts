@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const useBalanceWithdraw = ({ onClose, max, balanceId }: BalanceWithdrawUiProps) => {
   const { t } = useTranslation('balance-page');
   const { queryClient } = getContext();
-  
+
   const [idempotencyKey] = useState(() => uuidv4());
   const createWithdrawalMutation = useCreateWithdrawal();
   const isLoading = createWithdrawalMutation.isPending;
@@ -26,11 +26,22 @@ export const useBalanceWithdraw = ({ onClose, max, balanceId }: BalanceWithdrawU
 
   const submit = async (data: BalanceWithdrawFormData) => {
     if (!balanceId) return;
+    if (data.amount === 0) {
+      form.setError('amount', {
+        type: 'manual',
+        message: t('errors.common.field-gt', {
+          field: t('dialogs.balance-withdraw.fields.amount.label'),
+          amount: 0,
+          ns: 'common',
+        }),
+      });
+      return;
+    }
     await createWithdrawalMutation.mutateAsync({
       amount: data.amount,
       external_wallet_id: +data.address,
       wallet_balance_id: balanceId,
-      idempotencyKey
+      idempotencyKey,
     });
     queryClient.invalidateQueries({ queryKey: [KEYS.TRANSACTIONS] });
     toast.success(t('messages.withdrawal-success'));

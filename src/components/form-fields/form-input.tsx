@@ -14,6 +14,7 @@ interface FormInputProps<
   step?: string | number;
   min?: string | number;
   max?: string | number;
+  suffix?: string;
 }
 
 function FormInput<
@@ -33,6 +34,7 @@ function FormInput<
   disabled,
   className,
   readOnly,
+  suffix
 }: FormInputProps<TFieldValues, TName>) {
   return (
     <FormField
@@ -55,6 +57,7 @@ function FormInput<
               max={max}
               disabled={disabled}
               readOnly={readOnly}
+              suffix={suffix}
               {...field}
               onChange={(e) => {
                 if (type === 'number') {
