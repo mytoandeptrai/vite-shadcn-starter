@@ -47,12 +47,15 @@ export const useSystemTwoFaContainer = () => {
         skipInitVerification: true,
         closeOnSubmit: false,
         cb: async (code) => {
-          await disableTwoFaMutation.mutateAsync({ password, twoFACode: code! });
-          await queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
-          onRefetch();
-          toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
-          setIsRemovedTwoFa(false);
-          onCloseModal();
+          try {
+            await disableTwoFaMutation.mutateAsync({ password, twoFACode: code! });
+            await queryClient.invalidateQueries({ queryKey: [KEYS.INFO] });
+            onRefetch();
+            toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
+            setIsRemovedTwoFa(false);
+          } finally {
+            onCloseModal();
+          }
         },
       });
     },
