@@ -99,6 +99,7 @@
     "duplicate-wallet-address": "Cấu hình địa chỉ ví này đã tồn tại (trùng chain, crypto, label và address)",
     "duplicate-chain-crypto": "Ví với cặp chain và crypto này đã tồn tại",
     "duplicate-address": "Địa chỉ ví này đã tồn tại trong danh sách ví của bạn",
-    "max-wallets-per-chain": "Bạn đã đạt đến giới hạn tối đa {{max}} ví cho chain này"
+    "max-wallets-per-chain": "Bạn đã đạt đến giới hạn tối đa {{max}} ví cho chain này",
+    "you-need-to-add-wallet-merchant-first": "Bạn cần thêm địa chỉ ví cho thương nhân này trước khi thực hiện hành động này."
   }
 }

@@ -111,6 +111,7 @@
     "duplicate-wallet-address": "This wallet address configuration already exists (duplicate chain, crypto, label, and address)",
     "duplicate-chain-crypto": "A wallet with this chain and crypto combination already exists",
     "duplicate-address": "This wallet address already exists in your wallet list",
-    "max-wallets-per-chain": "You have reached the maximum limit of {{max}} wallets for this chain"
+    "max-wallets-per-chain": "You have reached the maximum limit of {{max}} wallets for this chain",
+    "you-need-to-add-wallet-merchant-first": "You need to add a wallet address for this merchant first to perform this action."
   }
 }

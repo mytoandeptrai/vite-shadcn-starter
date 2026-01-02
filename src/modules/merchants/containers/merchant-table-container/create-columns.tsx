@@ -16,6 +16,7 @@ import type { TFunction } from 'i18next';
 import { MoreHorizontal } from 'lucide-react';
 import type { ActionType } from '../../hooks';
 import TruncateParagraph from '@/components/ui/truncate-paragraph';
+import { toast } from 'sonner';
 
 interface MerchantColumnsProps {
   t: TFunction;
@@ -86,6 +87,14 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
     cell: ({ row }) => {
       const _row = row.original;
       const status = _row.status;
+      const wallets = _row?.walletAddresses ?? [];
+
+      const onClick = () => {
+        if (!wallets || wallets.length === 0) {
+          return toast.error(t('errors.you-need-to-add-wallet-merchant-first'));
+        }
+        onAction?.(_row, status === 'ACTIVE' ? 'suspend' : 'active');
+      };
 
       return (
         <DropdownMenu>
@@ -98,7 +107,7 @@ export const createColumns = ({ t, onAction }: MerchantColumnsProps): ColumnDef<
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>{t('table.headers.actions')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onAction?.(_row, status === 'ACTIVE' ? 'suspend' : 'active')}>
+            <DropdownMenuItem onClick={onClick}>
               {status === 'ACTIVE' ? t('table.actions.suspend') : t('table.actions.active')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => onAction?.(_row, 'view')}>{t('table.actions.view')}</DropdownMenuItem>
