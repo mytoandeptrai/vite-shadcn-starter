@@ -13,6 +13,7 @@ import { InfraProviders } from './integrations/infra-providers.tsx';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import './styles.css';
+import { Toaster } from '@/components/ui/sonner';
 
 // Create a new router instance
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
@@ -56,6 +57,7 @@ if (rootElement && !rootElement.innerHTML) {
                 </Suspense>
               </ErrorBoundary>
             </InfraProviders>
+            <Toaster richColors position='top-right' />
           </HelmetProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>

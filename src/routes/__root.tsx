@@ -1,7 +1,6 @@
 import { GoogleAnalytics } from '@/components/ui/google-analytics';
 import KBar from '@/components/ui/kbar';
 import NavigationProgress from '@/components/ui/navigation-progress';
-import { Toaster } from '@/components/ui/sonner';
 import { Show } from '@/components/utilities';
 import { env, siteConfig } from '@/constant';
 import type { AuthContextState } from '@/integrations/auth/auth-provider';
@@ -46,7 +45,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
           plugins={[TanStackQueryDevtools]}
         />
       </Show>
-      <Toaster richColors position='top-right' />
     </KBar>
   ),
 });
