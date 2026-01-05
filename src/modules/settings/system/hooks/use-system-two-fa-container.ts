@@ -3,6 +3,7 @@ import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { getContext } from '@/integrations/tanstack-query/root-provider';
+import type { BaseResponseType } from '@/types';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -53,8 +54,12 @@ export const useSystemTwoFaContainer = () => {
             onRefetch();
             toast.success(t('messages.two-fa-disabled-success', { ns: 'common' }));
             setIsRemovedTwoFa(false);
-          } finally {
             onCloseModal();
+          } catch (error) {
+            const errorResponse = error as unknown as BaseResponseType;
+            if (errorResponse?.message !== 'TWO_FA_CODE_INVALID') {
+              onCloseModal();
+            }
           }
         },
       });
