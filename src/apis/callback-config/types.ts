@@ -12,10 +12,11 @@ export interface CallbackConfig {
 }
 
 export interface UpdateCallbackConfigParams {
-  callback_url: string;
+  callbackUrl: string;
   eventTypes: string[];
   redirectUrl: string;
   webhookSecret: string;
+  isActive: boolean;
 }
 
 export interface GetCallbackConfigResponse extends BaseResponseType<CallbackConfig> {}

@@ -31,10 +31,11 @@ export const useDeveloperApiUrlsContainer = () => {
   const submit = async (data: DeveloperApiUrlsFormData) => {
     if (updateCallbackConfigMutation.isPending) return;
     await updateCallbackConfigMutation.mutateAsync({
-      callback_url: data.notifyUrl,
-      eventTypes: ['all'] /** Replace in the next phase */,
+      callbackUrl: data.notifyUrl,
+      eventTypes: ['*'] /** Replace in the next phase */,
       redirectUrl: data.returnUrl,
       webhookSecret: 'stringstringstringstringstringst' /** Replace in the next phase */,
+      isActive: true /** Replace in the next phase */,
     });
     toast.success(t('api-urls.messages.update-urls-success'));
     refetch();
