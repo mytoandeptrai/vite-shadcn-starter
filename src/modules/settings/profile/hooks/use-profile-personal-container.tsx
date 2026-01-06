@@ -9,7 +9,7 @@ import { getContext } from '@/integrations/tanstack-query/root-provider';
 import isEqual from 'lodash/isEqual';
 import { useDialogContext } from '@/integrations/dialog/dialog-provider';
 import { toast } from 'sonner';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { EUserType, ROUTES } from '@/constant';
 
 export const useProfilePersonalContainer = () => {
@@ -47,9 +47,9 @@ export const useProfilePersonalContainer = () => {
 
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }

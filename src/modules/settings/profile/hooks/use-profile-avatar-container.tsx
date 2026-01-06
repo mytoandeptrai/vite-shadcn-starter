@@ -2,7 +2,7 @@ import { ROUTES } from '@/constant';
 import type { FileWithPreview } from '@/hooks/use-file-upload';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -17,9 +17,9 @@ export const useProfileAvatarContainer = () => {
   const onSave = async () => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }

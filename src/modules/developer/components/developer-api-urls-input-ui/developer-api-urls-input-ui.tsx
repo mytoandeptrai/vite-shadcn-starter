@@ -4,6 +4,7 @@ import CopyButton from '@/components/ui/copy-button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTranslation } from '@/integrations/i18n';
+import { formatDate } from '@/utils';
 import { Edit } from 'lucide-react';
 
 type DeveloperApiUrlsInputUiProps = {
@@ -11,9 +12,10 @@ type DeveloperApiUrlsInputUiProps = {
   isLoading: boolean;
   notifyUrl: string;
   returnUrl: string;
+  createdAt: string;
 };
 
-const DeveloperApiUrlsInputUi = ({ isLoading, notifyUrl, returnUrl, onOpenDialog }: DeveloperApiUrlsInputUiProps) => {
+const DeveloperApiUrlsInputUi = ({ createdAt, isLoading, notifyUrl, returnUrl, onOpenDialog }: DeveloperApiUrlsInputUiProps) => {
   const { t } = useTranslation('developer-page');
   return (
     <Card>
@@ -22,7 +24,7 @@ const DeveloperApiUrlsInputUi = ({ isLoading, notifyUrl, returnUrl, onOpenDialog
           <div>
             <CardTitle className='text-lg'>{t('api-urls.labels.title')}</CardTitle>
             <CardDescription>
-              {t('labels.created-at')}: {new Date().toLocaleDateString()}
+              {t('labels.created-at')}: {createdAt ? formatDate(createdAt) : '-'}
             </CardDescription>
           </div>
           <Button variant='outline' size='sm' onClick={onOpenDialog} disabled={isLoading}>

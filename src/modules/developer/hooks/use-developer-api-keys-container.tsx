@@ -2,7 +2,7 @@ import { useGetApiKeys } from '@/apis/api-keys';
 import { ROUTES } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -26,9 +26,9 @@ export const useDeveloperApiKeysContainer = () => {
   const onOpenDialog = useCallback(() => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }

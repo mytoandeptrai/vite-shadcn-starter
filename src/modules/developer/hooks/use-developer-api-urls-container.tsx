@@ -5,7 +5,7 @@ import { developerApiUrlsFormSchema, initialFormData, type DeveloperApiUrlsFormD
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { toast } from 'sonner';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { ROUTES } from '@/constant';
 import { useGetCallbackConfig, useUpdateCallbackConfig } from '@/apis/callback-config';
 
@@ -21,6 +21,7 @@ export const useDeveloperApiUrlsContainer = () => {
 
   const notifyUrl = data?.data?.callbackUrl ?? '-';
   const returnUrl = data?.data?.redirectUrl ?? '-';
+  const createdAt = data?.data?.createdAt ?? '';
 
   const form = useForm<DeveloperApiUrlsFormData>({
     resolver: zodResolver(developerApiUrlsFormSchema(t)),
@@ -50,9 +51,9 @@ export const useDeveloperApiUrlsContainer = () => {
   const onOpenDialog = useCallback(() => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }
@@ -74,6 +75,7 @@ export const useDeveloperApiUrlsContainer = () => {
     isOpenDialog,
     isPending: updateCallbackConfigMutation.isPending,
     form,
+    createdAt,
     onCloseDialog,
     onOpenDialog,
     submit,

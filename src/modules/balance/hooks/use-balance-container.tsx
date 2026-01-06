@@ -4,7 +4,7 @@ import { generateTokenOptions } from './config';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { toast } from 'sonner';
 import { EUserType, PAGE_SIZE_OPTIONS, PROTOCOL_CHAIN_MAPPING, ROUTES } from '@/constant';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { useCurrencyStore } from '@/stores/use-base-store';
 import { useGetBalanceMarketplace, useGetMerchantBalance } from '@/apis/balances';
 import { useGetMerchantExchangeRates } from '@/apis/merchants';
@@ -124,16 +124,16 @@ export const useBalanceContainer = () => {
 
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }
 
     if (!hasWallets) {
       toast.error(
-        <Link
+        <ToastLink
           to={ROUTES.WALLET_ADDRESS}
           search={{
             page: 1,
@@ -145,10 +145,9 @@ export const useBalanceContainer = () => {
             chain: [],
             crypto: [],
           }}
-          className='hover:underline'
         >
           {t('messages.require-add-wallet', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }

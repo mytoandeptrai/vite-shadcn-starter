@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { initialPasswordFormData } from './password.schema';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Link } from '@tanstack/react-router';
+import { ToastLink } from '@/components/ui/toast-link';
 import { ROUTES } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useDialogContext } from '@/integrations/dialog/dialog-provider';
@@ -32,9 +32,9 @@ export const useProfilePasswordContainer = () => {
   const onSubmit = async (data: PasswordFormSchema) => {
     if (!isEnabledTwoFa) {
       toast.error(
-        <Link to={ROUTES.SYSTEM} className='hover:underline'>
+        <ToastLink to={ROUTES.SYSTEM}>
           {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </Link>
+        </ToastLink>
       );
       return;
     }
