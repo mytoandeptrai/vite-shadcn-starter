@@ -66,11 +66,11 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
         toast.success(t('messages.update-wallet-address-success'));
         break;
       case 'activate':
-        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: true });
+        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: true, address: data.address });
         toast.success(t('messages.activate-wallet-address-success'));
         break;
       case 'deactivate':
-        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: false });
+        await updateAddressMutation.mutateAsync({ id: data.id!, isActive: false, address: data.address });
         toast.success(t('messages.deactivate-wallet-address-success'));
         break;
       case 'delete':
