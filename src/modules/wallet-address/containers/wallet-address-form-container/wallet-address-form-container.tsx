@@ -22,8 +22,8 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
 
   return (
     <Modal
-      title={t(`dialogs.${props.actionType}.title`)}
-      description={t(`dialogs.${props.actionType}.description`)}
+      title={t(`dialogs.${props.actionType ?? 'create'}.title`)}
+      description={t(`dialogs.${props.actionType ?? 'create'}.description`)}
       isOpen={!!props.open}
       onClose={onCloseDialog}
     >

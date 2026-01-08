@@ -42,7 +42,7 @@
       "title": "Xóa Địa Chỉ Ví",
       "description": "Xác nhận việc xóa địa chỉ ví này khỏi hệ thống."
     },
-    "active": {
+    "activate": {
       "title": "Kích Hoạt Địa Chỉ Ví",
       "description": "Bạn có chắc chắn muốn kích hoạt địa chỉ ví này không?"
     },

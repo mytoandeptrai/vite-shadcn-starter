@@ -315,8 +315,8 @@ export const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
 ];
 
 export const CRYPTO_OPTIONS = (t: TFunction): Option<string>[] => [
-  { label: t('tokens.USDT', { ns: 'common' }), value: 'USDT' },
-  { label: t('tokens.USDC', { ns: 'common' }), value: 'USDC' },
+  { label: t('tokens.USDT', { ns: 'common' }), value: 'USDT', disabled: false },
+  { label: t('tokens.USDC', { ns: 'common' }), value: 'USDC', disabled: true },
 ];
 
 export const NETWORK_OPTIONS = (t: TFunction): Option<string>[] => [

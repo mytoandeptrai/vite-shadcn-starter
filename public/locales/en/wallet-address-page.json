@@ -42,7 +42,7 @@
       "title": "Delete Wallet Address",
       "description": "Confirm the removal of this wallet address from the system."
     },
-    "active": {
+    "activate": {
       "title": "Activate Wallet Address",
       "description": "Are you sure you want to activate this wallet address?"
     },

@@ -9,7 +9,7 @@ export const generateOptions = (t: TFunction) => {
 
 export const generateTokenOptions = (t: TFunction) => {
   return [
-    { value: 'USDT', label: t('tokens.USDT', { ns: 'common' }) },
-    { value: 'USDC', label: t('tokens.USDC', { ns: 'common' }) },
+    { value: 'USDT', label: t('tokens.USDT', { ns: 'common' }), disabled: false },
+    { value: 'USDC', label: t('tokens.USDC', { ns: 'common' }), disabled: true },
   ];
 };
