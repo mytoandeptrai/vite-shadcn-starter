@@ -36,6 +36,7 @@ export const useBalanceContainer = () => {
     pageSize: PAGE_SIZE_OPTIONS[2],
     chain: [payload.chain],
     crypto: [payload.token],
+    status: ['active'],
   });
 
   const { data: balanceData, isLoading: isLoadingBalance } = useGetMerchantBalance(
@@ -123,11 +124,7 @@ export const useBalanceContainer = () => {
     }
 
     if (!isEnabledTwoFa) {
-      toast.error(
-        <ToastLink to={ROUTES.SYSTEM}>
-          {t('messages.require-enable-two-fa', { ns: 'common' })}
-        </ToastLink>
-      );
+      toast.error(<ToastLink to={ROUTES.SYSTEM}>{t('messages.require-enable-two-fa', { ns: 'common' })}</ToastLink>);
       return;
     }
 

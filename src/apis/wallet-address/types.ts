@@ -15,6 +15,7 @@ export interface IWalletAddress {
 export interface GetWalletAddressListParams extends CommonRequestType {
   chain?: string[];
   crypto?: string[];
+  status?: string[];
 }
 
 export interface UpdateWalletAddressParams extends Partial<IWalletAddress> {
