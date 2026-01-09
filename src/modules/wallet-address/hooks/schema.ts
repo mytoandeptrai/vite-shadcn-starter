@@ -30,6 +30,7 @@ const walletAddressCreateFormSchema = (t: TFunction) => {
         }),
       }),
       id: z.string().optional(),
+      isDefault: z.boolean().optional(),
     })
     .superRefine((data, ctx) => {
       /** Validate address format based on selected chain */
@@ -56,6 +57,7 @@ const initialWalletAddressCreateFormData: WalletAddressCreateFormData = {
   chain: '',
   id: '',
   crypto: '',
+  isDefault: false,
 };
 
 export { initialWalletAddressCreateFormData, walletAddressCreateFormSchema, type WalletAddressCreateFormData };

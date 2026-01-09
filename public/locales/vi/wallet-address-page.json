@@ -71,6 +71,10 @@
     "label": {
       "label": "Nhãn",
       "placeholder": "Nhập nhãn"
+    },
+    "isDefault": {
+      "label": "Ví Mặc Định",
+      "description": "Đặt ví này là ví mặc định"
     }
   },
   "labels": {

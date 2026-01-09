@@ -7,6 +7,7 @@ import { FormSelect } from '@/components/form-fields/form-select';
 import { Button } from '@/components/ui/button';
 import { Show } from '@/components/utilities';
 import { Spinner } from '@/components/ui/spinner';
+import { FormCheckbox } from '@/components/form-fields/form-checkbox';
 
 type WalletAddressFormContainerProps = {
   open: boolean;
@@ -67,6 +68,12 @@ const WalletAddressFormContainer = (props: WalletAddressFormContainerProps) => {
               label={t('fields.wallet-address.label')}
               placeholder={t('fields.wallet-address.placeholder')}
               required
+            />
+            <FormCheckbox
+              control={form.control}
+              disabled={isLoading}
+              name='isDefault'
+              label={t('fields.isDefault.label')}
             />
           </Show>
           <div className='flex items-center justify-between gap-2'>

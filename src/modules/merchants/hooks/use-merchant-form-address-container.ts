@@ -90,17 +90,39 @@ export const useMerchantFormAddressContainer = ({
   };
 
   const handleCreateWalletAddress = (data: WalletAddressCreateFormData) => {
+    // If isDefault is true, remove isDefault from other wallets with same chain+crypto
+    if (data.isDefault) {
+      const updatedFields = fields.map((field) => {
+        if (field.chain === data.chain && field.crypto === data.crypto && field.isDefault) {
+          return { ...field, isDefault: false };
+        }
+        return field;
+      });
+      formParent.setValue('walletAddresses', updatedFields, { shouldValidate: true });
+    }
+
     append({
       chain: data.chain,
       crypto: data.crypto,
       label: data.label,
       address: data.address,
       id: data.id,
+      isDefault: data.isDefault,
     });
   };
 
   const handleUpdateWalletAddress = (data: WalletAddressCreateFormData, index: number) => {
     const updatedFields = [...fields];
+
+    // If isDefault is true, remove isDefault from other wallets with same chain+crypto
+    if (data.isDefault) {
+      for (let i = 0; i < updatedFields.length; i++) {
+        if (i !== index && updatedFields[i].chain === data.chain && updatedFields[i].crypto === data.crypto && updatedFields[i].isDefault) {
+          updatedFields[i] = { ...updatedFields[i], isDefault: false };
+        }
+      }
+    }
+
     updatedFields[index] = {
       ...updatedFields[index],
       ...data,

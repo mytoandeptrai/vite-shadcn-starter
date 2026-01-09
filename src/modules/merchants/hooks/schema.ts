@@ -31,6 +31,7 @@ const merchantCreateFormSchema = (t: TFunction) => {
         }),
       }),
       id: z.string().optional(),
+      isDefault: z.boolean().optional(),
     })
     .superRefine((data, ctx) => {
       /** Validate address format based on selected chain */

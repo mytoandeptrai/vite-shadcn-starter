@@ -37,6 +37,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       address: '',
       chain: options[0].value,
       crypto: cryptoOptions[0].value,
+      isDefault: false,
     };
   }, [options[0].value, cryptoOptions[0].value]);
 
@@ -95,6 +96,7 @@ export const useWalletAddressFormContainer = ({ initialData, open, onClose, onSu
       id: initialData?.id ? String(initialData.id) : '',
       crypto: initialData?.crypto ?? cryptoOptions[0].value,
       label: initialData?.label ?? '',
+      isDefault: initialData?.isDefault ?? false,
     });
   }, [initialData, form.reset, options[0].value, cryptoOptions[0].value]);
 

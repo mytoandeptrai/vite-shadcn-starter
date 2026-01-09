@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/form-fields/form-input';
 import { Show } from '@/components/utilities';
 import { Spinner } from '@/components/ui/spinner';
+import { FormCheckbox } from '@/components/form-fields/form-checkbox';
 
 type MerchantFormAddressUiProps = {
   onClose: () => void;
@@ -54,6 +55,11 @@ const MerchantFormAddressUi = ({ options, tokenOptions, isLoading = false, onClo
         label={t('fields.wallet-address.label')}
         placeholder={t('fields.wallet-address.placeholder')}
         required
+      />
+      <FormCheckbox
+        control={control}
+        name='isDefault'
+        label={t('fields.isDefault.label')}
       />
       <div className='flex items-center justify-between gap-2 pt-2'>
         <Button className='w-1/2' size='lg' type='button' variant='outline' onClick={onClose} disabled={isLoading}>

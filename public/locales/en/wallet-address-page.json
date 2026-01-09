@@ -71,6 +71,10 @@
     "label": {
       "label": "Label",
       "placeholder": "Enter your label"
+    },
+    "isDefault": {
+      "label": "Default wallet",
+      "description": "Set this wallet as default"
     }
   },
   "labels": {

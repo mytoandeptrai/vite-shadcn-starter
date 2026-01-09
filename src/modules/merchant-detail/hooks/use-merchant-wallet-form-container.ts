@@ -90,6 +90,7 @@ export const useMerchantWalletFormContainer = ({
       id: initialData?.id ? String(initialData.id) : '',
       crypto: initialData?.crypto ?? '',
       label: initialData?.label ?? '',
+      isDefault: initialData?.isDefault ?? false,
     });
   }, [initialData, form.reset]);
 

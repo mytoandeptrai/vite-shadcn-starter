@@ -10,6 +10,7 @@ export interface IWalletAddress {
   merchantId: number;
   updatedAt: string;
   crypto: string;
+  isDefault?: boolean;
 }
 
 export interface GetWalletAddressListParams extends CommonRequestType {

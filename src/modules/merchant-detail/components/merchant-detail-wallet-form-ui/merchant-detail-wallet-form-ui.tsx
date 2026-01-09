@@ -8,6 +8,7 @@ import { FormInput } from '@/components/form-fields/form-input';
 import { Show } from '@/components/utilities';
 import { Spinner } from '@/components/ui/spinner';
 import type { WalletActionType } from '../../hooks';
+import { FormCheckbox } from '@/components/form-fields/form-checkbox';
 
 type MerchantDetailWalletFormUiProps = {
   onClose: () => void;
@@ -66,6 +67,11 @@ const MerchantDetailWalletFormUi = ({
           placeholder={t('fields.wallet-address.placeholder')}
           required
           disabled={actionType === 'update'}
+        />
+        <FormCheckbox
+          control={control}
+          name='isDefault'
+          label={t('fields.isDefault.label')}
         />
       </Show>
       <div className='flex items-center justify-between gap-2 pt-2'>

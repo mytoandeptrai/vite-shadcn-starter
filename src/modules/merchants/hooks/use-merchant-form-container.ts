@@ -90,6 +90,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
       crypto: '',
       label: '',
       address: '',
+      isDefault: false,
     });
   };
 
@@ -102,6 +103,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
       label: walletAddress.label,
       address: walletAddress.address,
       id: walletAddress.id,
+      isDefault: walletAddress.isDefault,
     });
   };
 
@@ -118,6 +120,7 @@ export const useMerchantFormContainer = ({ initialData, open, onClose, onSuccess
         label: wa?.label,
         address: wa?.address,
         id: wa?.id ? String(wa.id) : undefined,
+        isDefault: wa?.isDefault ?? false,
       }));
 
       form.reset({
