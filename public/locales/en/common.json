@@ -279,7 +279,8 @@
   },
   "tokens": {
     "USDT": "USDT",
-    "USDC": "USDC"
+    "USDC": "USDC",
+    "TEST": "TEST"
   },
   "chains": {
     "ETH": "Ethereum",
@@ -290,7 +291,8 @@
     "USDT-BEP20": "USDT-BEP20",
     "USDC-BEP20": "USDC-BEP20",
     "USDT-ERC20": "USDT-ERC20",
-    "USDC-ERC20": "USDC-ERC20"
+    "USDC-ERC20": "USDC-ERC20",
+    "TEST-ERC20": "TEST-ERC20"
   },
   "networks": {
     "testnet": "Testnet",

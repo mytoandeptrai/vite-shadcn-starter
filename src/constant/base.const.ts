@@ -80,5 +80,6 @@ export const MAX_WALLETS_PER_CHAIN = 2; // Maximum number of wallets allowed per
 
 export const STABLE_TOKEN: Record<string, string> = {
   USDC: "USDC",
-  USDT: "USDT"
+  USDT: "USDT",
+  TEST: "TEST"
 }
