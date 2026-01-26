@@ -1,0 +1,44 @@
+{
+  "title": "Giao dịch - {{transactionId}}",
+  "description": "Xem chi tiết giao dịch",
+  "labels": {
+    "type": "Loại giao dịch",
+    "status": "Trạng thái",
+    "chain": "Blockchain",
+    "chainId": "Chain ID",
+    "txHash": "Mã giao dịch (Tx Hash)",
+    "smartContract": "Hợp đồng thông minh",
+    "blockNumber": "Số khối",
+    "confirmations": "Số lần xác nhận",
+    "amount": "Số lượng",
+    "crypto": "Loại tiền mã hoá",
+    "fromAddress": "Địa chỉ gửi",
+    "toAddress": "Địa chỉ nhận",
+    "blockTimestamp": "Thời gian ghi nhận trên block",
+    "firstSeenAt": "Thời điểm phát hiện",
+    "date": "Thời điểm xác nhận",
+    "transaction-overview": "Tổng quan giao dịch",
+    "blockchain-information": "Thông tin blockchain",
+    "raw-data": "Dữ liệu thô",
+    "timeline": "Dòng thời gian",
+    "related": "Liên quan",
+    "first-seen": "Thời điểm phát hiện",
+    "confirmed": "Thời điểm xác nhận",
+    "failed": "Thời điểm thất bại",
+    "network": "Mạng",
+    "created-at": "Thời điểm tạo",
+    "updated-at": "Thời điểm cập nhật"
+  },
+  "types": {
+    "all": "Tất cả",
+    "PAYMENT": "Thanh toán",
+    "PAYOUT": "Chi trả"
+  },
+  "status": {
+    "all": "Tất cả",
+    "pending": "Đang chờ",
+    "confirming": "Đang xác nhận",
+    "confirmed": "Đã xác nhận",
+    "failed": "Thất bại"
+  }
+}

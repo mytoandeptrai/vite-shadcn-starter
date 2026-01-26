@@ -3,7 +3,16 @@ import { useRouter } from '@tanstack/react-router';
 import { ROUTES } from '@/constant';
 
 // Auth related paths where redirecting back would cause loops
-const AUTH_PATHS = new Set([ROUTES.LOGIN, ROUTES.REGISTER] as string[]); // extend if needed
+const AUTH_PATHS = new Set([
+  ROUTES.LOGIN,
+  ROUTES.REGISTER,
+  ROUTES.FORGOT_PASSWORD,
+  ROUTES.LINK_EXPIRED,
+  ROUTES.RESET_PASSWORD,
+  ROUTES.VERIFY_EMAIL,
+  ROUTES.VERIFIED_EMAIL,
+  ROUTES.ACTIVE,
+] as string[]); // extend if needed
 
 export function isAuthPath(path?: string) {
   if (!path) return false;

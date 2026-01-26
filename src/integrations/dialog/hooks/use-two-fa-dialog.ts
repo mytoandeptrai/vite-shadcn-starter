@@ -1,15 +1,14 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { initialFormData, twoFaFormSchema, type TwoFaFormData } from './schema';
+import { useVerifyTwoFaSession } from '@/apis/auth';
 import { useTranslation } from '@/integrations/i18n';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { TwoFaDialogProps } from '../components/two-fa-dialog';
-import { useState } from 'react';
+import { initialFormData, twoFaFormSchema, type TwoFaFormData } from './schema';
 
 export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, onClose }: TwoFaDialogProps) => {
   const { t } = useTranslation();
-  const [isGenerating2FaOtpCode, setIsGenerating2FaOtpCode] = useState(false);
-
-  const isLoading = false;
+  const verifySessionMutation = useVerifyTwoFaSession();
+  const isLoading = verifySessionMutation.isPending;
 
   const form = useForm<TwoFaFormData>({
     resolver: zodResolver(twoFaFormSchema(t)),
@@ -23,15 +22,9 @@ export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, 
     let _code = null;
     if (!skipInitVerification) {
       if (!code) return;
-      /** TODO: Implement API here */
-      const res = { data: {} };
+      const res = await verifySessionMutation.mutateAsync({ code });
       isVerified = !!res.data;
-
-      setIsGenerating2FaOtpCode(true);
-      /** TODO: Implement API here */
-      const _res = { data: { code: '123456' } };
-      setIsGenerating2FaOtpCode(false);
-      _code = _res.data?.code ?? null;
+      _code = code;
     } else {
       isVerified = true;
       _code = code;
@@ -49,7 +42,6 @@ export const useTwoFaDialog = ({ skipInitVerification, closeOnSubmit, onSubmit, 
   return {
     t,
     form,
-    isGenerating2FaOtpCode,
     isLoading,
     submit,
   };

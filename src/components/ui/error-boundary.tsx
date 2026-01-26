@@ -1,5 +1,6 @@
 import { RefreshCw } from 'lucide-react';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Button } from './button';
 
 interface Props {
   children: ReactNode;
@@ -27,21 +28,21 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className='flex min-h-screen items-center justify-center bg-gray-900'>
+        <div className='flex min-h-screen items-center justify-center bg-primary'>
           <div className='p-8 text-center'>
             <h1 className='mb-4 font-bold text-3xl text-white' role='alert'>
               Oops! Something went wrong
             </h1>
             <p className='mb-8 text-gray-400'>An unexpected error occurred. Please refresh the page.</p>
-            <button
+            <Button
               onClick={() => window.location.reload()}
-              className='flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
               aria-label='Refresh the page'
+              variant='outline'
               type='button'
             >
               <RefreshCw className='h-4 w-4' />
               <span>Refresh the page</span>
-            </button>
+            </Button>
           </div>
         </div>
       );

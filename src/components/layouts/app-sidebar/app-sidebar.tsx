@@ -1,4 +1,14 @@
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CustomLink } from '@/components/ui/custom-link';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -13,32 +23,23 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { ROUTES } from '@/constant';
-import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon, User2, UserCircle2Icon } from 'lucide-react';
-import { navItems } from './app-sidebar.config';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useLocation } from '@tanstack/react-router';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { UserAvatarProfile } from '@/components/ui/user-avatar-profile';
-
-/** TODO: Get new user data from API */
-const user = {
-  imageUrl: '',
-  fullName: 'John Doe',
-  emailAddresses: [{ emailAddress: 'john.doe@example.com' }],
-};
+import { ROUTES } from '@/constant';
+import { useAuthContext } from '@/integrations/auth/auth-provider';
+import { useTranslation } from '@/integrations/i18n';
+import { useLocation } from '@tanstack/react-router';
+import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon, UserCircle2Icon } from 'lucide-react';
+import { navItems } from './app-sidebar.config';
+import { Logo } from '@/components/ui/logo';
+import { useFilteredNavItems } from '@/hooks/use-nav';
 
 const AppSidebar = () => {
   const location = useLocation();
   const pathname = location.pathname;
+  const { t } = useTranslation();
+  const { user, onSignout } = useAuthContext();
+
+  const filteredNavItems = useFilteredNavItems(navItems(t));
 
   return (
     <Sidebar collapsible='icon'>
@@ -46,14 +47,8 @@ const AppSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
-              <CustomLink to={ROUTES.DASHBOARD}>
-                <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
-                  <User2 className='size-4' />
-                </div>
-                <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>Your App</span>
-                  <span className='truncate text-xs'>Dashboard</span>
-                </div>
+              <CustomLink to={ROUTES.DASHBOARD} className='flex items-center justify-center'>
+                <Logo />
               </CustomLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -62,7 +57,7 @@ const AppSidebar = () => {
       <SidebarContent className='overflow-x-hidden'>
         <SidebarGroup>
           <SidebarMenu>
-            {navItems.map((item) => {
+            {filteredNavItems.map((item) => {
               const Icon = item.icon ? item.icon : undefined;
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible key={item.title} asChild defaultOpen={item.isActive} className='group/collapsible'>
@@ -82,7 +77,7 @@ const AppSidebar = () => {
                               <CustomLink
                                 to={subItem.url}
                                 activeProps={{
-                                  className: 'text-primary!',
+                                  className: 'text-primary! font-bold!',
                                 }}
                               >
                                 <span>{subItem.title}</span>
@@ -100,7 +95,7 @@ const AppSidebar = () => {
                     <CustomLink
                       to={item.url}
                       activeProps={{
-                        className: 'text-primary!',
+                        className: 'text-primary! font-bold!',
                       }}
                     >
                       {Icon && <Icon />}
@@ -141,16 +136,16 @@ const AppSidebar = () => {
 
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
-                    <CustomLink to={ROUTES.PROFILE}>
+                    <CustomLink to={ROUTES.DASHBOARD}>
                       <UserCircle2Icon className='mr-2 h-4 w-4' />
-                      Profile
+                      {t('buttons.profile')}
                     </CustomLink>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={onSignout}>
                   <LogOutIcon className='mr-2 h-4 w-4' />
-                  Signout
+                  {t('buttons.signout')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

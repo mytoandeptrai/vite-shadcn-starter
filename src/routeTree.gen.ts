@@ -9,48 +9,40 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as publicLayoutRouteImport } from './routes/(public)/layout'
+import { Route as R404RouteImport } from './routes/404'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
-import { Route as publicIndexRouteImport } from './routes/(public)/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
+import { Route as privateIndexRouteImport } from './routes/(private)/index'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
-import { Route as publicProfileRouteImport } from './routes/(public)/profile'
-import { Route as publicDeveloperRouteImport } from './routes/(public)/developer'
-import { Route as publicDashboardRouteImport } from './routes/(public)/dashboard'
-import { Route as publicBalanceRouteImport } from './routes/(public)/balance'
-import { Route as authVerifyEmailRouteImport } from './routes/(auth)/verify-email'
-import { Route as authVerifiedEmailRouteImport } from './routes/(auth)/verified-email'
-import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as authLinkExpiredRouteImport } from './routes/(auth)/link-expired'
-import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as authActiveRouteImport } from './routes/(auth)/active'
+import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
+import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
+import { Route as privateTransactionsIndexRouteImport } from './routes/(private)/transactions/index'
+import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
 
-const publicLayoutRoute = publicLayoutRouteImport.update({
-  id: '/(public)',
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const privateLayoutRoute = privateLayoutRouteImport.update({
+  id: '/(private)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authLayoutRoute = authLayoutRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicIndexRoute = publicIndexRouteImport.update({
+const privateIndexRoute = privateIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => publicLayoutRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
 const DemoStorybookRoute = DemoStorybookRouteImport.update({
   id: '/demo/storybook',
@@ -62,205 +54,133 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
-const publicProfileRoute = publicProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => publicLayoutRoute,
-} as any)
-const publicDeveloperRoute = publicDeveloperRouteImport.update({
-  id: '/developer',
-  path: '/developer',
-  getParentRoute: () => publicLayoutRoute,
-} as any)
-const publicDashboardRoute = publicDashboardRouteImport.update({
+const privateDashboardRoute = privateDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => publicLayoutRoute,
+  getParentRoute: () => privateLayoutRoute,
 } as any)
-const publicBalanceRoute = publicBalanceRouteImport.update({
-  id: '/balance',
-  path: '/balance',
-  getParentRoute: () => publicLayoutRoute,
-} as any)
-const authVerifyEmailRoute = authVerifyEmailRouteImport.update({
-  id: '/verify-email',
-  path: '/verify-email',
+const authGettingStartedRoute = authGettingStartedRouteImport.update({
+  id: '/getting-started',
+  path: '/getting-started',
   getParentRoute: () => authLayoutRoute,
 } as any)
-const authVerifiedEmailRoute = authVerifiedEmailRouteImport.update({
-  id: '/verified-email',
-  path: '/verified-email',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authResetPasswordRoute = authResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLoginRoute = authLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLinkExpiredRoute = authLinkExpiredRouteImport.update({
-  id: '/link-expired',
-  path: '/link-expired',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authActiveRoute = authActiveRouteImport.update({
-  id: '/active',
-  path: '/active',
-  getParentRoute: () => authLayoutRoute,
-} as any)
+const privateTransactionsIndexRoute =
+  privateTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
+const privateTransactionsTransactionIdRoute =
+  privateTransactionsTransactionIdRouteImport.update({
+    id: '/transactions/$transactionId',
+    path: '/transactions/$transactionId',
+    getParentRoute: () => privateLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/active': typeof authActiveRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/link-expired': typeof authLinkExpiredRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/verified-email': typeof authVerifiedEmailRoute
-  '/verify-email': typeof authVerifyEmailRoute
-  '/balance': typeof publicBalanceRoute
-  '/dashboard': typeof publicDashboardRoute
-  '/developer': typeof publicDeveloperRoute
-  '/profile': typeof publicProfileRoute
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
+  '/getting-started': typeof authGettingStartedRoute
+  '/dashboard': typeof privateDashboardRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/': typeof publicIndexRoute
+  '/': typeof privateIndexRoute
+  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
+  '/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/active': typeof authActiveRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/link-expired': typeof authLinkExpiredRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/verified-email': typeof authVerifiedEmailRoute
-  '/verify-email': typeof authVerifyEmailRoute
-  '/balance': typeof publicBalanceRoute
-  '/dashboard': typeof publicDashboardRoute
-  '/developer': typeof publicDeveloperRoute
-  '/profile': typeof publicProfileRoute
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
+  '/getting-started': typeof authGettingStartedRoute
+  '/dashboard': typeof privateDashboardRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/': typeof publicIndexRoute
+  '/': typeof privateIndexRoute
+  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
+  '/transactions': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authLayoutRouteWithChildren
-  '/(public)': typeof publicLayoutRouteWithChildren
-  '/(auth)/active': typeof authActiveRoute
-  '/(auth)/forgot-password': typeof authForgotPasswordRoute
-  '/(auth)/link-expired': typeof authLinkExpiredRoute
-  '/(auth)/login': typeof authLoginRoute
-  '/(auth)/register': typeof authRegisterRoute
-  '/(auth)/reset-password': typeof authResetPasswordRoute
-  '/(auth)/verified-email': typeof authVerifiedEmailRoute
-  '/(auth)/verify-email': typeof authVerifyEmailRoute
-  '/(public)/balance': typeof publicBalanceRoute
-  '/(public)/dashboard': typeof publicDashboardRoute
-  '/(public)/developer': typeof publicDeveloperRoute
-  '/(public)/profile': typeof publicProfileRoute
+  '/(private)': typeof privateLayoutRouteWithChildren
+  '/$': typeof SplatRoute
+  '/404': typeof R404Route
+  '/(auth)/getting-started': typeof authGettingStartedRoute
+  '/(private)/dashboard': typeof privateDashboardRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
-  '/(public)/': typeof publicIndexRoute
+  '/(private)/': typeof privateIndexRoute
+  '/(private)/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
+  '/(private)/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/active'
-    | '/forgot-password'
-    | '/link-expired'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/verified-email'
-    | '/verify-email'
-    | '/balance'
+    | '/$'
+    | '/404'
+    | '/getting-started'
     | '/dashboard'
-    | '/developer'
-    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
+    | '/transactions/$transactionId'
+    | '/transactions/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/active'
-    | '/forgot-password'
-    | '/link-expired'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/verified-email'
-    | '/verify-email'
-    | '/balance'
+    | '/$'
+    | '/404'
+    | '/getting-started'
     | '/dashboard'
-    | '/developer'
-    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/'
+    | '/transactions/$transactionId'
+    | '/transactions'
   id:
     | '__root__'
     | '/(auth)'
-    | '/(public)'
-    | '/(auth)/active'
-    | '/(auth)/forgot-password'
-    | '/(auth)/link-expired'
-    | '/(auth)/login'
-    | '/(auth)/register'
-    | '/(auth)/reset-password'
-    | '/(auth)/verified-email'
-    | '/(auth)/verify-email'
-    | '/(public)/balance'
-    | '/(public)/dashboard'
-    | '/(public)/developer'
-    | '/(public)/profile'
+    | '/(private)'
+    | '/$'
+    | '/404'
+    | '/(auth)/getting-started'
+    | '/(private)/dashboard'
     | '/demo/form'
     | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
-    | '/(public)/'
+    | '/(private)/'
+    | '/(private)/transactions/$transactionId'
+    | '/(private)/transactions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   authLayoutRoute: typeof authLayoutRouteWithChildren
-  publicLayoutRoute: typeof publicLayoutRouteWithChildren
+  privateLayoutRoute: typeof privateLayoutRouteWithChildren
+  SplatRoute: typeof SplatRoute
+  R404Route: typeof R404Route
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(public)': {
-      id: '/(public)'
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(private)': {
+      id: '/(private)'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof publicLayoutRouteImport
+      preLoaderRoute: typeof privateLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
@@ -270,26 +190,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/': {
-      id: '/(public)/'
+    '/(private)/': {
+      id: '/(private)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof publicIndexRouteImport
-      parentRoute: typeof publicLayoutRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof privateIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
     '/demo/storybook': {
       id: '/demo/storybook'
@@ -305,146 +211,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(public)/profile': {
-      id: '/(public)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof publicProfileRouteImport
-      parentRoute: typeof publicLayoutRoute
-    }
-    '/(public)/developer': {
-      id: '/(public)/developer'
-      path: '/developer'
-      fullPath: '/developer'
-      preLoaderRoute: typeof publicDeveloperRouteImport
-      parentRoute: typeof publicLayoutRoute
-    }
-    '/(public)/dashboard': {
-      id: '/(public)/dashboard'
+    '/(private)/dashboard': {
+      id: '/(private)/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof publicDashboardRouteImport
-      parentRoute: typeof publicLayoutRoute
+      preLoaderRoute: typeof privateDashboardRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(public)/balance': {
-      id: '/(public)/balance'
-      path: '/balance'
-      fullPath: '/balance'
-      preLoaderRoute: typeof publicBalanceRouteImport
-      parentRoute: typeof publicLayoutRoute
-    }
-    '/(auth)/verify-email': {
-      id: '/(auth)/verify-email'
-      path: '/verify-email'
-      fullPath: '/verify-email'
-      preLoaderRoute: typeof authVerifyEmailRouteImport
+    '/(auth)/getting-started': {
+      id: '/(auth)/getting-started'
+      path: '/getting-started'
+      fullPath: '/getting-started'
+      preLoaderRoute: typeof authGettingStartedRouteImport
       parentRoute: typeof authLayoutRoute
     }
-    '/(auth)/verified-email': {
-      id: '/(auth)/verified-email'
-      path: '/verified-email'
-      fullPath: '/verified-email'
-      preLoaderRoute: typeof authVerifiedEmailRouteImport
-      parentRoute: typeof authLayoutRoute
+    '/(private)/transactions/': {
+      id: '/(private)/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions/'
+      preLoaderRoute: typeof privateTransactionsIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
-    '/(auth)/reset-password': {
-      id: '/(auth)/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof authResetPasswordRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/register': {
-      id: '/(auth)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/link-expired': {
-      id: '/(auth)/link-expired'
-      path: '/link-expired'
-      fullPath: '/link-expired'
-      preLoaderRoute: typeof authLinkExpiredRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/forgot-password': {
-      id: '/(auth)/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/active': {
-      id: '/(auth)/active'
-      path: '/active'
-      fullPath: '/active'
-      preLoaderRoute: typeof authActiveRouteImport
-      parentRoute: typeof authLayoutRoute
+    '/(private)/transactions/$transactionId': {
+      id: '/(private)/transactions/$transactionId'
+      path: '/transactions/$transactionId'
+      fullPath: '/transactions/$transactionId'
+      preLoaderRoute: typeof privateTransactionsTransactionIdRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
   }
 }
 
 interface authLayoutRouteChildren {
-  authActiveRoute: typeof authActiveRoute
-  authForgotPasswordRoute: typeof authForgotPasswordRoute
-  authLinkExpiredRoute: typeof authLinkExpiredRoute
-  authLoginRoute: typeof authLoginRoute
-  authRegisterRoute: typeof authRegisterRoute
-  authResetPasswordRoute: typeof authResetPasswordRoute
-  authVerifiedEmailRoute: typeof authVerifiedEmailRoute
-  authVerifyEmailRoute: typeof authVerifyEmailRoute
+  authGettingStartedRoute: typeof authGettingStartedRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
-  authActiveRoute: authActiveRoute,
-  authForgotPasswordRoute: authForgotPasswordRoute,
-  authLinkExpiredRoute: authLinkExpiredRoute,
-  authLoginRoute: authLoginRoute,
-  authRegisterRoute: authRegisterRoute,
-  authResetPasswordRoute: authResetPasswordRoute,
-  authVerifiedEmailRoute: authVerifiedEmailRoute,
-  authVerifyEmailRoute: authVerifyEmailRoute,
+  authGettingStartedRoute: authGettingStartedRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
   authLayoutRouteChildren,
 )
 
-interface publicLayoutRouteChildren {
-  publicBalanceRoute: typeof publicBalanceRoute
-  publicDashboardRoute: typeof publicDashboardRoute
-  publicDeveloperRoute: typeof publicDeveloperRoute
-  publicProfileRoute: typeof publicProfileRoute
-  publicIndexRoute: typeof publicIndexRoute
+interface privateLayoutRouteChildren {
+  privateDashboardRoute: typeof privateDashboardRoute
+  privateIndexRoute: typeof privateIndexRoute
+  privateTransactionsTransactionIdRoute: typeof privateTransactionsTransactionIdRoute
+  privateTransactionsIndexRoute: typeof privateTransactionsIndexRoute
 }
 
-const publicLayoutRouteChildren: publicLayoutRouteChildren = {
-  publicBalanceRoute: publicBalanceRoute,
-  publicDashboardRoute: publicDashboardRoute,
-  publicDeveloperRoute: publicDeveloperRoute,
-  publicProfileRoute: publicProfileRoute,
-  publicIndexRoute: publicIndexRoute,
+const privateLayoutRouteChildren: privateLayoutRouteChildren = {
+  privateDashboardRoute: privateDashboardRoute,
+  privateIndexRoute: privateIndexRoute,
+  privateTransactionsTransactionIdRoute: privateTransactionsTransactionIdRoute,
+  privateTransactionsIndexRoute: privateTransactionsIndexRoute,
 }
 
-const publicLayoutRouteWithChildren = publicLayoutRoute._addFileChildren(
-  publicLayoutRouteChildren,
+const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(
+  privateLayoutRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   authLayoutRoute: authLayoutRouteWithChildren,
-  publicLayoutRoute: publicLayoutRouteWithChildren,
+  privateLayoutRoute: privateLayoutRouteWithChildren,
+  SplatRoute: SplatRoute,
+  R404Route: R404Route,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

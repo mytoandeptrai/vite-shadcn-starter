@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 
 interface ModalProps {
   title: string;
-  renderTitle?: React.ReactNode
+  renderTitle?: React.ReactNode;
   description: string;
   isOpen: boolean;
   onClose: () => void;

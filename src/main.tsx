@@ -3,21 +3,21 @@ import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import LoadingSpinner from './components/shared/loading-spinner/loading-spinner.tsx';
 import { ErrorBoundary } from './components/ui/error-boundary.tsx';
-import { Toaster } from './components/ui/sonner.tsx';
 import * as I18nProvider from './integrations/i18n/root-provider';
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx';
-import { ThemeProvider } from './integrations/theme/theme-provider.tsx';
 import reportWebVitals from './reportWebVitals.ts';
+
+import { HelmetProvider } from 'react-helmet-async';
+import { useAuthContext } from './integrations/auth/auth-provider.tsx';
+import { InfraProviders } from './integrations/infra-providers.tsx';
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import './styles.css';
-import { AuthProvider, useAuthContext } from './integrations/auth/auth-provider.tsx';
-import { DialogProvider } from './integrations/dialog/dialog-provider.tsx';
+import { Toaster } from '@/components/ui/sonner';
 
 // Create a new router instance
-
 export const TanStackQueryProviderContext = TanStackQueryProvider.getContext();
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   context: {
     ...TanStackQueryProviderContext,
@@ -49,18 +49,16 @@ if (rootElement && !rootElement.innerHTML) {
     <StrictMode>
       <I18nProvider.Provider>
         <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-          <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <DialogProvider>
-                  <AuthProvider>
-                    <InnerApp />
-                    <Toaster richColors position='top-right' />
-                  </AuthProvider>
-                </DialogProvider>
-              </Suspense>
-            </ErrorBoundary>
-          </ThemeProvider>
+          <HelmetProvider>
+            <InfraProviders>
+              <ErrorBoundary>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <InnerApp />
+                </Suspense>
+              </ErrorBoundary>
+            </InfraProviders>
+            <Toaster richColors position='top-right' />
+          </HelmetProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>
     </StrictMode>

@@ -3,10 +3,13 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import timezone from 'dayjs/plugin/timezone';
+import { isAddress } from 'ethers';
 import { toast } from 'sonner';
 import { v4 as uuid } from 'uuid';
-import { EMedia, FILE_FORMAT, NUMBER_FORMAT_LOOK_UP } from '@/constant';
-import type { IMedia } from '@/types';
+import { CURRENCY_CODE_MAPPING, EMedia, FILE_FORMAT, NUMBER_FORMAT_LOOK_UP } from '@/constant';
+import type { IMedia, Option } from '@/types';
+import type { TFunction } from 'i18next';
+import type { Currency } from '@/stores/use-base-store';
 
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
@@ -60,6 +63,10 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 export const handleToastError = (error: any, defaultError = 'Something went wrong') => {
   toast.error(error?.shortMessage ?? error?.message ?? error?.cause?.message ?? defaultError);
 };
+
+export function formatDate(date: string, format = 'DD/MM/YYYY HH:mm:ss') {
+  return dayjs(date).format(format);
+}
 
 export function numberFormatter(num: number, digits = 1) {
   const regexp = /\.0+$|(?<=\.[0-9]*[1-9])0+$/;
@@ -164,30 +171,185 @@ export const groupByKey = <T>(array: T[], key: keyof T): Record<string, T[]> => 
   );
 };
 
-export const formatCurrency = (amount: number | string, locale = 'en-US', currency = 'USD'): string => {
+export function formatNaturalNumber(
+  value: number | null | undefined,
+  options?: Intl.NumberFormatOptions,
+  locale = 'en-US'
+): string {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '-';
+  }
+
+  return new Intl.NumberFormat(locale, options).format(value);
+}
+
+export const formatCurrency = (amount: number | string, currency: Currency): string => {
   const value = typeof amount === 'string' ? Number(amount) : amount;
 
   if (Number.isNaN(value)) return '0';
 
-  return new Intl.NumberFormat(locale, {
+  return new Intl.NumberFormat(currency.locale, {
     style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    currency: CURRENCY_CODE_MAPPING[currency.code] ?? 'USD',
+    minimumFractionDigits: currency.decimalPlaces,
+    maximumFractionDigits: currency.decimalPlaces,
   }).format(value);
 };
 
-export const formatCurrencyWithDecimals = (payload: {
-  num?: number;
-  minDecimals?: number
-  maxDecimals?: number;
-}) => {
+export const formatCurrencyWithDecimals = (payload: { num?: number; minDecimals?: number; maxDecimals?: number }) => {
   const { num, maxDecimals = 2, minDecimals = 2 } = payload;
   // Ensure maxDecimals is between 0 and 8
   const clampedDecimals = Math.max(0, Math.min(8, maxDecimals));
-  
-  return (num || 0).toLocaleString("en-US", {
+
+  return (num || 0).toLocaleString('en-US', {
     minimumFractionDigits: minDecimals,
     maximumFractionDigits: clampedDecimals,
   });
+};
+
+export const formatAddress = (address: string) => {
+  if (!address) return '';
+  return `${address.slice(0, 5)}...${address.slice(-7)}`;
+};
+
+export const kebabToTitleCase = (text: string): string => {
+  return text
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+export const formatToTitleCase = (text: string): string => {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+export function removeEmptyStringObject(obj: Record<string, string | number | boolean | null | undefined>) {
+  const cloneObj = { ...obj };
+  Object.keys(cloneObj).forEach((key) => {
+    if (cloneObj[key] === '') delete cloneObj[key];
+  });
+  return cloneObj;
+}
+
+export function downloadFile(url: string, filename: string) {
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', filename);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+export const downloadCSVFile = (csvString: string, fileName = 'CSV Report', type?: string) => {
+  const blob = new Blob([csvString], { type: type ?? 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${fileName} - created ${new Date().toDateString()}`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+
+export const isInvalidNumber = (value: unknown): boolean => {
+  return value === null || value === undefined || typeof value !== 'number' || Number.isNaN(value);
+};
+
+export const capitalizeFirstLetter = (text: string): string => {
+  if (!text) return '';
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+const formatNumber = (num: number): string => {
+  return num < 10 ? `0${num}` : `${num}`;
+};
+
+const getUnit = (t: TFunction, value: number, singular: string, plural: string): string => {
+  return value === 1 ? t(`time-units.${singular}`) : t(`time-units.${plural}`);
+};
+
+export const formatTimeFromSeconds = (seconds: number, t: TFunction): string => {
+  const days = Math.floor(seconds / (24 * 60 * 60));
+  const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
+  const minutes = Math.floor((seconds % (60 * 60)) / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (days > 0) {
+    return `${formatNumber(days)} ${getUnit(t, days, 'day', 'days')} ${formatNumber(hours)} ${getUnit(
+      t,
+      hours,
+      'hour',
+      'hours'
+    )} ${formatNumber(minutes)} ${getUnit(t, minutes, 'minute', 'minutes')} ${formatNumber(remainingSeconds)} ${getUnit(
+      t,
+      remainingSeconds,
+      'second',
+      'seconds'
+    )}`;
+  }
+
+  if (hours > 0) {
+    return `${formatNumber(hours)} ${getUnit(t, hours, 'hour', 'hours')} ${formatNumber(minutes)} ${getUnit(
+      t,
+      minutes,
+      'minute',
+      'minutes'
+    )} ${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, 'second', 'seconds')}`;
+  }
+
+  if (minutes > 0) {
+    return `${formatNumber(minutes)} ${getUnit(
+      t,
+      minutes,
+      'minute',
+      'minutes'
+    )} ${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, 'second', 'seconds')}`;
+  }
+
+  return `${formatNumber(remainingSeconds)} ${getUnit(t, remainingSeconds, 'second', 'seconds')}`;
+};
+
+export const CHAIN_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('chains.ETH', { ns: 'common' }), value: 'ETH', disabled: false },
+  { label: t('chains.BNB', { ns: 'common' }), value: 'BSC', disabled: true },
+];
+
+export const CRYPTO_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('tokens.USDT', { ns: 'common' }), value: 'USDT', disabled: false },
+  { label: t('tokens.TEST', { ns: 'common' }), value: 'TEST', disabled: false },
+  { label: t('tokens.USDC', { ns: 'common' }), value: 'USDC', disabled: true },
+];
+
+export const NETWORK_OPTIONS = (t: TFunction): Option<string>[] => [
+  { label: t('networks.testnet', { ns: 'common' }), value: 'testnet' },
+  { label: t('networks.mainnet', { ns: 'common' }), value: 'mainnet' },
+];
+
+export const filterBooleanArray = <T>(arr?: T[]): T[] => {
+  if (!arr || !Array.isArray(arr) || arr?.length === 0) return [];
+  return arr.filter((el) => Boolean(el));
+};
+
+export function formatDuration(ms: number) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60) % 60;
+  const hours = Math.floor(totalSeconds / 3600) % 24;
+  const days = Math.floor(totalSeconds / 86400);
+  const seconds = totalSeconds % 60;
+
+  const parts: string[] = [];
+
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+  if (seconds > 0) parts.push(`${seconds}s`);
+
+  if (parts.length === 0) return '0s';
+
+  return parts.join(' ');
+}
+
+/** Validate Ethereum address format using ethers library */
+export const isValidEthereumAddress = (address: string): boolean => {
+  return isAddress(address);
 };

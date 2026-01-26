@@ -1,51 +1,54 @@
+import type { IUserInfo } from '@/apis/auth';
 import LoadingFluid from '@/components/shared/loading-fluid';
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { ROUTES } from '@/constant';
+import { router } from '@/main';
+import { useSessionStore } from '@/stores/use-session-store';
+import { createContext, useContext, type ReactNode } from 'react';
+import { toast } from 'sonner';
+import { useTranslation } from '../i18n';
+import { getContext } from '../tanstack-query/root-provider';
 
 export type AuthContextState = {
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  isAuthenticating: boolean;
   isAuthenticated: boolean;
-  user: {
-    imageUrl: string;
-    fullName: string;
-    emailAddresses: {
-      emailAddress: string;
-    }[];
-  } | null;
+  user?: IUserInfo;
+  onRefetch: () => Promise<void>;
+  onSignout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextState | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const user = {
-    imageUrl: '',
-    fullName: 'John Doe',
-    emailAddresses: [{ emailAddress: 'john.doe@example.com' }],
+  const { t } = useTranslation('common');
+  const payload = useSessionStore();
+  const { queryClient } = getContext();
+
+  const userData = undefined;
+
+  const onRefetch = async () => {
+    /** TODO: Implement */
   };
 
-  const login = async (email: string, password: string) => {
-    // TODO: Implement http login logic
-    // eslint-disable-next-line no-console
-    console.log(email, password);
+  const onSignout = async () => {
+    toast.success(t('messages.signout-success', { ns: 'common' }));
+    queryClient.cancelQueries({});
+    queryClient.removeQueries({});
+    queryClient.clear();
+    payload.reset();
+    router.navigate({
+      to: ROUTES.HOME,
+    });
   };
 
-  const logout = async () => {
-    // TODO: Implement http logout logic
+  const contextValue: AuthContextState = {
+    isAuthenticating: false,
+    isAuthenticated: !!payload.accessToken,
+    user: userData,
+    onRefetch,
+    onSignout,
   };
 
-  useEffect(() => {
-    const verifySession = async () => {
-      // TODO: Implement http verify session logic
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsLoading(false);
-    };
-    verifySession();
-  }, []);
-
-  const contextValue: AuthContextState = { logout, login, isAuthenticated: false, user };
-
-  if (isLoading) {
+  if (contextValue.isAuthenticating) {
     return <LoadingFluid />;
   }
 

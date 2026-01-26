@@ -1,29 +1,31 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import type { AuthenticatedUser } from '@/types';
-
 export type SessionStoreState = {
-  user: AuthenticatedUser | null;
+  accessToken: string | null;
+  refreshToken: string | null;
 };
 
 export type SessionStoreActions = {
   reset: () => void;
-  setUser: (user: AuthenticatedUser | null) => void;
+  setAccessToken: (accessToken: string | null) => void;
+  setRefreshToken: (refreshToken: string | null) => void;
 };
 
 export type SessionStore = SessionStoreState & SessionStoreActions;
 
 export const DEFAULT_SESSION_STORE_STATE: SessionStoreState = {
-  user: null,
+  accessToken: null,
+  refreshToken: null,
 };
 
 export const useSessionStore = create<SessionStore>()(
   persist(
-    set => ({
+    (set) => ({
       ...DEFAULT_SESSION_STORE_STATE,
       reset: () => set(DEFAULT_SESSION_STORE_STATE),
-      setUser: (user: AuthenticatedUser | null) => set({ user }),
+      setAccessToken: (accessToken: string | null) => set({ accessToken }),
+      setRefreshToken: (refreshToken: string | null) => set({ refreshToken }),
     }),
     {
       name: '__session_storage',

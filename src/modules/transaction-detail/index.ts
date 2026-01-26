@@ -1,0 +1,1 @@
+export { default as TransactionDetailContainer } from './containers/transaction-detail-container';

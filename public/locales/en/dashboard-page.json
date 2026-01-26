@@ -4,7 +4,19 @@
     "buttons": {
         "continue": "Continue"
     },
+    "labels": {
+        "current-balance": "Current Balance",
+        "currency": "Currency",
+        "total-calls": "Total Calls",
+        "total-failure": "Total Failure",
+        "total-success": "Total Success",
+        "success-rate": "Success Rate",
+        "total-orders": "Total Orders",
+        "average-orders-per-day": "Average Orders per Day"
+    },
     "start-guide": {
+        "title": "Get started with PWC Merchant",
+        "description": "Complete these steps to start accepting payments",
         "sub-labels": {
             "connect-wallet": "Connect your crypto wallet",
             "create-api-keys": "Create keys for your integration",
@@ -17,8 +29,12 @@
         },
         "descriptions": {
             "add-wallet-address": "Add your crypto wallet address to receive payments",
-            "generate-api-keys": "Generate API keys for server-to-server communication",
+            "generate-apiKeys": "Generate API keys for server-to-server communication",
             "download-sdk": "Quick integration with our SDK"
+        },
+        "status": {
+            "completed": "Completed",
+            "not-started": "Not started"
         }
     },
     "dashboard-balance": {
@@ -38,6 +54,20 @@
         "7-days": "Last 7 Days",
         "30-days": "Last 30 Days",
         "placeholder": "Select a time period",
-        "label": "Time period"
+        "label": "Time period",
+        "usdt-erc20": "USDT-ERC20",
+        "usdc-erc20": "USDC-ERC20",
+        "usdt-bep20": "USDT-BEP20",
+        "usdc-bep20": "USDC-BEP20"
+    },
+    "summary-chart": {
+        "orders": "Orders"
+    },
+    "api-chart": {
+        "success": "Success",
+        "failure": "Failure"
+    },
+    "balance-chart": {
+        "value": "Value"
     }
 }

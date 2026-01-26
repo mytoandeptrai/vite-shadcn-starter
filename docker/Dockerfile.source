@@ -1,0 +1,29 @@
+# Build stage for Vite React app (without nginx)
+
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install pnpm and dependencies
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm \
+  && pnpm install --frozen-lockfile
+
+# Copy source and build
+COPY . .
+RUN pnpm build
+
+# Runtime stage (Node.js with serve)
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install serve globally
+RUN npm install -g serve
+
+# Copy built static files from builder
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 4153
+
+CMD ["serve", "-s", "dist", "-l", "4153"]

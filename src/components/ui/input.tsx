@@ -16,13 +16,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn('relative', containerClassName)}>
         {prefix && (
-          <label htmlFor={props.id} className={cn('-translate-y-1/2 -translate-x-1/2 pointer-events-none absolute top-1/2 left-5')}>
+          <label
+            htmlFor={props.id}
+            className={cn('-translate-y-1/2 -translate-x-1/2 pointer-events-none absolute top-1/2 left-5')}
+          >
             {prefix}
           </label>
         )}
         <input
           ref={ref}
-          type={type === "password" && isShowPassword ? "text" : type}
+          type={type === 'password' && isShowPassword ? 'text' : type}
           data-slot='input'
           className={cn(
             'flex h-10 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:h-12 md:text-sm dark:bg-input/30',
@@ -33,7 +36,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {suffix && type !== 'password' && (
-          <label htmlFor={props.id} className='-translate-y-1/2 absolute top-1/2 right-5 z-10'>{suffix}</label>
+          <label htmlFor={props.id} className='-translate-y-1/2 absolute top-1/2 right-5 z-10'>
+            {suffix}
+          </label>
         )}
 
         {type === 'password' && (

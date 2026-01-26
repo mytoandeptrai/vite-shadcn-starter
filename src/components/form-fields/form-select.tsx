@@ -4,6 +4,9 @@ import type { FieldPath, FieldValues } from 'react-hook-form';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { BaseFormFieldProps, FormOption } from '@/types/base-form';
+import { Show } from '../utilities';
+import { useTranslation } from '@/integrations/i18n';
+import { cn } from '@/lib/utils';
 
 interface FormSelectProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -12,6 +15,7 @@ interface FormSelectProps<
   options: FormOption[];
   placeholder?: string;
   searchable?: boolean;
+  selectClassName?: string;
 }
 
 function FormSelect<
@@ -27,7 +31,10 @@ function FormSelect<
   placeholder = 'Select an option',
   disabled,
   className,
+  selectClassName,
+  fullWidth,
 }: FormSelectProps<TFieldValues, TName>) {
+  const { t } = useTranslation();
   return (
     <FormField
       control={control}
@@ -42,7 +49,11 @@ function FormSelect<
           )}
           <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger
+                className={cn(selectClassName, {
+                  'w-full': fullWidth,
+                })}
+              >
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>
@@ -52,6 +63,11 @@ function FormSelect<
                   {option.label}
                 </SelectItem>
               ))}
+              <Show when={!options || options.length === 0}>
+                <SelectItem value='no-options' disabled>
+                  {t('labels.no-options', { ns: 'common' })}
+                </SelectItem>
+              </Show>
             </SelectContent>
           </Select>
           {description && <FormDescription>{description}</FormDescription>}

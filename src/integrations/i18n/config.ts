@@ -35,6 +35,10 @@ i18n
       'verified-email-page',
       'dashboard-page',
       'balance-page',
+      'wallet-address-page',
+      'transactions-page',
+      'merchant-detail-page',
+      'transaction-detail-page',
     ],
 
     /** Detection settings */

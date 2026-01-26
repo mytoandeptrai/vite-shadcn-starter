@@ -30,12 +30,21 @@
       "invalid-file-size": "Kích thước file không được vượt quá {{size}}.",
       "field-gte": "{{field}} phải lớn hơn hoặc bằng {{amount}}.",
       "field-lt": "{{field}} không được lớn hơn {{amount}}.",
+      "field-gt": "{{field}} phải lớn hơn {{amount}}.",
       "special-chars": "{{field}} không được chứa ký tự đặc biệt.",
       "contain-num": "{{field}} không được chứa số.",
       "values-not-match": "{{field}} không khớp.",
+      "address-invalid-format": "Định dạng địa chỉ không hợp lệ cho blockchain {{chain}}.",
       "session-expired": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.",
       "new-amount-must-be-greater-than-or-equal-to-current-amount": "Số tiền mới phải lớn hơn hoặc bằng số tiền hiện tại ({{currentAmount}})",
-      "new-amount-must-be-less-than-or-equal-to-current-amount": "Số tiền mới phải nhỏ hơn hoặc bằng số tiền hiện tại ({{currentAmount}})"
+      "new-amount-must-be-less-than-or-equal-to-current-amount": "Số tiền phải nhỏ hơn hoặc bằng số tiền hiện tại ({{currentAmount}})",
+      "file-max-size": "Tệp \"{{file.name}}\" vượt quá kích thước tối đa {{maxSize}}.",
+      "file-upload-error": "Lỗi tải tệp lên",
+      "file-upload-error-description": "Vui lòng kiểm tra lại tệp và thử lại.",
+      "file-not-accepted": "Tệp \"{{file.name}}\" không thuộc định dạng được chấp nhận.",
+      "you-can-only-upload-a-maximum-files": "Bạn chỉ có thể tải lên tối đa {{maxFiles}} tệp.",
+      "file-exceeds-the-maximum-size": "Tệp vượt quá kích thước tối đa {{maxSize}}.",
+      "some-files-exceed-the-maximum-size": "Một số tệp vượt quá kích thước tối đa {{maxSize}}."
     },
     "code": {
       "UNAUTHORIZED": "Bạn không có quyền truy cập.",
@@ -82,18 +91,61 @@
       "KEY_NOT_FOUND": "Mã khóa không tồn tại.",
       "INVALID_WALLET": "Ví không hợp lệ.",
       "SECURITY_INPUT": "Rủi ro bảo mật đã được phát hiện. Hành động không được phép.",
-      "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng thử lại sau {{retryAfter}}",
+      "TOO_MANY_REQUESTS": "Quá nhiều lần thử. Vui lòng thử lại sau.",
       "INVALID_RECAPTCHA": "Mã recaptcha không hợp lệ.",
       "INTERNAL_SERVER_ERROR": "Đã xảy ra lỗi. Vui lòng thử lại.",
       "FILE_INVALID_SIZE": "Kích thước file không hợp lệ. Vui lòng tải lại file khác.",
       "MAX_DELETE_WALLET": "Bạn đã đạt được số lượng ví xóa tối đa.",
       "LOGIN_FAILED": "Thông tin đăng nhập của bạn không chính xác. Vui lòng kiểm tra và thử lại.",
       "REDEEM_REQUEST_LIMIT": "Bạn đã đạt được số lượng yêu cầu rút tiền tối đa.",
-      "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống."
+      "MALICIOUS_FILE_UPLOAD": "Tệp này đã được nhận dạng là malware hoặc spam và không thể tải xuống.",
+      "DUPLICATE_WALLET_ADDRESS": "Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
+      "WALLET_ADDRESS_ALREADY_EXISTS": "Địa chỉ ví này đã tồn tại. Chỉ được phép thêm một địa chỉ ví cho mỗi blockchain và crypto.",
+      "INSUFFICIENT_BALANCE": "Số dư không đủ để rút tiền",
+      "WITHDRAWAL_NOT_FOUND": "Yêu cầu rút tiền không tồn tại",
+      "INVALID_EMAIL": "Địa chỉ email không hợp lệ."
+    },
+    "validations": {
+      "MSG-1.3": "Họ không được vượt quá 100 ký tự.",
+      "MSG-1.4": "Họ không được chứa số.",
+      "MSG-1.5": "Họ không được chứa ký tự đặc biệt.",
+      "MSG-1.7": "Tên không được vượt quá 100 ký tự.",
+      "MSG-1.8": "Tên không được chứa số.",
+      "MSG-1.9": "Tên không được chứa ký tự đặc biệt.",
+      "MSG-1.10": "Định dạng email không hợp lệ.",
+      "MSG-1.14": "Mật khẩu phải có ít nhất 8 ký tự và tối đa 50 ký tự.",
+      "MSG-1.15": "Mật khẩu phải có ít nhất 1 ký tự in hoa, thường, số và ký tự đặc biệt.",
+      "MSG-1.17": "Tên đối tượng không được vượt quá 100 ký tự.",
+      "MSG-1.18": "Tên đối tượng không được chứa số.",
+      "MSG-1.19": "Mật khẩu không được chứa khoảng trắng.",
+      "MSG-1.20": "Mật khẩu không khớp."
     },
     "messages": {
-      "you-do-not-have-access-to-this-page": "Bạn không có quyền truy cập trang này."
+      "you-do-not-have-access-to-this-page": "Bạn không có quyền truy cập trang này.",
+      "copied-to-clipboard": "Đã sao chép vào clipboard",
+      "error-loading-component": "Oops! Dữ liệu bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.",
+      "error-title-loading-component": "Dữ liệu không tồn tại"
     }
+  },
+  "messages": {
+    "signout-success": "Bạn đã đăng xuất thành công.",
+    "login-success": "Bạn đã đăng nhập thành công.",
+    "register-success": "Bạn đã đăng ký thành công! Vui lòng kiểm tra email của bạn để xác thực.",
+    "active-success": "Email đã được xác thực thành công. Bạn có thể đăng nhập.",
+    "resend-verification-success": "Email xác thực đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
+    "forgot-password-success": "Chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu đến email nếu chúng tôi tìm thấy tài khoản của bạn",
+    "resend-forgot-password-success": "Hướng dẫn đặt lại mật khẩu đã được gửi thành công. Vui lòng kiểm tra email của bạn.",
+    "two-fa-setup-success": "Xác thực hai yếu tố đã được bật thành công. Vui lòng đăng nhập lại để tiếp tục.",
+    "two-fa-disabled-success": "Xác thực hai yếu tố đã được tắt thành công.",
+    "require-two-fa-to-access": "Vui lòng bật xác thực hai yếu tố để truy cập tính năng này.",
+    "require-enable-two-fa": "Vui lòng bật xác thực hai yếu tố để tiếp tục hành động này.",
+    "require-add-wallet": "Vui lòng thêm địa chỉ ví để tiếp tục hành động này.",
+    "update-password-success": "Mật khẩu đã được cập nhật thành công! Vui lòng đăng nhập lại để tiếp tục.",
+    "no-results-found": "Không tìm thấy kết quả.",
+    "clear-filters": "Xóa bộ lọc",
+    "link-expired-success": "Liên kết đã được tạo mới. Vui lòng thử lại.",
+    "reset-password-success": "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại để tiếp tục.",
+    "unpermitted": "Bạn không có quyền thực hiện hành động này."
   },
   "labels": {
     "all": "Tất cả",
@@ -103,7 +155,24 @@
     "no": "Không",
     "disabled": "Vô hiệu hóa",
     "enabled": "Kích hoạt",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt",
+    "home": "Trang chủ",
+    "settings": "Cài đặt",
+    "logout": "Đăng xuất",
+    "balance": "Số dư",
+    "profile": "Hồ sơ",
+    "transactions": "Giao dịch",
+    "wallet-address": "Địa chỉ ví",
+    "developer": "Phát triển",
+    "system": "Hệ thống",
+    "no-options": "Không có tùy chọn",
+    "merchants": "Thương nhân",
+    "search-kbar": "Tìm kiếm...",
+    "avatar-uploaded": "Ảnh đại diện đã được tải lên",
+    "upload-avatar": "Tải lên ảnh đại diện",
+    "png-jpg-up-to": "PNG, JPG tối đa {{size}}"
   },
   "buttons": {
     "continue": "Tiếp tục",
@@ -116,7 +185,16 @@
     "remove": "Xóa",
     "verify": "Xác nhận",
     "ok": "OK",
-    "i-agree": "Tôi đồng ý"
+    "i-agree": "Tôi đồng ý",
+    "view-details": "Xem chi tiết",
+    "update": "Cập nhật",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "max": "Max",
+    "signout": "Đăng xuất",
+    "profile": "Hồ sơ",
+    "go-back": "Quay lại",
+    "reload": "Tải lại trang"
   },
   "layouts": {
     "auth": {
@@ -133,7 +211,13 @@
         "secureLogin": "Đăng nhập an toàn",
         "protectYourAccountWithStrongEncryption": "Bảo vệ tài khoản của bạn bằng mã hóa mạnh",
         "fastAccess": "Truy cập nhanh",
-        "quickAccessToYourDashboard": "Truy cập nhanh vào bảng điều khiển của bạn"
+        "quickAccessToYourDashboard": "Truy cập nhanh vào bảng điều khiển của bạn",
+        "stayInControl": "Toàn quyền kiểm soát",
+        "manageYourBusinessConfidently": "Quản lý doanh nghiệp một cách tự tin",
+        "builtForMerchants": "Được thiết kế dành riêng cho nhà bán hàng",
+        "optimizedForDailyOperations": "Tối ưu cho vận hành hằng ngày",
+        "reliableAuthentication": "Xác thực đáng tin cậy",
+        "zeroDowntimeGuaranteed": "Đảm bảo không gián đoạn hệ thống"
       }
     }
   },
@@ -152,5 +236,61 @@
         "MSG-1.3": "Mã phải có 6 chữ số."
       }
     }
+  },
+  "data-table": {
+    "sort": {
+      "asc": "Asc",
+      "desc": "Desc"
+    },
+    "filter": {
+      "hide": "Hide"
+    },
+    "pagination": {
+      "rows-per-page": "Số dòng trên trang",
+      "page": "Trang",
+      "of": "of",
+      "go-to-first-page": "Go to first page",
+      "go-to-previous-page": "Go to previous page",
+      "go-to-next-page": "Go to next page",
+      "go-to-last-page": "Go to last page",
+      "page-size": "Page {{pageSize}} of {{pageCount}}"
+    },
+    "options": {
+      "toggle-columns": "Ẩn/Hiện cột"
+    },
+    "labels": {
+      "view": "Xem",
+      "search": "Tìm kiếm theo {{key}}"
+    }
+  },
+  "tokens": {
+    "USDT": "USDT",
+    "USDC": "USDC",
+    "TEST": "TEST"
+  },
+  "chains": {
+    "ETH": "Ethereum",
+    "BNB": "Binance Smart Chain",
+    "ALL": "Tất cả"
+  },
+  "chains-token": {
+    "USDT-BEP20": "USDT-BEP20",
+    "USDC-BEP20": "USDC-BEP20",
+    "USDT-ERC20": "USDT-ERC20",
+    "USDC-ERC20": "USDC-ERC20",
+    "TEST-ERC20": "TEST-ERC20"
+  },
+  "networks": {
+    "testnet": "Testnet",
+    "mainnet": "Mainnet"
+  },
+  "not-found": {
+    "title": "Không Tìm Thấy Trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển. Vui lòng kiểm tra URL và thử lại.",
+    "goHome": "Về Trang Chủ",
+    "goBack": "Quay Lại"
+  },
+  "navigation": {
+    "go-to": "Đi đến {{page}}"
   }
 }

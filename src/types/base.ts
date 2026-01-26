@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
-import type { EMedia } from '@/constant';
+import type { EMedia, EUserType } from '@/constant';
 import type { LucideIcon } from 'lucide-react';
 
 export type FCC<P = {}> = FC<PropsWithChildren<P>>;
@@ -13,9 +13,10 @@ export interface IMedia {
   file?: File | null;
 }
 
-export interface IAxiosResponse<T = unknown> {
-  meta: IMeta;
-  data: T;
+export interface BaseResponseType<T = unknown> {
+  data?: T;
+  code: number;
+  message?: string;
 }
 
 export interface IMeta {
@@ -23,6 +24,12 @@ export interface IMeta {
   message: string | string[];
   exception: string;
   path: string;
+}
+
+export interface PermissionCheck {
+  permission?: string;
+  role?: string;
+  type?: EUserType;
 }
 
 export interface NavItem {
@@ -36,5 +43,32 @@ export interface NavItem {
   description?: string;
   isActive?: boolean;
   items?: NavItem[];
-  access?: string[];
+  access?: PermissionCheck;
 }
+
+export interface Option<T> {
+  value: T;
+  label: string;
+  disabled?: boolean;
+}
+
+export type CommonRequestType = {
+  page?: number;
+  pageSize?: number;
+  sortBy?: string;
+  orderBy?: 'desc' | 'asc';
+  fields?: string;
+  search?: string;
+};
+
+export type IPaginatedResponseType<T> = {
+  data: T;
+  pagination: {
+    hasNext: boolean;
+    hasPrev: boolean;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+    totalCount: number;
+  }
+};

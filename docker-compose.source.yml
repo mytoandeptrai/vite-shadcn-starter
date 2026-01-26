@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.source
+    container_name: ops-merchant-admin-fe-source
+    ports:
+      - '4153:4153'
+    env_file:
+      - .env.production
+    restart: unless-stopped

@@ -1,59 +1,89 @@
-import { ROUTES } from '@/constant';
+import { EUserType, ROUTES } from '@/constant';
 import type { NavItem } from '@/types';
+import type { TFunction } from 'i18next';
 import {
   ArrowLeftRightIcon,
   CircleDollarSignIcon,
   LayoutDashboardIcon,
+  MenuIcon,
   SettingsIcon,
+  User2Icon,
   Users2Icon,
   Wallet2Icon,
+  WrenchIcon,
 } from 'lucide-react';
 
-export const navItems: NavItem[] = [
+export const navItems = (t: TFunction): NavItem[] => [
   {
-    title: 'Home',
+    title: t('labels.home'),
     url: ROUTES.DASHBOARD,
     icon: LayoutDashboardIcon,
     isActive: false,
-    shortcut: ['d', 'd'],
+    shortcut: ['h', 'h'],
     items: [],
   },
   {
-    title: 'Balance',
+    title: t('labels.balance'),
     url: ROUTES.BALANCE,
     icon: CircleDollarSignIcon,
     isActive: false,
+    shortcut: ['b', 'b'],
     items: [],
   },
   {
-    title: 'Transactions',
+    title: t('labels.transactions'),
     url: ROUTES.TRANSACTIONS,
     icon: ArrowLeftRightIcon,
     isActive: false,
+    shortcut: ['t', 't'],
     items: [],
   },
   {
-    title: 'Wallet Address',
+    title: t('labels.wallet-address'),
     url: ROUTES.WALLET_ADDRESS,
     icon: Wallet2Icon,
-    shortcut: ['p', 'p'],
+    shortcut: ['w', 'a'],
     isActive: false,
     items: [],
   },
   {
-    title: 'Developer',
+    title: t('labels.merchants'),
+    url: ROUTES.MERCHANTS,
+    icon: MenuIcon,
+    shortcut: ['m', 'm'],
+    isActive: false,
+    items: [],
+    access: {
+      type: EUserType.MARKETPLACE,
+    },
+  },
+  {
+    title: t('labels.developer'),
     url: ROUTES.DEVELOPER,
     icon: Users2Icon,
-    shortcut: ['k', 'k'],
+    shortcut: ['d', 'd'],
     isActive: false,
     items: [],
   },
   {
-    title: 'Settings',
+    title: t('labels.settings'),
     url: ROUTES.SETTINGS,
     icon: SettingsIcon,
-    shortcut: ['k', 'k'],
+    shortcut: ['s', 's'],
     isActive: false,
-    items: [],
+    items: [
+      {
+        title: t('labels.profile'),
+        url: ROUTES.PROFILE,
+        icon: User2Icon,
+        shortcut: ['p', 'p'],
+      },
+      {
+        title: t('labels.system'),
+        url: ROUTES.SYSTEM,
+        icon: WrenchIcon,
+        shortcut: ['s', 't'],
+      },
+    ],
   },
 ];

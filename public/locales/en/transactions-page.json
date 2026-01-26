@@ -1,0 +1,79 @@
+{
+  "title": "Transactions",
+  "description": "View and manage all your payment and payout transactions.",
+  "tabs": {
+    "payments": "Payments",
+    "payouts": "Payouts",
+    "allActivity": "All Activity"
+  },
+  "table": {
+    "headers": {
+      "id": "ID",
+      "type": "Type",
+      "relatedType": "Related Type",
+      "relatedId": "Related ID",
+      "status": "Status",
+      "chain": "Chain",
+      "chainId": "Chain ID",
+      "txHash": "Transaction Hash",
+      "smartContract": "Smart Contract",
+      "blockNumber": "Block Number",
+      "confirmations": "Confirmations",
+      "amount": "Amount",
+      "crypto": "Crypto",
+      "fromAddress": "From Address",
+      "toAddress": "To Address",
+      "blockTimestamp": "Block Timestamp",
+      "firstSeenAt": "First Seen At",
+      "date": "Confirmed At",
+      "updatedAt": "Updated At",
+      "network": "Network",
+      "createdAt": "Created At"
+    }
+  },
+  "filters": {
+    "search": {
+      "placeholder": "Search transactions by transaction hash"
+    },
+    "status": {
+      "label": "Status",
+      "placeholder": "Select status"
+    },
+    "chain": {
+      "label": "Chain",
+      "placeholder": "Select chain"
+    },
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Select crypto"
+    },
+    "dateRange": {
+      "label": "Date Range",
+      "placeholder": "Select created date range"
+    },
+    "network": {
+      "label": "Network",
+      "placeholder": "Select network"
+    }
+  },
+  "status": {
+    "all": "All",
+    "pending": "Pending",
+    "confirming": "Confirming",
+    "confirmed": "Confirmed",
+    "failed": "Failed"
+  },
+  "types": {
+    "all": "All",
+    "PAYMENT": "Payment",
+    "PAYOUT": "Payout"
+  },
+  "labels": {
+    "status": "Status",
+    "type": "Type"
+  },
+  "placeholder": {
+    "search": "Search transactions by transaction hash",
+    "dateRange": "Select created date range"
+  }
+}

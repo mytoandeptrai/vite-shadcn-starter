@@ -154,28 +154,30 @@ const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 );
 FormDescription.displayName = 'FormDescription';
 
-const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, children, ...props }, ref) => {
-    const { error, formMessageId } = useFormField();
-    const body = error ? String(error?.message) : children;
+/** Add another type to this formmessage */
+const FormMessage = React.forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement> & { type?: string }
+>(({ className, children, type, ...props }, ref) => {
+  const { error, formMessageId } = useFormField();
+  const body = error ? String(error?.message) : children;
 
-    if (!body) {
-      return null;
-    }
-
-    return (
-      <p
-        ref={ref}
-        id={formMessageId}
-        data-slot='form-message'
-        className={cn('mt-1.5 font-medium text-destructive text-sm', className)}
-        {...props}
-      >
-        {body}
-      </p>
-    );
+  if (!body || type === 'date-range') {
+    return null;
   }
-);
+
+  return (
+    <p
+      ref={ref}
+      id={formMessageId}
+      data-slot='form-message'
+      className={cn('mt-1.5 font-medium text-destructive text-sm', className)}
+      {...props}
+    >
+      {body}
+    </p>
+  );
+});
 FormMessage.displayName = 'FormMessage';
 
 export { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, FormWrapper, useFormField };

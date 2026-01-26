@@ -30,7 +30,7 @@ function FormCheckbox<
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`flex flex-row items-start space-x-3 space-y-0 ${className}`}>
+        <FormItem className={`flex flex-row items-start space-x-1.5 space-y-0 ${className}`}>
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} disabled={disabled} />
           </FormControl>

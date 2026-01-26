@@ -13,7 +13,12 @@ export const ROUTES = {
   TRANSACTIONS: '/transactions',
   WALLET_ADDRESS: '/wallet-address',
   SETTINGS: '/settings',
-  PROFILE: '/profile',
+  PROFILE: '/settings/profile',
+  SYSTEM: '/settings/system',
   DEVELOPER: '/developer',
+  NOT_FOUND: '/404',
+  MERCHANTS: '/merchants',
+  MERCHANT_DETAILS: '/merchants/$merchantId',
+  TRANSACTION_DETAIL: '/transactions/$transactionId',
+  GETTING_STARTED: "/getting-started"
 } as const;
-  

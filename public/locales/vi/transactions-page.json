@@ -1,0 +1,79 @@
+{
+  "title": "Giao Dịch",
+  "description": "Xem và quản lý tất cả các giao dịch thanh toán và chi trả của bạn.",
+  "tabs": {
+    "payments": "Thanh Toán",
+    "payouts": "Chi Trả",
+    "allActivity": "Tất Cả Hoạt Động"
+  },
+  "table": {
+    "headers": {
+      "id": "ID",
+      "type": "Loại",
+      "relatedType": "Loại Liên Quan",
+      "relatedId": "ID Liên Quan",
+      "status": "Trạng Thái",
+      "chain": "Chuỗi",
+      "chainId": "ID Chuỗi",
+      "txHash": "Mã Hash Giao Dịch",
+      "smartContract": "Hợp Đồng Thông Minh",
+      "blockNumber": "Số Khối",
+      "confirmations": "Xác Nhận",
+      "amount": "Số Tiền",
+      "crypto": "Tiền Điện Tử",
+      "fromAddress": "Địa Chỉ Gửi",
+      "toAddress": "Địa Chỉ Nhận",
+      "blockTimestamp": "Thời Gian Khối",
+      "firstSeenAt": "Lần Đầu Thấy",
+      "date": "Đã Xác Nhận",
+      "updatedAt": "Cập Nhật Lần Cuối",
+      "network": "Mạng",
+      "createdAt": "Ngày tạo"
+    }
+  },
+  "filters": {
+    "search": {
+      "placeholder": "Tìm kiếm giao dịch bằng mã hash giao dịch"
+    },
+    "status": {
+      "label": "Trạng Thái",
+      "placeholder": "Chọn trạng thái"
+    },
+    "chain": {
+      "label": "Chain",
+      "placeholder": "Chọn chain"
+    },
+    "crypto": {
+      "label": "Crypto",
+      "placeholder": "Chọn crypto"
+    },
+    "dateRange": {
+      "label": "Khoảng Thời Gian",
+      "placeholder": "Chọn khoảng thời gian"
+    },
+    "network": {
+      "label": "mạng",
+      "placeholder": "Chọn mạng"
+    }
+  },
+  "status": {
+    "all": "Tất Cả",
+    "pending": "Đang Chờ",
+    "confirming": "Đang Xác Nhận",
+    "confirmed": "Đã Xác Nhận",
+    "failed": "Thất Bại"
+  },
+  "types": {
+    "all": "Tất Cả",
+    "PAYMENT": "Thanh Toán",
+    "PAYOUT": "Chi Trả"
+  },
+  "labels": {
+    "status": "Trạng Thái",
+    "type": "Loại"
+  },
+  "placeholder": {
+    "search": "Tìm kiếm giao dịch bằng mã hash giao dịch",
+    "dateRange": "Chọn khoảng thời gian"
+  }
+}

@@ -1,3 +1,4 @@
+import { env, ROUTES } from '@/constant';
 import axios, {
   type AxiosError,
   type AxiosInstance,
@@ -7,9 +8,12 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios';
 import qs from 'qs';
-import { env } from '@/constant';
 
-import type { TOptional } from '@/types';
+import { i18n } from '@/integrations/i18n';
+import { useSessionStore } from '@/stores/use-session-store';
+import type { BaseResponseType } from '@/types';
+import { toast } from 'sonner';
+import { checkURLAndError } from './http-instance.helper';
 
 type TFailedRequests = {
   resolve: (value: AxiosResponse) => void;
@@ -22,10 +26,8 @@ type NonNullableObject<T> = {
   [K in keyof T]: T[K] extends object ? NonNullableObject<T[K]> : NonNullable<T[K]>;
 };
 
-const MAXIMUM_RETRY_UN_AUTHENTICATION = 5;
-
 type TRefreshToKenResponse = {
-  token?: string;
+  accessToken?: string;
   refreshToken?: string;
   tokenExpires?: number;
 };
@@ -35,6 +37,15 @@ export enum ECookie {
   REFRESH_TOKEN = 'refresh_token',
 }
 
+type ErrorResponseData = {
+  retryAfter?: number;
+  blockDuration?: number;
+};
+
+type ErrorResponse = Omit<BaseResponseType<null>, 'data'> & {
+  data?: ErrorResponseData;
+};
+
 class HttpInstance {
   private readonly instance: AxiosInstance;
 
@@ -43,8 +54,6 @@ class HttpInstance {
   private isTokenRefreshing = false;
 
   private baseURL = '';
-
-  private readonly refreshTokenCount = new Map<TOptional<string>, number>();
 
   constructor(config?: CreateAxiosDefaults) {
     this.baseURL = env.API_URL;
@@ -96,10 +105,10 @@ class HttpInstance {
   }
 
   private readonly onRequest = async (config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> => {
-    const token = localStorage.getItem(ECookie.ACCESS_TOKEN);
+    const accessToken = useSessionStore.getState().accessToken;
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
 
     return config;
@@ -112,24 +121,24 @@ class HttpInstance {
   };
 
   private readonly onResponse = (response: AxiosResponse) => {
-    const { url } = response.config;
-    const result = response.data;
-
-    const isExistedRefreshTokenCount = this.refreshTokenCount.has(url);
-
-    if (isExistedRefreshTokenCount) {
-      this.refreshTokenCount.set(url, 0);
-    }
-
-    return result;
+    return response.data;
   };
 
   private readonly onResponseError = async (error: AxiosError) => {
     const originalRequest = error.config!;
-    const { url } = originalRequest;
-    const data = error.response?.data as any;
+    const data = error.response?.data as unknown as ErrorResponse;
+    const errorCode = data?.message;
+    const isTokenExpired = data.code === 401 && data?.message === 'TOKEN_EXPIRED';
+    const errorMessageKey = (() => {
+      const msgKey = `errors.code.${errorCode}`;
+      return !i18n.exists(msgKey) ? 'errors.common.general' : `errors.code.${errorCode}`;
+    })();
 
-    if (data.statusCode !== 401) {
+    checkURLAndError(String(originalRequest?.url), String(errorCode), () => {
+      return toast.error(i18n.t(errorMessageKey));
+    });
+
+    if (!isTokenExpired) {
       return Promise.reject(data);
     }
 
@@ -144,20 +153,11 @@ class HttpInstance {
       });
     }
 
-    const existedRefreshTokenCount = this.refreshTokenCount.get(url) ?? 0;
-
-    if (existedRefreshTokenCount >= MAXIMUM_RETRY_UN_AUTHENTICATION) {
-      window.location.href = '/';
-
-      return Promise.reject(new Error('Maximum retry attempts exceeded. Redirecting to login.'));
-    }
-
-    this.refreshTokenCount.set(url, existedRefreshTokenCount + 1);
     this.isTokenRefreshing = true;
 
     try {
-      const refreshToken = localStorage.getItem(ECookie.REFRESH_TOKEN) ?? '';
-      const urlEndpoint = `${this.baseURL}/auth/refresh`;
+      const refreshToken = useSessionStore.getState().refreshToken;
+      const urlEndpoint = `${this.baseURL}merchants/refresh-token`;
 
       const response = await axios.post(
         urlEndpoint,
@@ -172,9 +172,8 @@ class HttpInstance {
       );
 
       const result: TRefreshToKenResponse = response.data;
-
-      localStorage.setItem(ECookie.ACCESS_TOKEN, result.token!);
-      localStorage.setItem(ECookie.REFRESH_TOKEN, result.refreshToken!);
+      useSessionStore.getState().setAccessToken(result.accessToken!);
+      useSessionStore.getState().setRefreshToken(result.refreshToken!);
 
       this.failedRequests.forEach(({ resolve, reject, config }) => {
         this.instance(config)
@@ -184,7 +183,7 @@ class HttpInstance {
     } catch (error: unknown) {
       this.failedRequests.forEach(({ reject, error: errorFailedRequest }) => reject(errorFailedRequest));
       this.removeTokenCookie();
-      window.location.href = '/sign-in';
+      window.location.href = ROUTES.LOGIN;
 
       return Promise.reject(error);
     } finally {
@@ -196,7 +195,7 @@ class HttpInstance {
       return this.instance(originalRequest);
     }
 
-    return Promise.reject(new Error('Original request is undefined.'));
+    return Promise.reject(data);
   };
 
   private setupInterceptorsTo(axiosInstance: AxiosInstance): AxiosInstance {
@@ -207,8 +206,7 @@ class HttpInstance {
   }
 
   private removeTokenCookie() {
-    localStorage.removeItem(ECookie.ACCESS_TOKEN);
-    localStorage.removeItem(ECookie.REFRESH_TOKEN);
+    useSessionStore.getState().reset();
   }
 
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
@@ -225,6 +223,10 @@ class HttpInstance {
 
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.instance.delete(url, config);
+  }
+
+  public async put<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
+    return this.instance.put(url, data, config);
   }
 }
 
