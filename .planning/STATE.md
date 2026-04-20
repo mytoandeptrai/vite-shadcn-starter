@@ -2,14 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
+current_plan: Phase 2, Plan 2 (02-02)
 status: unknown
-last_updated: "2026-04-20T16:11:13.812Z"
+last_updated: "2026-04-20T16:13:44.480Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 12
-  completed_plans: 4
-  percent: 33
+  completed_plans: 5
+  percent: 42
 ---
 
 # Project State
@@ -24,18 +25,22 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 ## Status
 
 - **Planning:** Complete
-- **Execution:** In Progress (Phase 2, Plan 1 complete)
+- **Execution:** In Progress (Phase 2, Plan 2 complete)
 
 ## Recent Activity
 
+- 2026-04-20: Completed 02-02 — Auth module skeleton (container→hook→ui), LoginContainer exported
 - 2026-04-20: Completed 02-01 — route constants + entry flow wiring (ROUTES.LANDING added, guards confirmed)
 - 2026-04-20: Mapped codebase into `.planning/codebase/`
 - 2026-04-20: Initialized project planning artifacts (PROJECT/REQUIREMENTS/ROADMAP/STATE/config)
 
-**Current Plan:** Phase 2, Plan 2 (02-02)
+**Current Plan:** Phase 2, Plan 3 (02-03)
 
 ## Decisions
 
+- D-07 applied: Auth module uses container→hook→ui pattern (src/modules/auth/**), mirroring transactions module
+- LoginForm UI moved from route file into module ui layer; route thinning deferred to plan 02-03
+- useLoginContainer handleSubmit stub — fake sign-in wiring deferred to plan 02-04 (D-04/D-05)
 - ROUTES.LANDING = '/landing' added to route constants (deferred route file to later plan)
 - TanStack Router pathless group: (private)/index.tsx IS the root / route — no separate root index.tsx needed
 - D-01 confirmed: unauthenticated users redirect to /getting-started via private layout + index guards

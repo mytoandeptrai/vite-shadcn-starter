@@ -36,7 +36,7 @@
 Plans:
 - [x] `02-01-PLAN.md` — Entry flow wiring: ROUTES + private guards/index + `/` redirect + thin `/landing` route file (D-01)
 - [ ] `02-09-PLAN.md` — Getting Started + Landing module containers/UI (D-01, D-07) (depends on `02-01`)
-- [ ] `02-02-PLAN.md` — Auth module skeleton (container→hook→ui) + Login UI moved into module ui layer (D-07) (depends on `02-01`)
+- [x] `02-02-PLAN.md` — Auth module skeleton (container→hook→ui) + Login UI moved into module ui layer (D-07) (depends on `02-01`)
 - [ ] `02-08-PLAN.md` — Auth UI components: Register/Forgot/Reset/Success (module `ui/**`) (D-07) (depends on `02-02`)
 - [ ] `02-10-PLAN.md` — Auth containers + module exports for Register/Forgot/Reset/Success (D-07) (depends on `02-08`)
 - [ ] `02-03-PLAN.md` — Thin auth routes + `(auth)` layout redirect to `ROUTES.DASHBOARD` (D-02, D-07) (depends on `02-10`)
