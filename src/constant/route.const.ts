@@ -21,4 +21,5 @@ export const ROUTES = {
   MERCHANT_DETAILS: '/merchants/$merchantId',
   TRANSACTION_DETAIL: '/transactions/$transactionId',
   GETTING_STARTED: '/getting-started',
+  LANDING: '/landing',
 } as const;
