@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { GettingStartedContainer } from '@/modules/getting-started';
 
 export const Route = createFileRoute('/(auth)/getting-started')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/(auth)/getting-started"!</div>
-}
+  component: GettingStartedContainer,
+});
