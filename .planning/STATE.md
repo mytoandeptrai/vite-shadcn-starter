@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 current_plan: Phase 2, Plan 11 (02-11)
 status: unknown
-last_updated: "2026-04-20T17:00:00Z"
+last_updated: "2026-04-20T16:28:30.265Z"
 progress:
   total_phases: 2
   completed_phases: 1
@@ -25,10 +25,11 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 ## Status
 
 - **Planning:** Complete
-- **Execution:** In Progress (Phase 2, Plan 03 complete)
+- **Execution:** In Progress (Phase 2, Plan 04 complete)
 
 ## Recent Activity
 
+- 2026-04-20: Completed 02-04 — ROUTES.SETTINGS_PROFILE added; sidebar footer links to canonical profile route; thin settings/profile route + settings-profile module container created (D-03/D-06/D-07)
 - 2026-04-20: Completed 02-03 — Auth routes thinned to module containers; (auth) layout redirects to /dashboard (D-02/D-07)
 - 2026-04-20: Completed 02-10 — Remaining auth containers (register/forgot/reset/success) wired and exported from module entrypoint
 - 2026-04-20: Completed 02-08 — Register/Forgot/Reset/Success auth screen UI components in module ui layer
@@ -54,3 +55,4 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 - Minimal container pattern: when no business logic needed, container renders UI component directly without a hook layer (register/forgot/reset/success containers in 02-10)
 - Auth route thinning complete: all 5 auth route files are now pure createFileRoute + Container delegates (02-03, D-07)
 - (auth)/layout.tsx beforeLoad redirects authenticated users to ROUTES.DASHBOARD not '/' (02-03, D-02)
+- ROUTES.SETTINGS_PROFILE added as '/settings/profile'; sidebar footer profile link updated to canonical settings route (D-03/D-06); settings-profile module uses named export pattern
