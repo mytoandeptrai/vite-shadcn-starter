@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constant';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/(auth)')({
@@ -5,7 +6,7 @@ export const Route = createFileRoute('/(auth)')({
     const auth = context.auth;
     if (auth.isAuthenticated) {
       throw redirect({
-        to: '/',
+        to: ROUTES.DASHBOARD,
         search: {
           redirect: location.href,
         },
