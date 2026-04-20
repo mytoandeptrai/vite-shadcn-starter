@@ -11,6 +11,8 @@
     "includes": [
       "**",
       "!node_modules",
+      "!**/.claude",
+      "!**/.cursor",
       "!**/.next",
       "!**/dist",
       "!**/public",

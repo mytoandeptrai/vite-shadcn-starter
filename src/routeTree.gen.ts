@@ -16,10 +16,17 @@ import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as privateIndexRouteImport } from './routes/(private)/index'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as privateProfileRouteImport } from './routes/(private)/profile'
 import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
+import { Route as authSuccessNotificationRouteImport } from './routes/(auth)/success-notification'
+import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
+import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
+import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as privateTransactionsIndexRouteImport } from './routes/(private)/transactions/index'
 import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
+import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 
 const R404Route = R404RouteImport.update({
   id: '/404',
@@ -54,14 +61,44 @@ const DemoFormRoute = DemoFormRouteImport.update({
   path: '/demo/form',
   getParentRoute: () => rootRouteImport,
 } as any)
+const privateProfileRoute = privateProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
 const privateDashboardRoute = privateDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => privateLayoutRoute,
 } as any)
+const authSuccessNotificationRoute = authSuccessNotificationRouteImport.update({
+  id: '/success-notification',
+  path: '/success-notification',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authResetPasswordRoute = authResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authRegisterRoute = authRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authLayoutRoute,
+} as any)
 const authGettingStartedRoute = authGettingStartedRouteImport.update({
   id: '/getting-started',
   path: '/getting-started',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => authLayoutRoute,
 } as any)
 const privateTransactionsIndexRoute =
@@ -76,26 +113,45 @@ const privateTransactionsTransactionIdRoute =
     path: '/transactions/$transactionId',
     getParentRoute: () => privateLayoutRoute,
   } as any)
+const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
+  id: '/settings/profile',
+  path: '/settings/profile',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
+  '/login': typeof authLoginRoute
+  '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/success-notification': typeof authSuccessNotificationRoute
   '/dashboard': typeof privateDashboardRoute
+  '/profile': typeof privateProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/': typeof privateIndexRoute
+  '/settings/profile': typeof privateSettingsProfileRoute
   '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
+  '/login': typeof authLoginRoute
+  '/register': typeof authRegisterRoute
+  '/reset-password': typeof authResetPasswordRoute
+  '/success-notification': typeof authSuccessNotificationRoute
   '/dashboard': typeof privateDashboardRoute
+  '/profile': typeof privateProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/': typeof privateIndexRoute
+  '/settings/profile': typeof privateSettingsProfileRoute
   '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/transactions': typeof privateTransactionsIndexRoute
 }
@@ -105,11 +161,18 @@ export interface FileRoutesById {
   '/(private)': typeof privateLayoutRouteWithChildren
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/getting-started': typeof authGettingStartedRoute
+  '/(auth)/login': typeof authLoginRoute
+  '/(auth)/register': typeof authRegisterRoute
+  '/(auth)/reset-password': typeof authResetPasswordRoute
+  '/(auth)/success-notification': typeof authSuccessNotificationRoute
   '/(private)/dashboard': typeof privateDashboardRoute
+  '/(private)/profile': typeof privateProfileRoute
   '/demo/form': typeof DemoFormRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/(private)/': typeof privateIndexRoute
+  '/(private)/settings/profile': typeof privateSettingsProfileRoute
   '/(private)/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
   '/(private)/transactions/': typeof privateTransactionsIndexRoute
 }
@@ -118,22 +181,36 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$'
     | '/404'
+    | '/forgot-password'
     | '/getting-started'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/success-notification'
     | '/dashboard'
+    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/'
+    | '/settings/profile'
     | '/transactions/$transactionId'
     | '/transactions/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/$'
     | '/404'
+    | '/forgot-password'
     | '/getting-started'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/success-notification'
     | '/dashboard'
+    | '/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/'
+    | '/settings/profile'
     | '/transactions/$transactionId'
     | '/transactions'
   id:
@@ -142,11 +219,18 @@ export interface FileRouteTypes {
     | '/(private)'
     | '/$'
     | '/404'
+    | '/(auth)/forgot-password'
     | '/(auth)/getting-started'
+    | '/(auth)/login'
+    | '/(auth)/register'
+    | '/(auth)/reset-password'
+    | '/(auth)/success-notification'
     | '/(private)/dashboard'
+    | '/(private)/profile'
     | '/demo/form'
     | '/demo/storybook'
     | '/(private)/'
+    | '/(private)/settings/profile'
     | '/(private)/transactions/$transactionId'
     | '/(private)/transactions/'
   fileRoutesById: FileRoutesById
@@ -211,6 +295,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(private)/profile': {
+      id: '/(private)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof privateProfileRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
     '/(private)/dashboard': {
       id: '/(private)/dashboard'
       path: '/dashboard'
@@ -218,11 +309,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof privateDashboardRouteImport
       parentRoute: typeof privateLayoutRoute
     }
+    '/(auth)/success-notification': {
+      id: '/(auth)/success-notification'
+      path: '/success-notification'
+      fullPath: '/success-notification'
+      preLoaderRoute: typeof authSuccessNotificationRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/register': {
+      id: '/(auth)/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
     '/(auth)/getting-started': {
       id: '/(auth)/getting-started'
       path: '/getting-started'
       fullPath: '/getting-started'
       preLoaderRoute: typeof authGettingStartedRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/forgot-password': {
+      id: '/(auth)/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(private)/transactions/': {
@@ -239,15 +365,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof privateTransactionsTransactionIdRouteImport
       parentRoute: typeof privateLayoutRoute
     }
+    '/(private)/settings/profile': {
+      id: '/(private)/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof privateSettingsProfileRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
   }
 }
 
 interface authLayoutRouteChildren {
+  authForgotPasswordRoute: typeof authForgotPasswordRoute
   authGettingStartedRoute: typeof authGettingStartedRoute
+  authLoginRoute: typeof authLoginRoute
+  authRegisterRoute: typeof authRegisterRoute
+  authResetPasswordRoute: typeof authResetPasswordRoute
+  authSuccessNotificationRoute: typeof authSuccessNotificationRoute
 }
 
 const authLayoutRouteChildren: authLayoutRouteChildren = {
+  authForgotPasswordRoute: authForgotPasswordRoute,
   authGettingStartedRoute: authGettingStartedRoute,
+  authLoginRoute: authLoginRoute,
+  authRegisterRoute: authRegisterRoute,
+  authResetPasswordRoute: authResetPasswordRoute,
+  authSuccessNotificationRoute: authSuccessNotificationRoute,
 }
 
 const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
@@ -256,14 +399,18 @@ const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
 
 interface privateLayoutRouteChildren {
   privateDashboardRoute: typeof privateDashboardRoute
+  privateProfileRoute: typeof privateProfileRoute
   privateIndexRoute: typeof privateIndexRoute
+  privateSettingsProfileRoute: typeof privateSettingsProfileRoute
   privateTransactionsTransactionIdRoute: typeof privateTransactionsTransactionIdRoute
   privateTransactionsIndexRoute: typeof privateTransactionsIndexRoute
 }
 
 const privateLayoutRouteChildren: privateLayoutRouteChildren = {
   privateDashboardRoute: privateDashboardRoute,
+  privateProfileRoute: privateProfileRoute,
   privateIndexRoute: privateIndexRoute,
+  privateSettingsProfileRoute: privateSettingsProfileRoute,
   privateTransactionsTransactionIdRoute: privateTransactionsTransactionIdRoute,
   privateTransactionsIndexRoute: privateTransactionsIndexRoute,
 }
