@@ -7,8 +7,10 @@ export const useLoginContainer = () => {
   const router = useRouter();
 
   const handleSubmit = () => {
-    setAccessToken('mock_access');
-    setRefreshToken('mock_refresh');
+    const accessToken = 'mock_access';
+    const refreshToken = 'mock_refresh';
+    setAccessToken(accessToken);
+    setRefreshToken(refreshToken);
     router.navigate({ to: ROUTES.DASHBOARD });
   };
 
