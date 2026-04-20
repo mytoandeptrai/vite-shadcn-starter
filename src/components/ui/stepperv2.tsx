@@ -26,7 +26,7 @@ const Stepper: React.FC<StepperProps> = ({ steps, currentStep }) => {
         return (
           <VStack key={index} className='flex-1'>
             <div className='relative flex flex-col items-center'>
-              {index !== 0 && <div className='-left-1/2 absolute top-3 h-0.5 w-full bg-gray-600 z-[-1]' />}
+              {index !== 0 && <div className='-left-1/2 absolute top-3 z-[-1] h-0.5 w-full bg-gray-600' />}
 
               <HStack justify='center' className='relative w-full'>
                 <Dot isActive={isActive} isCompleted={isCompleted} />

@@ -6,7 +6,7 @@ const ResultItem = React.forwardRef(
     {
       action,
       active,
-      currentRootActionId
+      currentRootActionId,
     }: {
       action: ActionImpl;
       active: boolean;
@@ -16,22 +16,14 @@ const ResultItem = React.forwardRef(
   ) => {
     const ancestors = React.useMemo(() => {
       if (!currentRootActionId) return action.ancestors;
-      const index = action.ancestors.findIndex(
-        (ancestor) => ancestor.id === currentRootActionId
-      );
+      const index = action.ancestors.findIndex((ancestor) => ancestor.id === currentRootActionId);
       return action.ancestors.slice(index + 1);
     }, [action.ancestors, currentRootActionId]);
 
     return (
-      <div
-        ref={ref}
-        className={`relative z-10 flex cursor-pointer items-center justify-between px-4 py-3`}
-      >
+      <div ref={ref} className={`relative z-10 flex cursor-pointer items-center justify-between px-4 py-3`}>
         {active && (
-          <div
-            id='kbar-result-item'
-            className='border-primary bg-accent/50 absolute inset-0 z-[-1]! border-l-4'
-          ></div>
+          <div id='kbar-result-item' className='absolute inset-0 z-[-1]! border-primary border-l-4 bg-accent/50' />
         )}
         <div className='relative z-10 flex items-center gap-2'>
           {action.icon && action.icon}
@@ -40,19 +32,13 @@ const ResultItem = React.forwardRef(
               {ancestors.length > 0 &&
                 ancestors.map((ancestor) => (
                   <React.Fragment key={ancestor.id}>
-                    <span className='text-muted-foreground mr-2'>
-                      {ancestor.name}
-                    </span>
+                    <span className='mr-2 text-muted-foreground'>{ancestor.name}</span>
                     <span className='mr-2'>&rsaquo;</span>
                   </React.Fragment>
                 ))}
               <span>{action.name}</span>
             </div>
-            {action.subtitle && (
-              <span className='text-muted-foreground text-sm'>
-                {action.subtitle}
-              </span>
-            )}
+            {action.subtitle && <span className='text-muted-foreground text-sm'>{action.subtitle}</span>}
           </div>
         </div>
         {action.shortcut?.length ? (
@@ -60,7 +46,7 @@ const ResultItem = React.forwardRef(
             {action.shortcut.map((sc, i) => (
               <kbd
                 key={sc + i}
-                className='bg-muted flex h-5 items-center gap-1 rounded-md border px-1.5 text-[10px] font-medium'
+                className='flex h-5 items-center gap-1 rounded-md border bg-muted px-1.5 font-medium text-[10px]'
               >
                 {sc}
               </kbd>

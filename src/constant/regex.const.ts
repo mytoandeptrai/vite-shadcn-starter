@@ -1,7 +1,7 @@
 export const regexEmail =
   /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/;
 // eslint-disable-next-line no-useless-escape
-export const regexSpecialCharacters = /[!@#$%^&*(),.?":{}/|<>~`_\-=+\[\]\\;']/;
+export const regexSpecialCharacters = /[!@#$%^&*(),.?":{}/|<>~`_\-=+[\]\\;']/;
 export const regexUpperCase = /[A-Z]/;
 export const regexLowerCase = /[a-z]/;
 export const regexNumber = /[\d]/;

@@ -166,7 +166,7 @@ export default function DataTable<TData, TValue>({
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={(e) => onRowClick?.(e, row.original)}
                     className={cn('*:whitespace-nowrap odd:bg-muted/50', {
-                      'hover:cursor-pointer': !!onRowClick
+                      'hover:cursor-pointer': !!onRowClick,
                     })}
                   >
                     {row.getVisibleCells().map((cell) => (

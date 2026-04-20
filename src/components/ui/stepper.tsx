@@ -76,11 +76,11 @@ function Stepper({
     setTriggerNodes((prev) => {
       if (node && !prev.includes(node)) {
         return [...prev, node];
-      } else if (!node && prev.includes(node!)) {
-        return prev.filter((n) => n !== node);
-      } else {
-        return prev;
       }
+      if (!node && prev.includes(node!)) {
+        return prev.filter((n) => n !== node);
+      }
+      return prev;
     });
   }, []);
 

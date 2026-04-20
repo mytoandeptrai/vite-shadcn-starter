@@ -29,7 +29,7 @@ const TransactionDetailTimelineUi = ({ transaction }: TransactionDetailTimelineU
                 </p>
               </div>
             </div>
-            
+
             <div className='flex gap-4'>
               <div className='mt-1 flex flex-col items-center'>
                 <div className='h-4 w-4 rounded-full bg-muted-foreground' />

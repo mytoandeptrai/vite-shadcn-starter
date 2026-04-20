@@ -5,26 +5,26 @@ export type TransactionStatus = 'pending' | 'confirming' | 'confirmed' | 'failed
 export type TransactionRelatedType = 'ORDER' | 'WITHDRAWAL';
 
 export interface ITransaction {
-  amount: string
-  blockNumber: number
-  blockTimestamp: string
-  chain: string
-  confirmations: number
-  confirmedAt: string
-  createdAt: string
-  crypto: string
-  firstSeenAt: string
-  fromAddress: string
-  id: number
-  network: string
-  relatedId: number
-  relatedType: string
-  smartContract: string
-  status: string
-  toAddress: string
-  txHash: string
-  type: string
-  updatedAt: string
+  amount: string;
+  blockNumber: number;
+  blockTimestamp: string;
+  chain: string;
+  confirmations: number;
+  confirmedAt: string;
+  createdAt: string;
+  crypto: string;
+  firstSeenAt: string;
+  fromAddress: string;
+  id: number;
+  network: string;
+  relatedId: number;
+  relatedType: string;
+  smartContract: string;
+  status: string;
+  toAddress: string;
+  txHash: string;
+  type: string;
+  updatedAt: string;
   rawData: Record<string, unknown>;
 }
 

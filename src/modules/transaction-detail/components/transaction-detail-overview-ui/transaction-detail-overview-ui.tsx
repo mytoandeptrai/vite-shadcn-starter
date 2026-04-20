@@ -15,7 +15,10 @@ type TransactionDetailOverviewUiProps = {
 
 const TransactionDetailOverviewUi = ({ transaction }: TransactionDetailOverviewUiProps) => {
   const { t } = useTranslation('transaction-detail-page');
-  const amount = formatNaturalNumber(Number(transaction?.amount ?? 0), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const amount = formatNaturalNumber(Number(transaction?.amount ?? 0), {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
   return (
     <Card>
@@ -31,7 +34,9 @@ const TransactionDetailOverviewUi = ({ transaction }: TransactionDetailOverviewU
           <div>
             <p className='font-medium text-sm'>{t('labels.status')}</p>
             <div className='mt-2'>
-              <Badge variant={getStatusVariant(transaction?.status?.toLocaleLowerCase() ?? '')}>{getStatusText(transaction?.status?.toLocaleLowerCase() ?? '', t)}</Badge>
+              <Badge variant={getStatusVariant(transaction?.status?.toLocaleLowerCase() ?? '')}>
+                {getStatusText(transaction?.status?.toLocaleLowerCase() ?? '', t)}
+              </Badge>
             </div>
           </div>
           <div>

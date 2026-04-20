@@ -48,7 +48,7 @@ function FormDateRangePicker<
               <FormControl>
                 <Button
                   variant='outline'
-                  className={`w-full justify-between text-left font-normal pl-3 ${
+                  className={`w-full justify-between pl-3 text-left font-normal ${
                     !field.value && 'text-muted-foreground'
                   }`}
                   disabled={disabled}

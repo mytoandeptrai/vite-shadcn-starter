@@ -1,1 +1,1 @@
-export * from './use-transaction-detail-container'
+export * from './use-transaction-detail-container';

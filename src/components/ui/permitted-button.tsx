@@ -23,8 +23,8 @@ const PermittedButton = ({ permitted = true, tooltipProps, className, ...props }
       <TooltipTrigger asChild>
         <span className={cn('inline-flex w-fit', className)}>{button}</span>
       </TooltipTrigger>
-      <TooltipContent side="top" {...tooltipProps}>
-        <p className="whitespace-pre-line text-xs">{t('messages.unpermitted')}</p>
+      <TooltipContent side='top' {...tooltipProps}>
+        <p className='whitespace-pre-line text-xs'>{t('messages.unpermitted')}</p>
       </TooltipContent>
     </Tooltip>
   );

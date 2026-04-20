@@ -70,5 +70,5 @@ export type IPaginatedResponseType<T> = {
     pageSize: number;
     totalPages: number;
     totalCount: number;
-  }
+  };
 };

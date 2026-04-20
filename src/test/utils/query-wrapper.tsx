@@ -10,27 +10,27 @@ import type { ReactElement, ReactNode } from 'react';
  * Creates a new QueryClient for testing with disabled retries and caching
  */
 export const createTestQueryClient = () => {
-	return new QueryClient({
-		defaultOptions: {
-			queries: {
-				retry: false, // Disable retries in tests
-				gcTime: 0, // Disable garbage collection
-				staleTime: 0, // Data is immediately stale
-			},
-			mutations: {
-				retry: false,
-			},
-		},
-	});
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false, // Disable retries in tests
+        gcTime: 0, // Disable garbage collection
+        staleTime: 0, // Data is immediately stale
+      },
+      mutations: {
+        retry: false,
+      },
+    },
+  });
 };
 
 /**
  * Wrapper component that provides QueryClient to children
  */
 export const createQueryWrapper = (queryClient: QueryClient) => {
-	return ({ children }: { children: ReactNode }) => (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-	);
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 };
 
 /**
@@ -38,11 +38,11 @@ export const createQueryWrapper = (queryClient: QueryClient) => {
  * Creates a new QueryClient for each test to ensure isolation
  */
 export const renderWithQuery = (ui: ReactElement, options?: RenderOptions) => {
-	const queryClient = createTestQueryClient();
-	const wrapper = createQueryWrapper(queryClient);
+  const queryClient = createTestQueryClient();
+  const wrapper = createQueryWrapper(queryClient);
 
-	return {
-		...render(ui, { wrapper, ...options }),
-		queryClient,
-	};
+  return {
+    ...render(ui, { wrapper, ...options }),
+    queryClient,
+  };
 };

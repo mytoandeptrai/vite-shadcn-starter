@@ -13,6 +13,8 @@
       "!node_modules",
       "!**/.claude",
       "!**/.cursor",
+      "!**/.planning",
+      "!**/.docs",
       "!**/.next",
       "!**/dist",
       "!**/public",

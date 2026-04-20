@@ -79,7 +79,7 @@ export const BASE_REFRESH_INTERVAL = 1000 * 10; // 10 seconds
 export const MAX_WALLETS_PER_CHAIN = 2; // Maximum number of wallets allowed per chain
 
 export const STABLE_TOKEN: Record<string, string> = {
-  USDC: "USDC",
-  USDT: "USDT",
-  TEST: "TEST"
-}
+  USDC: 'USDC',
+  USDT: 'USDT',
+  TEST: 'TEST',
+};

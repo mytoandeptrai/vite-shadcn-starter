@@ -1,2 +1,2 @@
-export { default } from "./transaction-detail-raw-ui";
-export * from "./transaction-detail-raw-ui";
+export { default } from './transaction-detail-raw-ui';
+export * from './transaction-detail-raw-ui';

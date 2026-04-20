@@ -34,7 +34,7 @@ function FormInput<
   disabled,
   className,
   readOnly,
-  suffix
+  suffix,
 }: FormInputProps<TFieldValues, TName>) {
   return (
     <FormField

@@ -26,8 +26,7 @@ export default function AppHeader() {
         </div>
       </div>
       <div className='flex items-center gap-3 pr-4'>
-        <div
-        >
+        <div>
           <UserAvatarProfile user={user} />
         </div>
       </div>

@@ -13,9 +13,9 @@ import type { ReactElement } from 'react';
  * @returns Render result
  */
 export const renderWithProviders = (ui: ReactElement, options?: RenderOptions) => {
-	return render(ui, {
-		...options,
-	});
+  return render(ui, {
+    ...options,
+  });
 };
 
 /**

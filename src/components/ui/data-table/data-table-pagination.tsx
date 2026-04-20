@@ -63,7 +63,11 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='size-8'
             onClick={() =>
-              onPaginationChange?.((pagination?.pageIndex ?? 0) - 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
+              onPaginationChange?.(
+                (pagination?.pageIndex ?? 0) - 1,
+                pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0],
+                'pagination'
+              )
             }
             disabled={!pagination?.hasPrev}
           >
@@ -75,7 +79,11 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='size-8'
             onClick={() =>
-              onPaginationChange?.((pagination?.pageIndex ?? 0) + 1, pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
+              onPaginationChange?.(
+                (pagination?.pageIndex ?? 0) + 1,
+                pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0],
+                'pagination'
+              )
             }
             disabled={!pagination?.hasNext}
           >
@@ -87,7 +95,11 @@ export function DataTablePagination({ onPaginationChange, pagination }: DataTabl
             size='icon'
             className='hidden size-8 lg:flex'
             onClick={() =>
-              onPaginationChange?.((pagination?.pageCount ?? 0), pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0], 'pagination')
+              onPaginationChange?.(
+                pagination?.pageCount ?? 0,
+                pagination?.pageSize ?? PAGE_SIZE_OPTIONS[0],
+                'pagination'
+              )
             }
             disabled={!pagination?.hasNext}
           >

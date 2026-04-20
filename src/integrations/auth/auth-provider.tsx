@@ -25,9 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const userData = undefined;
 
-  const onRefetch = async () => {
-    /** TODO: Implement */
-  };
+  const onRefetch = async (): Promise<void> => {};
 
   const onSignout = async () => {
     toast.success(t('messages.signout-success', { ns: 'common' }));
@@ -36,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryClient.clear();
     payload.reset();
     router.navigate({
-      to: ROUTES.HOME,
+      to: ROUTES.GETTING_STARTED,
     });
   };
 

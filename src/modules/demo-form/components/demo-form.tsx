@@ -20,81 +20,83 @@ import { FormDateRangePicker } from '@/components/form-fields/form-date-range-pi
 import { FormNumberInput } from '@/components/form-fields/form-number-input';
 
 // Demo form schema
-const demoFormSchema = z.object({
-  // Basic inputs
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.email('Invalid email address'),
-  age: z.number().min(18, 'Must be at least 18 years old'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+const demoFormSchema = z
+  .object({
+    // Basic inputs
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.email('Invalid email address'),
+    age: z.number().min(18, 'Must be at least 18 years old'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
 
-  // Textarea
-  bio: z.string().min(10, 'Bio must be at least 10 characters'),
+    // Textarea
+    bio: z.string().min(10, 'Bio must be at least 10 characters'),
 
-  // Select
-  country: z.string().min(1, 'Please select a country'),
+    // Select
+    country: z.string().min(1, 'Please select a country'),
 
-  // Checkbox group
-  interests: z.array(z.string()).min(1, 'Select at least one interest'),
+    // Checkbox group
+    interests: z.array(z.string()).min(1, 'Select at least one interest'),
 
-  // Radio group
-  gender: z.string().min(1, 'Please select gender'),
+    // Radio group
+    gender: z.string().min(1, 'Please select gender'),
 
-  // Switch
-  newsletter: z.boolean(),
+    // Switch
+    newsletter: z.boolean(),
 
-  // Slider
-  rating: z.number().min(0).max(10),
+    // Slider
+    rating: z.number().min(0).max(10),
 
-  // Date picker
-  birthDate: z.date().optional(),
+    // Date picker
+    birthDate: z.date().optional(),
 
-  // Single checkbox
-  terms: z.boolean().refine((val) => val === true, 'You must accept the terms'),
+    // Single checkbox
+    terms: z.boolean().refine((val) => val === true, 'You must accept the terms'),
 
-  // File upload
-  avatar: z.array(z.any()).optional(),
+    // File upload
+    avatar: z.array(z.any()).optional(),
 
-  // Date range picker
-  dateRange: z
-    .object({
-      from: z.date().optional(),
-      to: z.date().optional(),
-    })
-    .superRefine((data, ctx) => {
-      if (!data.from || !data.to) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'Please select a date range',
-          path: [],
-        });
-        return;
-      }
+    // Date range picker
+    dateRange: z
+      .object({
+        from: z.date().optional(),
+        to: z.date().optional(),
+      })
+      .superRefine((data, ctx) => {
+        if (!data.from || !data.to) {
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Please select a date range',
+            path: [],
+          });
+          return;
+        }
 
-      if (data.from > data.to) {
-        ctx.addIssue({
-          code: 'custom',
-          message: 'End date must be after start date',
-          path: [],
-        });
-      }
-    }),
+        if (data.from > data.to) {
+          ctx.addIssue({
+            code: 'custom',
+            message: 'End date must be after start date',
+            path: [],
+          });
+        }
+      }),
 
-  // Token selection
-  token: z.string().min(1, 'Please select a token'),
+    // Token selection
+    token: z.string().min(1, 'Please select a token'),
 
-  // Withdrawal amount with dynamic validation
-  withdrawAmount: z.number().min(0, 'Amount must be at least 0'),
-  maxBalance: z.number().optional(),
-}).superRefine((data, ctx) => {
-  // Validate withdrawAmount <= maxBalance
-  if (data.maxBalance !== undefined && data.withdrawAmount > data.maxBalance) {
-    ctx.addIssue({
-      code: 'custom',
-      path: ['withdrawAmount'],
-      message: `Amount must not exceed max balance: ${data.maxBalance.toFixed(2)}`,
-    });
-  }
-});
+    // Withdrawal amount with dynamic validation
+    withdrawAmount: z.number().min(0, 'Amount must be at least 0'),
+    maxBalance: z.number().optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Validate withdrawAmount <= maxBalance
+    if (data.maxBalance !== undefined && data.withdrawAmount > data.maxBalance) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['withdrawAmount'],
+        message: `Amount must not exceed max balance: ${data.maxBalance.toFixed(2)}`,
+      });
+    }
+  });
 
 type DemoFormData = z.infer<typeof demoFormSchema>;
 
@@ -313,13 +315,16 @@ export function DemoForm() {
                   type='button'
                   variant='ghost'
                   size='sm'
-                  onClick={() => form.setValue('withdrawAmount', form.getValues('maxBalance') || 10000, { shouldValidate: true })}
+                  onClick={() =>
+                    form.setValue('withdrawAmount', form.getValues('maxBalance') || 10000, { shouldValidate: true })
+                  }
                 >
                   Max
                 </Button>
               </div>
               <p className='text-muted-foreground text-sm'>
-                Max balance: {form.watch('maxBalance')?.toLocaleString() || 0} (validation: amount must be ≥ 0 and ≤ max balance)
+                Max balance: {form.watch('maxBalance')?.toLocaleString() || 0} (validation: amount must be ≥ 0 and ≤ max
+                balance)
               </p>
             </div>
 

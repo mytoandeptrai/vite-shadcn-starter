@@ -9,13 +9,9 @@
  * @param type - MIME type
  * @returns File object
  */
-export const createMockFile = (
-	name = 'test.png',
-	size = 1024,
-	type = 'image/png',
-): File => {
-	const blob = new Blob(['x'.repeat(size)], { type });
-	return new File([blob], name, { type });
+export const createMockFile = (name = 'test.png', size = 1024, type = 'image/png'): File => {
+  const blob = new Blob(['x'.repeat(size)], { type });
+  return new File([blob], name, { type });
 };
 
 /**
@@ -24,7 +20,7 @@ export const createMockFile = (
  * @returns Oversized File object
  */
 export const createOversizedFile = (sizeMB = 11): File => {
-	return createMockFile('large.png', sizeMB * 1024 * 1024, 'image/png');
+  return createMockFile('large.png', sizeMB * 1024 * 1024, 'image/png');
 };
 
 /**
@@ -32,7 +28,7 @@ export const createOversizedFile = (sizeMB = 11): File => {
  * @returns File object with PDF MIME type
  */
 export const createInvalidFormatFile = (): File => {
-	return createMockFile('test.pdf', 1024, 'application/pdf');
+  return createMockFile('test.pdf', 1024, 'application/pdf');
 };
 
 /**
@@ -42,7 +38,7 @@ export const createInvalidFormatFile = (): File => {
  * @returns JPEG File object
  */
 export const createJPEGFile = (name = 'test.jpg', size = 1024): File => {
-	return createMockFile(name, size, 'image/jpeg');
+  return createMockFile(name, size, 'image/jpeg');
 };
 
 /**
@@ -52,5 +48,5 @@ export const createJPEGFile = (name = 'test.jpg', size = 1024): File => {
  * @returns PNG File object
  */
 export const createPNGFile = (name = 'test.png', size = 1024): File => {
-	return createMockFile(name, size, 'image/png');
+  return createMockFile(name, size, 'image/png');
 };
