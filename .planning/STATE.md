@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_plan: 6
-status: unknown
-last_updated: "2026-04-20T16:47:48.693Z"
+current_plan: 7
+status: in_progress
+last_updated: "2026-04-20T16:57:11.000Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 12
-  completed_plans: 10
-  percent: 83
+  completed_plans: 11
+  percent: 92
 ---
 
 # Project State
@@ -25,10 +25,11 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 ## Status
 
 - **Planning:** Complete
-- **Execution:** In Progress (Phase 2, Plan 05 complete)
+- **Execution:** In Progress (Phase 2, Plan 07 complete)
 
 ## Recent Activity
 
+- 2026-04-20: Completed 02-07 — Sidebar footer Sign out now opens a confirm dialog and only signs out on confirm (AlertDialog)
 - 2026-04-20: Completed 02-05 — Fake sign-in persists mock tokens to __session_storage and redirects to /dashboard; AuthProvider signout routes to /getting-started and has no TODO stubs (D-01/D-02/D-04/D-05)
 - 2026-04-20: Completed 02-04 — ROUTES.SETTINGS_PROFILE added; sidebar footer links to canonical profile route; thin settings/profile route + settings-profile module container created (D-03/D-06/D-07)
 - 2026-04-20: Completed 02-03 — Auth routes thinned to module containers; (auth) layout redirects to /dashboard (D-02/D-07)
@@ -40,7 +41,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 - 2026-04-20: Mapped codebase into `.planning/codebase/`
 - 2026-04-20: Initialized project planning artifacts (PROJECT/REQUIREMENTS/ROADMAP/STATE/config)
 
-**Current Plan:** 6
+**Current Plan:** 7
 **Total Plans:** 12
 
 ## Decisions
@@ -58,3 +59,4 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 - Auth route thinning complete: all 5 auth route files are now pure createFileRoute + Container delegates (02-03, D-07)
 - (auth)/layout.tsx beforeLoad redirects authenticated users to ROUTES.DASHBOARD not '/' (02-03, D-02)
 - ROUTES.SETTINGS_PROFILE added as '/settings/profile'; sidebar footer profile link updated to canonical settings route (D-03/D-06); settings-profile module uses named export pattern
+- 02-07: Guard sidebar signout behind confirm dialog (AlertDialog); signout only runs on confirm

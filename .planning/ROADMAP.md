@@ -42,7 +42,7 @@ Plans:
 - [x] `02-03-PLAN.md` — Thin auth routes + `(auth)` layout redirect to `ROUTES.DASHBOARD` (D-02, D-07) (depends on `02-10`)
 - [x] `02-04-PLAN.md` — Settings/Profile canonical route + sidebar footer Profile link (D-03, D-06, D-07)
 - [x] `02-05-PLAN.md` — Fake session persistence (mock tokens) + AuthProvider signout/refetch completion (D-01, D-02, D-04, D-05)
-- [ ] `02-07-PLAN.md` — Logout confirm dialog + wire sidebar footer Sign out to require confirm (locked Pencil; D-06 placement)
+- [x] `02-07-PLAN.md` — Logout confirm dialog + wire sidebar footer Sign out to require confirm (locked Pencil; D-06 placement)
 - [ ] `02-06-PLAN.md` — Mock auth + transactions APIs with 800ms delay; wire AuthProvider user bootstrap (D-08..D-10)
 
 ---
