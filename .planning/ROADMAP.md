@@ -39,7 +39,7 @@ Plans:
 - [x] `02-02-PLAN.md` — Auth module skeleton (container→hook→ui) + Login UI moved into module ui layer (D-07) (depends on `02-01`)
 - [x] `02-08-PLAN.md` — Auth UI components: Register/Forgot/Reset/Success (module `ui/**`) (D-07) (depends on `02-02`)
 - [x] `02-10-PLAN.md` — Auth containers + module exports for Register/Forgot/Reset/Success (D-07) (depends on `02-08`)
-- [ ] `02-03-PLAN.md` — Thin auth routes + `(auth)` layout redirect to `ROUTES.DASHBOARD` (D-02, D-07) (depends on `02-10`)
+- [x] `02-03-PLAN.md` — Thin auth routes + `(auth)` layout redirect to `ROUTES.DASHBOARD` (D-02, D-07) (depends on `02-10`)
 - [ ] `02-04-PLAN.md` — Settings/Profile canonical route + sidebar footer Profile link (D-03, D-06, D-07)
 - [ ] `02-05-PLAN.md` — Fake session persistence (mock tokens) + AuthProvider signout/refetch completion (D-01, D-02, D-04, D-05)
 - [ ] `02-07-PLAN.md` — Logout confirm dialog + wire sidebar footer Sign out to require confirm (locked Pencil; D-06 placement)

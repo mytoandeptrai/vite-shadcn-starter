@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_plan: Phase 2, Plan 11 (02-11)
-status: in_progress
-last_updated: "2026-04-20T16:22:13Z"
+status: unknown
+last_updated: "2026-04-20T17:00:00Z"
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 12
-  completed_plans: 8
-  percent: 67
+  completed_plans: 9
+  percent: 75
 ---
 
 # Project State
@@ -25,10 +25,11 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 ## Status
 
 - **Planning:** Complete
-- **Execution:** In Progress (Phase 2, Plan 10 complete)
+- **Execution:** In Progress (Phase 2, Plan 03 complete)
 
 ## Recent Activity
 
+- 2026-04-20: Completed 02-03 — Auth routes thinned to module containers; (auth) layout redirects to /dashboard (D-02/D-07)
 - 2026-04-20: Completed 02-10 — Remaining auth containers (register/forgot/reset/success) wired and exported from module entrypoint
 - 2026-04-20: Completed 02-08 — Register/Forgot/Reset/Success auth screen UI components in module ui layer
 - 2026-04-20: Completed 02-09 — Getting Started and Landing module containers + thin routes
@@ -51,3 +52,5 @@ See: `.planning/PROJECT.md` (updated 2026-04-20)
 - LandingContainer primary CTA routes to ROUTES.GETTING_STARTED only (per D-01, not directly to private routes)
 - Auth UI components (register/forgot/reset/success) accept onSubmit/isLoading props — presentational-only, no business logic, ready for container wiring
 - Minimal container pattern: when no business logic needed, container renders UI component directly without a hook layer (register/forgot/reset/success containers in 02-10)
+- Auth route thinning complete: all 5 auth route files are now pure createFileRoute + Container delegates (02-03, D-07)
+- (auth)/layout.tsx beforeLoad redirects authenticated users to ROUTES.DASHBOARD not '/' (02-03, D-02)
