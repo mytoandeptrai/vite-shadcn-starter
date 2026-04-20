@@ -1,6 +1,15 @@
+import { ROUTES } from '@/constant';
+import { useSessionStore } from '@/stores/use-session-store';
+import { useRouter } from '@tanstack/react-router';
+
 export const useLoginContainer = () => {
+  const { setAccessToken, setRefreshToken } = useSessionStore();
+  const router = useRouter();
+
   const handleSubmit = () => {
-    // TODO: implement fake sign-in (Phase 2 mock)
+    setAccessToken('mock_access');
+    setRefreshToken('mock_refresh');
+    router.navigate({ to: ROUTES.DASHBOARD });
   };
 
   return {
