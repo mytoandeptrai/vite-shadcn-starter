@@ -1,6 +1,16 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { CustomLink } from '@/components/ui/custom-link';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -29,6 +39,7 @@ import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { useLocation } from '@tanstack/react-router';
 import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon, UserCircle2Icon } from 'lucide-react';
+import { useState } from 'react';
 import { navItems } from './app-sidebar.config';
 import { Logo } from '@/components/ui/logo';
 import { useFilteredNavItems } from '@/hooks/use-nav';
@@ -38,6 +49,7 @@ const AppSidebar = () => {
   const pathname = location.pathname;
   const { t } = useTranslation();
   const { user, onSignout } = useAuthContext();
+  const [isSignoutConfirmOpen, setIsSignoutConfirmOpen] = useState(false);
 
   const filteredNavItems = useFilteredNavItems(navItems(t));
 
@@ -143,12 +155,34 @@ const AppSidebar = () => {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onSignout}>
+                <DropdownMenuItem onSelect={() => setIsSignoutConfirmOpen(true)}>
                   <LogOutIcon className='mr-2 h-4 w-4' />
                   {t('buttons.signout')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <AlertDialog open={isSignoutConfirmOpen} onOpenChange={setIsSignoutConfirmOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Sign out</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to sign out? You’ll need to sign in again to access your dashboard.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      setIsSignoutConfirmOpen(false);
+                      void onSignout();
+                    }}
+                  >
+                    Sign out
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
