@@ -136,7 +136,7 @@ const AppSidebar = () => {
 
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
-                    <CustomLink to={ROUTES.DASHBOARD}>
+                    <CustomLink to={ROUTES.SETTINGS_PROFILE}>
                       <UserCircle2Icon className='mr-2 h-4 w-4' />
                       {t('buttons.profile')}
                     </CustomLink>

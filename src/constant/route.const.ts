@@ -14,6 +14,7 @@ export const ROUTES = {
   WALLET_ADDRESS: '/wallet-address',
   SETTINGS: '/settings',
   PROFILE: '/profile',
+  SETTINGS_PROFILE: '/settings/profile',
   SYSTEM: '/settings/system',
   DEVELOPER: '/developer',
   NOT_FOUND: '/404',

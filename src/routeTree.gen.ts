@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as R404RouteImport } from './routes/404'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
@@ -28,6 +29,11 @@ import { Route as privateTransactionsIndexRouteImport } from './routes/(private)
 import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
 import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const R404Route = R404RouteImport.update({
   id: '/404',
   path: '/404',
@@ -122,6 +128,7 @@ const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/landing': typeof LandingRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
   '/login': typeof authLoginRoute
@@ -140,6 +147,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/landing': typeof LandingRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
   '/login': typeof authLoginRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/(private)': typeof privateLayoutRouteWithChildren
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/landing': typeof LandingRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/getting-started': typeof authGettingStartedRoute
   '/(auth)/login': typeof authLoginRoute
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$'
     | '/404'
+    | '/landing'
     | '/forgot-password'
     | '/getting-started'
     | '/login'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
   to:
     | '/$'
     | '/404'
+    | '/landing'
     | '/forgot-password'
     | '/getting-started'
     | '/login'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/(private)'
     | '/$'
     | '/404'
+    | '/landing'
     | '/(auth)/forgot-password'
     | '/(auth)/getting-started'
     | '/(auth)/login'
@@ -240,12 +252,20 @@ export interface RootRouteChildren {
   privateLayoutRoute: typeof privateLayoutRouteWithChildren
   SplatRoute: typeof SplatRoute
   R404Route: typeof R404Route
+  LandingRoute: typeof LandingRoute
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/404': {
       id: '/404'
       path: '/404'
@@ -424,6 +444,7 @@ const rootRouteChildren: RootRouteChildren = {
   privateLayoutRoute: privateLayoutRouteWithChildren,
   SplatRoute: SplatRoute,
   R404Route: R404Route,
+  LandingRoute: LandingRoute,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,
 }
