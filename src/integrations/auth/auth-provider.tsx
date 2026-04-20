@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const onRefetch = async (): Promise<void> => {};
 
-  const onSignout = async () => {
+  const onSignout = async (): Promise<void> => {
     toast.success(t('messages.signout-success', { ns: 'common' }));
     queryClient.cancelQueries({});
     queryClient.removeQueries({});
