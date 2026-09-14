@@ -3,3 +3,5 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@testing-library/dom@10.4.2'
   - zod@4.6.5
+  - lucide-react@1.46.0
+  - react-dropzone@20.1.2
