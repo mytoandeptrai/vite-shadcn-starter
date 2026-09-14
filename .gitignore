@@ -8,3 +8,11 @@ count.txt
 .nitro
 .tanstack
 .wrangler
+.pnpm-store
+.vercel
+coverage
+*.log
+.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
