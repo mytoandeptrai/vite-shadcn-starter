@@ -1,8 +1,7 @@
 'use client';
 
-import type { LottieRefCurrentProps } from 'lottie-react';
-import Lottie from 'lottie-react';
-import { useEffect, useRef, useState } from 'react';
+import { Lottie } from 'lottie-react';
+import { useEffect, useState } from 'react';
 import type { FCC } from '@/types';
 import animationData from '@/assets/lottie/lottie-loader.json';
 
@@ -28,11 +27,6 @@ type PreloadProps = {
 
 const Preload: FCC<PreloadProps> = ({ children, speed = 1.5, loop = true, autoplay = true }) => {
   const [loaded, setLoaded] = useState(false);
-  const lottieRef = useRef<LottieRefCurrentProps>(null);
-
-  useEffect(() => {
-    lottieRef.current?.setSpeed(speed);
-  }, [speed]);
 
   useEffect(() => {
     (async () => {
@@ -48,9 +42,9 @@ const Preload: FCC<PreloadProps> = ({ children, speed = 1.5, loop = true, autopl
   return (
     <div className='fixed inset-0 z-999 flex min-h-screen items-center justify-center bg-background'>
       <Lottie
-        lottieRef={lottieRef}
-        animationData={animationData}
+        src={animationData}
         loop={loop}
+        speed={speed}
         autoplay={autoplay}
         className='block h-auto md:w-[10%]'
         rendererSettings={{ preserveAspectRatio: 'xMidYMid meet' }}
