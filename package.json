@@ -65,7 +65,7 @@
     "i18next": "^26.4.2",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^4.0.2",
-    "kbar": "0.1.0-beta.48",
+    "kbar": "1.0.0",
     "lodash": "^4.18.1",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.544.0",
