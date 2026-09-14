@@ -210,23 +210,23 @@ class HttpInstance {
   }
 
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.get(url, config);
+    return this.instance.get(url, config) as unknown as Promise<T>;
   }
 
   public async post<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.post(url, data, config);
+    return this.instance.post(url, data, config) as unknown as Promise<T>;
   }
 
   public async patch<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.patch(url, data, config);
+    return this.instance.patch(url, data, config) as unknown as Promise<T>;
   }
 
   public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.delete(url, config);
+    return this.instance.delete(url, config) as unknown as Promise<T>;
   }
 
   public async put<T, D = unknown>(url: string, data: D, config?: AxiosRequestConfig): Promise<T> {
-    return this.instance.put(url, data, config);
+    return this.instance.put(url, data, config) as unknown as Promise<T>;
   }
 }
 

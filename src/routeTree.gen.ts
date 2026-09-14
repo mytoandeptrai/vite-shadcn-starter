@@ -9,29 +9,37 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LandingRouteImport } from './routes/landing'
-import { Route as R404RouteImport } from './routes/404'
 import { Route as SplatRouteImport } from './routes/$'
-import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
-import { Route as privateIndexRouteImport } from './routes/(private)/index'
-import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
-import { Route as DemoFormRouteImport } from './routes/demo/form'
-import { Route as privateProfileRouteImport } from './routes/(private)/profile'
-import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
-import { Route as authSuccessNotificationRouteImport } from './routes/(auth)/success-notification'
-import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
+import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
+import { Route as R404RouteImport } from './routes/404'
+import { Route as LandingRouteImport } from './routes/landing'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
+import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
+import { Route as authSuccessNotificationRouteImport } from './routes/(auth)/success-notification'
+import { Route as privateIndexRouteImport } from './routes/(private)/index'
+import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
+import { Route as privateProfileRouteImport } from './routes/(private)/profile'
+import { Route as DemoFormRouteImport } from './routes/demo/form'
+import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
+import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 import { Route as privateTransactionsIndexRouteImport } from './routes/(private)/transactions/index'
 import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
-import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
 
-const LandingRoute = LandingRouteImport.update({
-  id: '/landing',
-  path: '/landing',
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authLayoutRoute = authLayoutRouteImport.update({
+  id: '/(auth)',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const privateLayoutRoute = privateLayoutRouteImport.update({
+  id: '/(private)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const R404Route = R404RouteImport.update({
@@ -39,62 +47,14 @@ const R404Route = R404RouteImport.update({
   path: '/404',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SplatRoute = SplatRouteImport.update({
-  id: '/$',
-  path: '/$',
+const LandingRoute = LandingRouteImport.update({
+  id: '/landing',
+  path: '/landing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const privateLayoutRoute = privateLayoutRouteImport.update({
-  id: '/(private)',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authLayoutRoute = authLayoutRouteImport.update({
-  id: '/(auth)',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const privateIndexRoute = privateIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const DemoStorybookRoute = DemoStorybookRouteImport.update({
-  id: '/demo/storybook',
-  path: '/demo/storybook',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormRoute = DemoFormRouteImport.update({
-  id: '/demo/form',
-  path: '/demo/form',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const privateProfileRoute = privateProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const privateDashboardRoute = privateDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const authSuccessNotificationRoute = authSuccessNotificationRouteImport.update({
-  id: '/success-notification',
-  path: '/success-notification',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authResetPasswordRoute = authResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLoginRoute = authLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => authLayoutRoute,
 } as any)
 const authGettingStartedRoute = authGettingStartedRouteImport.update({
@@ -102,10 +62,55 @@ const authGettingStartedRoute = authGettingStartedRouteImport.update({
   path: '/getting-started',
   getParentRoute: () => authLayoutRoute,
 } as any)
-const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => authLayoutRoute,
+} as any)
+const authRegisterRoute = authRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authResetPasswordRoute = authResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const authSuccessNotificationRoute = authSuccessNotificationRouteImport.update({
+  id: '/success-notification',
+  path: '/success-notification',
+  getParentRoute: () => authLayoutRoute,
+} as any)
+const privateIndexRoute = privateIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
+const privateDashboardRoute = privateDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
+const privateProfileRoute = privateProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => privateLayoutRoute,
+} as any)
+const DemoFormRoute = DemoFormRouteImport.update({
+  id: '/demo/form',
+  path: '/demo/form',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoStorybookRoute = DemoStorybookRouteImport.update({
+  id: '/demo/storybook',
+  path: '/demo/storybook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
+  id: '/settings/profile',
+  path: '/settings/profile',
+  getParentRoute: () => privateLayoutRoute,
 } as any)
 const privateTransactionsIndexRoute =
   privateTransactionsIndexRouteImport.update({
@@ -119,11 +124,6 @@ const privateTransactionsTransactionIdRoute =
     path: '/transactions/$transactionId',
     getParentRoute: () => privateLayoutRoute,
   } as any)
-const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
-  id: '/settings/profile',
-  path: '/settings/profile',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
@@ -259,32 +259,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/landing': {
-      id: '/landing'
-      path: '/landing'
-      fullPath: '/landing'
-      preLoaderRoute: typeof LandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/404': {
-      id: '/404'
-      path: '/404'
-      fullPath: '/404'
-      preLoaderRoute: typeof R404RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/$': {
       id: '/$'
       path: '/$'
       fullPath: '/$'
       preLoaderRoute: typeof SplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(private)': {
-      id: '/(private)'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof privateLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
@@ -294,67 +273,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(private)/': {
-      id: '/(private)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof privateIndexRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/demo/storybook': {
-      id: '/demo/storybook'
-      path: '/demo/storybook'
-      fullPath: '/demo/storybook'
-      preLoaderRoute: typeof DemoStorybookRouteImport
+    '/(private)': {
+      id: '/(private)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof privateLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/form': {
-      id: '/demo/form'
-      path: '/demo/form'
-      fullPath: '/demo/form'
-      preLoaderRoute: typeof DemoFormRouteImport
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(private)/profile': {
-      id: '/(private)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof privateProfileRouteImport
-      parentRoute: typeof privateLayoutRoute
+    '/landing': {
+      id: '/landing'
+      path: '/landing'
+      fullPath: '/landing'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(private)/dashboard': {
-      id: '/(private)/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof privateDashboardRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(auth)/success-notification': {
-      id: '/(auth)/success-notification'
-      path: '/success-notification'
-      fullPath: '/success-notification'
-      preLoaderRoute: typeof authSuccessNotificationRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/reset-password': {
-      id: '/(auth)/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof authResetPasswordRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/register': {
-      id: '/(auth)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
+    '/(auth)/forgot-password': {
+      id: '/(auth)/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof authLayoutRoute
     }
     '/(auth)/getting-started': {
@@ -364,12 +308,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authGettingStartedRouteImport
       parentRoute: typeof authLayoutRoute
     }
-    '/(auth)/forgot-password': {
-      id: '/(auth)/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordRouteImport
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/register': {
+      id: '/(auth)/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/reset-password': {
+      id: '/(auth)/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof authResetPasswordRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(auth)/success-notification': {
+      id: '/(auth)/success-notification'
+      path: '/success-notification'
+      fullPath: '/success-notification'
+      preLoaderRoute: typeof authSuccessNotificationRouteImport
+      parentRoute: typeof authLayoutRoute
+    }
+    '/(private)/': {
+      id: '/(private)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof privateIndexRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
+    '/(private)/dashboard': {
+      id: '/(private)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof privateDashboardRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
+    '/(private)/profile': {
+      id: '/(private)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof privateProfileRouteImport
+      parentRoute: typeof privateLayoutRoute
+    }
+    '/demo/form': {
+      id: '/demo/form'
+      path: '/demo/form'
+      fullPath: '/demo/form'
+      preLoaderRoute: typeof DemoFormRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/storybook': {
+      id: '/demo/storybook'
+      path: '/demo/storybook'
+      fullPath: '/demo/storybook'
+      preLoaderRoute: typeof DemoStorybookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(private)/settings/profile': {
+      id: '/(private)/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof privateSettingsProfileRouteImport
+      parentRoute: typeof privateLayoutRoute
     }
     '/(private)/transactions/': {
       id: '/(private)/transactions/'
@@ -383,13 +390,6 @@ declare module '@tanstack/react-router' {
       path: '/transactions/$transactionId'
       fullPath: '/transactions/$transactionId'
       preLoaderRoute: typeof privateTransactionsTransactionIdRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/settings/profile': {
-      id: '/(private)/settings/profile'
-      path: '/settings/profile'
-      fullPath: '/settings/profile'
-      preLoaderRoute: typeof privateSettingsProfileRouteImport
       parentRoute: typeof privateLayoutRoute
     }
   }

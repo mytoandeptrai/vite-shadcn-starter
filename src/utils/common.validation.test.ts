@@ -303,8 +303,8 @@ describe('CHAIN_OPTIONS', () => {
 
     // Assert
     expect(result).toEqual([
-      { label: 'Ethereum', value: 'ETH' },
-      { label: 'BNB Chain', value: 'BSC' },
+      { label: 'Ethereum', value: 'ETH', disabled: false },
+      { label: 'BNB Chain', value: 'BSC', disabled: true },
     ]);
   });
 
@@ -331,6 +331,7 @@ describe('CRYPTO_OPTIONS', () => {
     // Arrange
     const t = createMockTFunction({
       'tokens.USDT': 'Tether USD',
+      'tokens.TEST': 'Test Token',
       'tokens.USDC': 'USD Coin',
     });
 
@@ -339,8 +340,9 @@ describe('CRYPTO_OPTIONS', () => {
 
     // Assert
     expect(result).toEqual([
-      { label: 'Tether USD', value: 'USDT' },
-      { label: 'USD Coin', value: 'USDC' },
+      { label: 'Tether USD', value: 'USDT', disabled: false },
+      { label: 'Test Token', value: 'TEST', disabled: false },
+      { label: 'USD Coin', value: 'USDC', disabled: true },
     ]);
   });
 
@@ -348,7 +350,7 @@ describe('CRYPTO_OPTIONS', () => {
     const t = createMockTFunction();
     const result = CRYPTO_OPTIONS(t);
 
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
   });
 
   it('should have correct structure for each option', () => {
