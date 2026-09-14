@@ -66,7 +66,7 @@ function FormDatePicker<
                   if (maxDate && date > maxDate) return true;
                   return disabledDates.some((disabledDate) => date.getTime() === disabledDate.getTime());
                 }}
-                initialFocus
+                autoFocus
               />
             </PopoverContent>
           </Popover>

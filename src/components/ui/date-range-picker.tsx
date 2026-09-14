@@ -99,7 +99,7 @@ export default function DateRangePicker({
         <PopoverContent className='w-auto p-0' align='start'>
           <VStack>
             <Calendar
-              initialFocus
+              autoFocus
               mode='range'
               defaultMonth={date?.from}
               selected={date}
