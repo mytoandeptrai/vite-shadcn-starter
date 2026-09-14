@@ -16,6 +16,7 @@ interface FormSelectProps<
   placeholder?: string;
   searchable?: boolean;
   selectClassName?: string;
+  onValueChange?: (value?: string) => void;
 }
 
 function FormSelect<
@@ -33,6 +34,7 @@ function FormSelect<
   className,
   selectClassName,
   fullWidth,
+  onValueChange,
 }: FormSelectProps<TFieldValues, TName>) {
   const { t } = useTranslation();
   return (
@@ -47,7 +49,17 @@ function FormSelect<
               {required && <span className='ml-1 text-red-500'>*</span>}
             </FormLabel>
           )}
-          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
+          <Select
+            key={`${name}-${field.value}`}
+            onValueChange={(val: string) => {
+              field.onChange(val);
+              if (onValueChange) {
+                onValueChange(val);
+              }
+            }}
+            defaultValue={field.value}
+            disabled={disabled}
+          >
             <FormControl>
               <SelectTrigger
                 className={cn(selectClassName, {
