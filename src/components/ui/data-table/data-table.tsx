@@ -7,39 +7,52 @@ import { type RankingInfo, rankItem } from '@tanstack/match-sorter-utils';
 import {
   type ColumnDef,
   type ColumnFiltersState,
+  type ColumnVisibilityState,
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  createFilteredRowModel,
+  createSortedRowModel,
   type FilterFn,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  type RowData,
   type SortingState,
-  useReactTable,
-  type VisibilityState,
+  tableFeatures,
+  useTable,
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Skeleton } from '../skeleton';
 import { DataTablePagination } from './data-table-pagination';
 
-declare module '@tanstack/react-table' {
-  interface FilterFns {
-    fuzzy: FilterFn<unknown>;
-  }
-  interface FilterMeta {
-    itemRank: RankingInfo;
-  }
-}
-
 // Define a custom fuzzy filter function
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+const fuzzyFilter: FilterFn<any, any> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), value);
-  addMeta({
+  addMeta?.({
     itemRank,
   });
   return itemRank.passed;
 };
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+const tableFeatures_ = tableFeatures({
+  columnFilteringFeature,
+  columnVisibilityFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  filteredRowModel: createFilteredRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  filterMeta: {} as { itemRank: RankingInfo },
+  filterFns: {
+    fuzzy: fuzzyFilter,
+  },
+});
+
+export type AppTableFeatures = typeof tableFeatures_;
+
+interface DataTableProps<TData extends RowData, TValue> {
+  columns: ColumnDef<AppTableFeatures, TData, TValue>[];
   data: TData[];
   searchKey?: string;
   pagination?: {
@@ -62,7 +75,7 @@ interface DataTableProps<TData, TValue> {
   onRowClick?: (e: React.MouseEvent<HTMLTableRowElement>, row: TData) => void;
 }
 
-export default function DataTable<TData, TValue>({
+export default function DataTable<TData extends RowData, TValue>({
   columns,
   data,
   pagination,
@@ -78,14 +91,14 @@ export default function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>({});
 
   const tableData = useMemo(
     () => (isInitialLoading ? (new Array(PAGE_SIZE_OPTIONS[0]).fill({}) as TData[]) : data),
     [isInitialLoading, data]
   );
 
-  const tableColumns = useMemo(
+  const tableColumns = useMemo<ColumnDef<AppTableFeatures, TData, any>[]>(
     () =>
       isInitialLoading
         ? columns.map((col) => ({
@@ -96,7 +109,8 @@ export default function DataTable<TData, TValue>({
     [isInitialLoading, columns]
   );
 
-  const table = useReactTable({
+  const table = useTable({
+    features: tableFeatures_,
     data: tableData,
     columns: tableColumns,
     manualPagination: true,
@@ -106,10 +120,6 @@ export default function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
     },
-
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
 
     onColumnVisibilityChange: setColumnVisibility,
     onSortingChange: (updaterOrValue) => {
@@ -122,10 +132,6 @@ export default function DataTable<TData, TValue>({
       setColumnFilters(updaterOrValue);
       const newValue = typeof updaterOrValue === 'function' ? updaterOrValue(columnFilters) : updaterOrValue;
       onFilterChange?.(newValue);
-    },
-
-    filterFns: {
-      fuzzy: fuzzyFilter,
     },
   });
 

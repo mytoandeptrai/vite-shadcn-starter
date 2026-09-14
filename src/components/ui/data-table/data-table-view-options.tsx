@@ -1,4 +1,5 @@
-import type { Table } from '@tanstack/react-table';
+import type { AppTableFeatures } from './data-table';
+import type { RowData, Table } from '@tanstack/react-table';
 import { Settings2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -12,11 +13,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useTranslation } from '@/integrations/i18n';
 
-interface DataTableViewOptionsProps<TData> {
-  table: Table<TData>;
+interface DataTableViewOptionsProps<TData extends RowData> {
+  table: Table<AppTableFeatures, TData>;
 }
 
-export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData extends RowData>({ table }: DataTableViewOptionsProps<TData>) {
   const { t } = useTranslation();
   return (
     <DropdownMenu>
