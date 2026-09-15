@@ -18,7 +18,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {prefix && (
           <label
             htmlFor={props.id}
-            className={cn('-translate-y-1/2 -translate-x-1/2 pointer-events-none absolute top-1/2 left-5')}
+            className={cn('pointer-events-none absolute top-1/2 left-5 -translate-x-1/2 -translate-y-1/2')}
           >
             {prefix}
           </label>
@@ -36,7 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {suffix && type !== 'password' && (
-          <label htmlFor={props.id} className='-translate-y-1/2 absolute top-1/2 right-5 z-10'>
+          <label htmlFor={props.id} className='absolute top-1/2 right-5 z-10 -translate-y-1/2'>
             {suffix}
           </label>
         )}
@@ -45,7 +45,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <button
             type='button'
             onClick={() => setIsShowPassword(!isShowPassword)}
-            className={cn('-translate-y-1/2 absolute top-1/2 right-[10px] z-10')}
+            className={cn('absolute top-1/2 right-[10px] z-10 -translate-y-1/2')}
           >
             {isShowPassword ? <EyeIcon className='size-4' /> : <EyeOffIcon className='size-4' />}
           </button>

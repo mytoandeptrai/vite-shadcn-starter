@@ -29,7 +29,7 @@ const TransactionDetailOverviewUi = ({ transaction }: TransactionDetailOverviewU
         <div className='grid grid-cols-2 gap-6 md:grid-cols-3'>
           <div>
             <p className='font-medium text-sm'>{t('labels.type')}</p>
-            <div className='mt-2 text-sm'>{getTypeDisplay(transaction?.type!, t)}</div>
+            <div className='mt-2 text-sm'>{getTypeDisplay(transaction?.type ?? '', t)}</div>
           </div>
           <div>
             <p className='font-medium text-sm'>{t('labels.status')}</p>

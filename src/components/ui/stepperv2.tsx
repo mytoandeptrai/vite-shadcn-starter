@@ -26,13 +26,13 @@ const Stepper: React.FC<StepperProps> = ({ steps, currentStep }) => {
         return (
           <VStack key={index} className='flex-1'>
             <div className='relative flex flex-col items-center'>
-              {index !== 0 && <div className='-left-1/2 absolute top-3 z-[-1] h-0.5 w-full bg-gray-600' />}
+              {index !== 0 && <div className='absolute top-3 -left-1/2 z-[-1] h-0.5 w-full bg-gray-600' />}
 
               <HStack justify='center' className='relative w-full'>
                 <Dot isActive={isActive} isCompleted={isCompleted} />
                 {index < steps.length - 1 && (
                   <span
-                    className={cn(`-translate-y-1/2 absolute top-1/2 left-1/2 z-[-1] h-[2px] w-full dark:bg-gray-700`, {
+                    className={cn(`absolute top-1/2 left-1/2 z-[-1] h-[2px] w-full -translate-y-1/2 dark:bg-gray-700`, {
                       'dark:bg-orange-600': isCompleted,
                     })}
                   />
@@ -84,7 +84,7 @@ const Dot: FC<DotProps> = ({ isActive, isCompleted, className, ...props }) => {
       {...props}
     >
       <Show when={isActive}>
-        <div className='-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-[-1] aspect-square w-8 rounded-full bg-[#F5432540]'>
+        <div className='absolute top-1/2 left-1/2 z-[-1] aspect-square w-8 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F5432540]'>
           <div className='relative h-full w-full'>
             <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-[#f54425] opacity-50 [animation-duration:2s]' />
           </div>
@@ -92,13 +92,13 @@ const Dot: FC<DotProps> = ({ isActive, isCompleted, className, ...props }) => {
       </Show>
 
       {isCompleted ? (
-        <div className='-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-10'>
+        <div className='absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2'>
           <CheckCircle2 className='fill-white' />
         </div>
       ) : (
         <span
           className={cn(
-            '-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 z-10 aspect-square w-2 rounded-full dark:bg-orange-200',
+            'absolute top-1/2 left-1/2 z-10 aspect-square w-2 -translate-x-1/2 -translate-y-1/2 rounded-full dark:bg-orange-200',
             { 'bg-white': isActive }
           )}
         />

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { DemoForm } from '../components/demo-form';
+import { DemoTable } from '../components/demo-table';
 
 export function DemoFormContainer() {
   const workerRef = useRef<Worker | undefined>(undefined);
@@ -31,8 +32,11 @@ export function DemoFormContainer() {
   }, []);
 
   return (
-    <div className='min-h-screen from-gray-50 to-gray-100 py-12 dark:from-gray-900 dark:to-gray-800'>
+    <div className='min-h-screen space-y-8 from-gray-50 to-gray-100 py-12 dark:from-gray-900 dark:to-gray-800'>
       <DemoForm />
+      <div className='mx-auto max-w-6xl px-6'>
+        <DemoTable />
+      </div>
     </div>
   );
 }

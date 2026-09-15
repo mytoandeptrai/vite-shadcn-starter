@@ -20,7 +20,7 @@ const TransactionDetailBlockchainUi = ({ transaction }: TransactionDetailBlockch
             <p className='mb-2 font-medium'>{t('labels.txHash')}</p>
             <div className='flex items-center gap-2 rounded-lg bg-muted p-3'>
               <code className='flex-1 break-all text-sm'>{transaction?.txHash}</code>
-              <CopyButton value={transaction?.txHash!} />
+              <CopyButton value={transaction?.txHash ?? ''} />
             </div>
           </div>
 
@@ -29,7 +29,7 @@ const TransactionDetailBlockchainUi = ({ transaction }: TransactionDetailBlockch
               <p className='mb-2 font-medium'>{t('labels.fromAddress')}</p>
               <div className='flex items-center gap-2 rounded-lg bg-muted p-3'>
                 <code className='flex-1 break-all text-sm'>{transaction?.fromAddress}</code>
-                <CopyButton value={transaction?.fromAddress!} />
+                <CopyButton value={transaction?.fromAddress ?? ''} />
               </div>
             </div>
 
@@ -37,7 +37,7 @@ const TransactionDetailBlockchainUi = ({ transaction }: TransactionDetailBlockch
               <p className='mb-2 font-medium'>{t('labels.toAddress')}</p>
               <div className='flex items-center gap-2 rounded-lg bg-muted p-3'>
                 <code className='flex-1 break-all text-sm'>{transaction?.toAddress}</code>
-                <CopyButton value={transaction?.toAddress!} />
+                <CopyButton value={transaction?.toAddress ?? ''} />
               </div>
             </div>
           </div>
@@ -46,7 +46,7 @@ const TransactionDetailBlockchainUi = ({ transaction }: TransactionDetailBlockch
             <p className='mb-2 font-medium'>{t('labels.smartContract')}</p>
             <div className='flex items-center gap-2 rounded-lg bg-muted p-3'>
               <code className='flex-1 break-all text-sm'>{transaction?.smartContract}</code>
-              <CopyButton value={transaction?.smartContract!} />
+              <CopyButton value={transaction?.smartContract ?? ''} />
             </div>
           </div>
 

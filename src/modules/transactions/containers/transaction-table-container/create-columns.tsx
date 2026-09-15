@@ -1,7 +1,7 @@
 import type { ITransaction } from '@/apis/transactions';
 import { Badge } from '@/components/ui/badge';
 import CopyButton from '@/components/ui/copy-button';
-import { DataTableColumnHeader } from '@/components/ui/data-table';
+import { type AppTableFeatures, DataTableColumnHeader } from '@/components/ui/data-table';
 import TruncateParagraph from '@/components/ui/truncate-paragraph';
 import { capitalizeFirstLetter, formatAddress, formatDate, formatNaturalNumber } from '@/utils';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -28,7 +28,7 @@ export const getStatusVariant = (status: string): 'pending' | 'confirming' | 'co
   return 'default';
 };
 
-export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<ITransaction>[] => [
+export const createColumns = ({ t }: TransactionColumnsProps): ColumnDef<AppTableFeatures, ITransaction>[] => [
   {
     accessorKey: 'id',
     header: ({ column }) => <DataTableColumnHeader column={column} title={t('table.headers.id')} />,

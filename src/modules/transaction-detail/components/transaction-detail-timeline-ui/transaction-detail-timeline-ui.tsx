@@ -25,7 +25,7 @@ const TransactionDetailTimelineUi = ({ transaction }: TransactionDetailTimelineU
               <div className='pb-4'>
                 <p className='font-medium'>{t('labels.created-at')}</p>
                 <p className='text-muted-foreground text-sm'>
-                  {transaction?.firstSeenAt ? formatDate(transaction?.createdAt!) : '-'}
+                  {transaction?.firstSeenAt ? formatDate(transaction?.createdAt ?? '') : '-'}
                 </p>
               </div>
             </div>
@@ -37,7 +37,7 @@ const TransactionDetailTimelineUi = ({ transaction }: TransactionDetailTimelineU
               <div className='pb-4'>
                 <p className='font-medium'>{t('labels.first-seen')}</p>
                 <p className='text-muted-foreground text-sm'>
-                  {transaction?.firstSeenAt ? formatDate(transaction?.firstSeenAt!) : '-'}
+                  {transaction?.firstSeenAt ? formatDate(transaction?.firstSeenAt ?? '') : '-'}
                 </p>
               </div>
             </div>
@@ -49,7 +49,7 @@ const TransactionDetailTimelineUi = ({ transaction }: TransactionDetailTimelineU
               <div className='pb-4'>
                 <p className='font-medium'>{t('labels.confirmed')}</p>
                 <p className='text-muted-foreground text-sm'>
-                  {transaction?.confirmedAt ? formatDate(transaction?.confirmedAt!) : '-'}
+                  {transaction?.confirmedAt ? formatDate(transaction?.confirmedAt ?? '') : '-'}
                 </p>
               </div>
             </div>
@@ -61,7 +61,7 @@ const TransactionDetailTimelineUi = ({ transaction }: TransactionDetailTimelineU
               <div className='pb-4'>
                 <p className='font-medium'>{t('labels.updated-at')}</p>
                 <p className='text-muted-foreground text-sm'>
-                  {transaction?.updatedAt ? formatDate(transaction?.updatedAt!) : '-'}
+                  {transaction?.updatedAt ? formatDate(transaction?.updatedAt ?? '') : '-'}
                 </p>
               </div>
             </div>

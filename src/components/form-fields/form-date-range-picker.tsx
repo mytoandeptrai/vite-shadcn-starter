@@ -70,7 +70,7 @@ function FormDateRangePicker<
             </PopoverTrigger>
             <PopoverContent className='w-auto p-0' align='start'>
               <Calendar
-                initialFocus
+                autoFocus
                 mode='range'
                 defaultMonth={field.value?.from}
                 selected={field.value}
