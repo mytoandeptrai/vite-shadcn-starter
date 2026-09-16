@@ -1,7 +1,7 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
-import LoadingSpinner from './components/shared/loading-spinner/loading-spinner.tsx';
+import LoadingSpinner from './components/ui/loading-spinner.tsx';
 import { ErrorBoundary } from './components/ui/error-boundary.tsx';
 import * as I18nProvider from './integrations/i18n/root-provider';
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx';

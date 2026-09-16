@@ -1,5 +1,5 @@
 import type { IUserInfo } from '@/apis/auth';
-import LoadingFluid from '@/components/shared/loading-fluid';
+import LoadingFluid from '@/components/ui/loading-fluid';
 import { ROUTES } from '@/constant';
 import { router } from '@/main';
 import { useSessionStore } from '@/stores/use-session-store';

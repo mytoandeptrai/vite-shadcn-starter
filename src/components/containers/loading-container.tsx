@@ -1,6 +1,6 @@
 import type React from 'react';
-import ErrorFluid from '@/components/shared/error-fluid';
-import LoadingFluid from '@/components/shared/loading-fluid';
+import ErrorFluid from '@/components/ui/error-fluid';
+import LoadingFluid from '@/components/ui/loading-fluid';
 import type { FCC } from '@/types/base';
 
 interface LoadingContainerProps {
