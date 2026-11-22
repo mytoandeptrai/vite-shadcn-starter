@@ -56,6 +56,7 @@ export function CameraRig({
         target: new WebGLRenderTarget(MIRROR_SIZE.width, MIRROR_SIZE.height),
         pixels: new Uint8Array(MIRROR_SIZE.width * MIRROR_SIZE.height * 4),
         image: new ImageData(MIRROR_SIZE.width, MIRROR_SIZE.height),
+        reading: false,
       };
     };
     return { left: make(), right: make() };
@@ -177,8 +178,8 @@ export function CameraRig({
       const side = turn % 2 === 0 ? 'left' : 'right';
       const canvas = Number.isInteger(turn) ? runtime.mirrorCanvas[side] : null;
       const context = canvas?.getContext('2d');
-      if (context) {
-        const mirror = mirrors[side];
+      const mirror = mirrors[side];
+      if (context && !mirror.reading) {
         const sign = side === 'left' ? 1 : -1;
         const x = sign * (CAR.width / 2 + 0.16);
         mirror.camera.position.set(x, 0.36, 0.74).applyQuaternion(quaternion).add(position);
@@ -190,18 +191,29 @@ export function CameraRig({
         mirror.camera.lookAt(scratch);
         gl.setRenderTarget(mirror.target);
         gl.render(scene, mirror.camera);
-        gl.readRenderTargetPixels(mirror.target, 0, 0, MIRROR_SIZE.width, MIRROR_SIZE.height, mirror.pixels);
         gl.setRenderTarget(null);
-        const out = mirror.image.data;
-        const src = mirror.pixels;
-        for (let i = 0; i < src.length; i += 4) {
-          out[i] = SRGB_LUT[src[i]];
-          out[i + 1] = SRGB_LUT[src[i + 1]];
-          out[i + 2] = SRGB_LUT[src[i + 2]];
-          out[i + 3] = 255;
-        }
-        // GL rows are bottom-up and a mirror flips left/right: the canvas is rotated 180° in CSS.
-        context.putImageData(mirror.image, 0, 0);
+        // Read the pixels back asynchronously: a blocking read stalls the frame until the GPU
+        // has finished everything queued before it, which makes the car lurch on slow devices.
+        mirror.reading = true;
+        gl.readRenderTargetPixelsAsync(mirror.target, 0, 0, MIRROR_SIZE.width, MIRROR_SIZE.height, mirror.pixels)
+          .then(() => {
+            const out = mirror.image.data;
+            const src = mirror.pixels;
+            for (let i = 0; i < src.length; i += 4) {
+              out[i] = SRGB_LUT[src[i]];
+              out[i + 1] = SRGB_LUT[src[i + 1]];
+              out[i + 2] = SRGB_LUT[src[i + 2]];
+              out[i + 3] = 255;
+            }
+            // GL rows are bottom-up and a mirror flips left/right: the canvas is rotated 180° in CSS.
+            context.putImageData(mirror.image, 0, 0);
+          })
+          .catch(() => {
+            // The render target was disposed while the read was in flight.
+          })
+          .finally(() => {
+            mirror.reading = false;
+          });
       }
     }
     gl.render(scene, camera);
