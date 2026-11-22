@@ -264,4 +264,15 @@ test('SEO: the served page carries the jacobhocoto brand, share card, structured
   await page.goto('/khong-ton-tai');
   await expect(page).toHaveTitle('404 · jacobhocoto');
   await expect(page.locator('meta[name="robots"][content="noindex, follow"]')).toHaveCount(1);
+
+  // The dark backdrop belongs to the static shell only: themed pages keep their own background.
+  const colours = await page.evaluate(() => {
+    const probe = document.createElement('div');
+    probe.style.background = 'var(--background)';
+    document.body.append(probe);
+    const theme = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    return { theme, body: getComputedStyle(document.body).backgroundColor };
+  });
+  expect(colours.body).toBe(colours.theme);
 });
