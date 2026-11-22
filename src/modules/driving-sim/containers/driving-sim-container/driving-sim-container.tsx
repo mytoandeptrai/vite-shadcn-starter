@@ -13,9 +13,13 @@ import { Hints, Lamps, StatusBar } from '../../components/hud/status-bar';
 import { SteeringWheel } from '../../components/hud/steering-wheel';
 import { Toolbar } from '../../components/hud/toolbar';
 import { useKeyboardControls } from '../../hooks/use-keyboard-controls';
+import { useMedia } from '../../hooks/use-media';
 import { useSimStore } from '../../store/sim-store';
 import { stopEngineSound } from '../../utils/audio';
 import '../../driving-sim.css';
+
+/** Same breakpoint as the wide layout in driving-sim.css. */
+const WIDE_SCREEN = '(min-width: 900px) and (min-height: 501px)';
 
 const SimScene = lazy(() => import('../../components/scene/sim-scene'));
 
@@ -23,6 +27,8 @@ function Overlay() {
   const stallAt = useSimStore((s) => s.stallAt);
   const transmission = useSimStore((s) => s.transmission);
   const ref = useRef<HTMLDivElement>(null);
+  // Wide screens have room for the lamps in the top bar; phones show them between the mirrors.
+  const wide = useMedia(WIDE_SCREEN);
 
   // Shake the whole HUD when the engine stalls.
   useEffect(() => {
@@ -38,9 +44,10 @@ function Overlay() {
     <div ref={ref} className='ds-overlay' data-testid='hud' data-transmission={transmission}>
       <div className='ds-area-top ds-top'>
         <StatusBar />
+        {wide && <Lamps />}
         <Toolbar />
       </div>
-      <Lamps />
+      {!wide && <Lamps />}
       <Mirror side='left' />
       <Hints />
       <Mirror side='right' />

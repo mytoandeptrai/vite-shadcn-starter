@@ -276,15 +276,8 @@
     gap: 0.75rem;
     padding: 1rem;
   }
-  .ds-area-lamps {
-    grid-area: top;
-    justify-self: center;
-  }
   .ds-status {
     height: 3.25rem;
-  }
-  .ds-status-title {
-    display: flex;
   }
   .ds-tool-label,
   .ds-key-hint,
@@ -301,6 +294,13 @@
   }
   .ds-gear-prnd {
     flex-direction: column;
+  }
+}
+
+/* The exercise name only fits beside the lamps and the labelled buttons on a wide window. */
+@media (min-width: 1100px) and (min-height: 501px) {
+  .ds-status-title {
+    display: flex;
   }
 }
 
