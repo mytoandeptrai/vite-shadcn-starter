@@ -1,9 +1,9 @@
-import { type RefObject, useMemo } from 'react';
+import { type RefObject, useEffect, useMemo } from 'react';
 import { CanvasTexture, type Group, SRGBColorSpace } from 'three';
 import { CAR } from '../../constants';
 
 function useLabelTexture(text: string, background: string, color: string) {
-  return useMemo(() => {
+  const texture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 64;
@@ -21,6 +21,9 @@ function useLabelTexture(text: string, background: string, color: string) {
     texture.colorSpace = SRGBColorSpace;
     return texture;
   }, [text, background, color]);
+  // The car remounts on every restart; materials do not dispose their maps.
+  useEffect(() => () => texture.dispose(), [texture]);
+  return texture;
 }
 
 /** Low-poly training sedan. Chassis space: +Z forward, +X left, origin at the centre of mass. */
