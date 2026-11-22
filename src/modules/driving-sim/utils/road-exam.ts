@@ -5,6 +5,8 @@ import { Traffic } from './road-traffic';
 
 const STILL_SPEED = 0.05;
 const STILL_TIME = 0.5;
+/** Above this the car is driving again, not settling on its suspension (m/s). */
+const ROLLING_SPEED = 0.3;
 const MOVED = 0.3;
 /** A speeding excursion ends once the car is back under this speed. */
 const SPEEDING_CLEAR_KMH = 38;
@@ -200,11 +202,17 @@ export class RoadExam implements Exam {
       events.push({ type: 'voice', text: 'Kết thúc. Bật xi-nhan phải, tấp vào lề và dừng xe' });
     }
     if (this.finishCalled) {
+      if (z + (CAR.length / 2) * car.forward.z > ROAD.length) {
+        return this.finish(events, { type: 'fail', reason: 'Không dừng xe trước biển dừng cuối bài' });
+      }
+      // A car that rolls off again has not stopped yet: the stop and its checks start over.
+      if (this.stopped && Math.abs(car.speed) > ROLLING_SPEED) {
+        this.stopped = false;
+        this.still = 0;
+        this.sinceStop = 0;
+      }
       if (!this.stopped) {
         if (driver.signal === 'right') this.rightSignalSeen = true;
-        if (z + (CAR.length / 2) * car.forward.z > ROAD.length) {
-          return this.finish(events, { type: 'fail', reason: 'Không dừng xe trước biển dừng cuối bài' });
-        }
         this.still = Math.abs(car.speed) < STILL_SPEED ? this.still + dt : 0;
         if (this.still >= STILL_TIME) this.stopped = true;
       } else {

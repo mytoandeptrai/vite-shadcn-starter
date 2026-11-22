@@ -261,6 +261,30 @@ describe('RoadExam', () => {
     learner.driveTo(ROAD.length, 15);
     expect(learner.outcome).toEqual({ type: 'fail', reason: 'Không dừng xe trước biển dừng cuối bài' });
   });
+
+  it('fails when the car stops short of the final sign and then rolls past it', () => {
+    const learner = new Learner('B1').cleanRunUntilFinish();
+    learner.signal = 'right';
+    learner.driveTo(ROAD.length - 6, 15).wait(1);
+    expect(learner.outcome).toBeUndefined();
+    learner.driveTo(ROAD.length, 5);
+    expect(learner.outcome).toEqual({ type: 'fail', reason: 'Không dừng xe trước biển dừng cuối bài' });
+  });
+
+  it('judges the place where the car finally stops, not where it first paused', () => {
+    const learner = new Learner().cleanRunUntilFinish();
+    learner.signal = 'right';
+    learner.driveTo(ROAD.finishFrom + 30, 15);
+    learner.x = ROAD.pullOverX - 0.3;
+    learner.wait(1);
+    learner.x = ROAD.laneX;
+    learner.driveTo(ROAD.finishFrom + 60, 10).wait(1);
+    learner.gear = 'N';
+    learner.handbrake = true;
+    learner.wait(0.2);
+    expect(learner.penalties).toEqual(['Không tấp xe vào lề phải']);
+    expect(learner.outcome?.type).toBe('pass');
+  });
 });
 
 describe('hitsNpc', () => {
