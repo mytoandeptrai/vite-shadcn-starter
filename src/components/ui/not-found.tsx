@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { useTranslation } from '@/integrations/i18n';
-import { ROUTES } from '@/constant';
+import { ROUTES, siteConfig } from '@/constant';
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { Helmet } from 'react-helmet-async';
 
 const NotFoundPage = () => {
   const { t } = useTranslation('common');
@@ -17,6 +18,11 @@ const NotFoundPage = () => {
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] items-center justify-center p-4'>
+      {/* Unknown URLs are served with a 200 by the SPA fallback, so keep them out of the index. */}
+      <Helmet>
+        <title>{`404 · ${siteConfig.name}`}</title>
+        <meta name='robots' content='noindex, follow' />
+      </Helmet>
       <Empty className='max-w-2xl'>
         <EmptyHeader>
           <div className='relative mb-8'>

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { siteConfig } from '@/constant';
+
+const GA_ID: string | undefined = import.meta.env.VITE_GA_ID;
 
 declare global {
   interface Window {
@@ -10,15 +11,13 @@ declare global {
 
 export const GoogleAnalytics = () => {
   useEffect(() => {
-    if (!siteConfig.googleAnalyticsId) {
-      console.error('Google Analytics ID not configured. Set VITE_GA_ID or update siteConfig.googleAnalyticsId');
-      return;
-    }
+    // Analytics is optional: without VITE_GA_ID nothing is loaded.
+    if (!GA_ID) return;
 
     // Create script element for gtag
     const script = document.createElement('script');
     script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${siteConfig.googleAnalyticsId}`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
     document.head.appendChild(script);
 
     // Initialize dataLayer and gtag function
@@ -29,12 +28,10 @@ export const GoogleAnalytics = () => {
 
     // Configure Google Analytics
     window.gtag('js', new Date());
-    window.gtag('config', siteConfig.googleAnalyticsId, {
+    window.gtag('config', GA_ID, {
       page_title: document.title,
       page_location: window.location.href,
     });
-
-    console.log('Google Analytics initialized with ID:', siteConfig.googleAnalyticsId);
 
     return () => {
       // Cleanup script on unmount
@@ -57,7 +54,7 @@ export const trackEvent = (eventName: string, parameters?: Record<string, any>) 
 // Utility function to track page views
 export const trackPageView = (url: string, title?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', siteConfig.googleAnalyticsId, {
+    window.gtag('config', GA_ID, {
       page_path: url,
       page_title: title,
     });

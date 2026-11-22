@@ -1,5 +1,6 @@
-import { BookOpen, Car, Cog, Gauge, Map as MapIcon, Mountain, SquareParking } from 'lucide-react';
+import { BookOpen, type Car, Cog, Gauge, Map as MapIcon, Mountain, SquareParking } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
 import { PASS_SCORE, SCENARIO_LABELS, START_SCORE } from '../../constants';
 import { useSimStore } from '../../store/sim-store';
@@ -90,19 +91,13 @@ export function ScenarioModal() {
         data-testid='scenario-modal'
         className='w-full max-w-3xl rounded-2xl border border-white/15 bg-slate-900/95 p-4 shadow-2xl sm:p-6'
       >
-        <div className='flex items-center gap-3'>
-          <span className='flex size-11 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-slate-950'>
-            <Car className='size-6' />
-          </span>
-          <div className='min-w-0'>
-            <h1 id='ds-menu-title' className='font-black text-lg leading-tight sm:text-2xl'>
-              Mô phỏng sát hạch lái xe 3D
-            </h1>
-            <p className='text-white/60 text-xs sm:text-sm'>
-              Sa hình B1 / B2 · Bắt đầu {START_SCORE} điểm, đạt từ {PASS_SCORE} điểm
-            </p>
-          </div>
-        </div>
+        <Logo onDark className='h-7 sm:h-8' />
+        <h1 id='ds-menu-title' className='mt-3 font-black text-lg leading-tight sm:text-2xl'>
+          Mô phỏng sát hạch lái xe 3D
+        </h1>
+        <p className='text-white/60 text-xs sm:text-sm'>
+          Sa hình B1 / B2 · Bắt đầu {START_SCORE} điểm, đạt từ {PASS_SCORE} điểm
+        </p>
 
         <h2 className='mt-4 mb-2 font-bold text-white/70 text-xs uppercase tracking-wider'>1. Hạng xe</h2>
         <div className='grid grid-cols-2 gap-2 sm:gap-3'>

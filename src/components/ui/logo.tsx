@@ -1,28 +1,23 @@
+import { siteConfig } from '@/constant';
+import { cn } from '@/lib/utils';
+
 interface LogoProps {
-  variant?: 'default' | 'mobile' | 'glass';
+  /** Force the light-on-dark artwork instead of following the theme. */
+  onDark?: boolean;
+  className?: string;
 }
 
-function GlassLogo() {
-  return <img src='/images/logo.png' alt='Logo' width={192} height={19} />;
-}
+const SIZE = { width: 338, height: 64 };
 
-function DefaultLogo() {
+/** The jacobhocoto lockup: steering-wheel mark plus wordmark. */
+export function Logo({ onDark = false, className }: LogoProps) {
+  if (onDark) {
+    return <img src='/logo.svg' alt={siteConfig.name} {...SIZE} className={cn('h-9 w-auto', className)} />;
+  }
   return (
-    <div className='h-9 w-auto'>
-      <img src='/images/logo.png' alt='Logo' className='h-full w-full object-center' />
-    </div>
+    <>
+      <img src='/logo-dark.svg' alt={siteConfig.name} {...SIZE} className={cn('h-9 w-auto dark:hidden', className)} />
+      <img src='/logo.svg' alt='' aria-hidden {...SIZE} className={cn('hidden h-9 w-auto dark:block', className)} />
+    </>
   );
-}
-
-function MobileLogo() {
-  return (
-    <div className='h-8 w-auto'>
-      <img src='/images/logo.png' alt='Logo' className='h-full w-full object-center' />
-    </div>
-  );
-}
-
-export function Logo({ variant = 'default' }: LogoProps) {
-  /** Navigate with tanstack router */
-  return <>{variant === 'default' ? <DefaultLogo /> : variant === 'mobile' ? <MobileLogo /> : <GlassLogo />}</>;
 }

@@ -212,3 +212,56 @@ test('usage guide: opens from the menu and while driving, pauses the car, explai
   await page.keyboard.press('KeyH');
   await expect(page.getByTestId('guide-modal')).toBeHidden();
 });
+
+test('SEO: the served page carries the jacobhocoto brand, share card, structured data and crawler files', async ({
+  page,
+  request,
+}) => {
+  // What a crawler that does not run scripts receives.
+  const html = await (await request.get('/')).text();
+  expect(html).toContain('<html lang="vi">');
+  expect(html).toMatch(/<title>jacobhocoto – [^<]+<\/title>/);
+  expect(html).toContain('<h1>Mô phỏng thi sa hình lái xe B1/B2 3D</h1>');
+  expect(html).not.toContain('noindex');
+  const origin = html.match(/<link rel="canonical" href="(https:\/\/[^"]+)\/">/)?.[1];
+  expect(origin).toBeTruthy();
+  expect(html).toContain(`<meta property="og:image" content="${origin}/og-image.jpg">`);
+  expect(html).toContain('<meta name="twitter:card" content="summary_large_image">');
+  const jsonLd = JSON.parse(html.match(/<script type="application\/ld\+json">(.+?)<\/script>/s)?.[1] ?? '');
+  expect(jsonLd['@graph'].map((node: { '@type': string }) => node['@type'])).toEqual(['WebSite', 'WebApplication']);
+
+  // Every file the head points at exists and has the right type.
+  for (const [path, type] of [
+    ['/og-image.jpg', 'image/jpeg'],
+    ['/favicon.ico', 'image/'],
+    ['/favicon.svg', 'image/svg+xml'],
+    ['/logo.svg', 'image/svg+xml'],
+    ['/icons/apple-touch-icon.png', 'image/png'],
+    ['/icons/icon-192.png', 'image/png'],
+    ['/icons/icon-512.png', 'image/png'],
+    ['/icons/icon-maskable-512.png', 'image/png'],
+    ['/manifest.webmanifest', 'application/manifest+json'],
+    ['/robots.txt', 'text/plain'],
+    ['/sitemap.xml', 'application/xml'],
+  ]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(response.headers()['content-type'], path).toContain(type);
+  }
+  expect(await (await request.get('/robots.txt')).text()).toContain(`Sitemap: ${origin}/sitemap.xml`);
+  expect(await (await request.get('/sitemap.xml')).text()).toContain(`<loc>${origin}/</loc>`);
+  expect((await (await request.get('/manifest.webmanifest')).json()).short_name).toBe('jacobhocoto');
+
+  // Once the app runs: the title is kept, the static shell is replaced and the brand is on screen.
+  const sim = new SimDriver(page);
+  await sim.open();
+  await expect(page).toHaveTitle(/^jacobhocoto – /);
+  await expect(page.locator('.seo-shell')).toHaveCount(0);
+  await expect(page.getByTestId('scenario-modal').getByAltText('jacobhocoto')).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /^index, follow/);
+
+  // Unknown URLs are answered by the SPA fallback, so they must opt out of indexing.
+  await page.goto('/khong-ton-tai');
+  await expect(page).toHaveTitle('404 · jacobhocoto');
+  await expect(page.locator('meta[name="robots"][content="noindex, follow"]')).toHaveCount(1);
+});

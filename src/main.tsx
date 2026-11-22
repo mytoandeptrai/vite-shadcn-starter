@@ -43,7 +43,8 @@ function InnerApp() {
 
 // Render the app
 const rootElement = document.getElementById('app');
-if (rootElement && !rootElement.innerHTML) {
+// #app ships with static fallback content for crawlers; React replaces it on mount.
+if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>

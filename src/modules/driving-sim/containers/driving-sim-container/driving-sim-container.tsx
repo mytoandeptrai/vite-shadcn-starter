@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { siteConfig } from '@/constant';
 import { Gauges } from '../../components/hud/gauges';
 import { GuideModal } from '../../components/hud/guide-modal';
 import { Minimap } from '../../components/hud/minimap';
@@ -65,7 +66,7 @@ export default function DrivingSimContainer() {
   return (
     <div className='ds-root' data-phase={phase}>
       <Helmet>
-        <title>Mô phỏng sát hạch lái xe 3D · Sa hình B1/B2</title>
+        <title>{siteConfig.title}</title>
       </Helmet>
       <div className='absolute inset-0'>
         <Suspense

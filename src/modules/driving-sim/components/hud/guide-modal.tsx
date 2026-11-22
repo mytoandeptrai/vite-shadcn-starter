@@ -16,8 +16,8 @@ interface Section {
 const CONTROLS: [string, string, string][] = [
   ['Ga', 'W / ↑', 'Giữ để tăng ga, thả ra là về 0'],
   ['Phanh', 'S / ↓', 'Giữ để phanh'],
-  ['Côn (B2)', 'C', 'Giữ C = đạp hết côn. Trên điện thoại: kéo thanh trượt Côn'],
-  ['Điểm bám côn (B2)', 'X', 'Giữ X = côn tự dừng ở vùng ĐIỂM BÁM (màu vàng)'],
+  ['Côn (B2)', 'C', 'Giữ C = đạp hết côn. Trên điện thoại: bấm “Đạp hết” / “Nhả côn” hoặc kéo thanh trượt Côn'],
+  ['Điểm bám côn (B2)', 'X', 'Giữ X = côn tự dừng ở vùng ĐIỂM BÁM (màu vàng). Trên điện thoại: bấm “Điểm bám”'],
   ['Vào số', '1–5 · R · N', 'B2 phải đạp hết côn trước. B1: P · R · N · F (F = số D)'],
   ['Phanh tay', 'Space', 'Bấm một lần để kéo, bấm lần nữa để nhả'],
   ['Đề máy', 'Enter', 'Nổ máy lại sau khi chết máy'],
@@ -40,6 +40,14 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
           'Bảng đồng hồ: tốc độ, vòng tua, số đang cài, % côn (100% = đạp hết).',
           'Hai gương và bản đồ nhỏ: canh bánh sau với vạch khi lùi chuồng.',
           'Mở lại hướng dẫn này bất cứ lúc nào bằng nút “?” hoặc phím H. Xe tạm dừng khi đang đọc.',
+        ],
+      },
+      {
+        title: 'Trên điện thoại',
+        notes: [
+          'Xoay ngang màn hình để dễ lái: vô lăng ở tay trái, bàn đạp ở tay phải.',
+          'Dùng hai ngón cùng lúc: một ngón giữ phanh hoặc côn, ngón kia bấm Cần số, phanh tay hay các nút khác.',
+          'Số sàn: ba nút “Đạp hết”, “Điểm bám”, “Nhả côn” đưa côn tới đúng vị trí và giữ ở đó, không cần giữ ngón tay.',
         ],
       },
     ],
