@@ -12,7 +12,7 @@ interface RoadDriver {
     distance?: number;
     step?: number;
     reach?: number;
-    /** Stop once the car is at least this far right of the lane centre (negative metres). */
+    /** Stop once the car is at least this far right of the lane centre (negative metres) and running straight. */
     pulledOver?: number;
     offset?: number;
   }): Promise<void>;
@@ -92,6 +92,8 @@ export async function installRoadDriver(page: Page) {
     const NEAR_CENTRE = 15;
     let sample = { offset: 0, at: performance.now(), drift: 0 };
     let rest = 0;
+    /** Sideways speed in m/s; an offset that has not changed for a while means the car runs straight. */
+    const sideways = () => (performance.now() - sample.at > 500 ? 0 : sample.drift);
     const steer = (target: number) => {
       const tapping = held.has('KeyA') || held.has('KeyD');
       hold('KeyA', false);
@@ -104,7 +106,7 @@ export async function installRoadDriver(page: Page) {
       if (tapping) rest = 3;
       else if (rest > 0) rest--;
       if (rest > 0 || speed <= 2 || Math.abs(Number.parseFloat(text('steer-angle'))) > NEAR_CENTRE) return;
-      const drift = now - sample.at > 500 ? 0 : sample.drift;
+      const drift = sideways();
       const wanted = Math.max(-0.4, Math.min(0.4, (target - offset) * 0.4));
       const error = wanted - drift;
       // One tap changes the sideways speed by roughly this much; ignore errors a tap would overshoot.
@@ -138,7 +140,8 @@ export async function installRoadDriver(page: Page) {
             const now = read();
             if (now.distance >= distance) return true;
             if (step !== undefined && now.step >= step) return true;
-            if (pulledOver !== undefined && now.offset <= pulledOver) return true;
+            // Still heading for the kerb would carry the car into it while it brakes.
+            if (pulledOver !== undefined && now.offset <= pulledOver && Math.abs(sideways()) < 0.1) return true;
             return reach !== undefined && now.speed >= reach;
           },
           () => {

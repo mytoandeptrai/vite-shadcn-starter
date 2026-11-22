@@ -103,7 +103,7 @@ test('road test: mode toggle, turn signals and the five steps, driven end to end
   await page.evaluate(async () => {
     const d = window.roadDriver;
     await d.slowTo(11);
-    await d.drive({ kmh: 11, distance: 1960, pulledOver: -1.7, offset: -2 });
+    await d.drive({ kmh: 11, distance: 1960, pulledOver: -1.7, offset: -1.9 });
     await d.slowTo(0, 'N');
     d.tap('Space');
   });
