@@ -3,7 +3,7 @@ import { type CDPSession, expect, type Page } from '@playwright/test';
 export const SCREENSHOT_DIR = 'e2e/artifacts/screenshots';
 
 type Mode = 'B1' | 'B2';
-type Scenario = 'free' | 'hill' | 'parking';
+type Scenario = 'free' | 'hill' | 'parking' | 'road';
 
 /** Drives the simulator through its UI and reads the HUD like a learner would. */
 export class SimDriver {
@@ -16,8 +16,9 @@ export class SimDriver {
   }
 
   async start(mode: Mode, scenario: Scenario) {
+    await this.page.getByTestId(`exam-mode-${scenario === 'road' ? 'road' : 'yard'}`).click();
     await this.page.getByTestId(`mode-${mode}`).click();
-    await this.page.getByTestId(`scenario-${scenario}`).click();
+    if (scenario !== 'road') await this.page.getByTestId(`scenario-${scenario}`).click();
     await this.page.getByTestId('start-button').click();
     await expect(this.page.getByTestId('hud')).toBeVisible();
     // The first frames compile shaders; wait until the simulation clock is running.

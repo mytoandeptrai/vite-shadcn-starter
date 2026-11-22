@@ -1,10 +1,12 @@
-import { BookOpen, type Car, Cog, Gauge, Map as MapIcon, Mountain, SquareParking } from 'lucide-react';
+import { BookOpen, type Car, Cog, Gauge, Map as MapIcon, Mountain, Route, SquareParking } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
-import { PASS_SCORE, SCENARIO_LABELS, START_SCORE } from '../../constants';
+import { PASS_SCORE, ROAD, ROAD_STEPS, SCENARIO_LABELS, START_SCORE } from '../../constants';
 import { useSimStore } from '../../store/sim-store';
 import type { Scenario, Transmission } from '../../types';
+import { DonateButton } from './donate';
 
 const MODES: { id: Transmission; title: string; icon: typeof Car; shifter: string; points: string[] }[] = [
   {
@@ -23,7 +25,7 @@ const MODES: { id: Transmission; title: string; icon: typeof Car; shifter: strin
   },
 ];
 
-const SCENARIOS: { id: Scenario; icon: typeof Car; rules: string[] }[] = [
+const SCENARIOS: { id: YardScenario; icon: typeof Car; rules: string[] }[] = [
   { id: 'free', icon: MapIcon, rules: ['Làm quen vô lăng, côn, số'] },
   {
     id: 'hill',
@@ -31,6 +33,21 @@ const SCENARIOS: { id: Scenario; icon: typeof Car; rules: string[] }[] = [
     rules: ['Tụt dốc > 50 cm: truất quyền', 'Chết máy: −5 điểm', 'Quá 30 giây: truất quyền'],
   },
   { id: 'parking', icon: SquareParking, rules: ['Đè vạch chip: −5 điểm mỗi lần', 'Quá 2 phút: −5 điểm'] },
+];
+
+type YardScenario = Exclude<Scenario, 'road'>;
+
+const EXAM_MODES = [
+  { id: 'yard', label: 'Thi Sa Hình' },
+  { id: 'road', label: 'Thi Đường Trường' },
+] as const;
+
+const ROAD_RULES = [
+  'Xuất phát: bật xi-nhan trái, tắt trong 5 m đầu',
+  `Tăng số tăng tốc: trong 100 m lên số ${ROAD.speedUp.gear} (B2), trên ${ROAD.speedUp.minKmh} km/h`,
+  `Giảm số giảm tốc: dưới ${ROAD.slowDown.maxKmh} km/h trước biển`,
+  'Chướng ngại vật: xe phía trước phanh gấp',
+  'Kết thúc: xi-nhan phải, tấp lề, về N, kéo phanh tay',
 ];
 
 const SHORTCUTS: [string, string][] = [
@@ -41,6 +58,7 @@ const SHORTCUTS: [string, string][] = [
   ['1–5 · R · N', 'Vào số (B2)'],
   ['P · R · N · F', 'Số P R N D (B1)'],
   ['Space', 'Phanh tay'],
+  [', / .', 'Xi-nhan trái / phải'],
   ['Enter', 'Đề máy'],
   ['V · M · Esc', 'Camera · Tiếng · Menu'],
   ['H', 'Hướng dẫn sử dụng'],
@@ -73,7 +91,33 @@ function OptionCard({
   );
 }
 
-/** Practice mode selector: licence class (B1/B2) and track. */
+function RoadCard() {
+  return (
+    <div
+      data-testid='scenario-road'
+      className='flex flex-col gap-1.5 rounded-xl border-2 border-amber-400 bg-amber-400/10 p-3 text-left'
+    >
+      <span className='flex items-center gap-2 font-bold text-sm sm:text-base'>
+        <Route className='size-5 shrink-0 text-amber-300' />
+        {SCENARIO_LABELS.road.title}
+      </span>
+      <span className='text-[11px] text-white/80 leading-snug sm:text-xs'>
+        {SCENARIO_LABELS.road.subtitle} · giới hạn {ROAD.speedLimitKmh} km/h · có xe chạy phía trước
+      </span>
+      <ol className='grid list-decimal gap-x-6 pl-4 text-[11px] text-white/65 leading-snug sm:grid-cols-2 sm:text-xs'>
+        {ROAD_RULES.map((rule) => (
+          <li key={rule}>{rule}</li>
+        ))}
+      </ol>
+      <span className='text-[11px] text-white/55 leading-snug'>
+        {ROAD_STEPS.length} bài · mỗi lỗi −5 điểm · quá {ROAD.speedLimitKmh} km/h hoặc chết máy −5 điểm · va chạm xe
+        khác hoặc lề đường: truất quyền
+      </span>
+    </div>
+  );
+}
+
+/** Practice mode selector: yard or road test, licence class (B1/B2) and exercise. */
 export function ScenarioModal() {
   const transmission = useSimStore((s) => s.transmission);
   const scenario = useSimStore((s) => s.scenario);
@@ -81,23 +125,56 @@ export function ScenarioModal() {
   const setScenario = useSimStore((s) => s.setScenario);
   const start = useSimStore((s) => s.start);
   const setGuideOpen = useSimStore((s) => s.setGuideOpen);
+  // The yard exercise to return to when switching back from the road test.
+  const [yardScenario, setYardScenario] = useState<YardScenario>(scenario === 'road' ? 'hill' : scenario);
+  const road = scenario === 'road';
+
+  const selectYard = (id: YardScenario) => {
+    setYardScenario(id);
+    setScenario(id);
+  };
 
   return (
-    <div className='absolute inset-0 z-40 flex items-start justify-center overflow-y-auto bg-slate-950/55 p-3 sm:items-center sm:p-6'>
+    <div className='absolute inset-0 z-40 flex items-start justify-center overflow-y-auto bg-slate-950/55 p-3 sm:p-6'>
       <div
         role='dialog'
         aria-modal='true'
         aria-labelledby='ds-menu-title'
         data-testid='scenario-modal'
-        className='w-full max-w-3xl rounded-2xl border border-white/15 bg-slate-900/95 p-4 shadow-2xl sm:p-6'
+        className='w-full max-w-3xl rounded-2xl border border-white/15 bg-slate-900/95 p-4 shadow-2xl sm:my-auto sm:p-6'
       >
-        <Logo onDark className='h-7 sm:h-8' />
+        <div className='flex items-center justify-between gap-3'>
+          <Logo onDark className='h-7 sm:h-8' />
+          <DonateButton />
+        </div>
         <h1 id='ds-menu-title' className='mt-3 font-black text-lg leading-tight sm:text-2xl'>
           Mô phỏng sát hạch lái xe 3D
         </h1>
         <p className='text-white/60 text-xs sm:text-sm'>
-          Sa hình B1 / B2 · Bắt đầu {START_SCORE} điểm, đạt từ {PASS_SCORE} điểm
+          Sa hình và đường trường B1 / B2 · Bắt đầu {START_SCORE} điểm, đạt từ {PASS_SCORE} điểm
         </p>
+
+        <div role='tablist' aria-label='Phần thi' className='mt-3 grid grid-cols-2 gap-1 rounded-xl bg-white/5 p-1'>
+          {EXAM_MODES.map((mode) => {
+            const selected = (mode.id === 'road') === road;
+            return (
+              <button
+                key={mode.id}
+                type='button'
+                role='tab'
+                data-testid={`exam-mode-${mode.id}`}
+                aria-selected={selected}
+                onClick={() => setScenario(mode.id === 'road' ? 'road' : yardScenario)}
+                className={cn(
+                  'rounded-lg px-3 py-2 font-bold text-sm text-white/65 transition-colors hover:text-white sm:text-base',
+                  selected && 'bg-amber-400 text-slate-950 hover:text-slate-950'
+                )}
+              >
+                {mode.label}
+              </button>
+            );
+          })}
+        </div>
 
         <h2 className='mt-4 mb-2 font-bold text-white/70 text-xs uppercase tracking-wider'>1. Hạng xe</h2>
         <div className='grid grid-cols-2 gap-2 sm:gap-3'>
@@ -123,29 +200,33 @@ export function ScenarioModal() {
         </div>
 
         <h2 className='mt-4 mb-2 font-bold text-white/70 text-xs uppercase tracking-wider'>2. Bài tập</h2>
-        <div className='grid gap-2 sm:grid-cols-3 sm:gap-3'>
-          {SCENARIOS.map((item) => (
-            <OptionCard
-              key={item.id}
-              testId={`scenario-${item.id}`}
-              selected={scenario === item.id}
-              onSelect={() => setScenario(item.id)}
-            >
-              <span className='flex items-center gap-2 font-bold text-sm sm:text-base'>
-                <item.icon className='size-5 shrink-0 text-amber-300' />
-                {SCENARIO_LABELS[item.id].title}
-              </span>
-              <span className='text-[11px] text-white/80 leading-snug sm:text-xs'>
-                {SCENARIO_LABELS[item.id].subtitle}
-              </span>
-              <ul className='list-disc pl-4 text-[11px] text-white/55 leading-snug'>
-                {item.rules.map((rule) => (
-                  <li key={rule}>{rule}</li>
-                ))}
-              </ul>
-            </OptionCard>
-          ))}
-        </div>
+        {road ? (
+          <RoadCard />
+        ) : (
+          <div className='grid gap-2 sm:grid-cols-3 sm:gap-3'>
+            {SCENARIOS.map((item) => (
+              <OptionCard
+                key={item.id}
+                testId={`scenario-${item.id}`}
+                selected={scenario === item.id}
+                onSelect={() => selectYard(item.id)}
+              >
+                <span className='flex items-center gap-2 font-bold text-sm sm:text-base'>
+                  <item.icon className='size-5 shrink-0 text-amber-300' />
+                  {SCENARIO_LABELS[item.id].title}
+                </span>
+                <span className='text-[11px] text-white/80 leading-snug sm:text-xs'>
+                  {SCENARIO_LABELS[item.id].subtitle}
+                </span>
+                <ul className='list-disc pl-4 text-[11px] text-white/55 leading-snug'>
+                  {item.rules.map((rule) => (
+                    <li key={rule}>{rule}</li>
+                  ))}
+                </ul>
+              </OptionCard>
+            ))}
+          </div>
+        )}
 
         <div className='mt-4 hidden md:block'>
           <h2 className='mb-2 font-bold text-white/70 text-xs uppercase tracking-wider'>Phím tắt</h2>

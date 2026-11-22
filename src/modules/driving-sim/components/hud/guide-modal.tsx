@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useSimStore } from '../../store/sim-store';
 
-type TopicId = 'basics' | 'manual' | 'automatic' | 'hill' | 'parking';
+type TopicId = 'basics' | 'manual' | 'automatic' | 'hill' | 'parking' | 'road';
 
 interface Section {
   title: string;
@@ -20,6 +20,7 @@ const CONTROLS: [string, string, string][] = [
   ['Điểm bám côn (B2)', 'X', 'Giữ X = côn tự dừng ở vùng ĐIỂM BÁM (màu vàng). Trên điện thoại: bấm “Điểm bám”'],
   ['Vào số', '1–5 · R · N', 'B2 phải đạp hết côn trước. B1: P · R · N · F (F = số D)'],
   ['Phanh tay', 'Space', 'Bấm một lần để kéo, bấm lần nữa để nhả'],
+  ['Xi-nhan trái / phải', ', / .', 'Bấm để bật, bấm lại để tắt. Trên màn hình: hai nút “Xi-nhan” phía trên vô lăng'],
   ['Đề máy', 'Enter', 'Nổ máy lại sau khi chết máy'],
   ['Vô lăng', 'A D / ← →', 'Hoặc kéo vô lăng trên màn hình; thả ra tự trả lái'],
   ['Hết lái trái / phải', 'Q / E', 'Đánh hết lái và giữ nguyên; bấm lại để trả thẳng'],
@@ -159,6 +160,59 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
         notes: [
           'Bánh xe đè vạch cảm biến (màu vàng): trừ 5 điểm mỗi lần, đè lâu bị trừ tiếp mỗi 5 giây.',
           'Quá 2 phút hoặc ra khỏi hình khi chưa ghép được xe: trừ 5 điểm.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'road',
+    label: 'Đường trường',
+    intro:
+      'Lái 2 km trên đường hai làn, đi làn bên phải, không quá 40 km/h. Sát hạch viên đọc lệnh, khung trên màn hình ghi bài đang thi và quãng đường còn lại. Có xe chạy phía trước: giữ khoảng cách.',
+    sections: [
+      {
+        title: '1. Xuất phát',
+        steps: [
+          'Bấm , (dấu phẩy) hoặc nút “Xi-nhan” bên trái để bật xi-nhan trái.',
+          'B2: giữ C, vào số 1, nhả phanh tay (Space), đưa côn về điểm bám (X) và thêm ga (W). B1: giữ S, vào D (F), nhả phanh tay, nhả phanh.',
+          'Xe vừa lăn bánh thì tắt xi-nhan trái ngay, trong 5 m đầu.',
+        ],
+      },
+      {
+        title: '2. Tăng số tăng tốc (biển ở mét 200)',
+        steps: [
+          'Trong 100 m sau biển, B2 phải lên tới số 3 và chạy trên 24 km/h. B1 chỉ cần trên 24 km/h.',
+          'Lên số: thả ga, giữ C, bấm số kế tiếp (2 rồi 3), thả C, ga lại. Lên số 2 ở khoảng 15 km/h, số 3 ở khoảng 25 km/h.',
+        ],
+      },
+      {
+        title: '3. Giảm số giảm tốc (biển ở mét 700)',
+        steps: [
+          'Thả ga, rà phanh (S) cho xe xuống dưới 20 km/h trước biển kiểm tra ở mét 800.',
+          'B2: giữ C, về số 2 (hoặc 1), thả C từ từ.',
+        ],
+      },
+      {
+        title: '4. Chướng ngại vật (khoảng mét 1100)',
+        notes: [
+          'Xe phía trước phanh gấp, đèn phanh sáng đỏ. Thả ga, B2 đạp côn rồi phanh, dừng sau xe đó và chờ nó đi tiếp.',
+          'Chạm vào xe khác là bị truất quyền, nên luôn giữ khoảng cách vài thân xe.',
+        ],
+      },
+      {
+        title: '5. Kết thúc (biển ở mét 1800)',
+        steps: [
+          'Bấm . (dấu chấm) hoặc nút “Xi-nhan” bên phải để bật xi-nhan phải.',
+          'Giảm tốc, đánh lái nhẹ sang phải cho xe vào phần lề, bên phải vạch liền.',
+          'Dừng hẳn trước biển “Dừng xe” ở mét 2000.',
+          'Về số N (B1: P hoặc N) và kéo phanh tay (Space). Có 5 giây sau khi dừng.',
+        ],
+      },
+      {
+        title: 'Lỗi bị chấm',
+        notes: [
+          'Trừ 5 điểm mỗi lỗi: quên hoặc không tắt xi-nhan trái, không đạt bài tăng tốc, không đạt bài giảm tốc, chạy quá 40 km/h, chết máy, quên xi-nhan phải, không tấp vào lề, không về N, không kéo phanh tay.',
+          'Truất quyền: va chạm với xe khác, lao ra khỏi mặt đường, hoặc chạy quá biển “Dừng xe”.',
         ],
       },
     ],

@@ -49,12 +49,13 @@ export function Vehicle() {
     runtime.pose.z = spawn.z;
     runtime.pose.heading = spawn.heading;
     runtime.pose.speed = 0;
+    runtime.npcs = exam.traffic?.cars ?? [];
     return () => {
       rig.dispose();
       rigRef.current = null;
       runtime.chassis = null;
     };
-  }, [world, spawn]);
+  }, [world, spawn, exam]);
 
   useBeforePhysicsStep((w) => {
     const rig = rigRef.current;
@@ -100,7 +101,14 @@ export function Vehicle() {
     runtime.pose.wheels = snapshot.wheels;
 
     const store = useSimStore.getState();
-    store.applyEvents(exam.update(snapshot, dt), clock.time);
+    const events = exam.update(snapshot, dt, {
+      transmission: store.transmission,
+      gear: store.gear,
+      signal: store.signal,
+      handbrake: store.handbrake,
+    });
+    if (exam.traffic) runtime.npcs = exam.traffic.cars;
+    store.applyEvents(events, clock.time);
 
     clock.sinceTelemetry += dt;
     if (clock.sinceTelemetry >= TELEMETRY_INTERVAL) {
@@ -115,6 +123,7 @@ export function Vehicle() {
         clockSeconds: examClock.seconds,
         clockCountdown: examClock.countdown,
         hint: exam.hint(),
+        road: exam.progress?.() ?? null,
         coach: coachTip({
           transmission: store.transmission,
           gear: store.gear,

@@ -3,6 +3,8 @@ import type { Gear, Transmission } from '../types';
 
 const RPM_TO_RAD = Math.PI / 30;
 const SUBSTEPS = 8;
+/** Largest throttle opening the idle governor may use. */
+const IDLE_AUTHORITY = 0.8;
 /** Clutch slip stiffness, N·m per rad/s of slip. */
 const CLUTCH_STIFFNESS = 25;
 
@@ -80,7 +82,8 @@ function stepManual(state: DrivetrainState, input: DrivetrainInput): DrivetrainO
 
     let engineTorque = 0;
     if (state.running) {
-      const idle = clamp((ENGINE.idleRpm + 50 - rpm) / 300, 0, 0.32);
+      // Idle governor: opens the throttle as the revs sag, enough to carry the clutch at the bite point.
+      const idle = clamp((ENGINE.idleRpm + 50 - rpm) / 300, 0, IDLE_AUTHORITY);
       const limiter = rpm > ENGINE.redlineRpm ? 0 : 1;
       engineTorque = Math.max(throttle * limiter, idle) * maxEngineTorque(rpm);
     }

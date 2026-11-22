@@ -23,6 +23,7 @@ export function unlockAudio(): void {
 
 export function setMuted(value: boolean): void {
   muted = value;
+  if (value) stopSpeech();
   if (master && ctx) master.gain.setTargetAtTime(value ? 0 : 0.6, ctx.currentTime, 0.02);
 }
 
@@ -78,6 +79,26 @@ export function playGearClunk(): void {
   tone(140, 0.05, 'square', 0.12);
 }
 
+/** Turn-signal relay: "tick" on, "tock" off. */
+export function playSignalTick(on: boolean): void {
+  tone(on ? 1500 : 1100, 0.03, 'square', 0.1);
+}
+
+function stopSpeech(): void {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+/** Examiner voice: spoken in Vietnamese where the browser has speech synthesis, after a chime. */
+export function speak(text: string): void {
+  playInfo();
+  if (muted || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'vi-VN';
+  utterance.rate = 1.05;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+
 /** Updates (and lazily creates) the continuous engine tone. */
 export function updateEngineSound(rpm: number, throttle: number, running: boolean): void {
   if (!ctx || !master || ctx.state !== 'running') return;
@@ -107,5 +128,6 @@ export function updateEngineSound(rpm: number, throttle: number, running: boolea
 }
 
 export function stopEngineSound(): void {
+  stopSpeech();
   if (engine && ctx) engine.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
 }

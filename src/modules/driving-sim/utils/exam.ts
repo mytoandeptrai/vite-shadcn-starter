@@ -1,16 +1,22 @@
 import { CAR, HILL, PARKING, PARKING_BAY, TRACK_LINES } from '../constants';
-import type { CarSnapshot, ExamEvent, Scenario } from '../types';
+import type { CarSnapshot, DriverState, ExamEvent, RoadProgress, Scenario } from '../types';
 import { distanceToSegment } from './math';
+import { RoadExam } from './road-exam';
+import type { Traffic } from './road-traffic';
 
 const STILL_SPEED = 0.05;
 const STILL_TIME = 0.5;
 const SENSOR_LINES = TRACK_LINES.filter((line) => line.kind === 'sensor');
 
 export interface Exam {
-  update(car: CarSnapshot, dt: number): ExamEvent[];
+  update(car: CarSnapshot, dt: number, driver: DriverState): ExamEvent[];
   /** Seconds shown on the HUD clock; negative values never occur. */
   clock(): { seconds: number; countdown: boolean };
   hint(): string;
+  /** Road test only: distance and step for the HUD progress bar. */
+  progress?(): RoadProgress;
+  /** Road test only: the other cars on the road. */
+  traffic?: Traffic;
 }
 
 /** Bài: Dừng và khởi hành xe ngang dốc. */
@@ -217,5 +223,6 @@ class FreeRoam implements Exam {
 export function createExam(scenario: Scenario): Exam {
   if (scenario === 'hill') return new HillExam();
   if (scenario === 'parking') return new ParkingExam();
+  if (scenario === 'road') return new RoadExam();
   return new FreeRoam();
 }

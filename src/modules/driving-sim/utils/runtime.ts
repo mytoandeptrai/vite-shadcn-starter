@@ -1,5 +1,5 @@
 import type { Object3D } from 'three';
-import type { Vec2 } from '../types';
+import type { NpcCar, Vec2 } from '../types';
 import { createDrivetrainState } from './drivetrain';
 
 /** Mutable simulation state read by the HUD, cameras and minimap every frame. */
@@ -14,6 +14,8 @@ export const runtime = {
     speed: 0,
     wheels: [] as Vec2[],
   },
+  /** Other cars on the road (road test), updated every physics step. */
+  npcs: [] as NpcCar[],
   /** Seconds of camera shake remaining (engine stall). */
   shake: 0,
   /** Visual chassis group, followed by the cameras. */

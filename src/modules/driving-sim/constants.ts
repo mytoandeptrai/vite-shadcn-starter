@@ -92,16 +92,47 @@ export interface SpawnPoint {
   heading: number;
 }
 
+/**
+ * Road test course: a straight two-lane road along +Z, right-hand traffic, so the driving lane
+ * is on -X. Distances are metres from the start line at z = 0.
+ */
+export const ROAD = {
+  length: 2000,
+  laneWidth: 3.5,
+  shoulder: 1.5,
+  /** Asphalt half width: one lane plus its shoulder. Beyond it is the kerb. */
+  halfWidth: 5,
+  laneX: -1.75,
+  oncomingX: 1.75,
+  speedLimitKmh: 40,
+  /** The left signal must be off again once the car has moved this far. */
+  departClear: 5,
+  speedUp: { from: 200, to: 300, minKmh: 24, gear: 3 },
+  slowDown: { from: 700, to: 800, maxKmh: 20 },
+  obstacleAt: 1100,
+  finishFrom: 1800,
+  /** Car centre at or right of this line counts as pulled over to the shoulder. */
+  pullOverX: -3.2,
+  /** Seconds allowed after stopping to select neutral and apply the handbrake. */
+  settleTime: 5,
+} as const;
+
+export const ROAD_STEPS = ['Xuất phát', 'Tăng số tăng tốc', 'Giảm số giảm tốc', 'Chướng ngại vật', 'Kết thúc'] as const;
+
+export const NPC = { length: 4.3, width: 1.75 } as const;
+
 export const SPAWNS: Record<Scenario, SpawnPoint> = {
   free: { x: 0, z: -22, heading: 0 },
   hill: { x: HILL.centerX, z: -9, heading: 0 },
   parking: { x: 14.4, z: -9, heading: 0 },
+  road: { x: ROAD.laneX, z: 0, heading: 0 },
 };
 
 export const SCENARIO_LABELS: Record<Scenario, { title: string; subtitle: string }> = {
   free: { title: 'Free Roam', subtitle: 'Tập lái tự do trên sân, không chấm điểm' },
   hill: { title: 'Đề-pa Dốc', subtitle: 'Dừng và khởi hành xe ngang dốc 10%' },
   parking: { title: 'Ghép Chuồng Dọc', subtitle: 'Ghép xe dọc vào nơi đỗ (lùi chuồng)' },
+  road: { title: 'Thi Đường Trường', subtitle: 'Lái 2 km trên đường giao thông theo lệnh sát hạch viên' },
 };
 
 const bayMinZ = PARKING.bayCenterZ - PARKING.bayWidth / 2;

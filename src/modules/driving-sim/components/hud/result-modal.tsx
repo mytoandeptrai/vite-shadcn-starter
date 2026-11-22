@@ -3,7 +3,7 @@ import { CircleCheck, CircleX } from 'lucide-react';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { PASS_SCORE } from '../../constants';
+import { PASS_SCORE, SCENARIO_LABELS } from '../../constants';
 import { useSimStore } from '../../store/sim-store';
 
 /** Pass / fail summary shown when the exam ends. */
@@ -11,6 +11,7 @@ export function ResultModal() {
   const result = useSimStore((s) => s.result);
   const score = useSimStore((s) => s.score);
   const penalties = useSimStore((s) => s.penalties);
+  const scenario = useSimStore((s) => s.scenario);
   const start = useSimStore((s) => s.start);
   const openMenu = useSimStore((s) => s.openMenu);
   const passed = result?.passed ?? false;
@@ -38,6 +39,9 @@ export function ResultModal() {
         <div className='flex items-center gap-3'>
           <Icon className={cn('size-12 shrink-0', passed ? 'text-emerald-400' : 'text-red-400')} />
           <div className='min-w-0 flex-1'>
+            <p data-testid='result-scenario' className='m-0 text-[10px] text-white/55 uppercase tracking-wider'>
+              {SCENARIO_LABELS[scenario].title}
+            </p>
             <h2
               id='ds-result-title'
               data-testid='result-title'

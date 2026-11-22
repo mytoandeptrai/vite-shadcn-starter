@@ -6,6 +6,7 @@ import { useAnimationFrame } from '../../hooks/use-animation-frame';
 import { usePress } from '../../hooks/use-press';
 import { input } from '../../utils/input-state';
 import { clamp } from '../../utils/math';
+import { SignalButtons } from './turn-signals';
 
 const pointerAngle = (e: React.PointerEvent<HTMLElement>) => {
   const rect = e.currentTarget.getBoundingClientRect();
@@ -76,6 +77,7 @@ export function SteeringWheel() {
 
   return (
     <div className='ds-area-wheel ds-wheel flex flex-col gap-1.5 self-end'>
+      <SignalButtons />
       <div
         data-testid='steering-wheel'
         role='slider'

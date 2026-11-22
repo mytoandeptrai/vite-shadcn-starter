@@ -1,6 +1,9 @@
+import { useFrame } from '@react-three/fiber';
 import { type RefObject, useEffect, useMemo } from 'react';
-import { CanvasTexture, type Group, SRGBColorSpace } from 'three';
+import { CanvasTexture, type Group, MeshStandardMaterial, SRGBColorSpace } from 'three';
 import { CAR } from '../../constants';
+import { signalLit } from '../../hooks/use-signal-blink';
+import { useSimStore } from '../../store/sim-store';
 
 function useLabelTexture(text: string, background: string, color: string) {
   const texture = useMemo(() => {
@@ -24,6 +27,46 @@ function useLabelTexture(text: string, background: string, color: string) {
   // The car remounts on every restart; materials do not dispose their maps.
   useEffect(() => () => texture.dispose(), [texture]);
   return texture;
+}
+
+/** Amber turn-signal lamps on the four corners; +X is the car's left. */
+function Blinkers() {
+  const lamps = useMemo(() => {
+    const make = () => new MeshStandardMaterial({ color: '#b45309', emissive: '#f59e0b', emissiveIntensity: 0 });
+    return { left: make(), right: make() };
+  }, []);
+  useEffect(
+    () => () => {
+      lamps.left.dispose();
+      lamps.right.dispose();
+    },
+    [lamps]
+  );
+  const hw = CAR.width / 2;
+  const hl = CAR.length / 2;
+
+  useFrame(() => {
+    const { signal, signalAt } = useSimStore.getState();
+    const lit = signal !== 'off' && signalLit(signalAt, performance.now());
+    lamps.left.emissiveIntensity = lit && signal === 'left' ? 3 : 0;
+    lamps.right.emissiveIntensity = lit && signal === 'right' ? 3 : 0;
+  });
+
+  return (
+    <>
+      {(['left', 'right'] as const).map((side) =>
+        [hl + 0.006, -hl - 0.006].map((z) => (
+          <mesh
+            key={`${side}:${z}`}
+            position={[(side === 'left' ? 1 : -1) * (hw - 0.06), 0.09, z]}
+            material={lamps[side]}
+          >
+            <boxGeometry args={[0.12, 0.14, 0.035]} />
+          </mesh>
+        ))
+      )}
+    </>
+  );
 }
 
 /** Low-poly training sedan. Chassis space: +Z forward, +X left, origin at the centre of mass. */
@@ -112,6 +155,7 @@ export function CarModel({ steeringWheelRef }: { steeringWheelRef: RefObject<Gro
           </mesh>
         </group>
       ))}
+      <Blinkers />
       {/* Number plates */}
       <mesh position={[0, -0.05, hl + 0.022]}>
         <planeGeometry args={[0.5, 0.12]} />

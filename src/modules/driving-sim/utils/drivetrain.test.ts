@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { CAR } from '../constants';
 import { clutchCapacity, createDrivetrainState, stepDrivetrain } from './drivetrain';
+import { BITE_CLUTCH_DEPTH } from './input-state';
 
 const DT = 1 / 60;
 const GRADE_FORCE = CAR.mass * 9.81 * Math.sin(Math.atan(0.1));
@@ -82,6 +83,21 @@ describe('manual drivetrain (B2)', () => {
     ]);
     expect(r.stalled).toBe(false);
     expect(r.speed).toBeGreaterThan(0.3);
+  });
+
+  it('keeps running at the bite-point preset without throttle, and stalls once the clutch comes up past the bite zone', () => {
+    const atBite = simulate([
+      { seconds: 0.4, throttle: 0, clutch: [1, BITE_CLUTCH_DEPTH] },
+      { seconds: 4, throttle: 0, clutch: [BITE_CLUTCH_DEPTH, BITE_CLUTCH_DEPTH] },
+    ]);
+    expect(atBite.stalled).toBe(false);
+    expect(atBite.speed).toBeGreaterThan(1);
+
+    const pastBite = simulate([
+      { seconds: 0.4, throttle: 0, clutch: [1, 0.45] },
+      { seconds: 2, throttle: 0, clutch: [0.45, 0.45] },
+    ]);
+    expect(pastBite.stalled).toBe(true);
   });
 
   it('cannot climb a 10% grade without throttle', () => {

@@ -134,7 +134,8 @@ test('mobile landscape: B2 controls fit the screen and the clutch presets pull t
   const pedals = boxes.find((b) => b.name === 'ds-area-pedals');
   expect(wheel && pedals && wheel.right < pedals.left).toBe(true);
 
-  // Pull away with taps only: clutch down, 1st, handbrake off, throttle held, clutch to the bite point.
+  // Pull away with taps only, in the order the guide teaches: clutch down, 1st, handbrake off,
+  // clutch to the bite point (the car creeps, the engine keeps running), then throttle.
   const fingers = await Fingers.on(page);
   await page.getByTestId('clutch-floor').tap();
   await sim.waitFor(sim.clutch, (v) => v >= 95);
@@ -143,10 +144,12 @@ test('mobile landscape: B2 controls fit the screen and the clutch presets pull t
   await expect(page.getByTestId('hud-gear')).toHaveText('1');
   await page.getByTestId('handbrake').tap();
   await sim.screenshot('03b-mobile-landscape');
-  const throttle = await fingers.hold('pedal-throttle', 0.45);
-  await sim.waitFor(sim.rpm, (v) => v > 1500);
   await fingers.tap('clutch-bite');
-  await sim.waitFor(sim.speed, (v) => v > 3);
+  await sim.waitFor(sim.clutch, (v) => v <= 55);
+  await sim.waitFor(sim.speed, (v) => v > 1.5);
+  await expect(page.getByTestId('engine-start')).toHaveText('Máy nổ');
+  const throttle = await fingers.hold('pedal-throttle', 0.45);
+  await sim.waitFor(sim.speed, (v) => v > 5);
   await expect(page.getByTestId('engine-start')).toHaveText('Máy nổ');
   await fingers.tap('clutch-up');
   await sim.waitFor(sim.clutch, (v) => v <= 2);

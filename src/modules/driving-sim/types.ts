@@ -1,5 +1,6 @@
 export type Transmission = 'B1' | 'B2';
-export type Scenario = 'free' | 'hill' | 'parking';
+export type Scenario = 'free' | 'hill' | 'parking' | 'road';
+export type TurnSignal = 'off' | 'left' | 'right';
 export type Gear = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3' | '4' | '5';
 export type CameraMode = 'chase' | 'driver' | 'top';
 export type SimPhase = 'menu' | 'driving' | 'finished';
@@ -36,6 +37,8 @@ export type ExamEvent =
   | { type: 'fail'; reason: string }
   | { type: 'pass'; reason: string }
   | { type: 'info'; message: string }
+  /** Spoken examiner command, also shown as a subtitle. */
+  | { type: 'voice'; text: string }
   | { type: 'beep' };
 
 /** Per-step snapshot of the car, expressed in world space (metres, seconds). */
@@ -52,4 +55,36 @@ export interface CarSnapshot {
   corners: [Vec2, Vec2, Vec2, Vec2];
   /** True on the step where the engine stalled. */
   stalledNow: boolean;
+}
+
+/** What the driver has set on the controls, for exams that check procedure. */
+export interface DriverState {
+  transmission: Transmission;
+  gear: Gear;
+  signal: TurnSignal;
+  handbrake: boolean;
+}
+
+/** Another road user, axis-aligned with the road. */
+export interface NpcCar {
+  id: string;
+  x: number;
+  z: number;
+  /** Signed speed along +Z, m/s. */
+  speed: number;
+  braking: boolean;
+  color: string;
+}
+
+/** Road test progress shown on the HUD. */
+export interface RoadProgress {
+  /** Metres driven from the start line. */
+  distance: number;
+  total: number;
+  /** Index of the current test step in ROAD_STEPS. */
+  step: number;
+  /** Lateral offset from the centre of the driving lane, metres, positive = left. */
+  offset: number;
+  /** Bumper-to-bumper distance to the car in front, metres; null when the lane ahead is clear. */
+  gap: number | null;
 }

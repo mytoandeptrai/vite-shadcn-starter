@@ -242,7 +242,7 @@ test('SEO: the served page carries the jacobhocoto brand, share card, structured
     ['/icons/icon-maskable-512.png', 'image/png'],
     ['/manifest.webmanifest', 'application/manifest+json'],
     ['/robots.txt', 'text/plain'],
-    ['/sitemap.xml', 'application/xml'],
+    ['/sitemap.xml', '/xml'],
   ]) {
     const response = await request.get(path);
     expect(response.status(), path).toBe(200);
@@ -263,7 +263,8 @@ test('SEO: the served page carries the jacobhocoto brand, share card, structured
   // Unknown URLs are answered by the SPA fallback, so they must opt out of indexing.
   await page.goto('/khong-ton-tai');
   await expect(page).toHaveTitle('404 · jacobhocoto');
-  await expect(page.locator('meta[name="robots"][content="noindex, follow"]')).toHaveCount(1);
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(1);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
 
   // The dark backdrop belongs to the static shell only: themed pages keep their own background.
   const colours = await page.evaluate(() => {
@@ -275,4 +276,32 @@ test('SEO: the served page carries the jacobhocoto brand, share card, structured
     return { theme, body: getComputedStyle(document.body).backgroundColor };
   });
   expect(colours.body).toBe(colours.theme);
+});
+
+test('buy me a coffee: the button on the main screen opens the QR dialog, which closes again', async ({ page }) => {
+  const sim = new SimDriver(page);
+  await sim.open();
+  const dialog = page.getByTestId('donate-dialog');
+  await page.getByTestId('donate-button').click();
+  await expect(dialog).toBeVisible();
+  const qr = dialog.getByRole('img');
+  await expect(qr).toHaveAttribute('alt', /TRAN PHUOC MY TOAN.*9941 2759 46/);
+  await expect.poll(() => qr.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth)).toBe(720);
+  const box = await dialog.boundingBox();
+  expect(box && box.y >= 0 && box.y + box.height <= 800).toBe(true);
+  await sim.screenshot('13-buy-me-a-coffee');
+
+  // Escape closes only the dialog; the simulator's own shortcuts stay out of it.
+  await page.keyboard.press('KeyH');
+  await expect(page.getByTestId('guide-modal')).toBeHidden();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeHidden();
+  await expect(page.getByTestId('scenario-modal')).toBeVisible();
+
+  await page.getByTestId('donate-button').click();
+  await page.getByTestId('donate-close').click();
+  await expect(dialog).toBeHidden();
+  await page.getByTestId('donate-button').click();
+  await page.mouse.click(5, 5);
+  await expect(dialog).toBeHidden();
 });

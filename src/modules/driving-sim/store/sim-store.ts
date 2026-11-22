@@ -1,6 +1,17 @@
 import { create } from 'zustand';
 import { CLUTCH, PASS_SCORE, START_SCORE } from '../constants';
-import type { CameraMode, ExamEvent, ExamResult, Gear, Penalty, Scenario, SimPhase, Transmission } from '../types';
+import type {
+  CameraMode,
+  ExamEvent,
+  ExamResult,
+  Gear,
+  Penalty,
+  RoadProgress,
+  Scenario,
+  SimPhase,
+  Transmission,
+  TurnSignal,
+} from '../types';
 import * as audio from '../utils/audio';
 import { canStartEngine, createDrivetrainState, startEngine } from '../utils/drivetrain';
 import { input, releaseHeldInput, resetInput } from '../utils/input-state';
@@ -17,6 +28,8 @@ export interface Telemetry {
   hint: string;
   /** What to do next with the pedals and gears. */
   coach: string;
+  /** Road test only. */
+  road: RoadProgress | null;
 }
 
 export type NoticeKind = 'penalty' | 'fail' | 'warning' | 'info';
@@ -35,6 +48,11 @@ interface SimState {
   runId: number;
   gear: Gear;
   handbrake: boolean;
+  signal: TurnSignal;
+  /** `performance.now()` of the last signal change: the blink phase shared by the HUD and the car. */
+  signalAt: number;
+  /** Last examiner command, shown as a subtitle. */
+  subtitle: string;
   engineRunning: boolean;
   score: number;
   penalties: Penalty[];
@@ -55,6 +73,8 @@ interface SimState {
   openMenu: () => void;
   requestGear: (gear: Gear) => boolean;
   toggleHandbrake: () => void;
+  /** Turns a signal on, or off again when it is already blinking. */
+  toggleSignal: (side: 'left' | 'right') => void;
   requestEngineStart: () => void;
   cycleCamera: () => void;
   toggleMuted: () => void;
@@ -78,6 +98,7 @@ const emptyTelemetry: Telemetry = {
   clockCountdown: false,
   hint: '',
   coach: '',
+  road: null,
 };
 
 let penaltyId = 0;
@@ -100,6 +121,9 @@ export const useSimStore = create<SimState>((set, get) => ({
   runId: 0,
   gear: 'N',
   handbrake: true,
+  signal: 'off',
+  signalAt: 0,
+  subtitle: '',
   engineRunning: true,
   score: START_SCORE,
   penalties: [],
@@ -116,16 +140,20 @@ export const useSimStore = create<SimState>((set, get) => ({
   setScenario: (scenario) => set({ scenario }),
 
   start: () => {
-    const { transmission, runId } = get();
+    const { transmission, scenario, runId } = get();
     resetInput();
     runtime.drivetrain = createDrivetrainState();
     runtime.shake = 0;
+    runtime.npcs = [];
     audio.unlockAudio();
     set({
       phase: 'driving',
       runId: runId + 1,
       gear: transmission === 'B1' ? 'P' : 'N',
-      handbrake: transmission === 'B2',
+      // The road test starts parked at the kerb, so the handbrake is on in an automatic too.
+      handbrake: transmission === 'B2' || scenario === 'road',
+      signal: 'off',
+      subtitle: '',
       engineRunning: true,
       score: START_SCORE,
       penalties: [],
@@ -139,7 +167,7 @@ export const useSimStore = create<SimState>((set, get) => ({
 
   openMenu: () => {
     audio.stopEngineSound();
-    set({ phase: 'menu', shifterOpen: false, guideOpen: false });
+    set({ phase: 'menu', shifterOpen: false, guideOpen: false, signal: 'off' });
   },
 
   requestGear: (gear) => {
@@ -167,6 +195,8 @@ export const useSimStore = create<SimState>((set, get) => ({
   },
 
   toggleHandbrake: () => set((s) => ({ handbrake: !s.handbrake })),
+
+  toggleSignal: (side) => set((s) => ({ signal: s.signal === side ? 'off' : side, signalAt: performance.now() })),
 
   requestEngineStart: () => {
     const { transmission, gear, engineRunning, phase } = get();
@@ -200,7 +230,7 @@ export const useSimStore = create<SimState>((set, get) => ({
 
   applyEvents: (events, time) => {
     if (events.length === 0 || get().phase !== 'driving') return;
-    let { score } = get();
+    let { score, subtitle } = get();
     const penalties = [...get().penalties];
     let result: ExamResult | null = null;
 
@@ -225,6 +255,10 @@ export const useSimStore = create<SimState>((set, get) => ({
           notify('info', event.message);
           audio.playInfo();
           break;
+        case 'voice':
+          subtitle = event.text;
+          audio.speak(event.text);
+          break;
         case 'beep':
           audio.playBeep();
           break;
@@ -235,9 +269,9 @@ export const useSimStore = create<SimState>((set, get) => ({
       if (result.passed) audio.playPass();
       else audio.playFail();
       audio.stopEngineSound();
-      set({ score, penalties, result, phase: 'finished', shifterOpen: false });
+      set({ score, penalties, subtitle, result, phase: 'finished', shifterOpen: false, signal: 'off' });
     } else {
-      set({ score, penalties });
+      set({ score, penalties, subtitle });
     }
   },
 }));

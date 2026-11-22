@@ -25,7 +25,7 @@ const hillBreaks = [
 
 const groundHeight = (x: number, z: number) => (x >= hillMinX && x <= hillMaxX ? hillHeightAt(z) : 0);
 
-function useAsphaltTexture() {
+export function useAsphaltTexture(repeatX = GROUND_HALF.x / 2, repeatY = GROUND_HALF.z / 2) {
   return useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
@@ -49,10 +49,10 @@ function useAsphaltTexture() {
     const texture = new CanvasTexture(canvas);
     texture.wrapS = RepeatWrapping;
     texture.wrapT = RepeatWrapping;
-    texture.repeat.set(GROUND_HALF.x / 2, GROUND_HALF.z / 2);
+    texture.repeat.set(repeatX, repeatY);
     texture.colorSpace = SRGBColorSpace;
     return texture;
-  }, []);
+  }, [repeatX, repeatY]);
 }
 
 function useTextTexture(text: string, background: string, color: string) {
@@ -177,7 +177,7 @@ function Hill() {
   );
 }
 
-function Sign({
+export function Sign({
   position,
   rotationY = 0,
   lines,

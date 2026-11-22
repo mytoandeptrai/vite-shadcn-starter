@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
 import { ENGINE } from '../../constants';
 import { useSimStore } from '../../store/sim-store';
+import { SignalLamp } from './turn-signals';
 
 function Readout({ label, children, className }: { label: string; children: React.ReactNode; className?: string }) {
   return (
@@ -26,6 +27,7 @@ export function Gauges() {
         data-testid='hud-gauges'
         className='ds-panel flex items-stretch divide-x divide-white/10 rounded-2xl py-1.5 md:py-2.5'
       >
+        <SignalLamp side='left' />
         <Readout label='Tốc độ'>
           <span className='font-black font-mono text-xl leading-none md:text-3xl'>
             <span data-testid='hud-speed'>{telemetry.speedKmh.toFixed(1)}</span>
@@ -88,6 +90,7 @@ export function Gauges() {
             </span>
           </div>
         </Readout>
+        <SignalLamp side='right' />
       </div>
     </div>
   );

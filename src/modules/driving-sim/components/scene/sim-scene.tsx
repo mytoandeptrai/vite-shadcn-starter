@@ -5,6 +5,7 @@ import type { DirectionalLight } from 'three';
 import { useSimStore } from '../../store/sim-store';
 import { detectQuality } from '../../utils/quality';
 import { CameraRig } from './camera-rig';
+import { RoadTrack } from './road-track';
 import { Track } from './track';
 import { Vehicle } from './vehicle';
 
@@ -33,7 +34,7 @@ function World({ shadows }: { shadows: boolean }) {
         shadow-bias={-0.0004}
       />
       <Physics gravity={[0, -9.81, 0]} timeStep={1 / 60} paused={paused}>
-        <Track runId={runId} />
+        {scenario === 'road' ? <RoadTrack /> : <Track runId={runId} />}
         <Vehicle key={`${runId}:${scenario}`} />
       </Physics>
       <CameraRig sun={sun} mirrorInterval={shadows ? 1 : 2} />

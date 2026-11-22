@@ -83,6 +83,12 @@ export function useKeyboardControls(): void {
           e.preventDefault();
           store.requestEngineStart();
           break;
+        case 'Comma':
+          store.toggleSignal('left');
+          break;
+        case 'Period':
+          store.toggleSignal('right');
+          break;
         case 'KeyQ':
           toggleLatch(-1);
           break;

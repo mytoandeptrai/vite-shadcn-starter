@@ -4,11 +4,24 @@ import { useTranslation } from '@/integrations/i18n';
 import { ROUTES, siteConfig } from '@/constant';
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const NotFoundPage = () => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
+
+  // Unknown URLs are served with a 200 by the SPA fallback, so keep them out of the index.
+  // The page already has a robots tag from the build: change it rather than add a second one.
+  useEffect(() => {
+    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) return;
+    const indexable = robots.content;
+    robots.content = 'noindex, follow';
+    return () => {
+      robots.content = indexable;
+    };
+  }, []);
 
   const handleGoHome = () => {
     navigate({
@@ -18,10 +31,8 @@ const NotFoundPage = () => {
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] items-center justify-center p-4'>
-      {/* Unknown URLs are served with a 200 by the SPA fallback, so keep them out of the index. */}
       <Helmet>
         <title>{`404 · ${siteConfig.name}`}</title>
-        <meta name='robots' content='noindex, follow' />
       </Helmet>
       <Empty className='max-w-2xl'>
         <EmptyHeader>
