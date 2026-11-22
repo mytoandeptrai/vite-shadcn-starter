@@ -9,269 +9,55 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
-import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
-import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
-import { Route as R404RouteImport } from './routes/404'
-import { Route as DrivingSimRouteImport } from './routes/driving-sim'
-import { Route as LandingRouteImport } from './routes/landing'
-import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
-import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-password'
-import { Route as authSuccessNotificationRouteImport } from './routes/(auth)/success-notification'
-import { Route as privateIndexRouteImport } from './routes/(private)/index'
-import { Route as privateDashboardRouteImport } from './routes/(private)/dashboard'
-import { Route as privateProfileRouteImport } from './routes/(private)/profile'
-import { Route as DemoFormRouteImport } from './routes/demo/form'
-import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
-import { Route as privateSettingsProfileRouteImport } from './routes/(private)/settings/profile'
-import { Route as privateTransactionsIndexRouteImport } from './routes/(private)/transactions/index'
-import { Route as privateTransactionsTransactionIdRouteImport } from './routes/(private)/transactions/$transactionId'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SplatRoute = SplatRouteImport.update({
   id: '/$',
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const authLayoutRoute = authLayoutRouteImport.update({
-  id: '/(auth)',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const privateLayoutRoute = privateLayoutRouteImport.update({
-  id: '/(private)',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const R404Route = R404RouteImport.update({
-  id: '/404',
-  path: '/404',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DrivingSimRoute = DrivingSimRouteImport.update({
-  id: '/driving-sim',
-  path: '/driving-sim',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LandingRoute = LandingRouteImport.update({
-  id: '/landing',
-  path: '/landing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authGettingStartedRoute = authGettingStartedRouteImport.update({
-  id: '/getting-started',
-  path: '/getting-started',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authLoginRoute = authLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authRegisterRoute = authRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authResetPasswordRoute = authResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const authSuccessNotificationRoute = authSuccessNotificationRouteImport.update({
-  id: '/success-notification',
-  path: '/success-notification',
-  getParentRoute: () => authLayoutRoute,
-} as any)
-const privateIndexRoute = privateIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const privateDashboardRoute = privateDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const privateProfileRoute = privateProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const DemoFormRoute = DemoFormRouteImport.update({
-  id: '/demo/form',
-  path: '/demo/form',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStorybookRoute = DemoStorybookRouteImport.update({
-  id: '/demo/storybook',
-  path: '/demo/storybook',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const privateSettingsProfileRoute = privateSettingsProfileRouteImport.update({
-  id: '/settings/profile',
-  path: '/settings/profile',
-  getParentRoute: () => privateLayoutRoute,
-} as any)
-const privateTransactionsIndexRoute =
-  privateTransactionsIndexRouteImport.update({
-    id: '/transactions/',
-    path: '/transactions/',
-    getParentRoute: () => privateLayoutRoute,
-  } as any)
-const privateTransactionsTransactionIdRoute =
-  privateTransactionsTransactionIdRouteImport.update({
-    id: '/transactions/$transactionId',
-    path: '/transactions/$transactionId',
-    getParentRoute: () => privateLayoutRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/404': typeof R404Route
-  '/driving-sim': typeof DrivingSimRoute
-  '/landing': typeof LandingRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/getting-started': typeof authGettingStartedRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/success-notification': typeof authSuccessNotificationRoute
-  '/dashboard': typeof privateDashboardRoute
-  '/profile': typeof privateProfileRoute
-  '/demo/form': typeof DemoFormRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/': typeof privateIndexRoute
-  '/settings/profile': typeof privateSettingsProfileRoute
-  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
-  '/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/404': typeof R404Route
-  '/driving-sim': typeof DrivingSimRoute
-  '/landing': typeof LandingRoute
-  '/forgot-password': typeof authForgotPasswordRoute
-  '/getting-started': typeof authGettingStartedRoute
-  '/login': typeof authLoginRoute
-  '/register': typeof authRegisterRoute
-  '/reset-password': typeof authResetPasswordRoute
-  '/success-notification': typeof authSuccessNotificationRoute
-  '/dashboard': typeof privateDashboardRoute
-  '/profile': typeof privateProfileRoute
-  '/demo/form': typeof DemoFormRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/': typeof privateIndexRoute
-  '/settings/profile': typeof privateSettingsProfileRoute
-  '/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
-  '/transactions': typeof privateTransactionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/(auth)': typeof authLayoutRouteWithChildren
-  '/(private)': typeof privateLayoutRouteWithChildren
+  '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/404': typeof R404Route
-  '/driving-sim': typeof DrivingSimRoute
-  '/landing': typeof LandingRoute
-  '/(auth)/forgot-password': typeof authForgotPasswordRoute
-  '/(auth)/getting-started': typeof authGettingStartedRoute
-  '/(auth)/login': typeof authLoginRoute
-  '/(auth)/register': typeof authRegisterRoute
-  '/(auth)/reset-password': typeof authResetPasswordRoute
-  '/(auth)/success-notification': typeof authSuccessNotificationRoute
-  '/(private)/dashboard': typeof privateDashboardRoute
-  '/(private)/profile': typeof privateProfileRoute
-  '/demo/form': typeof DemoFormRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/(private)/': typeof privateIndexRoute
-  '/(private)/settings/profile': typeof privateSettingsProfileRoute
-  '/(private)/transactions/$transactionId': typeof privateTransactionsTransactionIdRoute
-  '/(private)/transactions/': typeof privateTransactionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/$'
-    | '/404'
-    | '/driving-sim'
-    | '/landing'
-    | '/forgot-password'
-    | '/getting-started'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/success-notification'
-    | '/dashboard'
-    | '/profile'
-    | '/demo/form'
-    | '/demo/storybook'
-    | '/'
-    | '/settings/profile'
-    | '/transactions/$transactionId'
-    | '/transactions/'
+  fullPaths: '/' | '/$'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/$'
-    | '/404'
-    | '/driving-sim'
-    | '/landing'
-    | '/forgot-password'
-    | '/getting-started'
-    | '/login'
-    | '/register'
-    | '/reset-password'
-    | '/success-notification'
-    | '/dashboard'
-    | '/profile'
-    | '/demo/form'
-    | '/demo/storybook'
-    | '/'
-    | '/settings/profile'
-    | '/transactions/$transactionId'
-    | '/transactions'
-  id:
-    | '__root__'
-    | '/(auth)'
-    | '/(private)'
-    | '/$'
-    | '/404'
-    | '/driving-sim'
-    | '/landing'
-    | '/(auth)/forgot-password'
-    | '/(auth)/getting-started'
-    | '/(auth)/login'
-    | '/(auth)/register'
-    | '/(auth)/reset-password'
-    | '/(auth)/success-notification'
-    | '/(private)/dashboard'
-    | '/(private)/profile'
-    | '/demo/form'
-    | '/demo/storybook'
-    | '/(private)/'
-    | '/(private)/settings/profile'
-    | '/(private)/transactions/$transactionId'
-    | '/(private)/transactions/'
+  to: '/' | '/$'
+  id: '__root__' | '/' | '/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  authLayoutRoute: typeof authLayoutRouteWithChildren
-  privateLayoutRoute: typeof privateLayoutRouteWithChildren
+  IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
-  R404Route: typeof R404Route
-  DrivingSimRoute: typeof DrivingSimRoute
-  LandingRoute: typeof LandingRoute
-  DemoFormRoute: typeof DemoFormRoute
-  DemoStorybookRoute: typeof DemoStorybookRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$': {
       id: '/$'
       path: '/$'
@@ -279,195 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(auth)': {
-      id: '/(auth)'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof authLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(private)': {
-      id: '/(private)'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof privateLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/404': {
-      id: '/404'
-      path: '/404'
-      fullPath: '/404'
-      preLoaderRoute: typeof R404RouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/driving-sim': {
-      id: '/driving-sim'
-      path: '/driving-sim'
-      fullPath: '/driving-sim'
-      preLoaderRoute: typeof DrivingSimRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/landing': {
-      id: '/landing'
-      path: '/landing'
-      fullPath: '/landing'
-      preLoaderRoute: typeof LandingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(auth)/forgot-password': {
-      id: '/(auth)/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof authForgotPasswordRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/getting-started': {
-      id: '/(auth)/getting-started'
-      path: '/getting-started'
-      fullPath: '/getting-started'
-      preLoaderRoute: typeof authGettingStartedRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/login': {
-      id: '/(auth)/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof authLoginRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/register': {
-      id: '/(auth)/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof authRegisterRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/reset-password': {
-      id: '/(auth)/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof authResetPasswordRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(auth)/success-notification': {
-      id: '/(auth)/success-notification'
-      path: '/success-notification'
-      fullPath: '/success-notification'
-      preLoaderRoute: typeof authSuccessNotificationRouteImport
-      parentRoute: typeof authLayoutRoute
-    }
-    '/(private)/': {
-      id: '/(private)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof privateIndexRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/dashboard': {
-      id: '/(private)/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof privateDashboardRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/profile': {
-      id: '/(private)/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof privateProfileRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/demo/form': {
-      id: '/demo/form'
-      path: '/demo/form'
-      fullPath: '/demo/form'
-      preLoaderRoute: typeof DemoFormRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/storybook': {
-      id: '/demo/storybook'
-      path: '/demo/storybook'
-      fullPath: '/demo/storybook'
-      preLoaderRoute: typeof DemoStorybookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(private)/settings/profile': {
-      id: '/(private)/settings/profile'
-      path: '/settings/profile'
-      fullPath: '/settings/profile'
-      preLoaderRoute: typeof privateSettingsProfileRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/transactions/': {
-      id: '/(private)/transactions/'
-      path: '/transactions'
-      fullPath: '/transactions/'
-      preLoaderRoute: typeof privateTransactionsIndexRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
-    '/(private)/transactions/$transactionId': {
-      id: '/(private)/transactions/$transactionId'
-      path: '/transactions/$transactionId'
-      fullPath: '/transactions/$transactionId'
-      preLoaderRoute: typeof privateTransactionsTransactionIdRouteImport
-      parentRoute: typeof privateLayoutRoute
-    }
   }
 }
 
-interface authLayoutRouteChildren {
-  authForgotPasswordRoute: typeof authForgotPasswordRoute
-  authGettingStartedRoute: typeof authGettingStartedRoute
-  authLoginRoute: typeof authLoginRoute
-  authRegisterRoute: typeof authRegisterRoute
-  authResetPasswordRoute: typeof authResetPasswordRoute
-  authSuccessNotificationRoute: typeof authSuccessNotificationRoute
-}
-
-const authLayoutRouteChildren: authLayoutRouteChildren = {
-  authForgotPasswordRoute: authForgotPasswordRoute,
-  authGettingStartedRoute: authGettingStartedRoute,
-  authLoginRoute: authLoginRoute,
-  authRegisterRoute: authRegisterRoute,
-  authResetPasswordRoute: authResetPasswordRoute,
-  authSuccessNotificationRoute: authSuccessNotificationRoute,
-}
-
-const authLayoutRouteWithChildren = authLayoutRoute._addFileChildren(
-  authLayoutRouteChildren,
-)
-
-interface privateLayoutRouteChildren {
-  privateDashboardRoute: typeof privateDashboardRoute
-  privateProfileRoute: typeof privateProfileRoute
-  privateIndexRoute: typeof privateIndexRoute
-  privateSettingsProfileRoute: typeof privateSettingsProfileRoute
-  privateTransactionsTransactionIdRoute: typeof privateTransactionsTransactionIdRoute
-  privateTransactionsIndexRoute: typeof privateTransactionsIndexRoute
-}
-
-const privateLayoutRouteChildren: privateLayoutRouteChildren = {
-  privateDashboardRoute: privateDashboardRoute,
-  privateProfileRoute: privateProfileRoute,
-  privateIndexRoute: privateIndexRoute,
-  privateSettingsProfileRoute: privateSettingsProfileRoute,
-  privateTransactionsTransactionIdRoute: privateTransactionsTransactionIdRoute,
-  privateTransactionsIndexRoute: privateTransactionsIndexRoute,
-}
-
-const privateLayoutRouteWithChildren = privateLayoutRoute._addFileChildren(
-  privateLayoutRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
-  authLayoutRoute: authLayoutRouteWithChildren,
-  privateLayoutRoute: privateLayoutRouteWithChildren,
+  IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
-  R404Route: R404Route,
-  DrivingSimRoute: DrivingSimRoute,
-  LandingRoute: LandingRoute,
-  DemoFormRoute: DemoFormRoute,
-  DemoStorybookRoute: DemoStorybookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

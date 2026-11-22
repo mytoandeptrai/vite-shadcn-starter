@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryClient.clear();
     payload.reset();
     router.navigate({
-      to: ROUTES.GETTING_STARTED,
+      to: ROUTES.HOME,
     });
   };
 

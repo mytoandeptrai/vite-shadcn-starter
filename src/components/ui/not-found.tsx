@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { useTranslation } from '@/integrations/i18n';
-import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { ROUTES } from '@/constant';
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
@@ -9,11 +8,10 @@ import { useNavigate } from '@tanstack/react-router';
 const NotFoundPage = () => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthContext();
 
   const handleGoHome = () => {
     navigate({
-      to: isAuthenticated ? ROUTES.DASHBOARD : ROUTES.GETTING_STARTED,
+      to: ROUTES.HOME,
     });
   };
 
@@ -42,7 +40,7 @@ const NotFoundPage = () => {
         <div className='mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row'>
           <Button size='lg' onClick={handleGoHome} className='min-w-[160px]'>
             <Home className='size-4' />
-            {t('not-found.goHome', { defaultValue: 'Go to Dashboard' })}
+            {t('not-found.goHome', { defaultValue: 'Go Home' })}
           </Button>
           <Button
             size='lg'

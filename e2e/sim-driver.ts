@@ -10,7 +10,7 @@ export class SimDriver {
   constructor(readonly page: Page) {}
 
   async open(quality?: 'high' | 'low') {
-    await this.page.goto(quality ? `/driving-sim?quality=${quality}` : '/driving-sim');
+    await this.page.goto(quality ? `/?quality=${quality}` : '/');
     await expect(this.page.getByTestId('scenario-modal')).toBeVisible();
     await expect(this.page.locator('canvas').first()).toBeVisible();
   }

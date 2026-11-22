@@ -36,7 +36,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `pnpm dev --port ${PORT} --host 127.0.0.1 --strictPort`,
-    url: `http://127.0.0.1:${PORT}/driving-sim`,
+    url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

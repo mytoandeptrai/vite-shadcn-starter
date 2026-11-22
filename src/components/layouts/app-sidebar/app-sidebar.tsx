@@ -13,7 +13,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -38,7 +37,7 @@ import { ROUTES } from '@/constant';
 import { useAuthContext } from '@/integrations/auth/auth-provider';
 import { useTranslation } from '@/integrations/i18n';
 import { useLocation } from '@tanstack/react-router';
-import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon, UserCircle2Icon } from 'lucide-react';
+import { ChevronRightIcon, ChevronsDownIcon, LogOutIcon } from 'lucide-react';
 import { useState } from 'react';
 import { navItems } from './app-sidebar.config';
 import { Logo } from '@/components/ui/logo';
@@ -59,7 +58,7 @@ const AppSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
-              <CustomLink to={ROUTES.DASHBOARD} className='flex items-center justify-center'>
+              <CustomLink to={ROUTES.HOME} className='flex items-center justify-center'>
                 <Logo />
               </CustomLink>
             </SidebarMenuButton>
@@ -146,15 +145,6 @@ const AppSidebar = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <CustomLink to={ROUTES.SETTINGS_PROFILE}>
-                      <UserCircle2Icon className='mr-2 h-4 w-4' />
-                      {t('buttons.profile')}
-                    </CustomLink>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={() => setIsSignoutConfirmOpen(true)}>
                   <LogOutIcon className='mr-2 h-4 w-4' />
                   {t('buttons.signout')}

@@ -29,7 +29,7 @@ export function PathBreadcrumbs() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link to='/dashboard'>
+            <Link to='/'>
               <Home className='h-4 w-4' />
             </Link>
           </BreadcrumbLink>

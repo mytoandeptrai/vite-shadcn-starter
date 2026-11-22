@@ -92,7 +92,7 @@ export default defineConfig({
             },
             {
               name: 'vendor-misc',
-              // The 3D engine and Rapier WASM stay out, so only the lazy driving-sim route loads them.
+              // The 3D engine and Rapier WASM stay out, so only the lazy driving-sim scene loads them.
               test: /node_modules(?!.*[\\/](three|three-stdlib|three-mesh-bvh|@react-three|@dimforge)[\\/])/,
               priority: 1,
             },

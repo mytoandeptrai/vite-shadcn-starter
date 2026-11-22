@@ -76,11 +76,9 @@ export function HomeContainer() {
 }
 ```
 
-### Demo surfaces
+### Driving simulator
 
-- **Demo form** (`src/modules/demo-form`) — reusable form fields (RHF + Zod)
-- **Demo table** (`demo-table.tsx`) — mock Users table on shared `DataTable` (search, `MultiSelectPicker` status filter, sorting, pagination)
-- **Driving simulator** (`src/modules/driving-sim`, route `/driving-sim`) — 3D sa hình B1/B2 practice (React Three Fiber + Rapier): automatic and manual drivetrain with clutch bite point and stalling, hill-start and parallel-bay exams with chip-sensor scoring. `?quality=high|low` overrides the automatic render quality
+The index route (`src/routes/index.tsx`) renders the driving simulator (`src/modules/driving-sim`) — 3D sa hình B1/B2 practice (React Three Fiber + Rapier): automatic and manual drivetrain with clutch bite point and stalling, hill-start and parallel-bay exams with chip-sensor scoring. `?quality=high|low` overrides the automatic render quality
 
 ## Tech Stack
 
