@@ -13,6 +13,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as authLayoutRouteImport } from './routes/(auth)/layout'
 import { Route as privateLayoutRouteImport } from './routes/(private)/layout'
 import { Route as R404RouteImport } from './routes/404'
+import { Route as DrivingSimRouteImport } from './routes/driving-sim'
 import { Route as LandingRouteImport } from './routes/landing'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authGettingStartedRouteImport } from './routes/(auth)/getting-started'
@@ -45,6 +46,11 @@ const privateLayoutRoute = privateLayoutRouteImport.update({
 const R404Route = R404RouteImport.update({
   id: '/404',
   path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DrivingSimRoute = DrivingSimRouteImport.update({
+  id: '/driving-sim',
+  path: '/driving-sim',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LandingRoute = LandingRouteImport.update({
@@ -128,6 +134,7 @@ const privateTransactionsTransactionIdRoute =
 export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/driving-sim': typeof DrivingSimRoute
   '/landing': typeof LandingRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/driving-sim': typeof DrivingSimRoute
   '/landing': typeof LandingRoute
   '/forgot-password': typeof authForgotPasswordRoute
   '/getting-started': typeof authGettingStartedRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/(private)': typeof privateLayoutRouteWithChildren
   '/$': typeof SplatRoute
   '/404': typeof R404Route
+  '/driving-sim': typeof DrivingSimRoute
   '/landing': typeof LandingRoute
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/getting-started': typeof authGettingStartedRoute
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/$'
     | '/404'
+    | '/driving-sim'
     | '/landing'
     | '/forgot-password'
     | '/getting-started'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
   to:
     | '/$'
     | '/404'
+    | '/driving-sim'
     | '/landing'
     | '/forgot-password'
     | '/getting-started'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/(private)'
     | '/$'
     | '/404'
+    | '/driving-sim'
     | '/landing'
     | '/(auth)/forgot-password'
     | '/(auth)/getting-started'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   privateLayoutRoute: typeof privateLayoutRouteWithChildren
   SplatRoute: typeof SplatRoute
   R404Route: typeof R404Route
+  DrivingSimRoute: typeof DrivingSimRoute
   LandingRoute: typeof LandingRoute
   DemoFormRoute: typeof DemoFormRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/404'
       fullPath: '/404'
       preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/driving-sim': {
+      id: '/driving-sim'
+      path: '/driving-sim'
+      fullPath: '/driving-sim'
+      preLoaderRoute: typeof DrivingSimRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/landing': {
@@ -444,6 +464,7 @@ const rootRouteChildren: RootRouteChildren = {
   privateLayoutRoute: privateLayoutRouteWithChildren,
   SplatRoute: SplatRoute,
   R404Route: R404Route,
+  DrivingSimRoute: DrivingSimRoute,
   LandingRoute: LandingRoute,
   DemoFormRoute: DemoFormRoute,
   DemoStorybookRoute: DemoStorybookRoute,

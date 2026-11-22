@@ -80,6 +80,7 @@ export function HomeContainer() {
 
 - **Demo form** (`src/modules/demo-form`) — reusable form fields (RHF + Zod)
 - **Demo table** (`demo-table.tsx`) — mock Users table on shared `DataTable` (search, `MultiSelectPicker` status filter, sorting, pagination)
+- **Driving simulator** (`src/modules/driving-sim`, route `/driving-sim`) — 3D sa hình B1/B2 practice (React Three Fiber + Rapier): automatic and manual drivetrain with clutch bite point and stalling, hill-start and parallel-bay exams with chip-sensor scoring. `?quality=high|low` overrides the automatic render quality
 
 ## Tech Stack
 
@@ -134,6 +135,7 @@ Copy `.env.example` → `.env` and fill values as needed.
 | `pnpm test:watch` | Vitest watch |
 | `pnpm test:ui` | Vitest UI |
 | `pnpm test:coverage` | Coverage report |
+| `pnpm test:e2e` | Playwright run of the driving simulator (videos + screenshots in `e2e/artifacts`) |
 | `pnpm lint` / `pnpm format` / `pnpm check` | Biome |
 | `pnpm storybook` | Storybook on `:6006` |
 | `pnpm build-storybook` | Static Storybook build |

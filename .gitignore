@@ -17,3 +17,6 @@ coverage
 !.vscode/settings.json
 !.vscode/extensions.json
 storybook-static
+
+# Playwright evidence run
+e2e/artifacts

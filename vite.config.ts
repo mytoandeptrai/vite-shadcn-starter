@@ -92,7 +92,8 @@ export default defineConfig({
             },
             {
               name: 'vendor-misc',
-              test: /node_modules/,
+              // The 3D engine and Rapier WASM stay out, so only the lazy driving-sim route loads them.
+              test: /node_modules(?!.*[\\/](three|three-stdlib|three-mesh-bvh|@react-three|@dimforge)[\\/])/,
               priority: 1,
             },
           ],
@@ -104,6 +105,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
