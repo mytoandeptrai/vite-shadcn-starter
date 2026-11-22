@@ -102,8 +102,9 @@ test('road test: mode toggle, turn signals and the five steps, driven end to end
   await expect(right).toHaveAttribute('aria-pressed', 'true');
   await page.evaluate(async () => {
     const d = window.roadDriver;
-    await d.slowTo(11);
-    await d.drive({ kmh: 11, distance: 1960, pulledOver: -1.7, offset: -1.9 });
+    await d.slowTo(8);
+    // Ease across slowly: the kerb is under a metre beyond the stopping place.
+    await d.drive({ kmh: 8, distance: 1960, pulledOver: -1.65, offset: -1.85, drift: 0.15 });
     await d.slowTo(0, 'N');
     d.tap('Space');
   });

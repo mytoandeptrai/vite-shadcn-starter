@@ -15,8 +15,10 @@ interface RoadDriver {
     /** Stop once the car is at least this far right of the lane centre (negative metres) and running straight. */
     pulledOver?: number;
     offset?: number;
+    /** Fastest sideways move towards `offset`, in m/s. */
+    drift?: number;
   }): Promise<void>;
-  /** Brake to `kmh`; 0 is a full stop with the brake kept on, optionally selecting `gear` once stopped. */
+  /** Brake to `kmh`, steering as in the last `drive`; 0 is a full stop with the brake kept on, optionally selecting `gear` once stopped. */
   slowTo(kmh: number, gear?: 'N' | 'P'): Promise<void>;
   /** Stay stopped until the hint no longer contains `text`. */
   waitWhileHint(text: string): Promise<void>;
@@ -31,7 +33,7 @@ declare global {
 
 /**
  * Installs a learner that drives the road test in an automatic from inside the page: it reads the HUD and
- * presses the same keys a person would, one decision per rendered frame, so a slow headless
+ * works the keys and the steering wheel as a person would, one decision per rendered frame, so a slow headless
  * frame rate or the Playwright round trip cannot make it miss a braking point.
  */
 export async function installRoadDriver(page: Page) {
@@ -74,7 +76,7 @@ export async function installRoadDriver(page: Page) {
       });
 
     // The headless scene renders only a few frames per second and the HUD lags the car a little,
-    // so the driver looks ahead: it acts on where the speed will be, and never winds on much lock.
+    // so the driver looks ahead: it acts on where the speed will be.
     let speedSample = { speed: 0, at: performance.now(), rate: 0 };
     const speedSoon = (seconds: number) => {
       const { speed } = read();
@@ -86,33 +88,68 @@ export async function installRoadDriver(page: Page) {
       return speed + (now - speedSample.at > 500 ? 0 : speedSample.rate) * seconds;
     };
 
-    // Lane keeping: steer towards a lateral speed proportional to the offset error. Key steering
-    // winds on 420°/s and a slow frame lasts a sixth of a second, so the wheel is only ever
-    // tapped for a single frame from near centre and then left to spring back.
-    const NEAR_CENTRE = 15;
+    // Steering: the on-screen wheel is dragged to an exact angle. Unlike a key held for one frame,
+    // that turns the car by the same amount however slowly the headless scene renders.
+    let grip: { at: number; deg: number } | null = null;
+    const wheelEvent = (type: string, at: number) => {
+      const wheel = document.querySelector<HTMLElement>('[data-testid=steering-wheel]');
+      if (!wheel) return;
+      const box = wheel.getBoundingClientRect();
+      const radius = box.width * 0.4;
+      wheel.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          pointerId: 1,
+          pointerType: 'mouse',
+          isPrimary: true,
+          buttons: type === 'pointerup' ? 0 : 1,
+          clientX: box.left + box.width / 2 + radius * Math.cos(at),
+          clientY: box.top + box.height / 2 + radius * Math.sin(at),
+        })
+      );
+    };
+    const turnTo = (deg: number) => {
+      if (!grip) {
+        grip = { at: -Math.PI / 2, deg: Number.parseFloat(text('steer-angle')) || 0 };
+        wheelEvent('pointerdown', grip.at);
+      }
+      // The wheel reads a move of more than half a turn as one the other way round.
+      while (deg !== grip.deg) {
+        const move = Math.max(-90, Math.min(90, deg - grip.deg));
+        grip.at += (move * Math.PI) / 180;
+        grip.deg += move;
+        wheelEvent('pointermove', grip.at);
+      }
+    };
+    const letGo = () => {
+      if (grip) wheelEvent('pointerup', grip.at);
+      grip = null;
+    };
+
+    // Lane keeping: aim for a sideways speed proportional to the offset error, and turn the wheel
+    // to the angle that closes the gap to that sideways speed in about RESPONSE seconds.
+    const WHEELBASE = 2.6;
+    const WHEEL_DEG_PER_ROAD_RAD = (540 / 35) * (180 / Math.PI);
+    const RESPONSE = 1.2;
+    const MAX_WHEEL = 90;
+    let lane = { offset: 0, drift: 0.4 };
     let sample = { offset: 0, at: performance.now(), drift: 0 };
-    let rest = 0;
     /** Sideways speed in m/s; an offset that has not changed for a while means the car runs straight. */
     const sideways = () => (performance.now() - sample.at > 500 ? 0 : sample.drift);
-    const steer = (target: number) => {
-      const tapping = held.has('KeyA') || held.has('KeyD');
-      hold('KeyA', false);
-      hold('KeyD', false);
+    const steer = () => {
       const { offset, speed } = read();
       const now = performance.now();
       if (offset !== sample.offset) {
-        sample = { offset, at: now, drift: (offset - sample.offset) / Math.max(0.05, (now - sample.at) / 1000) };
+        const drift = (offset - sample.offset) / Math.max(0.05, (now - sample.at) / 1000);
+        sample = { offset, at: now, drift: (sideways() + drift) / 2 };
       }
-      if (tapping) rest = 3;
-      else if (rest > 0) rest--;
-      if (rest > 0 || speed <= 2 || Math.abs(Number.parseFloat(text('steer-angle'))) > NEAR_CENTRE) return;
-      const drift = sideways();
-      const wanted = Math.max(-0.4, Math.min(0.4, (target - offset) * 0.4));
-      const error = wanted - drift;
-      // One tap changes the sideways speed by roughly this much; ignore errors a tap would overshoot.
-      const tap = 0.016 * (speed / 3.6) ** 2;
-      if (Math.abs(error) < Math.max(0.05, tap * 0.6)) return;
-      hold(error > 0 ? 'KeyA' : 'KeyD', true);
+      const v = speed / 3.6;
+      if (v < 0.5) return turnTo(0);
+      const wanted = Math.max(-lane.drift, Math.min(lane.drift, (lane.offset - offset) * 0.3));
+      // Sideways acceleration is v² / wheelbase × road-wheel angle; left is a negative wheel angle.
+      const road = ((wanted - sideways()) / RESPONSE) * (WHEELBASE / (v * v));
+      turnTo(Math.round(Math.max(-MAX_WHEEL, Math.min(MAX_WHEEL, -road * WHEEL_DEG_PER_ROAD_RAD))));
     };
     // Speed keeping, easing off when closing on the car in front.
     const pace = (kmh: number) => {
@@ -134,7 +171,8 @@ export async function installRoadDriver(page: Page) {
         await until(() => read().speed > 1.5);
       },
       tap: press,
-      async drive({ kmh, distance = Number.POSITIVE_INFINITY, step, reach, pulledOver, offset = 0 }) {
+      async drive({ kmh, distance = Number.POSITIVE_INFINITY, step, reach, pulledOver, offset = 0, drift = 0.4 }) {
+        lane = { offset, drift };
         await until(
           () => {
             const now = read();
@@ -146,19 +184,24 @@ export async function installRoadDriver(page: Page) {
           },
           () => {
             pace(kmh);
-            steer(offset);
+            steer();
           }
         );
         // Nothing stays pressed between calls: the test may spend seconds on a screenshot.
-        for (const code of ['KeyA', 'KeyD', 'KeyW', 'KeyS']) hold(code, false);
+        for (const code of ['KeyW', 'KeyS']) hold(code, false);
+        letGo();
       },
       async slowTo(kmh, gear) {
         hold('KeyW', false);
         // Come off the brake early: the car keeps slowing while the pedal travels back up.
         await until(
           () => (kmh > 0 ? speedSoon(0.45) <= kmh + 1 : read().speed <= 0.05),
-          () => hold('KeyS', true)
+          () => {
+            hold('KeyS', true);
+            steer();
+          }
         );
+        letGo();
         if (kmh > 0) hold('KeyS', false);
         if (gear) {
           press(`Key${gear}`);
@@ -169,6 +212,7 @@ export async function installRoadDriver(page: Page) {
         await until(() => !text('hud-hint').includes(part));
       },
       releaseAll() {
+        letGo();
         for (const code of [...held]) hold(code, false);
       },
     };
