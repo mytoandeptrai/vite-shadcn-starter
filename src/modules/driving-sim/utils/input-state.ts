@@ -14,6 +14,8 @@ export const input = {
   steerLatch: null as -1 | 0 | 1 | null,
   /** Clutch is releasing on its own after the C/X key was let go. */
   clutchAutoRelease: false,
+  /** Depth a touch preset is moving the clutch to; null once reached or overridden. */
+  clutchTarget: null as number | null,
 
   /** Steering wheel angle in degrees, positive = clockwise (right). */
   steerDeg: 0,
@@ -29,6 +31,7 @@ export function resetInput(clutch = 0): void {
   input.wheelDragging = false;
   input.steerLatch = null;
   input.clutchAutoRelease = false;
+  input.clutchTarget = null;
   input.steerDeg = 0;
   input.throttle = 0;
   input.brake = 0;
@@ -45,7 +48,7 @@ export function releaseHeldInput(): void {
 const KEY_STEER_RATE = 420;
 const LATCH_STEER_RATE = 900;
 /** Clutch depth held by the half-clutch key: just inside the bite zone. */
-const HALF_CLUTCH_DEPTH = 1 - (CLUTCH.biteStart + CLUTCH.biteEnd) / 2 - 0.02;
+export const BITE_CLUTCH_DEPTH = 1 - (CLUTCH.biteStart + CLUTCH.biteEnd) / 2 - 0.02;
 
 /** Advances pedal ramps and steering springs by one step. */
 export function updateInput(dt: number): void {
@@ -74,11 +77,17 @@ export function updateInput(dt: number): void {
   const brakeRate = input.pedal.brake !== null ? 8 : brakeTarget > input.brake ? 2.5 : 6;
   input.brake = approach(input.brake, brakeTarget, brakeRate * dt);
 
-  if (input.keys.clutch) {
+  if (input.keys.clutch || input.keys.halfClutch) input.clutchTarget = null;
+  if (input.clutchTarget !== null) {
+    // Pressing is quick; easing out to the bite point or all the way up is gradual.
+    const rate = input.clutchTarget > input.clutch ? 6 : input.clutchTarget === 0 ? 0.5 : 1.4;
+    input.clutch = approach(input.clutch, input.clutchTarget, rate * dt);
+    if (input.clutch === input.clutchTarget) input.clutchTarget = null;
+  } else if (input.keys.clutch) {
     input.clutch = approach(input.clutch, 1, 6 * dt);
     input.clutchAutoRelease = true;
   } else if (input.keys.halfClutch) {
-    input.clutch = approach(input.clutch, HALF_CLUTCH_DEPTH, 1.4 * dt);
+    input.clutch = approach(input.clutch, BITE_CLUTCH_DEPTH, 1.4 * dt);
     input.clutchAutoRelease = true;
   } else if (input.clutchAutoRelease) {
     input.clutch = approach(input.clutch, 0, 0.5 * dt);
@@ -89,5 +98,12 @@ export function updateInput(dt: number): void {
 /** Sets the clutch pedal directly (touch slider); cancels any keyboard auto-release. */
 export function setClutch(depth: number): void {
   input.clutch = clamp(depth, 0, 1);
+  input.clutchAutoRelease = false;
+  input.clutchTarget = null;
+}
+
+/** Moves the clutch pedal to a depth at a realistic pace and leaves it there (touch presets). */
+export function moveClutchTo(depth: number): void {
+  input.clutchTarget = clamp(depth, 0, 1);
   input.clutchAutoRelease = false;
 }

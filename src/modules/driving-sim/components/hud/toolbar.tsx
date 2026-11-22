@@ -1,4 +1,5 @@
 import { CircleHelp, LayoutGrid, RotateCcw, Video, Volume2, VolumeX } from 'lucide-react';
+import { usePress } from '../../hooks/use-press';
 import { useSimStore } from '../../store/sim-store';
 import type { CameraMode } from '../../types';
 
@@ -15,13 +16,14 @@ function Tool({
   children: React.ReactNode;
   testId: string;
 }) {
+  const press = usePress(onClick);
   return (
     <button
       type='button'
       data-testid={testId}
       aria-label={label}
       title={label}
-      onClick={onClick}
+      {...press}
       className='ds-panel flex h-9 min-w-9 items-center justify-center gap-1.5 rounded-xl px-2 font-semibold text-xs hover:border-white/40'
     >
       {children}
@@ -39,14 +41,14 @@ export function Toolbar() {
   const setGuideOpen = useSimStore((s) => s.setGuideOpen);
 
   return (
-    <div className='ds-area-tools flex flex-col items-end gap-1.5 self-start justify-self-end'>
+    <div className='ds-area-tools ds-tools'>
       <Tool label='Đổi góc nhìn (V)' onClick={cycleCamera} testId='camera-toggle'>
         <Video className='size-4' />
-        <span>{CAMERA_LABELS[cameraMode]}</span>
+        <span className='ds-tool-label'>{CAMERA_LABELS[cameraMode]}</span>
       </Tool>
       <Tool label='Hướng dẫn sử dụng (H)' onClick={() => setGuideOpen(true)} testId='guide-open'>
         <CircleHelp className='size-4' />
-        <span>Hướng dẫn</span>
+        <span className='ds-tool-label'>Hướng dẫn</span>
       </Tool>
       <div className='flex gap-1.5'>
         <Tool label={muted ? 'Bật tiếng (M)' : 'Tắt tiếng (M)'} onClick={toggleMuted} testId='mute-toggle'>

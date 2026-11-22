@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { CAR } from '../../constants';
 import { useAnimationFrame } from '../../hooks/use-animation-frame';
+import { usePress } from '../../hooks/use-press';
 import { input } from '../../utils/input-state';
 import { clamp } from '../../utils/math';
 
@@ -13,14 +14,15 @@ const pointerAngle = (e: React.PointerEvent<HTMLElement>) => {
 
 function QuickTurn({ side, label, innerRef }: { side: -1 | 1; label: string; innerRef: React.Ref<HTMLButtonElement> }) {
   const Icon = side === -1 ? ChevronsLeft : ChevronsRight;
+  const press = usePress(() => {
+    input.steerLatch = input.steerLatch === side ? 0 : side;
+  });
   return (
     <button
       ref={innerRef}
       type='button'
       data-testid={side === -1 ? 'quick-left' : 'quick-right'}
-      onClick={() => {
-        input.steerLatch = input.steerLatch === side ? 0 : side;
-      }}
+      {...press}
       className={cn(
         'ds-panel flex h-9 flex-1 items-center justify-center gap-1 rounded-lg px-1.5 font-semibold text-[11px] leading-none',
         'transition-colors active:bg-amber-400/30 data-[active=true]:border-amber-300 data-[active=true]:bg-amber-400 data-[active=true]:text-slate-950',
@@ -73,7 +75,7 @@ export function SteeringWheel() {
   };
 
   return (
-    <div className='ds-area-wheel flex w-[9.25rem] flex-col gap-1.5 self-end md:w-52'>
+    <div className='ds-area-wheel ds-wheel flex flex-col gap-1.5 self-end'>
       <div
         data-testid='steering-wheel'
         role='slider'

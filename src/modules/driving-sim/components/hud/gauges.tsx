@@ -21,7 +21,7 @@ export function Gauges() {
   const rpmRatio = Math.min(1, telemetry.rpm / ENGINE.redlineRpm);
 
   return (
-    <div className='ds-area-gauges flex justify-center self-end'>
+    <div className='ds-area-gauges flex min-w-0 justify-center self-end'>
       <div
         data-testid='hud-gauges'
         className='ds-panel flex items-stretch divide-x divide-white/10 rounded-2xl py-1.5 md:py-2.5'
@@ -59,14 +59,14 @@ export function Gauges() {
           </span>
         </Readout>
         {transmission === 'B2' && (
-          <Readout label='Côn'>
+          <Readout label='Côn' className='ds-gauge-extra'>
             <span className='font-black font-mono text-sky-300 text-xl leading-none md:text-3xl'>
               <span data-testid='hud-clutch'>{telemetry.clutchPct}</span>
               <span className='ml-0.5 font-medium text-[10px] text-white/55'>%</span>
             </span>
           </Readout>
         )}
-        <Readout label='Đèn báo'>
+        <Readout label='Đèn báo' className='ds-gauge-extra'>
           <div className='flex gap-1.5 pt-0.5'>
             <span
               title='Phanh tay'

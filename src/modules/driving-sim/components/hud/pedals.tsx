@@ -3,8 +3,9 @@ import { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { CLUTCH } from '../../constants';
 import { useAnimationFrame } from '../../hooks/use-animation-frame';
+import { usePress } from '../../hooks/use-press';
 import { useSimStore } from '../../store/sim-store';
-import { input, setClutch } from '../../utils/input-state';
+import { BITE_CLUTCH_DEPTH, input, moveClutchTo, setClutch } from '../../utils/input-state';
 import { clamp } from '../../utils/math';
 import { ShifterButton } from './shifter';
 
@@ -43,7 +44,7 @@ function Pedal({ kind, label, hotkey, fillClass }: PedalProps) {
       type='button'
       data-testid={`pedal-${kind}`}
       aria-label={label}
-      className='ds-panel relative flex h-full w-14 touch-none flex-col items-center justify-between overflow-hidden rounded-xl py-1.5 md:w-[4.5rem]'
+      className='ds-panel relative flex h-full min-w-14 flex-1 touch-none flex-col items-center justify-between overflow-hidden rounded-xl py-1.5 md:min-w-[4.5rem]'
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
         press(e);
@@ -90,7 +91,7 @@ function ClutchSlider() {
   const biteHeight = (CLUTCH.biteEnd - CLUTCH.biteStart) * 100;
 
   return (
-    <div className='flex h-full flex-col items-center gap-1'>
+    <div className='flex h-full shrink-0 flex-col items-center gap-1'>
       <div
         data-testid='clutch-slider'
         role='slider'
@@ -141,14 +142,15 @@ function ClutchSlider() {
 function Handbrake() {
   const handbrake = useSimStore((s) => s.handbrake);
   const toggle = useSimStore((s) => s.toggleHandbrake);
+  const press = usePress(toggle);
   return (
     <button
       type='button'
       data-testid='handbrake'
       aria-pressed={handbrake}
-      onClick={toggle}
+      {...press}
       className={cn(
-        'ds-panel flex h-11 shrink-0 items-center justify-center gap-1 rounded-xl px-2 font-semibold text-xs transition-colors',
+        'ds-handbrake ds-panel flex h-11 shrink-0 items-center justify-center gap-1 rounded-xl px-2 font-semibold text-xs transition-colors',
         handbrake && 'border-red-400 bg-red-600/85'
       )}
     >
@@ -161,11 +163,12 @@ function Handbrake() {
 function EngineStart() {
   const running = useSimStore((s) => s.engineRunning);
   const start = useSimStore((s) => s.requestEngineStart);
+  const press = usePress(start);
   return (
     <button
       type='button'
       data-testid='engine-start'
-      onClick={start}
+      {...press}
       className={cn(
         'ds-panel flex h-11 items-center justify-center gap-1 rounded-xl px-2.5 font-semibold text-xs',
         running ? 'text-emerald-300' : 'ds-blink border-red-400 bg-red-600/85'
@@ -177,16 +180,59 @@ function EngineStart() {
   );
 }
 
+const CLUTCH_PRESETS = [
+  { id: 'floor', label: 'Đạp hết', depth: 1 },
+  { id: 'bite', label: 'Điểm bám', depth: BITE_CLUTCH_DEPTH },
+  { id: 'up', label: 'Nhả côn', depth: 0 },
+] as const;
+
+function ClutchPreset({ id, label, depth }: (typeof CLUTCH_PRESETS)[number]) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const press = usePress(() => moveClutchTo(depth));
+
+  useAnimationFrame(() => {
+    ref.current?.setAttribute('data-active', String(Math.abs(input.clutch - depth) < 0.04));
+  });
+
+  return (
+    <button
+      ref={ref}
+      type='button'
+      data-testid={`clutch-${id}`}
+      {...press}
+      className={cn(
+        'ds-panel flex min-h-9 flex-1 items-center justify-center rounded-lg px-1 font-semibold text-[11px] leading-none',
+        'transition-colors active:bg-sky-400/30 data-[active=true]:border-sky-300 data-[active=true]:bg-sky-500/70',
+        id === 'bite' && 'border-amber-300/60 text-amber-100'
+      )}
+    >
+      {label}
+    </button>
+  );
+}
+
+/** One-tap clutch positions: a 10% bite zone is too small to hit by dragging with a thumb. */
+function ClutchPresets() {
+  return (
+    <div className='ds-clutch-presets' role='group' aria-label='Vị trí côn'>
+      {CLUTCH_PRESETS.map((preset) => (
+        <ClutchPreset key={preset.id} {...preset} />
+      ))}
+    </div>
+  );
+}
+
 export function Pedals() {
   const transmission = useSimStore((s) => s.transmission);
   return (
-    <div className='ds-area-pedals flex flex-col items-stretch gap-1.5 self-end'>
-      <div className='flex gap-1.5'>
+    <div className='ds-area-pedals ds-pedals self-end'>
+      <div className='ds-pedal-buttons'>
         <ShifterButton />
         <EngineStart />
+        <Handbrake />
       </div>
-      <Handbrake />
-      <div className='flex h-36 justify-end gap-1.5 md:h-44'>
+      {transmission === 'B2' && <ClutchPresets />}
+      <div className='ds-pedal-row'>
         {transmission === 'B2' && <ClutchSlider />}
         <Pedal kind='brake' label='Phanh' hotkey='S' fillClass='bg-red-500/60' />
         <Pedal kind='throttle' label='Ga' hotkey='W' fillClass='bg-emerald-500/60' />

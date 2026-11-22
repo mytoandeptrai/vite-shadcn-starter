@@ -9,7 +9,7 @@ import { Pedals } from '../../components/hud/pedals';
 import { ResultModal } from '../../components/hud/result-modal';
 import { ScenarioModal } from '../../components/hud/scenario-modal';
 import { ShifterPopup } from '../../components/hud/shifter';
-import { StatusBar } from '../../components/hud/status-bar';
+import { Hints, StatusBar } from '../../components/hud/status-bar';
 import { SteeringWheel } from '../../components/hud/steering-wheel';
 import { Toolbar } from '../../components/hud/toolbar';
 import { useKeyboardControls } from '../../hooks/use-keyboard-controls';
@@ -21,6 +21,7 @@ const SimScene = lazy(() => import('../../components/scene/sim-scene'));
 
 function Overlay() {
   const stallAt = useSimStore((s) => s.stallAt);
+  const transmission = useSimStore((s) => s.transmission);
   const ref = useRef<HTMLDivElement>(null);
 
   // Shake the whole HUD when the engine stalls.
@@ -34,9 +35,10 @@ function Overlay() {
   }, [stallAt]);
 
   return (
-    <div ref={ref} className='ds-overlay' data-testid='hud'>
+    <div ref={ref} className='ds-overlay' data-testid='hud' data-transmission={transmission}>
       <Mirror side='left' />
       <StatusBar />
+      <Hints />
       <Mirror side='right' />
       <Gauges />
       <Minimap />

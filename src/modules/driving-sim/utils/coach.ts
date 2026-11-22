@@ -87,3 +87,8 @@ function automaticTip(s: CoachInput): string {
 export function coachTip(state: CoachInput): string {
   return state.transmission === 'B2' ? manualTip(state) : automaticTip(state);
 }
+
+/** Drops the keyboard hints in parentheses, for devices without a keyboard. */
+export function withoutKeyHints(text: string): string {
+  return text.replace(/\s*\([^)]*\)/g, '');
+}

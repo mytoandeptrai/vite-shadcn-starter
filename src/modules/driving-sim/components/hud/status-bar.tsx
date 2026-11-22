@@ -1,13 +1,15 @@
 import { cn } from '@/lib/utils';
 import { PASS_SCORE, SCENARIO_LABELS } from '../../constants';
+import { useTouchDevice } from '../../hooks/use-touch-device';
 import { useSimStore } from '../../store/sim-store';
+import { withoutKeyHints } from '../../utils/coach';
 
 const formatClock = (seconds: number) => {
   const total = Math.max(0, Math.floor(seconds));
   return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
 };
 
-/** Scenario title, exam clock, live score and the current instruction. */
+/** Scenario title, exam clock and live score. */
 export function StatusBar() {
   const scenario = useSimStore((s) => s.scenario);
   const transmission = useSimStore((s) => s.transmission);
@@ -16,9 +18,9 @@ export function StatusBar() {
   const scored = scenario !== 'free';
 
   return (
-    <div className='ds-area-status flex min-w-0 flex-col items-center gap-1.5'>
+    <div className='ds-area-status flex min-w-0 justify-center self-start'>
       <div className='ds-panel flex max-w-full items-center divide-x divide-white/10 rounded-2xl py-1.5'>
-        <div className='hidden min-w-0 flex-col px-3 leading-tight sm:flex'>
+        <div className='ds-status-title hidden min-w-0 flex-col px-3 leading-tight sm:flex'>
           <span className='truncate font-bold text-sm'>{SCENARIO_LABELS[scenario].title}</span>
           <span className='text-[10px] text-white/55'>
             Hạng {transmission} · {transmission === 'B1' ? 'Số tự động' : 'Số sàn'}
@@ -49,21 +51,33 @@ export function StatusBar() {
           </span>
         </div>
       </div>
-      {telemetry.hint && (
+    </div>
+  );
+}
+
+/** What the exam wants now, and which pedals and gears to use for it. */
+export function Hints() {
+  const hint = useSimStore((s) => s.telemetry.hint);
+  const coach = useSimStore((s) => s.telemetry.coach);
+  const touch = useTouchDevice();
+
+  return (
+    <div className='ds-area-hints pointer-events-none flex min-w-0 flex-col items-center gap-1 self-start'>
+      {hint && (
         <p
           data-testid='hud-hint'
           className='ds-panel max-w-full rounded-full px-3 py-1 text-center text-[10px] leading-snug md:text-xs'
         >
-          {telemetry.hint}
+          {hint}
         </p>
       )}
-      {telemetry.coach && (
+      {coach && (
         <p
           data-testid='hud-coach'
-          className='ds-panel max-w-full rounded-full border-amber-300/50 px-3 py-1 text-center text-[10px] text-amber-100 leading-snug md:text-xs'
+          className='ds-panel max-w-full rounded-2xl border-amber-300/50 px-3 py-1 text-center text-[10px] text-amber-100 leading-snug md:text-xs'
         >
           <span className='font-bold text-amber-300'>Thao tác: </span>
-          {telemetry.coach}
+          {touch ? withoutKeyHints(coach) : coach}
         </p>
       )}
     </div>

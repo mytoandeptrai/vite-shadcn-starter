@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type CoachInput, coachTip } from './coach';
+import { type CoachInput, coachTip, withoutKeyHints } from './coach';
 
 const base: CoachInput = {
   transmission: 'B2',
@@ -61,5 +61,13 @@ describe('coachTip (B1 automatic)', () => {
 
   it('asks for throttle right after the brake on a slope', () => {
     expect(auto({ gear: 'D', brake: 1, uphill: true })).toContain('nhấn ga');
+  });
+});
+
+describe('withoutKeyHints', () => {
+  it('removes keyboard hints and keeps the action', () => {
+    expect(withoutKeyHints('Đủ ga: đưa côn về ĐIỂM BÁM (đổi C sang X), rồi nhả phanh tay (Space)')).toBe(
+      'Đủ ga: đưa côn về ĐIỂM BÁM, rồi nhả phanh tay'
+    );
   });
 });

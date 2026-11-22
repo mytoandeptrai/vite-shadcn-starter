@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { usePress } from '../../hooks/use-press';
 import { useSimStore } from '../../store/sim-store';
 import type { Gear } from '../../types';
 
@@ -7,12 +8,13 @@ export function ShifterButton() {
   const gear = useSimStore((s) => s.gear);
   const open = useSimStore((s) => s.shifterOpen);
   const setOpen = useSimStore((s) => s.setShifterOpen);
+  const press = usePress(() => setOpen(!open));
   return (
     <button
       type='button'
       data-testid='shifter-button'
       aria-expanded={open}
-      onClick={() => setOpen(!open)}
+      {...press}
       className={cn(
         'ds-panel flex h-11 flex-1 items-center justify-center gap-2 rounded-xl px-2.5',
         open && 'border-amber-300'
@@ -30,14 +32,15 @@ function GearKnob({ gear, className }: { gear: Gear; className?: string }) {
   const current = useSimStore((s) => s.gear);
   const requestGear = useSimStore((s) => s.requestGear);
   const setOpen = useSimStore((s) => s.setShifterOpen);
+  const press = usePress(() => {
+    if (requestGear(gear)) setOpen(false);
+  });
   return (
     <button
       type='button'
       data-testid={`gear-${gear}`}
       aria-pressed={current === gear}
-      onClick={() => {
-        if (requestGear(gear)) setOpen(false);
-      }}
+      {...press}
       className={cn(
         'relative z-10 flex size-12 items-center justify-center rounded-full border-2 border-slate-500 bg-slate-800 font-black font-mono text-lg shadow-lg transition-colors',
         'hover:border-amber-300 active:scale-95',
@@ -93,24 +96,22 @@ export function ShifterPopup() {
   const open = useSimStore((s) => s.shifterOpen);
   const transmission = useSimStore((s) => s.transmission);
   const setOpen = useSimStore((s) => s.setShifterOpen);
+  const close = usePress(() => setOpen(false));
   if (!open) return null;
 
   return (
-    <div
-      data-testid='shifter-popup'
-      className='ds-panel absolute right-2 bottom-[17.5rem] z-30 flex flex-col gap-3 rounded-2xl p-3 md:right-4 md:bottom-[20rem]'
-    >
+    <div data-testid='shifter-popup' className='ds-panel ds-shifter-popup z-30 flex flex-col gap-3 rounded-2xl p-3'>
       <div className='flex items-center justify-between gap-6'>
         <div className='leading-tight'>
           <p className='font-bold text-sm'>{transmission === 'B2' ? 'Cần số sàn' : 'Cần số tự động'}</p>
           <p className='text-[11px] text-white/60'>
-            {transmission === 'B2' ? 'Đạp hết côn rồi chọn số' : 'Đạp phanh để ra khỏi P'}
+            {transmission === 'B2' ? 'Đạp hết côn rồi chọn số' : 'Giữ phanh rồi chọn số để ra khỏi P'}
           </p>
         </div>
         <button
           type='button'
           aria-label='Đóng'
-          onClick={() => setOpen(false)}
+          {...close}
           className='flex size-7 items-center justify-center rounded-md bg-white/10 hover:bg-white/20'
         >
           <X className='size-4' />

@@ -8,7 +8,7 @@ export function Mirror({ side }: { side: 'left' | 'right' }) {
     <div
       data-testid={`mirror-${side}`}
       className={cn(
-        'relative w-[6.5rem] self-start overflow-hidden border-2 border-slate-900 bg-slate-800 shadow-xl sm:w-40 md:w-56',
+        'ds-mirror relative self-start overflow-hidden border-2 border-slate-900 bg-slate-800 shadow-xl',
         side === 'left'
           ? 'ds-area-mirror-l rounded-[0.5rem_1.5rem_1.25rem_0.75rem]'
           : 'ds-area-mirror-r rounded-[1.5rem_0.5rem_0.75rem_1.25rem]'

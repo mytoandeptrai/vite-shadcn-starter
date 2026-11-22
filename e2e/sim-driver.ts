@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { type CDPSession, expect, type Page } from '@playwright/test';
 
 export const SCREENSHOT_DIR = 'e2e/artifacts/screenshots';
 
@@ -122,5 +122,54 @@ export class SimDriver {
     await k.press('Space');
     await this.waitFor(this.speed, (v) => v > 3);
     await k.up('KeyX');
+  }
+}
+
+interface TouchPoint {
+  x: number;
+  y: number;
+  id: number;
+}
+
+/** Real multi-touch through CDP: fingers that stay down while other fingers tap. */
+export class Fingers {
+  private readonly down = new Map<number, TouchPoint>();
+  private nextId = 0;
+
+  private constructor(
+    private readonly page: Page,
+    private readonly cdp: CDPSession
+  ) {}
+
+  static async on(page: Page) {
+    return new Fingers(page, await page.context().newCDPSession(page));
+  }
+
+  private async centre(testId: string, fy = 0.5) {
+    const box = await this.page.getByTestId(testId).boundingBox();
+    if (!box) throw new Error(`${testId} not found`);
+    return { x: Math.round(box.x + box.width / 2), y: Math.round(box.y + box.height * fy) };
+  }
+
+  async hold(testId: string, fy = 0.5) {
+    const id = this.nextId++;
+    this.down.set(id, { ...(await this.centre(testId, fy)), id });
+    // touchStart lists every finger on the glass; the new one is the press.
+    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [...this.down.values()] });
+    return id;
+  }
+
+  async lift(id: number) {
+    const point = this.down.get(id);
+    if (!point) throw new Error(`finger ${id} is not down`);
+    this.down.delete(id);
+    // touchEnd lists only the fingers leaving the glass.
+    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [point] });
+  }
+
+  async tap(testId: string, fy = 0.5) {
+    const id = await this.hold(testId, fy);
+    await this.page.waitForTimeout(60);
+    await this.lift(id);
   }
 }
