@@ -5,6 +5,7 @@ import { CAR } from '../../constants';
 import { useAnimationFrame } from '../../hooks/use-animation-frame';
 import { usePress } from '../../hooks/use-press';
 import { input } from '../../utils/input-state';
+import { setAttr, setStyle, setText } from '../../utils/dom';
 import { clamp } from '../../utils/math';
 import { SignalButtons } from './turn-signals';
 
@@ -23,15 +24,20 @@ function QuickTurn({ side, label, innerRef }: { side: -1 | 1; label: string; inn
       ref={innerRef}
       type='button'
       data-testid={side === -1 ? 'quick-left' : 'quick-right'}
+      aria-label={side === -1 ? 'Hết lái trái (Q)' : 'Hết lái phải (E)'}
+      title={side === -1 ? 'Hết lái trái (Q)' : 'Hết lái phải (E)'}
       {...press}
       className={cn(
-        'ds-panel flex h-9 flex-1 items-center justify-center gap-1 rounded-lg px-1.5 font-semibold text-[11px] leading-none',
+        'flex h-8 flex-1 items-center justify-center gap-0.5 rounded-lg border border-white/15 bg-white/5 px-0.5 font-semibold text-[10px] leading-none',
         'transition-colors active:bg-amber-400/30 data-[active=true]:border-amber-300 data-[active=true]:bg-amber-400 data-[active=true]:text-slate-950',
         side === 1 && 'flex-row-reverse'
       )}
     >
-      <Icon className='size-4 shrink-0' />
-      {label}
+      <Icon className='size-3.5 shrink-0' />
+      <span className='whitespace-nowrap'>
+        Hết <span className='ds-quick-long'>lái </span>
+        {label}
+      </span>
     </button>
   );
 }
@@ -45,13 +51,11 @@ export function SteeringWheel() {
   const lastAngle = useRef(0);
 
   useAnimationFrame(() => {
-    if (wheelRef.current) wheelRef.current.style.transform = `rotate(${input.steerDeg.toFixed(1)}deg)`;
-    if (readoutRef.current) {
-      const deg = Math.round(input.steerDeg);
-      readoutRef.current.textContent = `${deg > 0 ? '+' : ''}${deg}°`;
-    }
-    leftRef.current?.setAttribute('data-active', String(input.steerLatch === -1));
-    rightRef.current?.setAttribute('data-active', String(input.steerLatch === 1));
+    const deg = Math.round(input.steerDeg);
+    setStyle(wheelRef.current, 'transform', `rotate(${input.steerDeg.toFixed(1)}deg)`);
+    setText(readoutRef.current, `${deg > 0 ? '+' : ''}${deg}°`);
+    setAttr(leftRef.current, 'data-active', String(input.steerLatch === -1));
+    setAttr(rightRef.current, 'data-active', String(input.steerLatch === 1));
   });
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -76,7 +80,7 @@ export function SteeringWheel() {
   };
 
   return (
-    <div className='ds-area-wheel ds-wheel flex flex-col gap-1.5 self-end'>
+    <div className='ds-area-wheel ds-wheel ds-panel flex flex-col gap-1.5 rounded-3xl p-2'>
       <SignalButtons />
       <div
         data-testid='steering-wheel'
@@ -120,8 +124,8 @@ export function SteeringWheel() {
         </span>
       </div>
       <div className='flex gap-1.5'>
-        <QuickTurn side={-1} label='Hết lái trái' innerRef={leftRef} />
-        <QuickTurn side={1} label='Hết lái phải' innerRef={rightRef} />
+        <QuickTurn side={-1} label='trái' innerRef={leftRef} />
+        <QuickTurn side={1} label='phải' innerRef={rightRef} />
       </div>
     </div>
   );

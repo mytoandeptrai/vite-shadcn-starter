@@ -101,9 +101,6 @@ export function useKeyboardControls(): void {
         case 'KeyM':
           store.toggleMuted();
           break;
-        case 'KeyG':
-          store.setShifterOpen(!store.shifterOpen);
-          break;
         case 'Escape':
           store.openMenu();
           break;

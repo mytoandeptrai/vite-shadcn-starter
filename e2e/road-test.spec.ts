@@ -12,10 +12,10 @@ test('road test: mode toggle, turn signals and the five steps, driven end to end
   await sim.open();
 
   // --- Mode toggle on the main screen.
-  await expect(page.getByTestId('exam-mode-yard')).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('exam-mode-yard')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByTestId('scenario-hill')).toBeVisible();
   await page.getByTestId('exam-mode-road').click();
-  await expect(page.getByTestId('exam-mode-road')).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('exam-mode-road')).toHaveAttribute('aria-pressed', 'true');
   await expect(page.getByTestId('scenario-hill')).toHaveCount(0);
   await expect(page.getByTestId('scenario-road')).toContainText('Thi Đường Trường');
   await page.waitForTimeout(1500);

@@ -1,16 +1,15 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { siteConfig } from '@/constant';
-import { Gauges } from '../../components/hud/gauges';
 import { GuideModal } from '../../components/hud/guide-modal';
 import { Minimap } from '../../components/hud/minimap';
 import { Mirror } from '../../components/hud/mirrors';
 import { Notices } from '../../components/hud/notices';
-import { Pedals } from '../../components/hud/pedals';
+import { Handbrake, Pedals } from '../../components/hud/pedals';
 import { ResultModal } from '../../components/hud/result-modal';
 import { ScenarioModal } from '../../components/hud/scenario-modal';
-import { ShifterPopup } from '../../components/hud/shifter';
-import { Hints, StatusBar } from '../../components/hud/status-bar';
+import { GearSelector } from '../../components/hud/shifter';
+import { Hints, Lamps, StatusBar } from '../../components/hud/status-bar';
 import { SteeringWheel } from '../../components/hud/steering-wheel';
 import { Toolbar } from '../../components/hud/toolbar';
 import { useKeyboardControls } from '../../hooks/use-keyboard-controls';
@@ -37,16 +36,23 @@ function Overlay() {
 
   return (
     <div ref={ref} className='ds-overlay' data-testid='hud' data-transmission={transmission}>
+      <div className='ds-area-top ds-top'>
+        <StatusBar />
+        <Toolbar />
+      </div>
+      <Lamps />
       <Mirror side='left' />
-      <StatusBar />
       <Hints />
       <Mirror side='right' />
-      <Gauges />
       <Minimap />
-      <Toolbar />
-      <SteeringWheel />
-      <Pedals />
-      <ShifterPopup />
+      <div className='ds-area-bottom ds-bottom'>
+        <div className='ds-controls'>
+          <GearSelector />
+          <SteeringWheel />
+          <Handbrake />
+        </div>
+        <Pedals />
+      </div>
     </div>
   );
 }
@@ -58,7 +64,7 @@ export default function DrivingSimContainer() {
   useEffect(
     () => () => {
       stopEngineSound();
-      useSimStore.setState({ phase: 'menu', shifterOpen: false, guideOpen: false });
+      useSimStore.setState({ phase: 'menu', guideOpen: false });
     },
     []
   );

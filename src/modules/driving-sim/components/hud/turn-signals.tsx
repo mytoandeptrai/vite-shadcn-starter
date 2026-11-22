@@ -28,8 +28,8 @@ function SignalButton({ side, active, lit }: { side: Side; active: boolean; lit:
       title={label}
       {...press}
       className={cn(
-        'ds-panel flex h-9 flex-1 items-center justify-center rounded-xl hover:border-white/40',
-        active && 'border-emerald-400/80!'
+        'flex h-9 flex-1 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:border-white/40',
+        active && 'border-emerald-400/80 bg-emerald-400/10'
       )}
     >
       <Arrow side={side} className={cn('size-5', active && lit ? 'text-emerald-400' : 'text-white/40')} />
@@ -49,9 +49,7 @@ export function SignalButtons() {
   return (
     <div className='flex items-center gap-1.5'>
       <SignalButton side='left' active={signal === 'left'} lit={lit} />
-      <span className='font-semibold text-[10px] text-white/70 leading-none [text-shadow:0_1px_2px_rgb(0_0_0/0.8)] md:text-xs'>
-        Xi-nhan
-      </span>
+      <span className='font-semibold text-[10px] text-white/60 leading-none'>Xi-nhan</span>
       <SignalButton side='right' active={signal === 'right'} lit={lit} />
     </div>
   );
@@ -65,9 +63,12 @@ export function SignalLamp({ side }: { side: Side }) {
     <span
       data-testid={`signal-lamp-${side}`}
       data-on={signal === side}
-      className={cn('flex items-center px-1.5 md:px-2.5', on ? 'text-emerald-400' : 'text-white/15')}
+      className={cn(
+        'flex size-7 items-center justify-center rounded-lg',
+        on ? 'bg-emerald-400/15 text-emerald-400' : 'text-white/25'
+      )}
     >
-      <Arrow side={side} className={cn('size-5 md:size-7', on && 'drop-shadow-[0_0_6px_rgb(52_211_153)]')} />
+      <Arrow side={side} className={cn('size-4', on && 'drop-shadow-[0_0_6px_rgb(52_211_153)]')} />
     </span>
   );
 }

@@ -38,7 +38,8 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
         title: 'Đọc màn hình',
         notes: [
           'Dòng trắng trên cùng: yêu cầu của bài thi. Dòng vàng “Thao tác”: việc cần làm ngay với côn, ga, phanh, số.',
-          'Bảng đồng hồ: tốc độ, vòng tua, số đang cài, % côn (100% = đạp hết).',
+          'Thanh trên cùng bên trái: thời gian, điểm, tốc độ, vòng tua, số đang cài, % côn (100% = đạp hết).',
+          'Cần số luôn hiện cạnh vô lăng: bấm thẳng vào số muốn cài, số đang cài có màu vàng.',
           'Hai gương và bản đồ nhỏ: canh bánh sau với vạch khi lùi chuồng.',
           'Mở lại hướng dẫn này bất cứ lúc nào bằng nút “?” hoặc phím H. Xe tạm dừng khi đang đọc.',
         ],
@@ -47,7 +48,7 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
         title: 'Trên điện thoại',
         notes: [
           'Xoay ngang màn hình để dễ lái: vô lăng ở tay trái, bàn đạp ở tay phải.',
-          'Dùng hai ngón cùng lúc: một ngón giữ phanh hoặc côn, ngón kia bấm Cần số, phanh tay hay các nút khác.',
+          'Dùng hai ngón cùng lúc: tay phải giữ phanh hoặc ga, tay trái chọn số và bấm phanh tay ngay cạnh vô lăng.',
           'Số sàn: ba nút “Đạp hết”, “Điểm bám”, “Nhả côn” đưa côn tới đúng vị trí và giữ ở đó, không cần giữ ngón tay.',
         ],
       },

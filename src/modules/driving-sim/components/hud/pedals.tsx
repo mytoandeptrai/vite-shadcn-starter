@@ -6,8 +6,8 @@ import { useAnimationFrame } from '../../hooks/use-animation-frame';
 import { usePress } from '../../hooks/use-press';
 import { useSimStore } from '../../store/sim-store';
 import { BITE_CLUTCH_DEPTH, input, moveClutchTo, setClutch } from '../../utils/input-state';
+import { setAttr, setStyle, setText } from '../../utils/dom';
 import { clamp } from '../../utils/math';
-import { ShifterButton } from './shifter';
 
 const relativeY = (e: React.PointerEvent<HTMLElement>) => {
   const rect = e.currentTarget.getBoundingClientRect();
@@ -19,17 +19,18 @@ interface PedalProps {
   label: string;
   hotkey: string;
   fillClass: string;
+  labelClass: string;
 }
 
 /** Touch pedal: press higher up for more travel. The fill shows the actual pedal depth. */
-function Pedal({ kind, label, hotkey, fillClass }: PedalProps) {
+function Pedal({ kind, label, hotkey, fillClass, labelClass }: PedalProps) {
   const fillRef = useRef<HTMLDivElement>(null);
   const valueRef = useRef<HTMLSpanElement>(null);
 
   useAnimationFrame(() => {
     const depth = input[kind];
-    if (fillRef.current) fillRef.current.style.height = `${(depth * 100).toFixed(1)}%`;
-    if (valueRef.current) valueRef.current.textContent = `${Math.round(depth * 100)}%`;
+    setStyle(fillRef.current, 'height', `${(depth * 100).toFixed(1)}%`);
+    setText(valueRef.current, `${Math.round(depth * 100)}%`);
   });
 
   const press = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -44,7 +45,10 @@ function Pedal({ kind, label, hotkey, fillClass }: PedalProps) {
       type='button'
       data-testid={`pedal-${kind}`}
       aria-label={label}
-      className='ds-panel relative flex h-full min-w-14 flex-1 touch-none flex-col items-center justify-between overflow-hidden rounded-xl py-1.5 md:min-w-[4.5rem]'
+      className={cn(
+        'ds-panel ds-pedal relative flex touch-none flex-col items-center justify-between overflow-hidden rounded-2xl py-2',
+        kind === 'throttle' ? 'h-full' : 'h-[86%]'
+      )}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
         press(e);
@@ -57,12 +61,12 @@ function Pedal({ kind, label, hotkey, fillClass }: PedalProps) {
       onContextMenu={(e) => e.preventDefault()}
     >
       <div ref={fillRef} className={cn('absolute inset-x-0 bottom-0 h-0', fillClass)} />
-      <span ref={valueRef} className='relative font-bold font-mono text-xs'>
+      <span ref={valueRef} className='relative font-bold font-mono text-[11px] text-white/80'>
         0%
       </span>
       <span className='relative flex flex-col items-center leading-tight'>
-        <span className='font-bold text-sm'>{label}</span>
-        <span className='hidden text-[10px] text-white/60 md:block'>{hotkey}</span>
+        <span className={cn('font-black text-xs uppercase sm:text-sm sm:tracking-wide', labelClass)}>{label}</span>
+        <span className='ds-key-hint text-[10px] text-white/55'>{hotkey}</span>
       </span>
     </button>
   );
@@ -77,9 +81,9 @@ function ClutchSlider() {
 
   useAnimationFrame(() => {
     const pct = `${(input.clutch * 100).toFixed(1)}%`;
-    if (fillRef.current) fillRef.current.style.height = pct;
-    if (thumbRef.current) thumbRef.current.style.bottom = pct;
-    if (valueRef.current) valueRef.current.textContent = `${Math.round(input.clutch * 100)}%`;
+    setStyle(fillRef.current, 'height', pct);
+    setStyle(thumbRef.current, 'bottom', pct);
+    setText(valueRef.current, `${Math.round(input.clutch * 100)}%`);
   });
 
   const move = (e: React.PointerEvent<HTMLDivElement>) => setClutch(1 - relativeY(e));
@@ -91,7 +95,7 @@ function ClutchSlider() {
   const biteHeight = (CLUTCH.biteEnd - CLUTCH.biteStart) * 100;
 
   return (
-    <div className='flex h-full shrink-0 flex-col items-center gap-1'>
+    <div className='flex h-[86%] shrink-0 flex-col items-center gap-1'>
       <div
         data-testid='clutch-slider'
         role='slider'
@@ -101,7 +105,7 @@ function ClutchSlider() {
         aria-valuemax={100}
         aria-valuenow={0}
         tabIndex={-1}
-        className='ds-panel relative min-h-0 w-12 flex-1 cursor-ns-resize touch-none overflow-hidden rounded-xl md:w-14'
+        className='ds-panel ds-clutch relative min-h-0 flex-1 cursor-ns-resize touch-none overflow-hidden rounded-2xl'
         onPointerDown={(e) => {
           e.currentTarget.setPointerCapture(e.pointerId);
           dragging.current = true;
@@ -129,7 +133,7 @@ function ClutchSlider() {
           className='absolute inset-x-0.5 bottom-0 h-1.5 translate-y-1/2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]'
         />
       </div>
-      <span className='font-bold text-xs leading-none'>
+      <span className='font-black text-[11px] text-sky-200 uppercase leading-none tracking-wide [text-shadow:0_1px_2px_rgb(0_0_0/0.8)]'>
         Côn{' '}
         <span ref={valueRef} className='font-mono text-sky-300'>
           0%
@@ -139,7 +143,8 @@ function ClutchSlider() {
   );
 }
 
-function Handbrake() {
+/** Round handbrake button beside the wheel, so the other thumb stays on the pedals. */
+export function Handbrake() {
   const handbrake = useSimStore((s) => s.handbrake);
   const toggle = useSimStore((s) => s.toggleHandbrake);
   const press = usePress(toggle);
@@ -148,14 +153,22 @@ function Handbrake() {
       type='button'
       data-testid='handbrake'
       aria-pressed={handbrake}
+      aria-label='Phanh tay (Space)'
+      title='Phanh tay (Space)'
       {...press}
-      className={cn(
-        'ds-handbrake ds-panel flex h-11 shrink-0 items-center justify-center gap-1 rounded-xl px-2 font-semibold text-xs transition-colors',
-        handbrake && 'border-red-400 bg-red-600/85'
-      )}
+      className='ds-handbrake flex flex-col items-center gap-1'
     >
-      <CircleParking className='size-4 shrink-0' />
-      <span className='leading-none'>Phanh tay</span>
+      <span
+        className={cn(
+          'ds-panel flex size-12 items-center justify-center rounded-full border-2 transition-colors md:size-14',
+          handbrake ? 'border-red-400 bg-red-600/85 text-white' : 'text-white/70'
+        )}
+      >
+        <CircleParking className='size-6 md:size-7' />
+      </span>
+      <span className='whitespace-nowrap font-semibold text-[10px] text-white/85 leading-none [text-shadow:0_1px_2px_rgb(0_0_0/0.8)]'>
+        Phanh tay
+      </span>
     </button>
   );
 }
@@ -170,7 +183,7 @@ function EngineStart() {
       data-testid='engine-start'
       {...press}
       className={cn(
-        'ds-panel flex h-11 items-center justify-center gap-1 rounded-xl px-2.5 font-semibold text-xs',
+        'ds-engine ds-panel flex h-10 items-center justify-center gap-1.5 self-end whitespace-nowrap rounded-xl px-3 font-semibold text-xs',
         running ? 'text-emerald-300' : 'ds-blink border-red-400 bg-red-600/85'
       )}
     >
@@ -191,7 +204,7 @@ function ClutchPreset({ id, label, depth }: (typeof CLUTCH_PRESETS)[number]) {
   const press = usePress(() => moveClutchTo(depth));
 
   useAnimationFrame(() => {
-    ref.current?.setAttribute('data-active', String(Math.abs(input.clutch - depth) < 0.04));
+    setAttr(ref.current, 'data-active', String(Math.abs(input.clutch - depth) < 0.04));
   });
 
   return (
@@ -222,20 +235,19 @@ function ClutchPresets() {
   );
 }
 
+/** Right-hand cluster: engine button, clutch presets (manual) and the pedals. */
 export function Pedals() {
   const transmission = useSimStore((s) => s.transmission);
   return (
-    <div className='ds-area-pedals ds-pedals self-end'>
-      <div className='ds-pedal-buttons'>
-        <ShifterButton />
+    <div className='ds-area-pedals ds-pedals'>
+      <div className='ds-pedal-side'>
         <EngineStart />
-        <Handbrake />
+        {transmission === 'B2' && <ClutchPresets />}
       </div>
-      {transmission === 'B2' && <ClutchPresets />}
       <div className='ds-pedal-row'>
         {transmission === 'B2' && <ClutchSlider />}
-        <Pedal kind='brake' label='Phanh' hotkey='S' fillClass='bg-red-500/60' />
-        <Pedal kind='throttle' label='Ga' hotkey='W' fillClass='bg-emerald-500/60' />
+        <Pedal kind='brake' label='Phanh' hotkey='S' fillClass='bg-red-500/60' labelClass='text-red-300' />
+        <Pedal kind='throttle' label='Ga' hotkey='W' fillClass='bg-emerald-500/60' labelClass='text-emerald-300' />
       </div>
     </div>
   );

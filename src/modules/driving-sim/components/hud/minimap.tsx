@@ -113,7 +113,7 @@ export function Minimap() {
   return (
     <div
       data-testid='minimap'
-      className='ds-area-map ds-panel relative size-24 self-start overflow-hidden rounded-xl md:size-40'
+      className='ds-area-map ds-panel relative size-24 self-start overflow-hidden rounded-xl md:size-36'
     >
       <canvas ref={canvasRef} width={SIZE} height={SIZE} className='block size-full' />
       <span className='absolute top-0.5 left-1 text-[9px] text-white/70'>Bản đồ</span>

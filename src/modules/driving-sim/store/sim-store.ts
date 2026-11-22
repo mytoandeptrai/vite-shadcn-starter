@@ -59,7 +59,6 @@ interface SimState {
   result: ExamResult | null;
   cameraMode: CameraMode;
   muted: boolean;
-  shifterOpen: boolean;
   /** The usage guide is open; the simulation is paused meanwhile. */
   guideOpen: boolean;
   /** Timestamp of the last stall, drives the HUD shake animation. */
@@ -78,7 +77,6 @@ interface SimState {
   requestEngineStart: () => void;
   cycleCamera: () => void;
   toggleMuted: () => void;
-  setShifterOpen: (open: boolean) => void;
   setGuideOpen: (open: boolean) => void;
   setTelemetry: (telemetry: Telemetry) => void;
   applyEvents: (events: ExamEvent[], time: number) => void;
@@ -130,7 +128,6 @@ export const useSimStore = create<SimState>((set, get) => ({
   result: null,
   cameraMode: 'chase',
   muted: false,
-  shifterOpen: false,
   guideOpen: false,
   stallAt: 0,
   telemetry: emptyTelemetry,
@@ -158,7 +155,6 @@ export const useSimStore = create<SimState>((set, get) => ({
       score: START_SCORE,
       penalties: [],
       result: null,
-      shifterOpen: false,
       guideOpen: false,
       telemetry: emptyTelemetry,
       notices: [],
@@ -167,7 +163,7 @@ export const useSimStore = create<SimState>((set, get) => ({
 
   openMenu: () => {
     audio.stopEngineSound();
-    set({ phase: 'menu', shifterOpen: false, guideOpen: false, signal: 'off' });
+    set({ phase: 'menu', guideOpen: false, signal: 'off' });
   },
 
   requestGear: (gear) => {
@@ -219,12 +215,10 @@ export const useSimStore = create<SimState>((set, get) => ({
     set({ muted });
   },
 
-  setShifterOpen: (shifterOpen) => set({ shifterOpen }),
-
   setGuideOpen: (guideOpen) => {
     // Nothing may stay pressed while the simulation is paused behind the guide.
     if (guideOpen) releaseHeldInput();
-    set({ guideOpen, shifterOpen: false });
+    set({ guideOpen });
   },
   setTelemetry: (telemetry) => set({ telemetry }),
 
@@ -269,7 +263,7 @@ export const useSimStore = create<SimState>((set, get) => ({
       if (result.passed) audio.playPass();
       else audio.playFail();
       audio.stopEngineSound();
-      set({ score, penalties, subtitle, result, phase: 'finished', shifterOpen: false, signal: 'off' });
+      set({ score, penalties, subtitle, result, phase: 'finished', signal: 'off' });
     } else {
       set({ score, penalties, subtitle });
     }

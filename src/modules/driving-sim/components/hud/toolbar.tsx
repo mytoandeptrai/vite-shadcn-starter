@@ -1,4 +1,5 @@
-import { CircleHelp, LayoutGrid, RotateCcw, Video, Volume2, VolumeX } from 'lucide-react';
+import { CircleHelp, RotateCcw, Video, Volume2, VolumeX, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { usePress } from '../../hooks/use-press';
 import { useSimStore } from '../../store/sim-store';
 import type { CameraMode } from '../../types';
@@ -10,7 +11,9 @@ function Tool({
   onClick,
   children,
   testId,
+  className,
 }: {
+  className?: string;
   label: string;
   onClick: () => void;
   children: React.ReactNode;
@@ -24,7 +27,10 @@ function Tool({
       aria-label={label}
       title={label}
       {...press}
-      className='ds-panel flex h-9 min-w-9 items-center justify-center gap-1.5 rounded-xl px-2 font-semibold text-xs hover:border-white/40'
+      className={cn(
+        'ds-tool ds-panel flex items-center justify-center gap-1.5 rounded-xl font-semibold text-xs hover:border-white/40',
+        className
+      )}
     >
       {children}
     </button>
@@ -41,8 +47,8 @@ export function Toolbar() {
   const setGuideOpen = useSimStore((s) => s.setGuideOpen);
 
   return (
-    <div className='ds-area-tools ds-tools'>
-      <Tool label='Đổi góc nhìn (V)' onClick={cycleCamera} testId='camera-toggle'>
+    <div className='ds-tools'>
+      <Tool label={`Đổi góc nhìn (V): ${CAMERA_LABELS[cameraMode]}`} onClick={cycleCamera} testId='camera-toggle'>
         <Video className='size-4' />
         <span className='ds-tool-label'>{CAMERA_LABELS[cameraMode]}</span>
       </Tool>
@@ -50,17 +56,20 @@ export function Toolbar() {
         <CircleHelp className='size-4' />
         <span className='ds-tool-label'>Hướng dẫn</span>
       </Tool>
-      <div className='flex gap-1.5'>
-        <Tool label={muted ? 'Bật tiếng (M)' : 'Tắt tiếng (M)'} onClick={toggleMuted} testId='mute-toggle'>
-          {muted ? <VolumeX className='size-4' /> : <Volume2 className='size-4' />}
-        </Tool>
-        <Tool label='Làm lại' onClick={start} testId='restart'>
-          <RotateCcw className='size-4' />
-        </Tool>
-        <Tool label='Chọn bài (Esc)' onClick={openMenu} testId='open-menu'>
-          <LayoutGrid className='size-4' />
-        </Tool>
-      </div>
+      <Tool
+        label={muted ? 'Bật tiếng (M)' : 'Tắt tiếng (M)'}
+        onClick={toggleMuted}
+        testId='mute-toggle'
+        className='ds-tool-extra'
+      >
+        {muted ? <VolumeX className='size-4' /> : <Volume2 className='size-4' />}
+      </Tool>
+      <Tool label='Làm lại' onClick={start} testId='restart'>
+        <RotateCcw className='size-4' />
+      </Tool>
+      <Tool label='Thoát ra chọn bài (Esc)' onClick={openMenu} testId='open-menu'>
+        <X className='size-4' />
+      </Tool>
     </div>
   );
 }

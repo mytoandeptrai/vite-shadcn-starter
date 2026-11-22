@@ -13,8 +13,7 @@ test('mobile: touch steering wheel, pedals, clutch slider and H-shifter', async 
   const sliderX = slider.x + slider.width / 2;
   await page.touchscreen.tap(sliderX, slider.y + 3);
   await sim.waitFor(sim.clutch, (v) => v >= 95);
-  await page.getByTestId('shifter-button').tap();
-  await expect(page.getByTestId('shifter-popup')).toBeVisible();
+  await expect(page.getByTestId('gear-selector')).toBeVisible();
   await page.getByTestId('gear-1').tap();
   await expect(page.getByTestId('hud-gear')).toHaveText('1');
 
@@ -35,11 +34,9 @@ test('mobile: touch steering wheel, pedals, clutch slider and H-shifter', async 
   // Released: the wheel springs back to centre.
   await sim.waitFor(sim.steer, (v) => Math.abs(v) < 2);
 
-  // Controls shown in use: full right lock, clutch held down, H-shifter open, brake pressed.
+  // Controls shown in use: full right lock, clutch held down, 1st gear, brake pressed.
   await page.getByTestId('quick-right').tap();
   await sim.waitFor(sim.steer, (v) => v >= 539);
-  await page.getByTestId('shifter-button').tap();
-  await expect(page.getByTestId('shifter-popup')).toBeVisible();
   const brake = await page.getByTestId('pedal-brake').boundingBox();
   if (!brake) throw new Error('brake pedal not found');
   await page.mouse.move(brake.x + brake.width / 2, brake.y + brake.height * 0.4);
@@ -58,11 +55,9 @@ test('mobile multi-touch: a held brake pedal does not block the shifter, handbra
   // B1 rule: the brake must be held to leave P, so both fingers are down at once.
   const brake = await fingers.hold('pedal-brake', 0.3);
   await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
-  await fingers.tap('shifter-button');
-  await expect(page.getByTestId('shifter-popup')).toBeVisible();
   await fingers.tap('gear-D');
   await expect(page.getByTestId('hud-gear')).toHaveText('D');
-  await expect(page.getByTestId('shifter-popup')).toBeHidden();
+  await expect(page.getByTestId('gear-D')).toHaveAttribute('aria-pressed', 'true');
 
   // The automatic starts with the handbrake off: set it and release it with the brake still held.
   await expect(page.getByTestId('handbrake')).toHaveAttribute('aria-pressed', 'false');
@@ -93,11 +88,8 @@ test('mobile multi-touch: a held clutch does not block the H-shifter or the hand
   // One thumb keeps the clutch on the floor while the other works the gear gate.
   const clutch = await fingers.hold('clutch-slider', 0.03);
   await sim.waitFor(sim.clutch, (v) => v >= 95);
-  await fingers.tap('shifter-button');
-  await expect(page.getByTestId('shifter-popup')).toBeVisible();
   await fingers.tap('gear-1');
   await expect(page.getByTestId('hud-gear')).toHaveText('1');
-  await fingers.tap('shifter-button');
   await fingers.tap('gear-R');
   await expect(page.getByTestId('hud-gear')).toHaveText('R');
 
@@ -119,7 +111,9 @@ test('mobile landscape: B2 controls fit the screen and the clutch presets pull t
 
   // Every HUD block stays inside the viewport and the two control clusters do not overlap.
   const boxes = await page.evaluate(() =>
-    [...document.querySelectorAll('[data-testid=hud] > *')].map((el) => {
+    [
+      ...document.querySelectorAll('[data-testid=hud] > *, .ds-controls, .ds-pedals, [data-testid=hud] [data-testid]'),
+    ].map((el) => {
       const r = el.getBoundingClientRect();
       return { name: el.className.split(' ')[0], left: r.left, top: r.top, right: r.right, bottom: r.bottom };
     })
@@ -130,16 +124,15 @@ test('mobile landscape: B2 controls fit the screen and the clutch presets pull t
     expect(box.right, box.name).toBeLessThanOrEqual(844);
     expect(box.bottom, box.name).toBeLessThanOrEqual(390);
   }
-  const wheel = boxes.find((b) => b.name === 'ds-area-wheel');
+  const controls = boxes.find((b) => b.name === 'ds-controls');
   const pedals = boxes.find((b) => b.name === 'ds-area-pedals');
-  expect(wheel && pedals && wheel.right < pedals.left).toBe(true);
+  expect(controls && pedals && controls.right < pedals.left).toBe(true);
 
   // Pull away with taps only, in the order the guide teaches: clutch down, 1st, handbrake off,
   // clutch to the bite point (the car creeps, the engine keeps running), then throttle.
   const fingers = await Fingers.on(page);
   await page.getByTestId('clutch-floor').tap();
   await sim.waitFor(sim.clutch, (v) => v >= 95);
-  await page.getByTestId('shifter-button').tap();
   await page.getByTestId('gear-1').tap();
   await expect(page.getByTestId('hud-gear')).toHaveText('1');
   await page.getByTestId('handbrake').tap();

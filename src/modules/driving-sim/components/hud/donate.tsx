@@ -31,8 +31,7 @@ export function DonateButton() {
       </button>
 
       {open && (
-        // biome-ignore lint/a11y/noStaticElementInteractions: clicking the backdrop is a shortcut for the close button
-        // biome-ignore lint/a11y/useKeyWithClickEvents: Escape closes the dialog
+        // biome-ignore lint/a11y/useKeyWithClickEvents: clicking the backdrop is a shortcut; Escape closes the dialog
         <div
           className='fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-950/75 p-3 sm:p-6'
           onClick={(e) => {

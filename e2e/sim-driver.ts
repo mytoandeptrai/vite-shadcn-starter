@@ -70,31 +70,88 @@ export class SimDriver {
     await k.press('Space');
     await this.pullAway();
     await k.up('KeyW');
-    // The approach is driven from inside the page, one decision per rendered frame, so a slow
-    // headless WebGL frame rate or the Playwright round trip cannot make the car overshoot.
+    // The approach is driven from inside the page, one decision per HUD update, so the Playwright
+    // round trip adds no delay. A software-rendered frame can still take half a second, in which
+    // the car covers more than the 50 cm stop zone, so the driver brakes for where the car will be
+    // by its next look and, when that leaves it short of the zone, creeps up on the clutch.
     await this.page.evaluate(
       () =>
         new Promise<void>((resolve) => {
           const key = (type: 'keydown' | 'keyup', code: string) =>
             window.dispatchEvent(new KeyboardEvent(type, { code, bubbles: true, cancelable: true }));
+          const hold = (code: string, down: boolean) => key(down ? 'keydown' : 'keyup', code);
           const text = (id: string) => document.querySelector(`[data-testid=${id}]`)?.textContent ?? '';
-          let coasting = false;
+          const number = (id: string) => Number.parseFloat(text(id));
+          /** Longest gap between HUD updates seen lately, seconds. */
+          let lag = 0.3;
+          let seen = '';
+          let seenAt = performance.now();
+          let state: 'drive' | 'coast' | 'stop' | 'rev' | 'bite' | 'creep' = 'drive';
+          let creeps = 0;
+          const brake = () => {
+            hold('KeyW', false);
+            hold('KeyC', true);
+            hold('KeyX', false);
+            hold('KeyS', true);
+            state = 'stop';
+          };
           const tick = () => {
-            const match = text('hud-hint').match(/còn ([\d.]+) m/);
+            const hint = text('hud-hint');
+            const match = hint.match(/còn ([\d.]+) m/);
             const gap = match ? Number(match[1]) : 0;
-            const speed = Number.parseFloat(text('hud-speed'));
-            if (!match || gap < 0.6 || (coasting && speed < 1.5)) {
-              key('keydown', 'KeyS');
+            const speed = number('hud-speed');
+            const now = performance.now();
+            const reading = `${hint}|${speed}`;
+            if (reading !== seen) {
+              lag = Math.min(0.7, Math.max(lag * 0.8, (now - seenAt) / 1000));
+              seen = reading;
+              seenAt = now;
+            }
+            const v = speed / 3.6;
+            // Bumper to line once the brakes have bitten, if they go on at the next look.
+            const stopsAt = gap - v * lag - (v * v) / 12;
+            if (!match) {
+              brake();
               resolve();
               return;
             }
-            if (!coasting && gap < 0.9) {
-              // Clutch in first: braking in gear would stall the engine.
-              coasting = true;
-              key('keyup', 'KeyW');
-              key('keydown', 'KeyC');
-            } else if (!coasting) {
-              key(speed < 6.5 ? 'keydown' : 'keyup', 'KeyW');
+            if (state === 'drive') {
+              // No throttle on the last metres: first gear idles up the slope at walking pace.
+              hold('KeyW', gap > 4 && speed < 6.5);
+              if (stopsAt < 0.9) {
+                hold('KeyW', false);
+                // Clutch in first: braking in gear would stall the engine.
+                hold('KeyC', true);
+                state = 'coast';
+              }
+            } else if (state === 'coast') {
+              if (stopsAt < 0.2 || speed < 1.5) brake();
+            } else if (state === 'stop') {
+              if (speed < 0.05) {
+                if (gap <= 0.45 || creeps >= 4) {
+                  resolve();
+                  return;
+                }
+                creeps += 1;
+                hold('KeyW', true);
+                state = 'rev';
+              }
+            } else if (state === 'rev') {
+              if (number('hud-rpm') > 2000) {
+                // Bite-point key instead of the clutch key: the clutch rises to the bite and stays.
+                hold('KeyX', true);
+                hold('KeyC', false);
+                state = 'bite';
+              }
+            } else if (state === 'bite') {
+              hold('KeyW', number('hud-rpm') < 2600);
+              if (number('hud-clutch') <= 58) {
+                hold('KeyS', false);
+                state = 'creep';
+              }
+            } else {
+              hold('KeyW', number('hud-rpm') < 2600);
+              if (stopsAt < 0.25) brake();
             }
             requestAnimationFrame(tick);
           };
