@@ -50,6 +50,12 @@ describe('HillExam', () => {
     expect(has(events, 'fail')).toBe(false);
   });
 
+  it('fails instead of accepting a stop on the flat ground beside the slope', () => {
+    const events = run(new HillExam(), car(HILL.centerX + HILL.width, stopZ(0.3)), 1);
+    expect(has(events, 'fail')).toBe(true);
+    expect(has(events, 'info')).toBe(false);
+  });
+
   it('deducts 5 points when stopping more than 50cm short', () => {
     const events = run(new HillExam(), car(HILL.centerX, stopZ(1.2)), 1);
     expect(penalties(events)).toHaveLength(1);

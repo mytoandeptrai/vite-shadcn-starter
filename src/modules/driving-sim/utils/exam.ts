@@ -38,6 +38,12 @@ export class HillExam implements Exam {
     const rampTop = HILL.rampStartZ + HILL.rampLength;
     this.gap = lineNear - bumperZ;
 
+    // The exam is driven on the slope: leaving its lane cannot be used to skip the hill.
+    const offLane = Math.abs(car.position.x - HILL.centerX) > HILL.width / 2;
+    if (offLane && bumperZ > HILL.rampStartZ && centerZ < HILL.finishZ) {
+      return this.finish(events, { type: 'fail', reason: 'Xe đi ra ngoài làn dốc' });
+    }
+
     if (!this.stopped) {
       if (bumperZ > lineFar) {
         return this.finish(events, { type: 'fail', reason: 'Không dừng xe ở vạch dừng quy định' });
