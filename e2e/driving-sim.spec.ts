@@ -157,7 +157,7 @@ test('holding or repeating driving keys never leaves the simulator', async ({ pa
     await k.press(code);
     await k.press(code);
   }
-  for (const code of ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyT', 'KeyH', 'KeyB', 'KeyP']) await k.press(code);
+  for (const code of ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyT', 'KeyB', 'KeyP']) await k.press(code);
   expect(new URL(page.url()).pathname).toBe('/');
   await expect(page.getByTestId('hud')).toBeVisible();
 
@@ -167,4 +167,48 @@ test('holding or repeating driving keys never leaves the simulator', async ({ pa
   await k.press('Space');
   await k.press('Enter');
   await expect(page.getByTestId('camera-toggle')).toHaveText(camera ?? '');
+});
+
+test('usage guide: opens from the menu and while driving, pauses the car, explains each exercise', async ({ page }) => {
+  const sim = new SimDriver(page);
+  await sim.open();
+
+  await page.getByTestId('guide-button').click();
+  await expect(page.getByTestId('guide-modal')).toBeVisible();
+  await page.getByTestId('guide-tab-hill').click();
+  await expect(page.getByTestId('guide-panel')).toContainText('nhả phanh tay');
+  await sim.screenshot('06-guide');
+  await page.keyboard.press('Escape');
+  await expect(page.getByTestId('guide-modal')).toBeHidden();
+  await expect(page.getByTestId('start-button')).toBeVisible();
+
+  // B1 creeping in D: the guide freezes the car and ignores the driving keys.
+  await sim.start('B1', 'parking');
+  await expect(page.getByTestId('hud-coach')).toContainText('Giữ phanh');
+  await page.keyboard.down('KeyS');
+  await page.waitForTimeout(600);
+  await page.keyboard.press('KeyF');
+  await expect(page.getByTestId('hud-coach')).toContainText('xe tự bò');
+  await page.keyboard.up('KeyS');
+  await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
+
+  await page.keyboard.press('KeyH');
+  await expect(page.getByTestId('guide-panel')).toContainText('Hết lái phải');
+  const clock = await page.getByTestId('hud-clock').textContent();
+  await page.keyboard.press('KeyN');
+  await page.keyboard.down('KeyW');
+  await page.waitForTimeout(1500);
+  await page.keyboard.up('KeyW');
+  await expect(page.getByTestId('hud-clock')).toHaveText(clock ?? '');
+  await expect(page.getByTestId('hud-gear')).toHaveText('D');
+
+  await page.getByTestId('guide-close').click();
+  await expect(page.getByTestId('guide-modal')).toBeHidden();
+  await expect(page.getByTestId('hud-clock')).not.toHaveText(clock ?? '', { timeout: 10_000 });
+  expect(await sim.speed()).toBeGreaterThan(1);
+
+  await page.getByTestId('guide-open').click();
+  await expect(page.getByTestId('guide-modal')).toBeVisible();
+  await page.keyboard.press('KeyH');
+  await expect(page.getByTestId('guide-modal')).toBeHidden();
 });

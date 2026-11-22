@@ -57,6 +57,15 @@ export function StatusBar() {
           {telemetry.hint}
         </p>
       )}
+      {telemetry.coach && (
+        <p
+          data-testid='hud-coach'
+          className='ds-panel max-w-full rounded-full border-amber-300/50 px-3 py-1 text-center text-[10px] text-amber-100 leading-snug md:text-xs'
+        >
+          <span className='font-bold text-amber-300'>Thao tác: </span>
+          {telemetry.coach}
+        </p>
+      )}
     </div>
   );
 }

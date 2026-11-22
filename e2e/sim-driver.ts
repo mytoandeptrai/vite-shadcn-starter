@@ -115,8 +115,12 @@ export class SimDriver {
     const k = this.page.keyboard;
     await k.down('KeyW');
     await this.waitFor(this.rpm, (v) => v > 2200);
+    // Swap the clutch key for the bite-point key, as the in-app guide teaches.
+    await k.down('KeyX');
     await k.up('KeyC');
     await this.waitFor(this.clutch, (v) => v <= 58);
     await k.press('Space');
+    await this.waitFor(this.speed, (v) => v > 3);
+    await k.up('KeyX');
   }
 }

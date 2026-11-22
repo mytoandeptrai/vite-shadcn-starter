@@ -35,6 +35,13 @@ export function resetInput(clutch = 0): void {
   input.clutch = clutch;
 }
 
+/** Lets go of every held key and touch pedal, keeping the current pedal and wheel positions. */
+export function releaseHeldInput(): void {
+  input.keys = { throttle: false, brake: false, clutch: false, halfClutch: false, left: false, right: false };
+  input.pedal = { throttle: null, brake: null };
+  input.wheelDragging = false;
+}
+
 const KEY_STEER_RATE = 420;
 const LATCH_STEER_RATE = 900;
 /** Clutch depth held by the half-clutch key: just inside the bite zone. */

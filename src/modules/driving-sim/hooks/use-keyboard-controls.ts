@@ -41,10 +41,25 @@ export function useKeyboardControls(): void {
     const release = () => {
       for (const key of Object.keys(input.keys) as HeldKey[]) input.keys[key] = false;
     };
+    const HELP = new Set(['KeyH', 'F1']);
 
     const onKeyDown = (e: KeyboardEvent) => {
       const store = useSimStore.getState();
-      if (store.phase !== 'driving' || e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (store.guideOpen) {
+        // The guide owns the keyboard: only its own close keys do anything.
+        if (e.code === 'Escape' || HELP.has(e.code)) {
+          e.preventDefault();
+          store.setGuideOpen(false);
+        }
+        return;
+      }
+      if (HELP.has(e.code) && store.phase !== 'finished') {
+        e.preventDefault();
+        if (!e.repeat) store.setGuideOpen(true);
+        return;
+      }
+      if (store.phase !== 'driving') return;
 
       const held = HELD[e.code];
       if (held) {

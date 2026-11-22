@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Gauges } from '../../components/hud/gauges';
+import { GuideModal } from '../../components/hud/guide-modal';
 import { Minimap } from '../../components/hud/minimap';
 import { Mirror } from '../../components/hud/mirrors';
 import { Notices } from '../../components/hud/notices';
@@ -54,7 +55,7 @@ export default function DrivingSimContainer() {
   useEffect(
     () => () => {
       stopEngineSound();
-      useSimStore.setState({ phase: 'menu', shifterOpen: false });
+      useSimStore.setState({ phase: 'menu', shifterOpen: false, guideOpen: false });
     },
     []
   );
@@ -79,6 +80,7 @@ export default function DrivingSimContainer() {
       {phase !== 'menu' && <Notices />}
       {phase === 'menu' && <ScenarioModal />}
       {phase === 'finished' && <ResultModal />}
+      <GuideModal />
     </div>
   );
 }

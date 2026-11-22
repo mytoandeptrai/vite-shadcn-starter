@@ -1,4 +1,4 @@
-import { LayoutGrid, RotateCcw, Video, Volume2, VolumeX } from 'lucide-react';
+import { CircleHelp, LayoutGrid, RotateCcw, Video, Volume2, VolumeX } from 'lucide-react';
 import { useSimStore } from '../../store/sim-store';
 import type { CameraMode } from '../../types';
 
@@ -36,12 +36,17 @@ export function Toolbar() {
   const toggleMuted = useSimStore((s) => s.toggleMuted);
   const start = useSimStore((s) => s.start);
   const openMenu = useSimStore((s) => s.openMenu);
+  const setGuideOpen = useSimStore((s) => s.setGuideOpen);
 
   return (
     <div className='ds-area-tools flex flex-col items-end gap-1.5 self-start justify-self-end'>
       <Tool label='Đổi góc nhìn (V)' onClick={cycleCamera} testId='camera-toggle'>
         <Video className='size-4' />
         <span>{CAMERA_LABELS[cameraMode]}</span>
+      </Tool>
+      <Tool label='Hướng dẫn sử dụng (H)' onClick={() => setGuideOpen(true)} testId='guide-open'>
+        <CircleHelp className='size-4' />
+        <span>Hướng dẫn</span>
       </Tool>
       <div className='flex gap-1.5'>
         <Tool label={muted ? 'Bật tiếng (M)' : 'Tắt tiếng (M)'} onClick={toggleMuted} testId='mute-toggle'>

@@ -12,6 +12,7 @@ import type { Group } from 'three';
 import { CAR, SPAWNS } from '../../constants';
 import { notifyStall, useSimStore } from '../../store/sim-store';
 import { updateEngineSound } from '../../utils/audio';
+import { coachTip } from '../../utils/coach';
 import { stepDrivetrain } from '../../utils/drivetrain';
 import { createExam } from '../../utils/exam';
 import { input, updateInput } from '../../utils/input-state';
@@ -22,6 +23,8 @@ import { CarModel } from './car-model';
 /** Ride height of the chassis origin above the ground when settled. */
 const RIDE_HEIGHT = 0.62;
 const TELEMETRY_INTERVAL = 0.1;
+/** Forward-vector rise above which the car counts as standing on a slope (the hill is 10%). */
+const UPHILL_PITCH = 0.04;
 
 export function Vehicle() {
   const scenario = useSimStore((s) => s.scenario);
@@ -112,6 +115,18 @@ export function Vehicle() {
         clockSeconds: examClock.seconds,
         clockCountdown: examClock.countdown,
         hint: exam.hint(),
+        coach: coachTip({
+          transmission: store.transmission,
+          gear: store.gear,
+          engineRunning: store.engineRunning,
+          handbrake: store.handbrake,
+          clutch: input.clutch,
+          throttle: input.throttle,
+          brake: input.brake,
+          speedKmh: Math.abs(snapshot.speed) * 3.6,
+          rpm: Math.abs(runtime.drivetrain.rpm),
+          uphill: rig.forward().y > UPHILL_PITCH,
+        }),
       });
     }
   });

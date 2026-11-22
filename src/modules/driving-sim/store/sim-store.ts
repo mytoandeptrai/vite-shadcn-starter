@@ -3,7 +3,7 @@ import { CLUTCH, PASS_SCORE, START_SCORE } from '../constants';
 import type { CameraMode, ExamEvent, ExamResult, Gear, Penalty, Scenario, SimPhase, Transmission } from '../types';
 import * as audio from '../utils/audio';
 import { canStartEngine, createDrivetrainState, startEngine } from '../utils/drivetrain';
-import { input, resetInput } from '../utils/input-state';
+import { input, releaseHeldInput, resetInput } from '../utils/input-state';
 import { runtime } from '../utils/runtime';
 
 export interface Telemetry {
@@ -15,6 +15,8 @@ export interface Telemetry {
   clockSeconds: number;
   clockCountdown: boolean;
   hint: string;
+  /** What to do next with the pedals and gears. */
+  coach: string;
 }
 
 export type NoticeKind = 'penalty' | 'fail' | 'warning' | 'info';
@@ -40,6 +42,8 @@ interface SimState {
   cameraMode: CameraMode;
   muted: boolean;
   shifterOpen: boolean;
+  /** The usage guide is open; the simulation is paused meanwhile. */
+  guideOpen: boolean;
   /** Timestamp of the last stall, drives the HUD shake animation. */
   stallAt: number;
   telemetry: Telemetry;
@@ -55,6 +59,7 @@ interface SimState {
   cycleCamera: () => void;
   toggleMuted: () => void;
   setShifterOpen: (open: boolean) => void;
+  setGuideOpen: (open: boolean) => void;
   setTelemetry: (telemetry: Telemetry) => void;
   applyEvents: (events: ExamEvent[], time: number) => void;
 }
@@ -72,6 +77,7 @@ const emptyTelemetry: Telemetry = {
   clockSeconds: 0,
   clockCountdown: false,
   hint: '',
+  coach: '',
 };
 
 let penaltyId = 0;
@@ -101,6 +107,7 @@ export const useSimStore = create<SimState>((set, get) => ({
   cameraMode: 'chase',
   muted: false,
   shifterOpen: false,
+  guideOpen: false,
   stallAt: 0,
   telemetry: emptyTelemetry,
   notices: [],
@@ -124,6 +131,7 @@ export const useSimStore = create<SimState>((set, get) => ({
       penalties: [],
       result: null,
       shifterOpen: false,
+      guideOpen: false,
       telemetry: emptyTelemetry,
       notices: [],
     });
@@ -131,7 +139,7 @@ export const useSimStore = create<SimState>((set, get) => ({
 
   openMenu: () => {
     audio.stopEngineSound();
-    set({ phase: 'menu', shifterOpen: false });
+    set({ phase: 'menu', shifterOpen: false, guideOpen: false });
   },
 
   requestGear: (gear) => {
@@ -182,6 +190,12 @@ export const useSimStore = create<SimState>((set, get) => ({
   },
 
   setShifterOpen: (shifterOpen) => set({ shifterOpen }),
+
+  setGuideOpen: (guideOpen) => {
+    // Nothing may stay pressed while the simulation is paused behind the guide.
+    if (guideOpen) releaseHeldInput();
+    set({ guideOpen, shifterOpen: false });
+  },
   setTelemetry: (telemetry) => set({ telemetry }),
 
   applyEvents: (events, time) => {

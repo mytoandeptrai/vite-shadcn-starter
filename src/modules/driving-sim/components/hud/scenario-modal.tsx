@@ -1,4 +1,4 @@
-import { Car, Cog, Gauge, Map as MapIcon, Mountain, SquareParking } from 'lucide-react';
+import { BookOpen, Car, Cog, Gauge, Map as MapIcon, Mountain, SquareParking } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { PASS_SCORE, SCENARIO_LABELS, START_SCORE } from '../../constants';
@@ -42,6 +42,7 @@ const SHORTCUTS: [string, string][] = [
   ['Space', 'Phanh tay'],
   ['Enter', 'Đề máy'],
   ['V · M · Esc', 'Camera · Tiếng · Menu'],
+  ['H', 'Hướng dẫn sử dụng'],
 ];
 
 function OptionCard({
@@ -78,6 +79,7 @@ export function ScenarioModal() {
   const setTransmission = useSimStore((s) => s.setTransmission);
   const setScenario = useSimStore((s) => s.setScenario);
   const start = useSimStore((s) => s.start);
+  const setGuideOpen = useSimStore((s) => s.setGuideOpen);
 
   return (
     <div className='absolute inset-0 z-40 flex items-start justify-center overflow-y-auto bg-slate-950/55 p-3 sm:items-center sm:p-6'>
@@ -162,14 +164,26 @@ export function ScenarioModal() {
           </dl>
         </div>
 
-        <Button
-          data-testid='start-button'
-          size='lg'
-          onClick={start}
-          className='mt-5 w-full bg-amber-400 font-bold text-base text-slate-950 hover:bg-amber-300'
-        >
-          Bắt đầu lái
-        </Button>
+        <div className='mt-5 flex flex-col gap-2 sm:flex-row'>
+          <Button
+            data-testid='guide-button'
+            size='lg'
+            variant='outline'
+            onClick={() => setGuideOpen(true)}
+            className='border-white/25 bg-transparent font-bold text-base text-white hover:bg-white/10 hover:text-white sm:w-56'
+          >
+            <BookOpen className='size-5' />
+            Hướng dẫn sử dụng
+          </Button>
+          <Button
+            data-testid='start-button'
+            size='lg'
+            onClick={start}
+            className='flex-1 bg-amber-400 font-bold text-base text-slate-950 hover:bg-amber-300'
+          >
+            Bắt đầu lái
+          </Button>
+        </div>
       </div>
     </div>
   );

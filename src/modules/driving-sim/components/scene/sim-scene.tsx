@@ -11,7 +11,7 @@ import { Vehicle } from './vehicle';
 function World({ shadows }: { shadows: boolean }) {
   const runId = useSimStore((s) => s.runId);
   const scenario = useSimStore((s) => s.scenario);
-  const paused = useSimStore((s) => s.phase !== 'driving');
+  const paused = useSimStore((s) => s.phase !== 'driving' || s.guideOpen);
   const sun = useRef<DirectionalLight>(null);
 
   return (
