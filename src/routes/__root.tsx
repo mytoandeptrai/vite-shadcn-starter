@@ -1,5 +1,4 @@
 import { GoogleAnalytics } from '@/components/ui/google-analytics';
-import KBar from '@/components/ui/kbar';
 import NavigationProgress from '@/components/ui/navigation-progress';
 import { Show } from '@/components/utilities';
 import { env, siteConfig } from '@/constant';
@@ -17,7 +16,7 @@ interface MyRouterContext {
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
-    <KBar>
+    <>
       {/* SEO  */}
       <Helmet>
         <title>{siteConfig.title}</title>
@@ -45,6 +44,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
           plugins={[TanStackQueryDevtools]}
         />
       </Show>
-    </KBar>
+    </>
   ),
 });

@@ -144,3 +144,27 @@ test('video demo: B2 hill-start exam, then B1 creep, steering and chip sensor', 
   await page.keyboard.down('KeyS');
   await page.waitForTimeout(1000);
 });
+
+test('holding or repeating driving keys never leaves the simulator', async ({ page }) => {
+  const sim = new SimDriver(page);
+  await sim.open();
+  await sim.start('B2', 'free');
+  const k = page.keyboard;
+  // Key repeat and quick double taps of every driving key.
+  for (const code of ['KeyS', 'KeyD', 'KeyW', 'KeyA', 'KeyC', 'KeyX', 'KeyQ', 'KeyE', 'KeyM', 'KeyV']) {
+    for (let i = 0; i < 6; i++) await k.down(code);
+    await k.up(code);
+    await k.press(code);
+    await k.press(code);
+  }
+  for (const code of ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyT', 'KeyH', 'KeyB', 'KeyP']) await k.press(code);
+  expect(new URL(page.url()).pathname).toBe('/');
+  await expect(page.getByTestId('hud')).toBeVisible();
+
+  // A focused HUD button must not be clicked by Space (handbrake) or Enter (engine start).
+  await page.getByTestId('camera-toggle').click();
+  const camera = await page.getByTestId('camera-toggle').textContent();
+  await k.press('Space');
+  await k.press('Enter');
+  await expect(page.getByTestId('camera-toggle')).toHaveText(camera ?? '');
+});
