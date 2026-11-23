@@ -1,4 +1,5 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { Analytics } from '@vercel/analytics/react';
 import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import LoadingSpinner from './components/ui/loading-spinner.tsx';
@@ -59,6 +60,7 @@ if (rootElement) {
               </ErrorBoundary>
             </InfraProviders>
             <Toaster richColors position='top-right' />
+            <Analytics />
           </HelmetProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>
