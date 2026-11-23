@@ -211,6 +211,14 @@ export function Hints() {
             />
           </div>
           <p data-testid='hud-hint' className='mt-1 text-center'>
+            {road.gap !== null && (
+              <span
+                data-testid='road-gap-inline'
+                className={cn('ds-hint-gap font-mono text-white/70', road.gap < SAFE_GAP && 'font-bold text-red-400')}
+              >
+                Xe trước {road.gap.toFixed(0)} m ·{' '}
+              </span>
+            )}
             {hint}
           </p>
           {subtitle && (
