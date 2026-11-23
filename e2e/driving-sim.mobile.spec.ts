@@ -291,9 +291,10 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     await expect(page.getByTestId('notice-penalty').last()).toBeVisible({ timeout: 40_000 });
     expect(await sim.steer()).toBeLessThan(-180);
 
-    // A phone this small has no room for a toast and the chip: the toast stands in for the chip while
-    // it shows, the instruction stays above it, and nothing lies on the controls.
-    await expect(chip).toBeHidden();
+    // The instruction stays above the toast and nothing lies on the controls. Lying down, the phone has
+    // no room for a toast and the chip: the toast stands in for the chip while it shows.
+    if (phone.height < 500) await expect(chip).toBeHidden();
+    else await expect(chip).toBeVisible();
     await expect(page.getByTestId('hud-hint')).toBeVisible();
     const { pedals, ids } = controlIds('B1');
     const toast = await page.evaluate((testIds) => {
@@ -370,9 +371,41 @@ for (const phone of [PHONES[0], PHONES[2]]) {
   });
 }
 
-// In the road test the panel carries the examiner's instruction and the distance left: it must stay
-// readable while a penalty toast shows, even where there is room for two lines only.
-for (const phone of [PHONES[0], PHONES[2]]) {
+// In the road test the panel carries the examiner's instruction, the distance left and the gap to the
+// car ahead: they must stay readable while a penalty toast shows and after it, even where there is
+// room for two lines only, and nothing may lie on the controls or the map.
+const ROAD_PHONES = [
+  PHONES[0],
+  PHONES[2],
+  PHONES[1],
+  // Just tall enough for the map, which leaves the hints the least room beside it.
+  { name: 'short portrait with map', width: 400, height: 780 },
+];
+
+/** Where the hint lines, the map and the controls are, and whether the gap to the car ahead is shown. */
+const roadLayout = (page: Page, ids: string[]) =>
+  page.evaluate((testIds) => {
+    type Box = { left: number; top: number; right: number; bottom: number };
+    const box = (el: Element | null | undefined): Box | null => {
+      const r = el?.getBoundingClientRect();
+      return r && r.height > 0 ? { left: r.left, top: r.top, right: r.right, bottom: r.bottom } : null;
+    };
+    const one = (id: string) => box(document.querySelector(`[data-testid="${id}"]`));
+    const toasts = [...document.querySelectorAll('[data-testid="notice-penalty"]')].map(box).filter((b) => b !== null);
+    return {
+      gap: document.querySelector('[data-testid="road-widget"]')?.getAttribute('data-gap') ?? '',
+      gapShown: one('road-gap') ?? one('road-gap-inline'),
+      distanceShown: one('road-distance'),
+      hint: one('hud-hint'),
+      panel: one('road-widget'),
+      toast: toasts.at(-1) ?? null,
+      chip: one('mistakes-open'),
+      map: one('minimap'),
+      controls: testIds.map((id) => ({ id, box: one(id) })),
+    };
+  }, ids);
+
+for (const phone of ROAD_PHONES) {
   test(`road test: the instruction stays on screen under a penalty toast (${phone.name})`, async ({ page }) => {
     await page.setViewportSize({ width: phone.width, height: phone.height });
     const sim = new SimDriver(page);
@@ -380,6 +413,31 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     await sim.start('B2', 'road');
     const hint = page.getByTestId('hud-hint');
     await expect(page.getByTestId('road-step')).toBeVisible();
+
+    const { ids, pedals } = controlIds('B2');
+    type Layout = Awaited<ReturnType<typeof roadLayout>>;
+    type Box = NonNullable<Layout['hint']>;
+    const apart = (a: Box, b: Box) => a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top;
+    const check = (layout: Layout, state: string) => {
+      expect(layout.hint, `${state}: no instruction`).not.toBeNull();
+      // A car is parked ahead of the start: the distance to it is on screen in one form or another.
+      expect(layout.gap, `${state}: no car ahead`).not.toBe('');
+      expect(layout.gapShown, `${state}: the gap to the car ahead is hidden`).not.toBeNull();
+      expect(layout.map !== null, `${state}: map`).toBe(phone.height > 760);
+      const lines = [layout.panel, layout.toast, layout.chip].filter((b) => b !== null);
+      for (const line of lines) {
+        expect(line.left, state).toBeGreaterThanOrEqual(0);
+        expect(line.right, state).toBeLessThanOrEqual(phone.width);
+        expect(line.top, state).toBeGreaterThanOrEqual(0);
+        if (layout.map) expect(apart(line, layout.map), `${state}: a hint line lies on the map`).toBe(true);
+        for (const c of layout.controls) {
+          if (!c.box) throw new Error(`${c.id} not found`);
+          expect(apart(line, c.box), `${state}: a hint line covers ${c.id}`).toBe(true);
+          expect(c.box.top, c.id).toBeGreaterThanOrEqual(0);
+          expect(c.box.bottom, c.id).toBeLessThanOrEqual(phone.height);
+        }
+      }
+    };
 
     // Pulling away without the left signal costs 5 points as soon as the car rolls.
     await sim.engage('1');
@@ -390,43 +448,23 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     await expect(hint).toBeVisible();
     await expect(hint).toContainText(/còn \d+ m/);
 
-    const { ids } = controlIds('B2');
-    const lines = await page.evaluate((testIds) => {
-      const rect = (el: Element | null) => {
-        if (!el) throw new Error('element not found');
-        const r = el.getBoundingClientRect();
-        return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
-      };
-      const toasts = [...document.querySelectorAll('[data-testid="notice-penalty"]')].filter(
-        (el) => el.getBoundingClientRect().height > 0
-      );
-      return {
-        hint: rect(document.querySelector('[data-testid="hud-hint"]')),
-        toast: rect(toasts[toasts.length - 1] ?? null),
-        controls: testIds.map((id) => ({ id, ...rect(document.querySelector(`[data-testid="${id}"]`)) })),
-      };
-    }, ids);
+    const busy = await roadLayout(page, ids);
+    expect(busy.toast, 'no toast').not.toBeNull();
+    check(busy, 'toast');
     // The toast slides in from 8 px above its place, under the instruction.
-    expect(lines.hint.bottom, 'the toast covers the instruction').toBeLessThanOrEqual(lines.toast.top + 8);
-    expect(lines.hint.top).toBeGreaterThanOrEqual(0);
-    for (const line of [lines.hint, lines.toast]) {
-      expect(line.left).toBeGreaterThanOrEqual(0);
-      expect(line.right).toBeLessThanOrEqual(phone.width);
-      for (const c of lines.controls) {
-        const apart = line.right <= c.left || c.right <= line.left || line.bottom <= c.top || c.bottom <= line.top;
-        expect(apart, `a hint line covers ${c.id}`).toBe(true);
-      }
-    }
-    for (const c of lines.controls) {
-      expect(c.top, c.id).toBeGreaterThanOrEqual(0);
-      expect(c.bottom, c.id).toBeLessThanOrEqual(phone.height);
-    }
+    expect(busy.hint?.bottom, 'the toast covers the instruction').toBeLessThanOrEqual((busy.toast?.top ?? 0) + 8);
     await sim.screenshot(`18-road-toast-${phone.width}x${phone.height}`);
 
-    // Once the toast is gone the chip takes its place and the instruction is still there.
+    // Once the toast is gone the chip is there, with the instruction and the gap still above it.
     await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByTestId('notice-penalty')).toHaveCount(0, { timeout: 15_000 });
     await expect(hint).toBeVisible();
-    const after = await measureTargets(page, phone, [...ids, 'mistakes-open'], controlIds('B2').pedals);
-    expect(after('mistakes-open').top).toBeGreaterThanOrEqual(0);
+    const marked = await roadLayout(page, ids);
+    expect(marked.chip, 'no chip').not.toBeNull();
+    check(marked, 'chip');
+    // All but the smallest phone keep the header with the distance driven.
+    if (phone !== PHONES[0]) expect(marked.distanceShown, 'the header is hidden').not.toBeNull();
+    await measureTargets(page, phone, [...ids, 'mistakes-open'], pedals);
+    await sim.screenshot(`18-road-chip-${phone.width}x${phone.height}`);
   });
 }
