@@ -154,6 +154,13 @@ describe('ParkingExam', () => {
     expect(has(events, 'pass')).toBe(true);
   });
 
+  it('ends with the no-parking penalty when the car backs out after only its nose crossed the line', () => {
+    const exam = new ParkingExam();
+    const events = [...run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1), ...run(exam, outside, 0.1)];
+    expect(penalties(events)).toHaveLength(1);
+    expect(has(events, 'pass')).toBe(true);
+  });
+
   it('does not end the exercise when the car leaves round the entry line over the grass', () => {
     const exam = new ParkingExam();
     const events = [

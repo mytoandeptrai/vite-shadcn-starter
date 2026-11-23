@@ -145,6 +145,8 @@ export class ParkingExam implements Exam {
       const inLane = car.position.z > PARKING.laneBayZ && car.position.z < PARKING.laneFarZ;
       if (!inLane || bumperX < PARKING.entryX || car.position.x > PARKING.entryX) return events;
       this.started = true;
+      // Only the nose is over the line so far: backing straight out again also leaves by the gate.
+      this.leftByGate = true;
       events.push({ type: 'info', message: 'Bắt đầu bài ghép xe dọc — thời gian 2 phút' });
     }
 
