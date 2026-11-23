@@ -65,6 +65,20 @@ describe('yard geometry', () => {
     }
   });
 
+  it('ends every kerb block where the road beside it ends, not across the mouth of a junction', () => {
+    for (const { a, b, out } of kerbBlocks()) {
+      const len = Math.hypot(b.x - a.x, b.z - a.z);
+      // Just inside each end, the strip the kerb stands on is still off the asphalt.
+      for (const t of [0.06 / len, 1 - 0.06 / len]) {
+        const p = { x: a.x + (b.x - a.x) * t, z: a.z + (b.z - a.z) * t };
+        expect(
+          onPavement({ x: p.x + out.x * 0.06, z: p.z + out.z * 0.06 }),
+          `${p.x.toFixed(2)}, ${p.z.toFixed(2)}`
+        ).toBe(false);
+      }
+    }
+  });
+
   it('paints every marking on the asphalt', () => {
     for (const { a, b } of MARKS) {
       expect(onPavement({ x: (a.x + b.x) / 2, z: (a.z + b.z) / 2 })).toBe(true);

@@ -52,6 +52,8 @@ export const KERB = { width: 0.3, height: 0.1, block: 1 } as const;
 export const LINE_INSET = 0.15;
 
 const ARC_STEP = Math.PI / 18;
+/** Kerb blocks are checked against the roads around them in pieces this long. */
+const KERB_SAMPLE = 0.1;
 
 function norm(x: number, z: number): Vec2 {
   const len = Math.hypot(x, z) || 1;
@@ -393,6 +395,18 @@ function distanceToBlock(p: Vec2, block: KerbBlock): number {
   return Math.hypot(p.x - block.a.x - dx * t, p.z - block.a.z - dz * t);
 }
 
+/** Which side of an edge point is grass a kerb can stand on: 1, -1, or 0 for none. */
+function kerbSide(p: Vec2, dir: Vec2, pavement: Pavement, others: Pavement[]): number {
+  const beside = (sgn: number, d: number) => ({ x: p.x + dir.z * sgn * d, z: p.z - dir.x * sgn * d });
+  const leftIn = insidePavement(beside(1, 0.06), pavement);
+  const rightIn = insidePavement(beside(-1, 0.06), pavement);
+  if (leftIn === rightIn) return 0;
+  const sgn = leftIn ? -1 : 1;
+  const near = beside(sgn, 0.06);
+  const far = beside(sgn, KERB.width - 0.02);
+  return others.some((o) => insidePavement(near, o) || insidePavement(far, o)) ? 0 : sgn;
+}
+
 let kerbCache: KerbBlock[] | null = null;
 
 /** Red and white kerb blocks along the outer boundary of everything paved. */
@@ -414,23 +428,33 @@ export function kerbBlocks(): KerbBlock[] {
           // Cut at whole metres along the loop so the red/white pattern runs evenly round corners.
           const step = Math.min(len - done, KERB.block - (travelled % KERB.block));
           const a = { x: from.x + dir.x * done, z: from.z + dir.z * done };
-          const b = { x: a.x + dir.x * step, z: a.z + dir.z * step };
           const red = Math.floor(travelled / KERB.block + 1e-6) % 2 === 0;
           done += step;
           travelled += step;
           if (step < 0.05) continue;
-          const mid = { x: (a.x + b.x) / 2, z: (a.z + b.z) / 2 };
-          const side = (s: number, d: number) => ({ x: mid.x + dir.z * s * d, z: mid.z - dir.x * s * d });
-          const leftIn = insidePavement(side(1, 0.06), pavement);
-          const rightIn = insidePavement(side(-1, 0.06), pavement);
-          if (leftIn === rightIn) continue;
-          const s = leftIn ? -1 : 1;
-          const near = side(s, 0.06);
-          const far = side(s, KERB.width - 0.02);
-          if (others.some((p) => insidePavement(near, p) || insidePavement(far, p))) continue;
-          const block = { a, b, out: { x: dir.z * s, z: -dir.x * s }, red };
-          if (blocks.some((other) => distanceToBlock(mid, other) < 0.12)) continue;
-          blocks.push(block);
+          // Judge the block in short pieces: where another road joins, only the part that still has
+          // grass behind it is kerb, so no block end sticks out across the mouth of a junction.
+          const pieces = Math.max(1, Math.ceil(step / KERB_SAMPLE));
+          const at = (t: number) => ({ x: a.x + dir.x * step * t, z: a.z + dir.z * step * t });
+          let side = 0;
+          let runStart = -1;
+          for (let k = 0; k <= pieces; k++) {
+            let kerb = false;
+            if (k < pieces) {
+              // Both ends of the piece must be kerb, so a piece straddling a corner is left out.
+              const sides = [0.1, 0.9].map((t) => kerbSide(at((k + t) / pieces), dir, pavement, others));
+              kerb = sides[0] !== 0 && sides[0] === sides[1];
+              if (kerb) side = sides[0];
+            }
+            if (kerb && runStart < 0) runStart = k;
+            if (kerb || runStart < 0) continue;
+            const run = { a: at(runStart / pieces), b: at(k / pieces) };
+            runStart = -1;
+            if (Math.hypot(run.b.x - run.a.x, run.b.z - run.a.z) < 0.05) continue;
+            const mid = { x: (run.a.x + run.b.x) / 2, z: (run.a.z + run.b.z) / 2 };
+            if (blocks.some((other) => distanceToBlock(mid, other) < 0.12)) continue;
+            blocks.push({ ...run, out: { x: dir.z * side, z: -dir.x * side }, red });
+          }
         }
       }
     }
