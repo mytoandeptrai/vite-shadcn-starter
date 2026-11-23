@@ -305,3 +305,43 @@ test('buy me a coffee: the button on the main screen opens the QR dialog, which 
   await page.mouse.click(5, 5);
   await expect(dialog).toBeHidden();
 });
+
+test.describe('full yard exam', () => {
+  test('starts at bài 1 and moves on to bài 2 after a clean departure', async ({ page }) => {
+    const sim = new SimDriver(page);
+    await sim.open('high');
+    await expect(page.getByTestId('scenario-exam')).toContainText('11');
+    await sim.start('B1', 'exam');
+    await expect(page.getByTestId('yard-step')).toContainText('Bài 1/11');
+    await expect(page.getByTestId('hud-hint')).toContainText('xi nhan trái');
+
+    // Left signal on, select D with the brake down, then creep over the start line.
+    const k = page.keyboard;
+    await k.press('Comma');
+    await k.down('KeyS');
+    const brake = async () => Number((await page.getByTestId('pedal-brake').textContent())?.match(/\d+/)?.[0]);
+    await sim.waitFor(brake, (v) => v > 50);
+    await k.press('KeyF');
+    await expect(page.getByTestId('hud-gear')).toHaveText('D');
+    await k.up('KeyS');
+    await expect(page.getByTestId('hud-hint')).toContainText('Tắt xi nhan trái', { timeout: 30_000 });
+    // Stop first: at a few frames per second the 5 m to switch the signal off pass in a blink.
+    await k.down('KeyS');
+    await k.press('Comma');
+    await sim.waitFor(sim.speed, (v) => v < 0.05);
+    await sim.screenshot('12-exam-start');
+    await k.up('KeyS');
+    await expect(page.getByTestId('yard-step')).toContainText('Bài 2/11', { timeout: 30_000 });
+    await expect(page.getByTestId('yard-step')).toContainText('người đi bộ');
+    expect(await sim.score()).toBe(100);
+  });
+
+  test('guide explains the 11 exercises', async ({ page }) => {
+    const sim = new SimDriver(page);
+    await sim.open('low');
+    await page.getByTestId('guide-button').click();
+    await page.getByTestId('guide-tab-exam').click();
+    await expect(page.getByTestId('guide-panel')).toContainText('Bài 11 · Kết thúc');
+    await expect(page.getByTestId('guide-panel')).toContainText('Vượt đèn đỏ');
+  });
+});

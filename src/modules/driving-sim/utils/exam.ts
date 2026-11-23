@@ -1,7 +1,6 @@
 import { CAR, HILL, PARKING, PARKING_BAY, TRACK_LINES } from '../constants';
-import type { CarSnapshot, DriverState, ExamEvent, RoadProgress, Scenario } from '../types';
+import type { CarSnapshot, DriverState, ExamEvent, Lights, RoadProgress, YardProgress } from '../types';
 import { distanceToSegment } from './math';
-import { RoadExam } from './road-exam';
 import type { Traffic } from './road-traffic';
 
 const STILL_SPEED = 0.05;
@@ -15,6 +14,9 @@ export interface Exam {
   hint(): string;
   /** Road test only: distance and step for the HUD progress bar. */
   progress?(): RoadProgress;
+  /** Full yard exam only: the exercise being driven and the crossroads lights. */
+  yard?(): YardProgress;
+  lights?(): Lights;
   /** Road test only: the other cars on the road. */
   traffic?: Traffic;
 }
@@ -211,29 +213,4 @@ export class ParkingExam implements Exam {
     if (!this.parked) return 'Tiến qua chuồng, vào số lùi và ghép xe vào nơi đỗ, không đè vạch';
     return 'Tiến ra khỏi chuồng, quay lại qua vạch xanh để kết thúc';
   }
-}
-
-/** Free roam: nothing is scored. */
-class FreeRoam implements Exam {
-  private elapsed = 0;
-
-  update(_car: CarSnapshot, dt: number): ExamEvent[] {
-    this.elapsed += dt;
-    return [];
-  }
-
-  clock() {
-    return { seconds: this.elapsed, countdown: false };
-  }
-
-  hint(): string {
-    return 'Tập lái tự do — không chấm điểm';
-  }
-}
-
-export function createExam(scenario: Scenario): Exam {
-  if (scenario === 'hill') return new HillExam();
-  if (scenario === 'parking') return new ParkingExam();
-  if (scenario === 'road') return new RoadExam();
-  return new FreeRoam();
 }

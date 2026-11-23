@@ -3,7 +3,7 @@ import { type CDPSession, expect, type Page } from '@playwright/test';
 export const SCREENSHOT_DIR = 'e2e/artifacts/screenshots';
 
 type Mode = 'B1' | 'B2';
-type Scenario = 'free' | 'hill' | 'parking' | 'road';
+type Scenario = 'free' | 'hill' | 'parking' | 'exam' | 'road';
 
 /** Drives the simulator through its UI and reads the HUD like a learner would. */
 export class SimDriver {

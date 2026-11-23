@@ -14,7 +14,8 @@ import { notifyStall, useSimStore } from '../../store/sim-store';
 import { updateEngineSound } from '../../utils/audio';
 import { coachTip } from '../../utils/coach';
 import { stepDrivetrain } from '../../utils/drivetrain';
-import { createExam } from '../../utils/exam';
+import { createExam } from '../../utils/create-exam';
+import { lightsAt } from '../../utils/yard-exam';
 import { input, updateInput } from '../../utils/input-state';
 import { runtime } from '../../utils/runtime';
 import { SUSPENSION, VehicleRig, WHEEL_ANCHORS } from '../../utils/vehicle-physics';
@@ -50,6 +51,8 @@ export function Vehicle() {
     runtime.pose.heading = spawn.heading;
     runtime.pose.speed = 0;
     runtime.npcs = exam.traffic?.cars ?? [];
+    runtime.lights = lightsAt(0);
+    runtime.yard = exam.yard?.() ?? null;
     return () => {
       rig.dispose();
       rigRef.current = null;
@@ -106,8 +109,11 @@ export function Vehicle() {
       gear: store.gear,
       signal: store.signal,
       handbrake: store.handbrake,
+      rpm: Math.abs(runtime.drivetrain.rpm),
     });
     if (exam.traffic) runtime.npcs = exam.traffic.cars;
+    runtime.lights = exam.lights?.() ?? lightsAt(clock.time);
+    runtime.yard = exam.yard?.() ?? null;
     store.applyEvents(events, clock.time);
 
     clock.sinceTelemetry += dt;
@@ -124,6 +130,7 @@ export function Vehicle() {
         clockCountdown: examClock.countdown,
         hint: exam.hint(),
         road: exam.progress?.() ?? null,
+        yard: runtime.yard,
         coach: coachTip({
           transmission: store.transmission,
           gear: store.gear,

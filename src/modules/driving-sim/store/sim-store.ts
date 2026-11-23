@@ -7,6 +7,7 @@ import type {
   Gear,
   Penalty,
   RoadProgress,
+  YardProgress,
   Scenario,
   SimPhase,
   Transmission,
@@ -30,6 +31,8 @@ export interface Telemetry {
   coach: string;
   /** Road test only. */
   road: RoadProgress | null;
+  /** Full yard exam: the exercise being driven. */
+  yard: YardProgress | null;
 }
 
 export type NoticeKind = 'penalty' | 'fail' | 'warning' | 'info';
@@ -97,6 +100,7 @@ const emptyTelemetry: Telemetry = {
   hint: '',
   coach: '',
   road: null,
+  yard: null,
 };
 
 let penaltyId = 0;

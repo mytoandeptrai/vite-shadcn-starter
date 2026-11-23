@@ -134,6 +134,7 @@ export const SPAWNS: Record<Scenario, SpawnPoint> = {
   // Just before the pedestrian crossing, the exercise ahead of the slope.
   hill: { x: START_LANE_X, z: -11.2, heading: 0 },
   // On the centre road, facing into the parking lane.
+  exam: { x: START_LANE_X, z: -27, heading: 0 },
   parking: { x: 3.5, z: (PARKING.laneBayZ + PARKING.laneFarZ) / 2, heading: Math.PI / 2 },
   road: { x: ROAD.laneX, z: 0, heading: 0 },
 };
@@ -142,6 +143,7 @@ export const SCENARIO_LABELS: Record<Scenario, { title: string; subtitle: string
   free: { title: 'Free Roam', subtitle: 'Tập lái tự do trên sân, không chấm điểm' },
   hill: { title: 'Đề-pa Dốc', subtitle: 'Dừng và khởi hành xe ngang dốc 10%' },
   parking: { title: 'Ghép Chuồng Dọc', subtitle: 'Ghép xe dọc vào nơi đỗ (lùi chuồng)' },
+  exam: { title: 'Thi Liên Hoàn 11 Bài', subtitle: 'Đủ 11 bài sa hình theo thứ tự, 18 phút, đạt từ 80 điểm' },
   road: { title: 'Thi Đường Trường', subtitle: 'Lái 2 km trên đường giao thông theo lệnh sát hạch viên' },
 };
 
@@ -204,3 +206,62 @@ export function hillHeightAt(z: number): number {
   if (z <= downStart) return HILL.height;
   return (1 - (z - downStart) / HILL.rampLength) * HILL.height;
 }
+
+const ringLane = { min: hillMinX, max: hillMaxX };
+const crossLane = { min: -0.8, max: 6.8 };
+const centreLane = { min: 0.2, max: 7.8 };
+
+/**
+ * Full yard exam (thi liên hoàn). Every line is crossed in one direction: `at` is its position on
+ * `axis`, `min`/`max` the lane on the other axis. Stop lines are given by their near edge.
+ */
+export const YARD_EXAM = {
+  speedLimitKmh: 24,
+  maxRpm: 4000,
+  totalTime: 18 * 60,
+  exerciseTime: 120,
+  lineHold: 5,
+  /** A stop counts from this far before a stop line. */
+  stopZone: 4.5,
+  stopTolerance: 0.5,
+  /** The left signal must be off this far past the start line. */
+  signalClear: 5,
+  lights: { green: 12, yellow: 3 },
+  start: { axis: 'z', dir: 1, at: -22.5, ...ringLane },
+  pedestrian: { axis: 'z', dir: 1, at: -8.6, ...ringLane },
+  railway: { axis: 'x', dir: 1, at: 28.3, min: 53.7, max: 61.3 },
+  angle: {
+    entry: { axis: 'z', dir: -1, at: 51.2, min: -18.8, max: -14.7 },
+    exit: { axis: 'z', dir: -1, at: 9.7, min: -27.65, max: -23.55 },
+    box: [-28.2, -14.2, 6.5, 52],
+  },
+  /** The right wheels must stay between the two yellow lines over this stretch. */
+  wheelTrack: { minX: -15.85, maxX: -15.1, fromZ: 26.6, toZ: 20.6 },
+  curve: {
+    entry: { axis: 'x', dir: -1, at: 43.2, min: 28.3, max: 32.6 },
+    exit: { axis: 'x', dir: -1, at: 9.3, min: 45.8, max: 50.1 },
+    box: [8, 45.4, 27.5, 50.8],
+  },
+  cross: {
+    west: { axis: 'x', dir: 1, at: -4.8, min: 3, max: 6.8 },
+    north: { axis: 'z', dir: -1, at: 11.8, min: 4, max: 7.8 },
+    east: { axis: 'x', dir: -1, at: 12.8, min: -0.8, max: 3 },
+    south: { axis: 'z', dir: 1, at: -5.7, min: 0.2, max: 4 },
+    exitEast: { axis: 'x', dir: 1, at: 9, ...crossLane },
+    exitSouth: { axis: 'z', dir: -1, at: -3, ...centreLane },
+    exitNorth: { axis: 'z', dir: 1, at: 8, ...centreLane },
+    exitWest: { axis: 'x', dir: -1, at: -2, ...crossLane },
+  },
+  junction: { minX: -6, maxX: 14, minZ: -7, maxZ: 13 },
+  gear: { lane: { axis: 'z', dir: -1, at: 0, min: 49.5, max: 53.3 }, startZ: 38, greenZ: 13, redZ: -12, kmh: 24 },
+  parallel: {
+    entry: { axis: 'z', dir: 1, at: -47.5, min: -5.2, max: 4 },
+    exit: { axis: 'z', dir: 1, at: -12.4, min: -5.2, max: 4 },
+    bays: [
+      { minX: -5.2, maxX: -2.7, minZ: -42.6, maxZ: -35.5 },
+      { minX: -5.2, maxX: -2.7, minZ: -26.7, maxZ: -19.6 },
+    ],
+    box: { minX: -5.7, maxX: -2.4, minZ: -48, maxZ: -12 },
+  },
+  finish: { axis: 'x', dir: -1, at: -28, min: -60.65, max: -53.05 },
+} as const;

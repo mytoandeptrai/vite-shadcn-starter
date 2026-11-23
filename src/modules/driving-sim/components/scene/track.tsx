@@ -1,3 +1,4 @@
+import { useFrame } from '@react-three/fiber';
 import { ConvexHullCollider, CuboidCollider, RigidBody, TrimeshCollider } from '@react-three/rapier';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import {
@@ -5,13 +6,15 @@ import {
   BufferGeometry,
   CanvasTexture,
   type InstancedMesh,
+  type MeshBasicMaterial,
   Object3D,
   RepeatWrapping,
   SRGBColorSpace,
 } from 'three';
-import { HILL, hillHeightAt, PARKING, PARKING_BAY, TRACK_LINES } from '../../constants';
+import { HILL, hillHeightAt, PARKING, PARKING_BAY, TRACK_LINES, YARD_EXAM } from '../../constants';
 import { useDisposable } from '../../hooks/use-disposable';
-import type { LineKind } from '../../types';
+import type { LightColor, Lights, LineKind } from '../../types';
+import { runtime } from '../../utils/runtime';
 import { CENTRE_ROAD, CROSS_ROAD, KERB, onPavement, RING } from '../../utils/yard';
 import { GROUND_TEXTS, type GroundText, MARK_POLYGONS, MARKS } from '../../utils/yard-marks';
 import {
@@ -478,12 +481,22 @@ function Railway() {
   );
 }
 
-function TrafficLight({ x, z, rotationY, go }: { x: number; z: number; rotationY: number; go: boolean }) {
-  const lamps: [number, string, boolean][] = [
-    [0.32, '#ef4444', !go],
-    [0, '#facc15', false],
-    [-0.32, '#22c55e', go],
-  ];
+const LAMPS: [number, LightColor, string][] = [
+  [0.32, 'red', '#ef4444'],
+  [0, 'yellow', '#facc15'],
+  [-0.32, 'green', '#22c55e'],
+];
+
+/** Signal head for one arm of the crossroads; it follows the live light cycle. */
+function TrafficLight({ x, z, rotationY, axis }: { x: number; z: number; rotationY: number; axis: keyof Lights }) {
+  const materials = useRef<(MeshBasicMaterial | null)[]>([]);
+  const shown = useRef<LightColor | null>(null);
+  useFrame(() => {
+    const color = runtime.lights[axis];
+    if (shown.current === color) return;
+    shown.current = color;
+    LAMPS.forEach(([, name, lit], i) => materials.current[i]?.color.set(name === color ? lit : '#374151'));
+  });
   return (
     <group position={[x, 0, z]} rotation={[0, rotationY, 0]}>
       <mesh position={[0, 1.6, 0]}>
@@ -494,10 +507,15 @@ function TrafficLight({ x, z, rotationY, go }: { x: number; z: number; rotationY
         <boxGeometry args={[0.38, 1.1, 0.26]} />
         <meshStandardMaterial color='#1f2937' />
       </mesh>
-      {lamps.map(([y, color, lit]) => (
-        <mesh key={color} position={[0, 3.4 + y, 0.14]}>
+      {LAMPS.map(([y, name], i) => (
+        <mesh key={name} position={[0, 3.4 + y, 0.14]}>
           <circleGeometry args={[0.12, 14]} />
-          <meshBasicMaterial color={lit ? color : '#374151'} />
+          <meshBasicMaterial
+            ref={(material) => {
+              materials.current[i] = material;
+            }}
+            color='#374151'
+          />
         </mesh>
       ))}
     </group>
@@ -613,6 +631,7 @@ export function Track({ runId }: { runId: number }) {
   const cx = CENTRE_ROAD.x;
   const cz = CROSS_ROAD.z;
   const hillSignX = HILL.centerX - HILL.width / 2 - 2;
+  const gearSignX = RING.maxX + HALF + 1.6;
 
   return (
     <group>
@@ -636,11 +655,11 @@ export function Track({ runId }: { runId: number }) {
         </mesh>
       ))}
 
-      {/* Crossroads: the centre road has green. */}
-      <TrafficLight x={cx + HALF + 1} z={cz + HALF + 5.2} rotationY={0} go />
-      <TrafficLight x={cx - HALF - 1} z={cz - HALF - 5.2} rotationY={Math.PI} go />
-      <TrafficLight x={cx + HALF + 5.2} z={cz - HALF - 1} rotationY={Math.PI / 2} go={false} />
-      <TrafficLight x={cx - HALF - 5.2} z={cz + HALF + 1} rotationY={-Math.PI / 2} go={false} />
+      {/* Crossroads */}
+      <TrafficLight x={cx + HALF + 1} z={cz + HALF + 5.2} rotationY={0} axis='ns' />
+      <TrafficLight x={cx - HALF - 1} z={cz - HALF - 5.2} rotationY={Math.PI} axis='ns' />
+      <TrafficLight x={cx + HALF + 5.2} z={cz - HALF - 1} rotationY={Math.PI / 2} axis='ew' />
+      <TrafficLight x={cx - HALF - 5.2} z={cz + HALF + 1} rotationY={-Math.PI / 2} axis='ew' />
 
       {/* Parking bay corners and the stop line on the slope */}
       <Pole x={PARKING_BAY.minX} z={PARKING_BAY.maxZ} />
@@ -689,11 +708,24 @@ export function Track({ runId }: { runId: number }) {
         lines={['BÀI 8', 'DỪNG XE NƠI', 'ĐƯỜNG SẮT CHẠY QUA']}
       />
       <Sign
-        position={[RING.maxX + HALF + 1.6, 0, 40]}
+        position={[RING.maxX + HALF + 1.6, 0, 45]}
         rotationY={0}
         lines={['BÀI 9', 'THAY ĐỔI SỐ', 'TRÊN ĐƯỜNG BẰNG']}
       />
-      <Sign position={[RING.maxX - HALF - 6.5, 0, -9]} rotationY={0} lines={['BÀI 10', 'GHÉP XE NGANG']} />
+      <Sign position={[gearSignX, 0, YARD_EXAM.gear.startZ]} rotationY={0} lines={['BẮT ĐẦU', 'TĂNG TỐC']} />
+      <Sign
+        position={[gearSignX, 0, YARD_EXAM.gear.greenZ]}
+        rotationY={0}
+        lines={['24 km/h', 'SỐ 2 · TRÊN 24']}
+        background='#15803d'
+      />
+      <Sign
+        position={[gearSignX, 0, YARD_EXAM.gear.redZ]}
+        rotationY={0}
+        lines={['24 km/h', 'SỐ 1 · DƯỚI 24']}
+        background='#b91c1c'
+      />
+      <Sign position={[cx - HALF - 3.6, 0, -11]} rotationY={Math.PI} lines={['BÀI 10', 'GHÉP XE NGANG']} />
       <Sign position={[-24, 0, RING.minZ - HALF - 1.6]} rotationY={Math.PI / 2} lines={['BÀI 11', 'KẾT THÚC']} />
       <Sign position={[-38.75, 0, -26.2]} rotationY={Math.PI} lines={['SÂN TẬP LÁI', 'SA HÌNH B1 / B2']} />
 

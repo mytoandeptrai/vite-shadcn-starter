@@ -1,4 +1,14 @@
-import { ArrowRight, BookOpen, type Car, Keyboard, Map as MapIcon, Mountain, Route, SquareParking } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  type Car,
+  Keyboard,
+  ListChecks,
+  Map as MapIcon,
+  Mountain,
+  Route,
+  SquareParking,
+} from 'lucide-react';
 import { useState } from 'react';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
@@ -17,6 +27,15 @@ const MODES: { id: Transmission; label: string; summary: string }[] = [
 ];
 
 const SCENARIOS: { id: YardScenario; icon: typeof Car; rules: string[] }[] = [
+  {
+    id: 'exam',
+    icon: ListChecks,
+    rules: [
+      'Đủ 11 bài theo thứ tự trong 18 phút',
+      'Quá 24 km/h: −1 điểm mỗi 3 giây',
+      'Leo vỉa hoặc sai thứ tự bài: truất quyền',
+    ],
+  },
   { id: 'free', icon: MapIcon, rules: ['Làm quen vô lăng, côn, số'] },
   {
     id: 'hill',
@@ -253,7 +272,7 @@ export function ScenarioModal() {
             <RoadCard />
           ) : (
             <>
-              <div className='grid gap-2 md:grid-cols-3'>
+              <div className='grid gap-2 md:grid-cols-2'>
                 {SCENARIOS.map((item) => (
                   <ExerciseCard
                     key={item.id}

@@ -1,5 +1,5 @@
 export type Transmission = 'B1' | 'B2';
-export type Scenario = 'free' | 'hill' | 'parking' | 'road';
+export type Scenario = 'free' | 'hill' | 'parking' | 'exam' | 'road';
 export type TurnSignal = 'off' | 'left' | 'right';
 export type Gear = 'P' | 'R' | 'N' | 'D' | '1' | '2' | '3' | '4' | '5';
 export type CameraMode = 'chase' | 'driver' | 'top';
@@ -63,6 +63,8 @@ export interface DriverState {
   gear: Gear;
   signal: TurnSignal;
   handbrake: boolean;
+  /** Engine speed, when the exam scores it. */
+  rpm?: number;
 }
 
 /** Another road user, axis-aligned with the road. */
@@ -87,4 +89,22 @@ export interface RoadProgress {
   offset: number;
   /** Bumper-to-bumper distance to the car in front, metres; null when the lane ahead is clear. */
   gap: number | null;
+}
+
+export type LightColor = 'red' | 'yellow' | 'green';
+
+/** Traffic lights of the yard's crossroads: the centre road (ns) and the cross road (ew). */
+export interface Lights {
+  ns: LightColor;
+  ew: LightColor;
+}
+
+/** Full yard exam progress shown on the HUD. */
+export interface YardProgress {
+  /** Exercise being driven, 1 to `total`. */
+  step: number;
+  total: number;
+  title: string;
+  /** Where that exercise begins. */
+  target: Vec2;
 }

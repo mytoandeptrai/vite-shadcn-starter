@@ -5,6 +5,7 @@ import { useSimStore } from '../../store/sim-store';
 import type { LineKind } from '../../types';
 import { runtime } from '../../utils/runtime';
 import { PAVEMENTS } from '../../utils/yard';
+import { EXAM_ROUTE } from '../../utils/yard-exam';
 
 const SIZE = 168;
 /** Metres from the car to the edge of the map. */
@@ -102,6 +103,27 @@ export function Minimap() {
       }
     } else {
       drawYard(c, cx, cz, scale, sx, sy);
+      const target = runtime.yard?.target;
+      if (target) {
+        // Full exam: the route, and a marker where the next exercise begins.
+        c.strokeStyle = 'rgba(56, 189, 248, 0.55)';
+        c.lineWidth = 2;
+        c.lineJoin = 'round';
+        c.beginPath();
+        EXAM_ROUTE.forEach((p, i) => (i === 0 ? c.moveTo(sx(p.x), sy(p.z)) : c.lineTo(sx(p.x), sy(p.z))));
+        c.stroke();
+        // Kept on the rim of the map while the exercise is still out of range.
+        const dx = sx(target.x) - SIZE / 2;
+        const dy = sy(target.z) - SIZE / 2;
+        const k = Math.min(1, (SIZE / 2 - 8) / Math.max(Math.abs(dx), Math.abs(dy), 1));
+        c.fillStyle = '#facc15';
+        c.strokeStyle = '#0f172a';
+        c.lineWidth = 1.5;
+        c.beginPath();
+        c.arc(SIZE / 2 + dx * k, SIZE / 2 + dy * k, 5, 0, Math.PI * 2);
+        c.fill();
+        c.stroke();
+      }
     }
     c.save();
     c.translate(SIZE / 2, SIZE / 2);

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useSimStore } from '../../store/sim-store';
 
-type TopicId = 'basics' | 'manual' | 'automatic' | 'hill' | 'parking' | 'road';
+type TopicId = 'basics' | 'manual' | 'automatic' | 'hill' | 'parking' | 'exam' | 'road';
 
 interface Section {
   title: string;
@@ -162,6 +162,115 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
           'Bánh xe đè vạch cảm biến (màu vàng): trừ 5 điểm mỗi lần, đè lâu bị trừ tiếp mỗi 5 giây.',
           'Quá 2 phút hoặc ra khỏi hình khi chưa ghép được xe: trừ 5 điểm.',
         ],
+      },
+    ],
+  },
+  {
+    id: 'exam',
+    label: 'Thi 11 bài',
+    intro:
+      'Thi liên hoàn: lái đủ 11 bài theo đúng thứ tự trong 18 phút, bắt đầu 100 điểm, đạt từ 80. Dòng trắng trên màn hình luôn ghi bài đang thi và lối đi tới bài kế tiếp; bản đồ nhỏ vẽ tuyến đi (xanh) và chấm vàng ở đầu bài kế tiếp. Trên mặt sân có mũi tên chỉ hướng.',
+    sections: [
+      {
+        title: 'Luật chung cả bài',
+        notes: [
+          'Không chạy quá 24 km/h (trừ bài 9): trừ 1 điểm mỗi 3 giây. Vòng tua quá 4.000 vòng/phút: trừ 5 điểm.',
+          'Chết máy: trừ 5 điểm mỗi lần. Quá 18 phút: trừ 1 điểm mỗi 3 giây.',
+          'Truất quyền: bánh xe leo lên vỉa đỏ trắng, đi sai thứ tự bài, hoặc điểm xuống dưới 80.',
+          'Mỗi lần dừng xe số sàn: đạp hết côn (C) cùng phanh (S) để không chết máy.',
+        ],
+      },
+      {
+        title: 'Bài 1 · Xuất phát',
+        steps: [
+          'Bật xi nhan trái (phím ,) trước khi xe lăn bánh.',
+          'Vào số 1 (B1: D), nhả phanh tay, cho xe qua vạch xuất phát trong 20 giây (quá 30 giây bị truất quyền).',
+          'Tắt xi nhan trái trong 5 m sau vạch.',
+        ],
+      },
+      {
+        title: 'Bài 2 · Nhường đường cho người đi bộ',
+        steps: [
+          'Dừng hẳn trước vạch dừng, cản trước cách vạch không quá 50 cm và không vượt vạch.',
+          'Mẹo: vạch vàng nằm trước vạch dừng 4 m; mũi xe che vạch dừng trên màn hình là sắp tới nơi, xem dòng “còn … m” ở bài dốc để quen khoảng cách.',
+        ],
+        notes: ['Không dừng, dừng xa quá 50 cm hoặc dừng quá vạch: trừ 5 điểm.'],
+      },
+      {
+        title: 'Bài 3 · Dừng và khởi hành ngang dốc',
+        notes: [
+          'Làm như bài luyện “Đề-pa Dốc” (xem trang Đề-pa dốc). Tụt dốc quá 50 cm, quá vạch hoặc quá 30 giây: truất quyền.',
+        ],
+      },
+      {
+        title: 'Bài 4 · Vệt bánh xe và đường vuông góc',
+        steps: [
+          'Hết dốc, qua góc sân, chạy trên đường trên cùng rồi rẽ trái vào làn hẹp thứ hai (làn xe con).',
+          'Đi sát bên phải cho hai bánh phải lăn giữa hai vạch vàng (vệt bánh xe). Bánh phải không qua vệt: truất quyền.',
+          'Tới góc vuông: rẽ trái, rồi rẽ phải. Vào cua muộn, đánh hết lái (Q / E) và đi thật chậm.',
+          'Ra khỏi hình thì rẽ phải ra đường ngang, đi tới ngã tư.',
+        ],
+        notes: ['Bánh xe đè vạch trắng sát vỉa: trừ 5 điểm, thêm 5 điểm mỗi 5 giây. Quá 2 phút: trừ 5 điểm.'],
+      },
+      {
+        title: 'Bài 5 · Ngã tư có đèn tín hiệu (qua 4 lần)',
+        steps: [
+          'Đèn đỏ hoặc vàng: dừng trước vạch dừng, cản trước cách vạch không quá 50 cm.',
+          'Đèn xanh: qua ngã tư trong 20 giây (quá 30 giây bị truất quyền).',
+          'Lần 1 (sau bài 4) và lần 2 (sau bài 6): đi thẳng. Lần 3 (sau bài 7): rẽ trái, bật xi nhan trái. Lần 4 (sau bài 10): rẽ phải, bật xi nhan phải.',
+        ],
+        notes: ['Vượt đèn đỏ: trừ 10 điểm. Dừng quá vạch, dừng xa vạch, rẽ không xi nhan: trừ 5 điểm mỗi lỗi.'],
+      },
+      {
+        title: 'Bài 6 · Đường vòng quanh co (chữ S)',
+        steps: [
+          'Qua ngã tư lần 1, tới cuối đường ngang rẽ phải, rồi rẽ phải vào lối chữ S thứ hai (hẹp hơn, của xe con).',
+          'Vào cua nào thì bám sát vạch phía ngoài cua đó, đi thật chậm, không để bánh sau cắt vào trong.',
+          'Hết chữ S rẽ phải xuống đường giữa sân, đi thẳng qua ngã tư lần 2.',
+        ],
+        notes: ['Đè vạch: trừ 5 điểm, thêm 5 điểm mỗi 5 giây. Quá 2 phút: trừ 5 điểm.'],
+      },
+      {
+        title: 'Bài 7 · Ghép xe dọc',
+        notes: [
+          'Sau ngã tư lần 2, rẽ phải vào làn cụt có vạch xanh. Làm như bài luyện “Ghép Chuồng Dọc”, xong quay ra qua vạch xanh.',
+          'Ra khỏi làn rẽ phải, cuối đường rẽ phải, đi hết đường dưới, lên đường bên rồi rẽ phải vào đường ngang để tới ngã tư lần 3 (rẽ trái).',
+        ],
+      },
+      {
+        title: 'Bài 8 · Đường sắt chạy qua',
+        steps: [
+          'Sau khi rẽ trái ở ngã tư, đi hết đường giữa, rẽ trái ra đường trên cùng.',
+          'Dừng trước vạch dừng của đường sắt như bài 2, rồi đi tiếp qua đường ray.',
+        ],
+      },
+      {
+        title: 'Bài 9 · Thay đổi số trên đường bằng',
+        steps: [
+          'Qua góc sân, đi làn ngoài (bên phải). Từ biển “Bắt đầu tăng tốc” tới biển 24 xanh (25 m): tăng ga, B2 lên số 2, chạy trên 24 km/h.',
+          'Từ biển 24 xanh tới biển 24 đỏ (25 m): phanh xuống dưới 24 km/h, B2 về số 1.',
+        ],
+        notes: ['Sai tốc độ hoặc sai số ở mỗi biển: trừ 5 điểm mỗi lỗi. Riêng đoạn này không tính lỗi quá 24 km/h.'],
+      },
+      {
+        title: 'Bài 10 · Ghép xe ngang',
+        steps: [
+          'Hết đường bên, qua góc sân, chạy trên đường dưới rồi rẽ trái vào đường giữa sân. Dải đỗ lát màu sáng nằm bên phải, có hai nơi đỗ: ghép vào nơi nào cũng được.',
+          'Chạy thẳng trong dải đỗ, sát mép nơi đỗ, tới khi đuôi xe vừa qua nơi đỗ thì dừng.',
+          'Vào số lùi, “Hết lái phải” (E), lùi chậm; khi xe chéo khoảng 45° thì trả thẳng lái, lùi tiếp, rồi “Hết lái trái” (Q) để đưa đầu xe vào.',
+          'Cả xe nằm gọn trong nơi đỗ, dừng hẳn và chờ tiếng “tít”. Tiến ra, đi tiếp tới ngã tư lần 4 (rẽ phải, xi nhan phải).',
+        ],
+        notes: [
+          'Đè vạch sát vỉa của nơi đỗ: trừ 5 điểm, thêm 5 điểm mỗi 5 giây. Không ghép được hoặc quá 2 phút: trừ 5 điểm.',
+        ],
+      },
+      {
+        title: 'Bài 11 · Kết thúc',
+        steps: [
+          'Sau khi rẽ phải ở ngã tư, rẽ phải xuống đường một chiều, cuối đường rẽ trái ra đường dưới.',
+          'Bật xi nhan phải (phím .) trước khi qua vạch kết thúc màu đỏ.',
+        ],
+        notes: ['Chưa có trong bản này: thắt dây an toàn và tình huống nguy hiểm (đèn khẩn cấp).'],
       },
     ],
   },

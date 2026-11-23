@@ -137,6 +137,7 @@ export function Hints() {
   const hint = useSimStore((s) => s.telemetry.hint);
   const coach = useSimStore((s) => s.telemetry.coach);
   const road = useSimStore((s) => s.telemetry.road);
+  const yard = useSimStore((s) => s.telemetry.yard);
   const subtitle = useSimStore((s) => s.subtitle);
   const touch = useTouchDevice();
 
@@ -193,7 +194,34 @@ export function Hints() {
           )}
         </div>
       )}
-      {hint && !road && (
+      {yard && (
+        <div
+          data-testid='yard-widget'
+          data-step={yard.step}
+          className='ds-panel w-full max-w-md rounded-2xl px-3 py-1.5 text-center text-[10px] leading-snug md:text-xs'
+        >
+          <p data-testid='yard-step' className='truncate font-bold text-sky-300'>
+            Bài {yard.step}/{yard.total} · {yard.title}
+          </p>
+          <div
+            role='progressbar'
+            aria-label='Số bài đã qua'
+            aria-valuemin={0}
+            aria-valuemax={yard.total}
+            aria-valuenow={yard.step - 1}
+            className='mt-1 h-1.5 overflow-hidden rounded-full bg-white/15'
+          >
+            <div
+              className='h-full rounded-full bg-sky-400'
+              style={{ width: `${((yard.step - 1) / yard.total) * 100}%` }}
+            />
+          </div>
+          <p data-testid='hud-hint' className='mt-1'>
+            {hint}
+          </p>
+        </div>
+      )}
+      {hint && !road && !yard && (
         <p
           data-testid='hud-hint'
           className='ds-panel max-w-full rounded-full px-3 py-1 text-center text-[10px] leading-snug md:text-xs'
