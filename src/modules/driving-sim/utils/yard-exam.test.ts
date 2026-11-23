@@ -28,7 +28,7 @@ function snapshot(p: Vec2, forward: Vec2, speed: number, stalledNow = false): Ca
 
 const c = (x: number, z: number, r?: number): Corner => ({ x, z, r });
 
-/** Lane centres of the exam route, split where the car is put into a parking bay. */
+/** Lane centres of the exam route, split where the car parks. */
 const LEGS: Corner[][] = [
   [
     c(-51.8, -27),
@@ -46,12 +46,12 @@ const LEGS: Corner[][] = [
     c(41.075, 39.2, 4.375),
     c(41.075, 47.95, 4.375),
     c(5.9, 47.95, 3.2),
-    c(5.9, -24.2, 4.6),
-    c(14, -24.2),
+    c(5.9, -23.2, 4.4),
+    c(29.06, -23.2),
   ],
   [
-    c(16, -24.2),
-    c(5.9, -24.2, 4.6),
+    c(19.03, -23.9),
+    c(5.9, -23.9, 5),
     c(5.9, -54.95, 5.3),
     c(47.6, -54.95, 5.3),
     c(47.6, 1.1, 5.3),
@@ -60,15 +60,45 @@ const LEGS: Corner[][] = [
     c(51.4, 59.4, 9.1),
     c(51.4, -58.75, 9.1),
     c(2.1, -58.75, 5),
-    c(2.1, -34),
+    c(2.1, -44.5, 6),
+    c(-1.3, -38.5, 6),
+    c(-1.3, -34.21),
   ],
-  [c(2.1, -33), c(2.1, 1.1, 5.3), c(-9.8, 1.1, 6), c(-9.8, -56.85, 5), c(-36, -56.85)],
+  [
+    c(-1.3, -34.21),
+    c(-1.3, -31, 6),
+    c(2.1, -25, 6),
+    c(2.1, 1.1, 5.3),
+    c(-9.8, 1.1, 6),
+    c(-9.8, -56.85, 5),
+    c(-36, -56.85),
+  ],
 ];
-/** Where the car stands in the bay after each of the first two legs. */
-const BAYS: { p: Vec2; forward: Vec2 }[] = [
-  { p: { x: 24.05, z: -29.65 }, forward: { x: 0, z: 1 } },
-  { p: { x: -3.95, z: -39.05 }, forward: { x: 0, z: 1 } },
+
+/** One move of a parking manoeuvre: a full-lock turn through `deg`, or `metres` straight. */
+type Move = { go: 1 | -1; lock?: 'left' | 'right'; deg?: number; metres?: number; hold?: number };
+/** The manoeuvre at the end of each of the first two legs, driven wheel by wheel like the rest. */
+const PARK: Move[][] = [
+  // Bài 7: back round into the bay on the left, stand, then out to the right the way the car came.
+  [
+    { go: -1, lock: 'left', deg: 90 },
+    { go: -1, metres: 3.99 },
+    { go: 1, hold: 1 },
+    { go: 1, metres: 3.29 },
+    { go: 1, lock: 'right', deg: 90 },
+  ],
+  // Bài 10: back into the bay along the kerb with two half turns, stand, and out the same way.
+  [
+    { go: -1, lock: 'right', deg: 50 },
+    { go: -1, lock: 'left', deg: 50 },
+    { go: 1, hold: 1 },
+    { go: 1, lock: 'left', deg: 50 },
+    { go: 1, lock: 'right', deg: 50 },
+  ],
 ];
+/** Turning radius of the rear axle at full lock. */
+const LOCK_RADIUS = CAR.wheelBase / Math.tan(CAR.maxRoadWheelRad);
+const CREEP = 1.5;
 
 const STOP_LINES = [
   YARD_EXAM.pedestrian,
@@ -213,23 +243,39 @@ class Ghost {
     return true;
   }
 
-  /** Parks in the bay at the end of a leg, then carries on from the next one. */
+  /** Parks at the end of a leg, then carries on from the next one. */
   private nextLeg(): boolean {
-    const bay = BAYS[this.leg];
+    const park = PARK[this.leg];
     this.leg += 1;
     if (!LEGS[this.leg]) {
       this.finished = true;
       return false;
     }
-    if (bay && !this.skipBay) {
-      this.place(bay.p, bay.forward);
-      this.hold(1);
-    }
+    if (park && !this.skipBay) for (const move of park) this.move(move);
     this.path = roundPath(LEGS[this.leg], false);
     this.segment = 0;
     this.along = 0;
-    this.p = this.path[0];
+    if (this.skipBay) this.p = this.path[0];
     return true;
+  }
+
+  /** Drives one move of a manoeuvre: the rear axle follows the arc, the front swings round it. */
+  private move({ go, lock, deg = 0, metres = 0, hold = 0 }: Move) {
+    if (hold) return this.hold(hold);
+    const turn = lock ? (lock === 'left' ? 1 : -1) : 0;
+    let left = lock ? (deg * Math.PI * LOCK_RADIUS) / 180 : metres;
+    const half = CAR.wheelBase / 2;
+    while (left > 1e-9 && !this.over) {
+      const ds = Math.min(left, CREEP * DT);
+      left -= ds;
+      const f = this.forward;
+      const rear = { x: this.p.x - f.x * half + f.x * go * ds, z: this.p.z - f.z * half + f.z * go * ds };
+      const a = (turn * go * ds) / LOCK_RADIUS;
+      // Left of the car is (f.z, -f.x), so a left turn swings the nose that way.
+      this.forward = { x: f.x * Math.cos(a) + f.z * Math.sin(a), z: f.z * Math.cos(a) - f.x * Math.sin(a) };
+      this.p = { x: rear.x + this.forward.x * half, z: rear.z + this.forward.z * half };
+      this.tick(go * CREEP);
+    }
   }
 
   skipBay = false;
@@ -476,6 +522,49 @@ describe('YardExam', () => {
       ]);
     });
 
+    it('deducts 5 points for a gear above second at the green sign', () => {
+      const third = (_p: Vec2, g: Gear): Gear => (g === '2' ? '3' : g);
+      const ghost = new Ghost({ gear: third }).until(10);
+      expect(reasons(ghost)).toEqual(['5:Không tăng từ số 1 lên số 2 tới biển 24 xanh']);
+    });
+
+    it('deducts 5 points at each sign passed in the oncoming lane', () => {
+      const ghost = new Ghost({ gear: () => '2' }).until(9).reach((p) => p.x > 49.5 && p.z < 30);
+      const south = { x: 0, z: -1 };
+      // The inner lane of the same road: the bumper is 2.2 m ahead of the car.
+      for (const z of [16, 15]) {
+        ghost.place({ x: 47.6, z }, south);
+        ghost.tick(8);
+      }
+      expect(reasons(ghost)).toEqual(['5:Đi sai làn đường qua biển 24 xanh']);
+      expect(ghost.exam.yard().step).toBe(9);
+    });
+
+    it('does not read the signs from another road', () => {
+      const ghost = new Ghost().until(9).reach((p) => p.x > 49.5 && p.z < 30);
+      // Past both signs, but on the road down the middle of the yard.
+      ghost.place({ x: 5.9, z: -30 }, { x: 0, z: -1 });
+      ghost.hold(0.1);
+      expect(ghost.failure).toBeUndefined();
+      expect(ghost.penalties).toHaveLength(0);
+      expect(ghost.exam.yard().step).toBe(9);
+    });
+
+    it('gives an automatic hints without gears', () => {
+      const hints = (transmission: 'B1' | 'B2') => {
+        const ghost = new Ghost();
+        const update = ghost.exam.update.bind(ghost.exam);
+        ghost.exam.update = (car, dt, driver) => update(car, dt, { ...driver, transmission });
+        const seen = new Set<string>();
+        while (ghost.exam.yard().step < 10 && ghost.step())
+          if (ghost.exam.yard().step === 9) seen.add(ghost.exam.hint());
+        return [...seen].join(' | ');
+      };
+      expect(hints('B2')).toMatch(/số 2.*số 1/);
+      expect(hints('B1')).toMatch(/24 xanh.*24 đỏ/);
+      expect(hints('B1')).not.toMatch(/số \d/);
+    });
+
     it('does not ask an automatic for gears', () => {
       const ghost = new Ghost({ gear: () => 'D' });
       const update = ghost.exam.update.bind(ghost.exam);
@@ -490,6 +579,28 @@ describe('YardExam', () => {
     const ghost = new Ghost({ signal: (step, _t, fallback) => (step === 11 ? 'off' : fallback) }).run();
     expect(reasons(ghost)).toEqual(['5:Không bật xi nhan phải khi qua vạch kết thúc']);
     expect(ghost.passed).toBe(true);
+  });
+
+  it('bài 11: fails a driver who goes straight to the finish line past the parallel parking', () => {
+    const ghost = new Ghost().until(10).reach((p) => p.x < 10 && p.z < -58);
+    const west = { x: -1, z: 0 };
+    for (let x = ghost.p.x; x > -40 && !ghost.over; x -= 0.05) {
+      ghost.place({ x, z: -58.75 }, west);
+      ghost.tick(3);
+    }
+    expect(ghost.failure).toBe('Đi không đúng trình tự bài thi (chưa xong bài 10)');
+    expect(ghost.passed).toBe(false);
+  });
+
+  it('counts progress in stages, so it never drops when the route returns to the crossroads', () => {
+    const ghost = new Ghost();
+    const seen: number[] = [];
+    do {
+      const { done, of } = ghost.exam.yard();
+      expect(of).toBe(14);
+      if (seen.at(-1) !== done) seen.push(done);
+    } while (ghost.step());
+    expect(seen).toEqual(Array.from({ length: 15 }, (_, i) => i));
   });
 
   describe('rules for the whole run', () => {

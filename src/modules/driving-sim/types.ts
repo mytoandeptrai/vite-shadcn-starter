@@ -107,4 +107,7 @@ export interface YardProgress {
   title: string;
   /** Where that exercise begins. */
   target: Vec2;
+  /** Stages finished out of all stages: the crossroads is four of them. */
+  done: number;
+  of: number;
 }

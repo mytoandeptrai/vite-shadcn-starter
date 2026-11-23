@@ -422,36 +422,45 @@ class GearStage implements Stage {
   fast = false;
   private readonly timer = new Timer();
   private phase: 'approach' | 'up' | 'down' = 'approach';
+  private manual = true;
 
   update(frame: Frame): boolean {
-    const { lane, greenZ, redZ, kmh } = YARD_EXAM.gear;
+    const { lane, road, greenZ, redZ, kmh } = YARD_EXAM.gear;
     const speed = Math.abs(frame.car.speed) * 3.6;
     const gear = gearNumber(frame.driver.gear);
-    const manual = frame.driver.transmission === 'B2';
+    this.manual = frame.driver.transmission === 'B2';
     if (this.phase === 'approach') {
       if (past(this.entry, frame.bumper) < 0 || !inLane(lane, frame.bumper)) return false;
       this.phase = 'up';
       this.fast = true;
     }
     this.timer.update(frame);
+    // The signs are read on this road only, and they stand beside the outer lane.
+    const reached = (z: number) => past({ ...road, at: z }, frame.bumper) >= 0 && inLane(road, frame.bumper);
     if (this.phase === 'up') {
-      if (past({ ...lane, at: greenZ }, frame.bumper) < 0) return false;
+      if (!reached(greenZ)) return false;
       this.phase = 'down';
+      if (!inLane(lane, frame.bumper)) penalty(frame, 5, 'Đi sai làn đường qua biển 24 xanh');
       if (speed <= kmh) penalty(frame, 5, `Không đạt tốc độ trên ${kmh} km/h tới biển 24 xanh`);
-      if (manual && gear < 2) penalty(frame, 5, 'Không tăng từ số 1 lên số 2 tới biển 24 xanh');
+      if (this.manual && gear !== 2) penalty(frame, 5, 'Không tăng từ số 1 lên số 2 tới biển 24 xanh');
       return false;
     }
-    if (past({ ...lane, at: redZ }, frame.bumper) < 0) return false;
+    if (!reached(redZ)) return false;
+    if (!inLane(lane, frame.bumper)) penalty(frame, 5, 'Đi sai làn đường qua biển 24 đỏ');
     if (speed >= kmh) penalty(frame, 5, `Không giảm tốc độ dưới ${kmh} km/h tới biển 24 đỏ`);
-    if (manual && gear !== 1) penalty(frame, 5, 'Không giảm từ số 2 về số 1 tới biển 24 đỏ');
+    if (this.manual && gear !== 1) penalty(frame, 5, 'Không giảm từ số 2 về số 1 tới biển 24 đỏ');
     this.fast = false;
     return true;
   }
 
   hint(): string {
     if (this.phase === 'approach') return 'Đi tiếp theo làn ngoài tới biển "Bắt đầu tăng tốc"';
-    if (this.phase === 'up') return 'Tăng tốc, lên số 2 và chạy trên 24 km/h trước biển 24 xanh';
-    return 'Giảm tốc dưới 24 km/h và về số 1 trước biển 24 đỏ';
+    if (this.phase === 'up') {
+      return this.manual
+        ? 'Tăng tốc, lên số 2 và chạy trên 24 km/h trước biển 24 xanh'
+        : 'Tăng tốc, chạy trên 24 km/h trước biển 24 xanh';
+    }
+    return this.manual ? 'Giảm tốc dưới 24 km/h và về số 1 trước biển 24 đỏ' : 'Giảm tốc dưới 24 km/h trước biển 24 đỏ';
   }
 }
 
@@ -507,6 +516,7 @@ class ParallelStage implements Stage {
 class FinishStage implements Stage {
   step = 11;
   title = 'Kết thúc';
+  entry: Gate = YARD_EXAM.finish;
   target = { x: YARD_EXAM.finish.at, z: (YARD_EXAM.finish.min + YARD_EXAM.finish.max) / 2 };
 
   update(frame: Frame): boolean {
@@ -742,6 +752,13 @@ export class YardExam implements Exam {
 
   yard(): YardProgress {
     const stage = this.stages[Math.min(this.index, this.stages.length - 1)];
-    return { step: stage.step, total: 11, title: stage.title, target: stage.target };
+    return {
+      step: stage.step,
+      total: 11,
+      title: stage.title,
+      target: stage.target,
+      done: Math.min(this.index, this.stages.length),
+      of: this.stages.length,
+    };
   }
 }

@@ -253,7 +253,15 @@ export const YARD_EXAM = {
     exitWest: { axis: 'x', dir: -1, at: -2, ...crossLane },
   },
   junction: { minX: -6, maxX: 14, minZ: -7, maxZ: 13 },
-  gear: { lane: { axis: 'z', dir: -1, at: 0, min: 49.5, max: 53.3 }, startZ: 38, greenZ: 13, redZ: -12, kmh: 24 },
+  gear: {
+    /** The exercise starts in the outer lane; its signs count anywhere across the road. */
+    lane: { axis: 'z', dir: -1, at: 0, min: 49.5, max: 53.3 },
+    road: { axis: 'z', dir: -1, at: 0, min: 45.7, max: 53.3 },
+    startZ: 38,
+    greenZ: 13,
+    redZ: -12,
+    kmh: 24,
+  },
   parallel: {
     entry: { axis: 'z', dir: 1, at: -47.5, min: -5.2, max: 4 },
     exit: { axis: 'z', dir: 1, at: -12.4, min: -5.2, max: 4 },

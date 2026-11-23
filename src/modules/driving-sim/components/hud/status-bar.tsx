@@ -205,16 +205,13 @@ export function Hints() {
           </p>
           <div
             role='progressbar'
-            aria-label='Số bài đã qua'
+            aria-label='Số chặng đã qua'
             aria-valuemin={0}
-            aria-valuemax={yard.total}
-            aria-valuenow={yard.step - 1}
+            aria-valuemax={yard.of}
+            aria-valuenow={yard.done}
             className='mt-1 h-1.5 overflow-hidden rounded-full bg-white/15'
           >
-            <div
-              className='h-full rounded-full bg-sky-400'
-              style={{ width: `${((yard.step - 1) / yard.total) * 100}%` }}
-            />
+            <div className='h-full rounded-full bg-sky-400' style={{ width: `${(yard.done / yard.of) * 100}%` }} />
           </div>
           <p data-testid='hud-hint' className='mt-1'>
             {hint}
