@@ -538,6 +538,16 @@ describe('YardExam', () => {
       }
       expect(reasons(ghost)).toEqual(['5:Đi sai làn đường qua biển 24 xanh']);
       expect(ghost.exam.yard().step).toBe(9);
+      // Slow enough for the red sign, still in second gear and still in the inner lane.
+      for (const z of [-9, -10.5]) {
+        ghost.place({ x: 47.6, z }, south);
+        ghost.tick(5);
+      }
+      expect(reasons(ghost).slice(1)).toEqual([
+        '5:Đi sai làn đường qua biển 24 đỏ',
+        '5:Không giảm từ số 2 về số 1 tới biển 24 đỏ',
+      ]);
+      expect(ghost.exam.yard().step).toBe(10);
     });
 
     it('does not read the signs from another road', () => {
