@@ -389,23 +389,29 @@ test('mistakes: each one says why and how to fix it, while driving and on the re
   await page.keyboard.press('KeyL');
   await expect(modal).toBeVisible();
 
-  // The keyboard stays inside the list: Tab never reaches Restart or the pedals behind it.
+  // Tab only moves between the list's own buttons: it never reaches Restart or the pedals behind it.
   await expect(page.getByTestId('mistakes-resume')).toBeFocused();
+  const visited = new Set<string>();
   for (let i = 0; i < 8; i++) {
     await page.keyboard.press('Tab');
-    const outside = await page.evaluate(() => {
+    const focus = await page.evaluate(() => {
       const el = document.activeElement;
-      return el && el !== document.body && !el.closest('[data-testid="mistakes-modal"]')
-        ? el.outerHTML.slice(0, 80)
-        : '';
+      if (!el || el === document.body) return { outside: '', id: '' };
+      const inside = el.closest('[data-testid="mistakes-modal"]');
+      return { outside: inside ? '' : el.outerHTML.slice(0, 80), id: el.getAttribute('data-testid') ?? '' };
     });
-    expect(outside).toBe('');
+    expect(focus.outside).toBe('');
+    visited.add(focus.id);
   }
+  expect(visited).toContain('mistakes-close');
+  expect(visited).toContain('mistakes-resume');
+
+  // Enter on the focused "Lái tiếp" closes the list and nothing else: the run and its mistakes are kept.
+  await page.getByTestId('mistakes-resume').focus();
   await page.keyboard.press('Enter');
+  await expect(modal).toHaveCount(0);
   expect(await sim.phase()).toBe('driving');
   await expect(page.getByTestId('mistakes-open')).toContainText(/\d+ lỗi/);
-  if (await modal.count()) await page.getByTestId('mistakes-resume').click();
-  await expect(modal).toHaveCount(0);
 
   // --- A disqualification: drive over the hill's stop line without stopping.
   await page.getByTestId('open-menu').click();
