@@ -217,6 +217,21 @@ export class Fingers {
     return id;
   }
 
+  /** Puts a finger down at a point of the page. */
+  async touch(x: number, y: number) {
+    const id = this.nextId++;
+    this.down.set(id, { x: Math.round(x), y: Math.round(y), id });
+    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [...this.down.values()] });
+    return id;
+  }
+
+  /** Slides one finger while the others stay where they are. */
+  async slide(id: number, x: number, y: number) {
+    if (!this.down.has(id)) throw new Error(`finger ${id} is not down`);
+    this.down.set(id, { x: Math.round(x), y: Math.round(y), id });
+    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [...this.down.values()] });
+  }
+
   async lift(id: number) {
     const point = this.down.get(id);
     if (!point) throw new Error(`finger ${id} is not down`);

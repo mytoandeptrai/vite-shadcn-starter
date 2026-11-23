@@ -149,3 +149,35 @@ test('mobile landscape: B2 controls fit the screen and the clutch presets pull t
   await expect(page.getByTestId('engine-start')).toHaveText('Máy nổ');
   await fingers.lift(throttle);
 });
+
+test('mobile multi-touch: the wheel turns under one finger while another holds the brake', async ({ page }) => {
+  const sim = new SimDriver(page);
+  await sim.open();
+  await sim.start('B1', 'free');
+  const fingers = await Fingers.on(page);
+
+  const brake = await fingers.hold('pedal-brake', 0.3);
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+
+  const wheel = await page.getByTestId('steering-wheel').boundingBox();
+  if (!wheel) throw new Error('steering wheel not found');
+  const cx = wheel.x + wheel.width / 2;
+  const cy = wheel.y + wheel.height / 2;
+  const r = wheel.width * 0.4;
+  const rim = (deg: number) => {
+    const rad = ((deg - 90) * Math.PI) / 180;
+    return [cx + Math.cos(rad) * r, cy + Math.sin(rad) * r] as const;
+  };
+  const hand = await fingers.touch(...rim(0));
+  for (let a = 10; a <= 120; a += 10) await fingers.slide(hand, ...rim(a));
+  expect(await sim.steer()).toBeGreaterThan(90);
+  // The brake finger never moved: the pedal is still down under it.
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+
+  // Letting go of the wheel centres it; the brake is still held.
+  await fingers.lift(hand);
+  await sim.waitFor(sim.steer, (v) => Math.abs(v) < 2);
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+  await fingers.lift(brake);
+  await expect(page.getByTestId('pedal-brake')).toContainText(/^\D*0%/);
+});
