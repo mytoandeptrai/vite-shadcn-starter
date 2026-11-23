@@ -167,13 +167,12 @@ export function Hints() {
   const yard = useSimStore((s) => s.telemetry.yard);
   const subtitle = useSimStore((s) => s.subtitle);
   const busy = useSimStore((s) => s.notices.length > 0);
+  const alert = useSimStore((s) => s.notices.at(-1)?.kind === 'penalty');
+  const marked = useSimStore((s) => s.penalties.length > 0);
   const touch = useTouchDevice();
 
   return (
-    <div
-      data-busy={busy}
-      className='ds-area-hints pointer-events-none flex min-w-0 flex-col items-center gap-1 self-start justify-self-center'
-    >
+    <div data-busy={busy} data-alert={alert} data-marked={marked} className='ds-area-hints pointer-events-none'>
       {road && (
         <div
           data-testid='road-widget'

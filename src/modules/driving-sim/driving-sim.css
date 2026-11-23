@@ -24,12 +24,12 @@
   display: grid;
   /* Phones in portrait: readouts on top, mirrors under them, both thumbs' controls along the bottom. */
   grid-template-columns: auto minmax(0, 1fr) auto;
-  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  /* The hints get the free row; whatever does not fit there is dropped, the controls never move. */
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   grid-template-areas:
     "top top top"
     "mirror-l lamps mirror-r"
     "hints hints hints"
-    "map . ."
     "bottom bottom bottom";
   gap: 0.5rem;
   padding: max(0.5rem, env(safe-area-inset-top)) max(0.5rem, env(safe-area-inset-right))
@@ -61,18 +61,98 @@
   grid-area: hints;
 }
 .ds-area-map {
-  grid-area: map;
+  grid-area: hints;
+  align-self: end;
+  justify-self: start;
 }
 
 /*
- * Below the wide layout there is no room for a toast, the hint and the mistakes chip together:
- * while a toast shows, it stands in for the hint and the coach line, and only the newest is kept.
- * The chip stays where a thumb expects it, right under the toast.
+ * The hints column (exercise panel, toasts, mistakes chip, coach line) lies over the road and never
+ * moves or covers the controls. Stacked above them it owns the free row, with the map in its lower
+ * left corner; beside the mirrors on a phone it hangs below its row, down to the pedals. A line that
+ * does not fit wraps into a second column, which is clipped, so the lowest line drops out whole.
  */
-@media (max-width: 899.98px), (max-height: 500.98px) {
-  .ds-area-hints[data-busy="true"] > :not(.ds-notices, [data-testid="mistakes-open"]),
+.ds-area-hints {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Keeps the first column as wide as the row, so the wrapped one falls outside it. */
+.ds-area-hints::before {
+  width: 100%;
+  margin-bottom: -0.25rem;
+  content: "";
+}
+.ds-area-hints > * {
+  flex-shrink: 0;
+}
+.ds-notices:empty {
+  margin-bottom: -0.25rem;
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .ds-area-hints {
+    --ds-hints-room: calc(
+      100dvh -
+      max(0.5rem, env(safe-area-inset-top)) -
+      max(0.5rem, env(safe-area-inset-bottom)) -
+      3.25rem -
+      var(--ds-pedal-row)
+    );
+    height: var(--ds-hints-room);
+    margin-bottom: calc(-1 * var(--ds-hints-room));
+  }
+  /* Below the mirrors the wheel panel reaches further in than they do. */
+  .ds-area-hints > [data-testid="hud-coach"] {
+    max-width: calc(100% - 2 * (var(--ds-wheel-panel) - var(--ds-mirror) + 0.25rem));
+  }
+}
+/* A wide window has the whole middle of the screen free: nothing is dropped there. */
+@media (min-width: 900px) and (min-height: 501px) {
+  .ds-area-hints {
+    flex-wrap: nowrap;
+    height: 0;
+    overflow: visible;
+  }
+}
+
+/*
+ * Less room, fewer lines:
+ * - phones and short windows keep only the newest toast, and drop the coach line while it shows;
+ * - a small phone has room for two or three lines. Once there is a mistake or a toast, the panel
+ *   shrinks to its instruction line; a penalty toast loses its tip and stands in for the mistakes
+ *   chip while it shows (tapping either opens the list with the fix).
+ */
+@media (max-width: 899.98px), (max-height: 699.98px) {
+  .ds-area-hints[data-busy="true"] > [data-testid="hud-coach"],
   .ds-notices > :not(:last-child) {
     display: none;
+  }
+}
+@media (max-width: 899.98px) and (max-height: 699.98px), (max-height: 500.98px) {
+  .ds-area-hints:is([data-busy="true"], [data-marked="true"])
+    > [data-testid$="-widget"]
+    > :not([data-testid="hud-hint"]),
+  .ds-area-hints[data-alert="true"] > [data-testid="mistakes-open"],
+  .ds-notices [data-testid="notice-tip"] {
+    display: none;
+  }
+  .ds-area-hints:is([data-busy="true"], [data-marked="true"]) > [data-testid$="-widget"] > [data-testid="hud-hint"] {
+    margin-top: 0;
+  }
+  .ds-area-hints:is([data-busy="true"], [data-marked="true"]) > [data-testid$="-widget"] {
+    padding-block: 0.125rem;
+  }
+  .ds-notices > * {
+    padding-block: 0.25rem;
+    font-size: 0.75rem;
+  }
+  .ds-notices > [data-testid="notice-penalty"] {
+    min-height: 2.5rem;
   }
 }
 .ds-area-bottom {
@@ -306,6 +386,10 @@
       "bottom bottom bottom";
     gap: 0.75rem;
     padding: 1rem;
+  }
+  .ds-area-map {
+    grid-area: map;
+    align-self: start;
   }
   .ds-status {
     height: 3.25rem;
