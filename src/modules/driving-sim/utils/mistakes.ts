@@ -139,10 +139,10 @@ const ENTRIES: Entry[] = [
   ],
   [
     /từ khi đèn xanh/i,
-    {
+    (t) => ({
       why: 'Đèn đã xanh mà quá 20 giây xe chưa qua ngã tư (quá 30 giây bị truất quyền).',
-      fix: 'Trong lúc chờ đèn đỏ, giữ sẵn số 1 + côn (hoặc D + phanh). Đèn vừa xanh là đi ngay.',
-    },
+      fix: `Trong lúc chờ đèn đỏ, ${t === 'B2' ? 'đạp côn giữ sẵn số 1' : 'giữ sẵn số D và đạp phanh'}. Đèn vừa xanh là đi ngay.`,
+    }),
   ],
   [
     /vệt bánh xe/i,
@@ -167,10 +167,13 @@ const ENTRIES: Entry[] = [
   ],
   [
     /vòng\/phút/i,
-    {
+    (t) => ({
       why: 'Vòng tua động cơ vượt 4.000 vòng/phút.',
-      fix: 'Nhả bớt ga (W). Xe số sàn: đạp côn thì bỏ ga, và lên số cao hơn khi tua quá 3.000.',
-    },
+      fix:
+        t === 'B2'
+          ? 'Nhả bớt ga (W). Đạp côn thì bỏ ga, và lên số cao hơn khi tua quá 3.000.'
+          : 'Nhả bớt ga (W). Đang ở P hoặc N thì đừng đạp ga; vào D rồi mới tăng ga từ từ.',
+    }),
   ],
   [
     /tổng thời gian/i,
@@ -230,10 +233,13 @@ const ENTRIES: Entry[] = [
   ],
   [
     /số N khi dừng/i,
-    {
-      why: 'Xe đã dừng ở cuối bài nhưng cần số chưa về N.',
-      fix: 'Dừng hẳn, đạp côn rồi bấm N trước khi kéo phanh tay.',
-    },
+    (t) => ({
+      why: `Xe đã dừng ở cuối bài nhưng cần số chưa về ${t === 'B2' ? 'N' : 'N hoặc P'}.`,
+      fix:
+        t === 'B2'
+          ? 'Dừng hẳn, đạp côn rồi bấm N trước khi kéo phanh tay.'
+          : 'Dừng hẳn, giữ phanh (S) rồi bấm N hoặc P trước khi kéo phanh tay.',
+    }),
   ],
   [
     /tấp xe vào lề/i,

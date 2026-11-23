@@ -42,10 +42,24 @@ describe('adviceFor', () => {
   });
 
   it('gives an automatic advice it can follow', () => {
-    for (const reason of ['Xe chết máy', 'Xe tụt dốc quá 50 cm', 'Không dừng xe ở vạch dừng quy định']) {
+    for (const reason of [
+      'Xe chết máy',
+      'Xe tụt dốc quá 50 cm',
+      'Không dừng xe ở vạch dừng quy định',
+      'Không về số N khi dừng xe',
+    ]) {
       expect(adviceFor(reason, 'B2').fix).toMatch(/côn/);
       expect(adviceFor(reason, 'B1').fix).not.toMatch(/côn|số 1/);
     }
+  });
+
+  it('never tells an automatic driver to use a clutch', () => {
+    const clutch = reasons().filter((reason) => {
+      const advice = adviceFor(reason, 'B1');
+      // Gear-change penalties only exist on a manual.
+      return !/tăng (từ|lên) số|giảm (từ|về) số/i.test(reason) && /côn/.test(advice.why + advice.fix);
+    });
+    expect(clutch).toEqual([]);
   });
 
   it('matches the specific rule, not a broader one before it', () => {
