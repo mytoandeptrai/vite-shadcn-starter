@@ -193,7 +193,7 @@ test('usage guide: opens from the menu and while driving, pauses the car, explai
   await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
 
   await page.keyboard.press('KeyH');
-  await expect(page.getByTestId('guide-panel')).toContainText('Hết lái phải');
+  await expect(page.getByTestId('guide-panel')).toContainText('Hết lái trái');
   const clock = await page.getByTestId('hud-clock').textContent();
   await page.keyboard.press('KeyN');
   await page.keyboard.down('KeyW');

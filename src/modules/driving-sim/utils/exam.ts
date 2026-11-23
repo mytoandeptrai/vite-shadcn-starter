@@ -137,8 +137,9 @@ export class ParkingExam implements Exam {
     if (car.stalledNow) events.push({ type: 'penalty', points: 5, reason: 'Xe chết máy' });
 
     if (!this.started) {
-      const bumperZ = car.position.z + car.forward.z * (CAR.length / 2);
-      if (bumperZ < PARKING.entryZ) return events;
+      const bumperX = car.position.x + car.forward.x * (CAR.length / 2);
+      const inLane = car.position.z > PARKING.laneBayZ && car.position.z < PARKING.laneFarZ;
+      if (!inLane || bumperX < PARKING.entryX || car.position.x > PARKING.entryX) return events;
       this.started = true;
       events.push({ type: 'info', message: 'Bắt đầu bài ghép xe dọc — thời gian 2 phút' });
     }
@@ -178,12 +179,12 @@ export class ParkingExam implements Exam {
       this.still = inBay && Math.abs(car.speed) < STILL_SPEED ? this.still + dt : 0;
       if (this.still >= STILL_TIME) {
         this.parked = true;
-        events.push({ type: 'info', message: 'Đã ghép xe vào nơi đỗ — tiến ra khỏi hình' }, { type: 'beep' });
+        events.push({ type: 'info', message: 'Đã ghép xe vào nơi đỗ — tiến ra, quay lại vạch xanh' }, { type: 'beep' });
       }
     }
 
-    const inLane = car.position.x > PARKING.laneRightX && car.position.x < PARKING.laneLeftX;
-    if (inLane && car.position.z > PARKING.exitZ) {
+    // The lane is a dead end: the exercise ends once the whole car is back out through the entry line.
+    if (car.corners.every((c) => c.x < PARKING.entryX)) {
       this.done = true;
       if (!this.parked) events.push({ type: 'penalty', points: 5, reason: 'Chưa ghép được xe vào nơi đỗ' });
       events.push({ type: 'pass', reason: 'Hoàn thành bài ghép xe dọc vào nơi đỗ' });
@@ -198,7 +199,7 @@ export class ParkingExam implements Exam {
   hint(): string {
     if (!this.started) return 'Tiến vào hình qua vạch bắt đầu';
     if (!this.parked) return 'Tiến qua chuồng, vào số lùi và ghép xe vào nơi đỗ, không đè vạch';
-    return 'Tiến ra khỏi chuồng và qua vạch kết thúc';
+    return 'Tiến ra khỏi chuồng, quay lại qua vạch xanh để kết thúc';
   }
 }
 

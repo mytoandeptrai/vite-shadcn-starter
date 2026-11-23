@@ -52,34 +52,38 @@ export const GEARS: Record<Transmission, Gear[]> = {
 export const PASS_SCORE = 80;
 export const START_SCORE = 100;
 
-/** Hill-start course: runs along +Z, 10% grade. */
+/** Hill-start course: the start side of the ring road, running along +Z, 10% grade. */
 export const HILL = {
-  centerX: -14,
-  width: 4.6,
-  rampStartZ: 0,
+  centerX: -49.9,
+  /** The whole road climbs: two lanes between the kerbs. */
+  width: 7.6,
+  rampStartZ: 6.3,
   rampLength: 15,
   height: 1.5,
   plateauLength: 6,
-  stopLineZ: 9,
+  stopLineZ: 12.1,
   stopLineWidth: 0.2,
   /** Front bumper must stop within this distance before the line. */
   stopTolerance: 0.5,
   rollbackLimit: 0.5,
   timeLimit: 30,
-  finishZ: 39,
+  finishZ: 45.3,
 } as const;
 
-/** Reverse bay parking course: lane runs along +Z, bay opens on the right (-X). */
+/**
+ * Reverse bay parking course: a dead-end lane along +X entered from the centre road; the bay opens
+ * on its -Z side, the driver's left. Lane and bay values are the centres of the sensor lines.
+ */
 export const PARKING = {
-  laneLeftX: 16.65,
-  laneRightX: 11.35,
-  laneStartZ: -4,
-  laneEndZ: 24,
-  bayCenterZ: 10,
+  laneBayZ: -26.85,
+  laneFarZ: -21.55,
+  laneStartX: 9,
+  laneEndX: 34.35,
+  bayCenterX: 24.05,
   bayWidth: 2.5,
   bayDepth: 5.6,
-  entryZ: -2,
-  exitZ: 22,
+  /** The exercise starts when the front bumper crosses this line and ends when the car is back out. */
+  entryX: 10,
   lineWidth: 0.12,
   timeLimit: 120,
   lineHoldInterval: 5,
@@ -121,10 +125,16 @@ export const ROAD_STEPS = ['Xuất phát', 'Tăng số tăng tốc', 'Giảm s�
 
 export const NPC = { length: 4.3, width: 1.75 } as const;
 
+/** Driving lane of the start side of the ring road: its right-hand lane. */
+const START_LANE_X = HILL.centerX - HILL.width / 4;
+
 export const SPAWNS: Record<Scenario, SpawnPoint> = {
-  free: { x: 0, z: -22, heading: 0 },
-  hill: { x: HILL.centerX, z: -9, heading: 0 },
-  parking: { x: 14.4, z: -9, heading: 0 },
+  // Behind the start line.
+  free: { x: START_LANE_X, z: -27, heading: 0 },
+  // Just before the pedestrian crossing, the exercise ahead of the slope.
+  hill: { x: START_LANE_X, z: -11.2, heading: 0 },
+  // On the centre road, facing into the parking lane.
+  parking: { x: 3.5, z: (PARKING.laneBayZ + PARKING.laneFarZ) / 2, heading: Math.PI / 2 },
   road: { x: ROAD.laneX, z: 0, heading: 0 },
 };
 
@@ -135,13 +145,13 @@ export const SCENARIO_LABELS: Record<Scenario, { title: string; subtitle: string
   road: { title: 'Thi Đường Trường', subtitle: 'Lái 2 km trên đường giao thông theo lệnh sát hạch viên' },
 };
 
-const bayMinZ = PARKING.bayCenterZ - PARKING.bayWidth / 2;
-const bayMaxZ = PARKING.bayCenterZ + PARKING.bayWidth / 2;
-const bayBackX = PARKING.laneRightX - PARKING.bayDepth;
+const bayMinX = PARKING.bayCenterX - PARKING.bayWidth / 2;
+const bayMaxX = PARKING.bayCenterX + PARKING.bayWidth / 2;
+const bayBackZ = PARKING.laneBayZ - PARKING.bayDepth;
 const hillMinX = HILL.centerX - HILL.width / 2;
 const hillMaxX = HILL.centerX + HILL.width / 2;
 
-export const PARKING_BAY = { minX: bayBackX, maxX: PARKING.laneRightX, minZ: bayMinZ, maxZ: bayMaxZ } as const;
+export const PARKING_BAY = { minX: bayMinX, maxX: bayMaxX, minZ: bayBackZ, maxZ: PARKING.laneBayZ } as const;
 
 const sensor = (id: string, ax: number, az: number, bx: number, bz: number): TrackLine => ({
   id,
@@ -153,47 +163,27 @@ const sensor = (id: string, ax: number, az: number, bx: number, bz: number): Tra
 
 export const TRACK_LINES: TrackLine[] = [
   // Parking: lane edges and bay outline are chip sensor lines.
-  sensor('park-lane-left', PARKING.laneLeftX, PARKING.laneStartZ, PARKING.laneLeftX, PARKING.laneEndZ),
-  sensor('park-lane-right-a', PARKING.laneRightX, PARKING.laneStartZ, PARKING.laneRightX, bayMinZ),
-  sensor('park-lane-right-b', PARKING.laneRightX, bayMaxZ, PARKING.laneRightX, PARKING.laneEndZ),
-  sensor('park-bay-side-a', bayBackX, bayMinZ, PARKING.laneRightX, bayMinZ),
-  sensor('park-bay-side-b', bayBackX, bayMaxZ, PARKING.laneRightX, bayMaxZ),
-  sensor('park-bay-back', bayBackX, bayMinZ, bayBackX, bayMaxZ),
+  sensor('park-lane-far', PARKING.laneStartX, PARKING.laneFarZ, PARKING.laneEndX, PARKING.laneFarZ),
+  sensor('park-lane-bay-a', PARKING.laneStartX, PARKING.laneBayZ, bayMinX, PARKING.laneBayZ),
+  sensor('park-lane-bay-b', bayMaxX, PARKING.laneBayZ, PARKING.laneEndX, PARKING.laneBayZ),
+  sensor('park-lane-end', PARKING.laneEndX, PARKING.laneBayZ, PARKING.laneEndX, PARKING.laneFarZ),
+  sensor('park-bay-side-a', bayMinX, bayBackZ, bayMinX, PARKING.laneBayZ),
+  sensor('park-bay-side-b', bayMaxX, bayBackZ, bayMaxX, PARKING.laneBayZ),
+  sensor('park-bay-back', bayMinX, bayBackZ, bayMaxX, bayBackZ),
   {
     id: 'park-entry',
     kind: 'gate',
-    a: { x: PARKING.laneRightX, z: PARKING.entryZ },
-    b: { x: PARKING.laneLeftX, z: PARKING.entryZ },
+    a: { x: PARKING.entryX, z: PARKING.laneBayZ },
+    b: { x: PARKING.entryX, z: PARKING.laneFarZ },
     width: 0.15,
   },
-  {
-    id: 'park-exit',
-    kind: 'gate',
-    a: { x: PARKING.laneRightX, z: PARKING.exitZ },
-    b: { x: PARKING.laneLeftX, z: PARKING.exitZ },
-    width: 0.15,
-  },
-  // Hill: stop line and lane edges.
+  // Hill: stop line and finish.
   {
     id: 'hill-stop',
     kind: 'stop',
     a: { x: hillMinX + 0.3, z: HILL.stopLineZ + HILL.stopLineWidth / 2 },
     b: { x: hillMaxX - 0.3, z: HILL.stopLineZ + HILL.stopLineWidth / 2 },
     width: HILL.stopLineWidth,
-  },
-  {
-    id: 'hill-edge-left',
-    kind: 'marking',
-    a: { x: hillMaxX - 0.25, z: -10 },
-    b: { x: hillMaxX - 0.25, z: HILL.finishZ },
-    width: 0.12,
-  },
-  {
-    id: 'hill-edge-right',
-    kind: 'marking',
-    a: { x: hillMinX + 0.25, z: -10 },
-    b: { x: hillMinX + 0.25, z: HILL.finishZ },
-    width: 0.12,
   },
   {
     id: 'hill-finish',

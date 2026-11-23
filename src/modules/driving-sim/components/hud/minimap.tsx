@@ -1,9 +1,10 @@
 import { useRef } from 'react';
-import { CAR, HILL, NPC, PARKING, PARKING_BAY, ROAD, TRACK_LINES } from '../../constants';
+import { CAR, HILL, NPC, ROAD, TRACK_LINES } from '../../constants';
 import { useAnimationFrame } from '../../hooks/use-animation-frame';
 import { useSimStore } from '../../store/sim-store';
 import type { LineKind } from '../../types';
 import { runtime } from '../../utils/runtime';
+import { PAVEMENTS } from '../../utils/yard';
 
 const SIZE = 168;
 /** Metres from the car to the edge of the map. */
@@ -20,24 +21,38 @@ const ROAD_MARKS = [
   ROAD.length,
 ];
 const COLORS: Record<LineKind, string> = { sensor: '#facc15', stop: '#ffffff', gate: '#38bdf8', marking: '#cbd5e1' };
-const hillLength = HILL.rampLength * 2 + HILL.plateauLength;
-
 type Project = (value: number) => number;
-type Rect = (minX: number, maxX: number, minZ: number, maxZ: number) => void;
+const hillStart = HILL.rampStartZ + HILL.rampLength;
+const SURFACES = { asphalt: '#475569', paving: '#64748b' } as const;
 
-function drawYard(c: CanvasRenderingContext2D, sx: Project, sy: Project, rect: Rect): void {
-  c.fillStyle = '#475569';
-  rect(HILL.centerX - HILL.width / 2, HILL.centerX + HILL.width / 2, HILL.rampStartZ, HILL.rampStartZ + hillLength);
-  c.fillStyle = '#64748b';
-  rect(
-    HILL.centerX - HILL.width / 2,
-    HILL.centerX + HILL.width / 2,
-    HILL.rampStartZ + HILL.rampLength,
-    HILL.rampStartZ + HILL.rampLength + HILL.plateauLength
-  );
-  c.fillStyle = '#334155';
-  rect(PARKING.laneRightX, PARKING.laneLeftX, PARKING.laneStartZ, PARKING.laneEndZ);
-  rect(PARKING_BAY.minX, PARKING_BAY.maxX, PARKING_BAY.minZ, PARKING_BAY.maxZ);
+/** Outlines of everything paved, in world metres; built once, on first use. */
+let yardPaths: { path: Path2D; color: string }[] | null = null;
+function getYardPaths() {
+  if (!yardPaths) {
+    yardPaths = PAVEMENTS.map((pavement) => {
+      const path = new Path2D();
+      for (const loop of pavement.loops) {
+        loop.forEach((p, i) => (i === 0 ? path.moveTo(p.x, p.z) : path.lineTo(p.x, p.z)));
+        path.closePath();
+      }
+      return { path, color: SURFACES[pavement.surface] };
+    });
+  }
+  return yardPaths;
+}
+
+function drawYard(c: CanvasRenderingContext2D, cx: number, cz: number, scale: number, sx: Project, sy: Project) {
+  // World metres to canvas pixels: screen up = +Z, screen right = -X.
+  c.save();
+  c.setTransform(-scale, 0, 0, -scale, SIZE / 2 + cx * scale, SIZE / 2 + cz * scale);
+  for (const { path, color } of getYardPaths()) {
+    c.fillStyle = color;
+    c.fill(path, 'evenodd');
+  }
+  // The level top of the slope.
+  c.fillStyle = '#7b8aa0';
+  c.fillRect(HILL.centerX - HILL.width / 2, hillStart, HILL.width, HILL.plateauLength);
+  c.restore();
 
   c.lineCap = 'butt';
   for (const line of TRACK_LINES) {
@@ -86,7 +101,7 @@ export function Minimap() {
         rect(npc.x - NPC.width / 2, npc.x + NPC.width / 2, npc.z - NPC.length / 2, npc.z + NPC.length / 2);
       }
     } else {
-      drawYard(c, sx, sy, rect);
+      drawYard(c, cx, cz, scale, sx, sy);
     }
     c.save();
     c.translate(SIZE / 2, SIZE / 2);

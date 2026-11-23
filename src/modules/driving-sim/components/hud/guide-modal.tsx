@@ -143,17 +143,17 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
     id: 'parking',
     label: 'Ghép dọc',
     intro:
-      'Chuồng nằm bên phải làn đường. Đi thật chậm suốt bài: B2 dùng số 1 / số R và rà côn ở điểm bám, B1 chỉ nhả phanh cho xe bò.',
+      'Làn vào là đường cụt, chuồng nằm bên trái làn. Đi thật chậm suốt bài: B2 dùng số 1 / số R và rà côn ở điểm bám, B1 chỉ nhả phanh cho xe bò.',
     sections: [
       {
         title: 'Các bước',
         steps: [
-          'Tiến qua vạch bắt đầu, đi sát mép trái làn để có chỗ quay đầu xe.',
+          'Tiến qua vạch bắt đầu (màu xanh), đi sát mép phải làn để có chỗ quay đầu xe.',
           'Tiến qua cửa chuồng, dừng khi đuôi xe đã qua mép xa của cửa chuồng chừng 1,5 m.',
-          'Vào số lùi R, bấm “Hết lái phải” (E), lùi thật chậm. Nhìn gương phải và bản đồ nhỏ để canh bánh sau với vạch.',
-          'Khi thân xe song song với chuồng: bấm lại “Hết lái phải” để trả lái thẳng, lùi thẳng vào.',
+          'Vào số lùi R, bấm “Hết lái trái” (Q), lùi thật chậm. Nhìn gương trái và bản đồ nhỏ để canh bánh sau với vạch.',
+          'Khi thân xe song song với chuồng: bấm lại “Hết lái trái” để trả lái thẳng, lùi thẳng vào.',
           'Dừng khi cả xe nằm gọn trong chuồng, chờ tiếng “tít” báo đã ghép xong.',
-          'Vào số 1 (B2) hoặc D (B1), tiến ra, đánh lái phải để về lại làn và chạy qua vạch kết thúc.',
+          'Vào số 1 (B2) hoặc D (B1), tiến ra, đánh lái phải để quay về phía cửa vào và chạy qua lại vạch xanh để kết thúc.',
         ],
       },
       {

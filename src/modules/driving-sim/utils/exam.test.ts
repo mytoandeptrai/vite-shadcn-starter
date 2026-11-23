@@ -87,40 +87,57 @@ describe('HillExam', () => {
 });
 
 describe('ParkingExam', () => {
-  const laneX = (PARKING.laneLeftX + PARKING.laneRightX) / 2;
-  const bayX = (PARKING_BAY.minX + PARKING_BAY.maxX) / 2;
+  const laneZ = (PARKING.laneBayZ + PARKING.laneFarZ) / 2;
+  const bayZ = (PARKING_BAY.minZ + PARKING_BAY.maxZ) / 2;
+  const east: Vec2 = { x: 1, z: 0 };
+  const west: Vec2 = { x: -1, z: 0 };
+  const inLane = (z = laneZ, speed = 1) => car(PARKING.entryX + 8, z, speed, east);
+  const onLine = (speed = 1) => inLane(PARKING.laneFarZ - CAR.trackWidth / 2, speed);
+  const outside = car(PARKING.entryX - CAR.length, laneZ, 1, west);
 
   it('does not start before the entry line', () => {
     const exam = new ParkingExam();
-    expect(run(exam, car(laneX, PARKING.entryZ - 6), 130)).toHaveLength(0);
+    expect(run(exam, car(PARKING.entryX - 6, laneZ, 0, east), 130)).toHaveLength(0);
+  });
+
+  it('does not start when the entry line is crossed outside the lane', () => {
+    const exam = new ParkingExam();
+    expect(run(exam, car(PARKING.entryX - 1, PARKING.laneFarZ + 6, 0, east), 1)).toHaveLength(0);
   });
 
   it('deducts 5 points each time a wheel touches a sensor line', () => {
     const exam = new ParkingExam();
-    const onLine = car(PARKING.laneLeftX - CAR.trackWidth / 2, 5, 1);
-    const clear = car(laneX, 5, 1);
-    const events = [...run(exam, clear, 0.5), ...run(exam, onLine, 1), ...run(exam, clear, 1), ...run(exam, onLine, 1)];
+    const start = car(PARKING.entryX - 1, laneZ, 1, east);
+    const events = [
+      ...run(exam, start, 0.1),
+      ...run(exam, inLane(), 0.5),
+      ...run(exam, onLine(), 1),
+      ...run(exam, inLane(), 1),
+      ...run(exam, onLine(), 1),
+    ];
     expect(penalties(events)).toHaveLength(2);
     expect(events.filter((e) => e.type === 'beep')).toHaveLength(2);
   });
 
   it('keeps deducting every 5 seconds while a wheel stays on the line', () => {
     const exam = new ParkingExam();
-    const events = run(exam, car(PARKING.laneLeftX - CAR.trackWidth / 2, 5), 11);
-    expect(penalties(events)).toHaveLength(3);
+    run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1);
+    expect(penalties(run(exam, onLine(0), 11))).toHaveLength(3);
   });
 
   it('deducts 5 points after 2 minutes', () => {
-    const events = run(new ParkingExam(), car(laneX, 5, 0.1), 121);
+    const exam = new ParkingExam();
+    const events = [...run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1), ...run(exam, inLane(laneZ, 0.1), 121)];
     expect(penalties(events).map((e) => e.type === 'penalty' && e.reason)).toEqual(['Quá 2 phút chưa hoàn thành bài']);
   });
 
-  it('passes cleanly after parking in the bay and crossing the exit line', () => {
+  it('passes cleanly after parking in the bay and driving back out through the entry line', () => {
     const exam = new ParkingExam();
     const events = [
-      ...run(exam, car(laneX, 5, 1), 0.5),
-      ...run(exam, car(bayX, PARKING.bayCenterZ, 0, { x: 1, z: 0 }), 1),
-      ...run(exam, car(laneX, PARKING.exitZ + 1, 1), 0.1),
+      ...run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1),
+      ...run(exam, inLane(), 0.5),
+      ...run(exam, car(PARKING.bayCenterX, bayZ, 0, { x: 0, z: 1 }), 1),
+      ...run(exam, outside, 0.1),
     ];
     expect(penalties(events)).toHaveLength(0);
     expect(has(events, 'pass')).toBe(true);
@@ -128,7 +145,11 @@ describe('ParkingExam', () => {
 
   it('deducts 5 points when leaving without parking', () => {
     const exam = new ParkingExam();
-    const events = [...run(exam, car(laneX, 5, 1), 0.5), ...run(exam, car(laneX, PARKING.exitZ + 1, 1), 0.1)];
+    const events = [
+      ...run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1),
+      ...run(exam, inLane(), 0.5),
+      ...run(exam, outside, 0.1),
+    ];
     expect(penalties(events)).toHaveLength(1);
     expect(has(events, 'pass')).toBe(true);
   });
