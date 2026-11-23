@@ -146,7 +146,7 @@ function MistakesChip() {
       data-testid='mistakes-open'
       aria-label={`Xem ${count} lỗi đã mắc và cách sửa (L)`}
       {...press}
-      className='pointer-events-auto flex min-h-9 items-center gap-1.5 rounded-full border border-red-300/70 bg-red-600/90 px-3 py-1 font-bold text-white text-xs shadow-lg hover:bg-red-500'
+      className='pointer-events-auto flex min-h-10 items-center gap-1.5 rounded-full border border-red-300/70 bg-red-600/90 px-3 py-1 font-bold text-white text-xs shadow-lg hover:bg-red-500'
     >
       <TriangleAlert className='size-4 shrink-0' />
       <span>

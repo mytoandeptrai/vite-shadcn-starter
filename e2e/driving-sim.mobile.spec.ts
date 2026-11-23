@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { Fingers, SimDriver } from './sim-driver';
 
 test('mobile: touch steering wheel, pedals, clutch slider and H-shifter', async ({ page }) => {
@@ -189,6 +189,63 @@ const PHONES = [
   { name: 'landscape', width: 844, height: 390 },
 ];
 
+type Phone = (typeof PHONES)[number];
+
+const controlIds = (mode: 'B1' | 'B2') => {
+  const gears = mode === 'B2' ? ['1', '2', '3', '4', '5', 'R', 'N'] : ['P', 'R', 'N', 'D'];
+  const pedals = mode === 'B2' ? ['clutch-slider', 'pedal-brake', 'pedal-throttle'] : ['pedal-brake', 'pedal-throttle'];
+  const presets = mode === 'B2' ? ['clutch-floor', 'clutch-bite', 'clutch-up'] : [];
+  const ids = [
+    'steering-wheel',
+    'handbrake',
+    'signal-left',
+    'signal-right',
+    'quick-left',
+    'quick-right',
+    'engine-start',
+    ...gears.map((g) => `gear-${g}`),
+    ...pedals,
+    ...presets,
+  ];
+  return { gears, pedals, ids };
+};
+
+/** Every target is on screen, at least 40 px, not covered and not overlapping another. */
+async function measureTargets(page: Page, phone: Phone, ids: string[], pedals: string[]) {
+  const boxes = await page.evaluate(
+    (testIds) =>
+      testIds.map((id) => {
+        const el = document.querySelector(`[data-testid="${id}"]`);
+        if (!el) throw new Error(`${id} not found`);
+        const r = el.getBoundingClientRect();
+        // What a finger at the centre would actually hit.
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return { id, left: r.left, top: r.top, right: r.right, bottom: r.bottom, reachable: el.contains(hit) };
+      }),
+    ids
+  );
+
+  for (const box of boxes) {
+    const width = box.right - box.left;
+    const height = box.bottom - box.top;
+    expect(box.reachable, `${box.id} is covered`).toBe(true);
+    expect(box.left, box.id).toBeGreaterThanOrEqual(0);
+    expect(box.top, box.id).toBeGreaterThanOrEqual(0);
+    expect(box.right, box.id).toBeLessThanOrEqual(phone.width);
+    expect(box.bottom, box.id).toBeLessThanOrEqual(phone.height);
+    // 40 px is the floor for the smallest target; pedals are far larger.
+    expect(Math.min(width, height), `${box.id} is ${width}×${height}`).toBeGreaterThanOrEqual(40);
+    if (pedals.includes(box.id)) expect(width, `${box.id} width`).toBeGreaterThanOrEqual(48);
+  }
+  for (const [i, a] of boxes.entries()) {
+    for (const b of boxes.slice(i + 1)) {
+      const apart = a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top;
+      expect(apart, `${a.id} overlaps ${b.id}`).toBe(true);
+    }
+  }
+  return (id: string) => boxes.find((b) => b.id === id) as (typeof boxes)[number];
+}
+
 for (const phone of PHONES) {
   for (const mode of ['B1', 'B2'] as const) {
     test(`ergonomics: ${mode} touch targets are thumb-sized and never overlap (${phone.name})`, async ({ page }) => {
@@ -197,58 +254,52 @@ for (const phone of PHONES) {
       await sim.open();
       await sim.start(mode, 'free');
 
-      const gears = mode === 'B2' ? ['1', '2', '3', '4', '5', 'R', 'N'] : ['P', 'R', 'N', 'D'];
-      const pedals =
-        mode === 'B2' ? ['clutch-slider', 'pedal-brake', 'pedal-throttle'] : ['pedal-brake', 'pedal-throttle'];
-      const presets = mode === 'B2' ? ['clutch-floor', 'clutch-bite', 'clutch-up'] : [];
-      const ids = [
-        'handbrake',
-        'signal-left',
-        'signal-right',
-        'quick-left',
-        'quick-right',
-        'engine-start',
-        ...gears.map((g) => `gear-${g}`),
-        ...pedals,
-        ...presets,
-      ];
-      const boxes = await page.evaluate(
-        (testIds) =>
-          testIds.map((id) => {
-            const el = document.querySelector(`[data-testid="${id}"]`);
-            if (!el) throw new Error(`${id} not found`);
-            const r = el.getBoundingClientRect();
-            // What a finger at the centre would actually hit.
-            const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
-            return { id, left: r.left, top: r.top, right: r.right, bottom: r.bottom, reachable: el.contains(hit) };
-          }),
-        ids
-      );
-
-      for (const box of boxes) {
-        const width = box.right - box.left;
-        const height = box.bottom - box.top;
-        expect(box.reachable, `${box.id} is covered`).toBe(true);
-        expect(box.left, box.id).toBeGreaterThanOrEqual(0);
-        expect(box.right, box.id).toBeLessThanOrEqual(phone.width);
-        expect(box.bottom, box.id).toBeLessThanOrEqual(phone.height);
-        // 40 px is the floor for the smallest target; pedals are far larger.
-        expect(Math.min(width, height), `${box.id} is ${width}×${height}`).toBeGreaterThanOrEqual(40);
-        if (pedals.includes(box.id)) expect(width, `${box.id} width`).toBeGreaterThanOrEqual(48);
-      }
-      for (const [i, a] of boxes.entries()) {
-        for (const b of boxes.slice(i + 1)) {
-          const apart = a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top;
-          expect(apart, `${a.id} overlaps ${b.id}`).toBe(true);
-        }
-      }
+      const { gears, pedals, ids } = controlIds(mode);
+      const box = await measureTargets(page, phone, ids, pedals);
 
       // Left thumb: wheel, signals, handbrake, gears. Right thumb: pedals.
-      const box = (id: string) => boxes.find((b) => b.id === id) as (typeof boxes)[number];
       expect(box('handbrake').right).toBeLessThan(box('pedal-brake').left);
+      expect(box('steering-wheel').right).toBeLessThan(box('pedal-brake').left);
       expect(box(`gear-${gears[0]}`).left).toBeLessThan(phone.width / 2);
       expect(box('pedal-throttle').right).toBeGreaterThan(phone.width - 24);
       await sim.screenshot(`16-ergonomics-${mode}-${phone.width}x${phone.height}`);
     });
   }
+}
+
+// The mistakes chip only exists after a penalty in a scored run: check the layout with it on screen.
+for (const phone of [PHONES[0], PHONES[2]]) {
+  test(`ergonomics: the mistakes chip fits beside the controls after a penalty (${phone.name})`, async ({ page }) => {
+    await page.setViewportSize({ width: phone.width, height: phone.height });
+    const sim = new SimDriver(page);
+    await sim.open();
+    await sim.start('B1', 'parking');
+    const fingers = await Fingers.on(page);
+
+    // Creep into the parking lane and steer onto a sensor line.
+    const brake = await fingers.hold('pedal-brake', 0.3);
+    await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+    await fingers.tap('gear-D');
+    await expect(page.getByTestId('hud-gear')).toHaveText('D');
+    await fingers.lift(brake);
+    await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
+    const turn = await fingers.hold('quick-left');
+    await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 40_000 });
+    await fingers.lift(turn);
+    const stop = await fingers.hold('pedal-brake', 0.3);
+
+    const { pedals, ids } = controlIds('B1');
+    const box = await measureTargets(page, phone, [...ids, 'mistakes-open'], pedals);
+    expect(box('mistakes-open').bottom).toBeLessThanOrEqual(box('steering-wheel').top);
+    await sim.screenshot(`17-mistakes-chip-${phone.width}x${phone.height}`);
+
+    // The chip opens the list under a thumb, and the list fits the phone.
+    await fingers.lift(stop);
+    await fingers.tap('mistakes-open');
+    await expect(page.getByTestId('mistakes-modal')).toBeVisible();
+    const resume = await measureTargets(page, phone, ['mistakes-close', 'mistakes-resume'], []);
+    expect(resume('mistakes-resume').bottom).toBeLessThanOrEqual(phone.height);
+    await fingers.tap('mistakes-resume');
+    await expect(page.getByTestId('mistakes-modal')).toHaveCount(0);
+  });
 }
