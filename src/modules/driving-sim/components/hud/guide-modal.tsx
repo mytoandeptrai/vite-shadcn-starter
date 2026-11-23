@@ -149,7 +149,7 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
         title: 'Các bước',
         steps: [
           'Tiến qua vạch bắt đầu (màu xanh), đi sát mép phải làn để có chỗ quay đầu xe.',
-          'Tiến qua cửa chuồng, dừng khi đuôi xe đã qua mép xa của cửa chuồng chừng 1,5 m.',
+          'Tiến qua cửa chuồng, dừng khi đuôi xe đã qua mép xa của cửa chuồng chừng 1,8 m.',
           'Vào số lùi R, bấm “Hết lái trái” (Q), lùi thật chậm. Nhìn gương trái và bản đồ nhỏ để canh bánh sau với vạch.',
           'Khi thân xe song song với chuồng: bấm lại “Hết lái trái” để trả lái thẳng, lùi thẳng vào.',
           'Dừng khi cả xe nằm gọn trong chuồng, chờ tiếng “tít” báo đã ghép xong.',
