@@ -62,6 +62,13 @@ describe('adviceFor', () => {
     expect(clutch).toEqual([]);
   });
 
+  it('only asks for what can be done once the run has started', () => {
+    for (const transmission of ['B1', 'B2'] as const) {
+      expect(adviceFor('Quá 20 giây chưa qua vạch xuất phát', transmission).fix).not.toMatch(/trước khi bấm bắt đầu/);
+    }
+    expect(adviceFor('Quá 30 giây không qua vạch xuất phát', 'B1').fix).toMatch(/số D/);
+  });
+
   it('matches the specific rule, not a broader one before it', () => {
     expect(adviceFor('Không dừng xe ở vạch dừng quy định', 'B2').why).toMatch(/không dừng hẳn/);
     expect(adviceFor('Dừng xe quá vạch dừng', 'B2').why).toMatch(/vượt qua vạch/);

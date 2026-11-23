@@ -125,10 +125,10 @@ const ENTRIES: Entry[] = [
   ],
   [
     /vạch xuất phát/i,
-    {
-      why: 'Sau hiệu lệnh, xe phải qua vạch xuất phát trong 20 giây (quá 30 giây bị truất quyền).',
-      fix: 'Chuẩn bị sẵn trước khi bấm bắt đầu: xi nhan trái, vào số 1 hoặc D, hạ phanh tay rồi đi ngay.',
-    },
+    (t) => ({
+      why: 'Đồng hồ chạy ngay khi vào bài: xe phải qua vạch xuất phát trong 20 giây (quá 30 giây bị truất quyền).',
+      fix: `Vào bài là làm ngay, không chờ: bật xi nhan trái, ${t === 'B2' ? 'đạp côn (C) vào số 1, hạ phanh tay (Space), nhả côn tới điểm bám rồi đệm ga' : 'đạp phanh (S) vào số D rồi nhả phanh'} cho xe qua vạch.`,
+    }),
   ],
   [
     /vượt đèn đỏ/i,
