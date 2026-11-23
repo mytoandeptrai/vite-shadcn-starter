@@ -283,9 +283,11 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     await expect(page.getByTestId('hud-gear')).toHaveText('D');
     await fingers.lift(brake);
     await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
-    const turn = await fingers.hold('quick-left');
+    // "Hết lái trái" latches on a tap: the wheel goes to full lock and stays there.
+    await fingers.tap('quick-left');
+    await sim.waitFor(sim.steer, (v) => v < -180);
     await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 40_000 });
-    await fingers.lift(turn);
+    expect(await sim.steer()).toBeLessThan(-180);
     const stop = await fingers.hold('pedal-brake', 0.3);
 
     const { pedals, ids } = controlIds('B1');
