@@ -27,6 +27,8 @@ const SimScene = lazy(() => import('../../components/scene/sim-scene'));
 function Overlay() {
   const stallAt = useSimStore((s) => s.stallAt);
   const transmission = useSimStore((s) => s.transmission);
+  // A dialog over the HUD owns the keyboard and the pointer: Tab must not reach Restart behind it.
+  const covered = useSimStore((s) => s.guideOpen || s.mistakesOpen);
   const ref = useRef<HTMLDivElement>(null);
   // Wide screens have room for the lamps in the top bar; phones show them between the mirrors.
   const wide = useMedia(WIDE_SCREEN);
@@ -42,7 +44,7 @@ function Overlay() {
   }, [stallAt]);
 
   return (
-    <div ref={ref} className='ds-overlay' data-testid='hud' data-transmission={transmission}>
+    <div ref={ref} className='ds-overlay' data-testid='hud' data-transmission={transmission} inert={covered}>
       <div className='ds-area-top ds-top'>
         <StatusBar />
         {wide && <Lamps />}

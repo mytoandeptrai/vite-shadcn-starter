@@ -388,7 +388,23 @@ test('mistakes: each one says why and how to fix it, while driving and on the re
   await expect(page.getByTestId('hud-clock')).not.toHaveText(clock ?? '', { timeout: 10_000 });
   await page.keyboard.press('KeyL');
   await expect(modal).toBeVisible();
-  await page.getByTestId('mistakes-resume').click();
+
+  // The keyboard stays inside the list: Tab never reaches Restart or the pedals behind it.
+  await expect(page.getByTestId('mistakes-resume')).toBeFocused();
+  for (let i = 0; i < 8; i++) {
+    await page.keyboard.press('Tab');
+    const outside = await page.evaluate(() => {
+      const el = document.activeElement;
+      return el && el !== document.body && !el.closest('[data-testid="mistakes-modal"]')
+        ? el.outerHTML.slice(0, 80)
+        : '';
+    });
+    expect(outside).toBe('');
+  }
+  await page.keyboard.press('Enter');
+  expect(await sim.phase()).toBe('driving');
+  await expect(page.getByTestId('mistakes-open')).toContainText(/\d+ lỗi/);
+  if (await modal.count()) await page.getByTestId('mistakes-resume').click();
   await expect(modal).toHaveCount(0);
 
   // --- A disqualification: drive over the hill's stop line without stopping.

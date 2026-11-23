@@ -2,6 +2,8 @@ import { TriangleAlert, X } from 'lucide-react';
 import { useSimStore } from '../../store/sim-store';
 import { MistakeList } from './mistake-list';
 
+const focusOnMount = (el: HTMLButtonElement | null) => el?.focus();
+
 /** The mistakes of the run so far, each with why it was scored and how to fix it. Pauses the car. */
 export function MistakesModal() {
   const open = useSimStore((s) => s.mistakesOpen);
@@ -43,6 +45,7 @@ export function MistakesModal() {
           <button
             type='button'
             data-testid='mistakes-resume'
+            ref={focusOnMount}
             onClick={() => setOpen(false)}
             className='h-11 w-full rounded-xl bg-amber-400 font-bold text-slate-950 text-sm hover:bg-amber-300'
           >
