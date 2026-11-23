@@ -414,7 +414,8 @@ test('mistakes: each one says why and how to fix it, while driving and on the re
   await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
   await page.keyboard.press('KeyF');
   await expect(page.getByTestId('hud-gear')).toHaveText('D');
-  await page.keyboard.press('Space');
+  // An automatic starts the hill with the handbrake off: nothing holds the car back.
+  await expect(page.getByTestId('handbrake')).toHaveAttribute('aria-pressed', 'false');
   await page.keyboard.up('KeyS');
   await page.keyboard.down('KeyW');
   await expect(page.getByTestId('result-title')).toHaveText('KHÔNG ĐẠT', { timeout: 60_000 });
