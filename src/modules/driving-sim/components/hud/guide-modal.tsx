@@ -25,6 +25,7 @@ const CONTROLS: [string, string, string][] = [
   ['Vô lăng', 'A D / ← →', 'Hoặc kéo vô lăng trên màn hình; thả ra tự trả lái'],
   ['Hết lái trái / phải', 'Q / E', 'Đánh hết lái và giữ nguyên; bấm lại để trả thẳng'],
   ['Góc nhìn · Tiếng · Chọn bài', 'V · M · Esc', 'Đuôi xe / ghế lái / trên cao'],
+  ['Xem lỗi và cách sửa', 'L', 'Sau khi bị trừ điểm, bấm nút đỏ “… lỗi · Xem cách sửa”; xe tạm dừng trong lúc xem'],
 ];
 
 const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }[] = [

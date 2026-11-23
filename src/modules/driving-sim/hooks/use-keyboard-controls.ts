@@ -54,6 +54,13 @@ export function useKeyboardControls(): void {
         }
         return;
       }
+      if (store.mistakesOpen) {
+        if (e.code === 'Escape' || e.code === 'KeyL') {
+          e.preventDefault();
+          store.setMistakesOpen(false);
+        }
+        return;
+      }
       if (HELP.has(e.code) && store.phase !== 'finished') {
         e.preventDefault();
         if (!e.repeat) store.setGuideOpen(true);
@@ -100,6 +107,9 @@ export function useKeyboardControls(): void {
           break;
         case 'KeyM':
           store.toggleMuted();
+          break;
+        case 'KeyL':
+          if (store.penalties.length > 0) store.setMistakesOpen(true);
           break;
         case 'Escape':
           store.openMenu();

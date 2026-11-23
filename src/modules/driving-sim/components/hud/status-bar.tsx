@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
-import { CircleParking, Volume2 } from 'lucide-react';
+import { ChevronRight, CircleParking, TriangleAlert, Volume2 } from 'lucide-react';
 import { ENGINE, PASS_SCORE, ROAD_STEPS, SCENARIO_LABELS } from '../../constants';
+import { usePress } from '../../hooks/use-press';
 import { useTouchDevice } from '../../hooks/use-touch-device';
 import { useSimStore } from '../../store/sim-store';
 import { withoutKeyHints } from '../../utils/coach';
@@ -132,6 +133,31 @@ export function Lamps() {
   );
 }
 
+/** Appears after the first mistake; opens the list that explains each one. */
+function MistakesChip() {
+  const count = useSimStore((s) => s.penalties.length);
+  const lost = useSimStore((s) => s.penalties.reduce((sum, p) => sum + p.points, 0));
+  const setMistakesOpen = useSimStore((s) => s.setMistakesOpen);
+  const press = usePress(() => setMistakesOpen(true));
+  if (count === 0) return null;
+  return (
+    <button
+      type='button'
+      data-testid='mistakes-open'
+      aria-label={`Xem ${count} lỗi đã mắc và cách sửa (L)`}
+      {...press}
+      className='pointer-events-auto flex min-h-9 items-center gap-1.5 rounded-full border border-red-300/70 bg-red-600/90 px-3 py-1 font-bold text-white text-xs shadow-lg hover:bg-red-500'
+    >
+      <TriangleAlert className='size-4 shrink-0' />
+      <span>
+        {count} lỗi · −{lost} điểm
+      </span>
+      <span className='font-semibold text-white/85'>· Xem cách sửa</span>
+      <ChevronRight className='size-4 shrink-0' />
+    </button>
+  );
+}
+
 /** What the exam wants now, and which pedals and gears to use for it. */
 export function Hints() {
   const hint = useSimStore((s) => s.telemetry.hint);
@@ -226,6 +252,7 @@ export function Hints() {
           {hint}
         </p>
       )}
+      <MistakesChip />
       {coach && (
         <p
           data-testid='hud-coach'

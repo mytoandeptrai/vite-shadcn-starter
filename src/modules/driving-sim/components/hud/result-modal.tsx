@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { PASS_SCORE, SCENARIO_LABELS } from '../../constants';
 import { useSimStore } from '../../store/sim-store';
+import { MistakeList } from './mistake-list';
 
 /** Pass / fail summary shown when the exam ends. */
 export function ResultModal() {
@@ -14,7 +15,9 @@ export function ResultModal() {
   const scenario = useSimStore((s) => s.scenario);
   const start = useSimStore((s) => s.start);
   const openMenu = useSimStore((s) => s.openMenu);
+  const transmission = useSimStore((s) => s.transmission);
   const passed = result?.passed ?? false;
+  const fatal = result?.fatal ? { reason: result.reason, where: result.where } : undefined;
 
   useEffect(() => {
     if (!passed) return;
@@ -34,9 +37,9 @@ export function ResultModal() {
         aria-modal='true'
         aria-labelledby='ds-result-title'
         data-testid='result-modal'
-        className='w-full max-w-md rounded-2xl border border-white/15 bg-slate-900/95 p-5 shadow-2xl'
+        className='flex max-h-full w-full max-w-lg flex-col rounded-2xl border border-white/15 bg-slate-900/95 p-4 shadow-2xl sm:p-5'
       >
-        <div className='flex items-center gap-3'>
+        <div className='flex shrink-0 items-center gap-3'>
           <Icon className={cn('size-12 shrink-0', passed ? 'text-emerald-400' : 'text-red-400')} />
           <div className='min-w-0 flex-1'>
             <p data-testid='result-scenario' className='m-0 text-[10px] text-white/55 uppercase tracking-wider'>
@@ -61,18 +64,24 @@ export function ResultModal() {
           </div>
         </div>
 
-        {penalties.length > 0 && (
-          <ul className='mt-4 max-h-40 space-y-1 overflow-y-auto text-sm'>
-            {penalties.map((penalty) => (
-              <li key={penalty.id} className='flex justify-between gap-3 rounded-md bg-white/5 px-2.5 py-1.5'>
-                <span className='text-white/80'>{penalty.reason}</span>
-                <span className='font-bold font-mono text-red-300'>−{penalty.points}</span>
-              </li>
-            ))}
-          </ul>
+        {(penalties.length > 0 || fatal) && (
+          <section aria-labelledby='ds-result-mistakes' className='mt-4 flex min-h-0 flex-col'>
+            <h3
+              id='ds-result-mistakes'
+              className='m-0 mb-1.5 font-bold text-[11px] text-white/60 uppercase tracking-wider'
+            >
+              Lỗi đã mắc và cách sửa
+            </h3>
+            <MistakeList
+              penalties={penalties}
+              fatal={fatal}
+              transmission={transmission}
+              className='min-h-0 flex-1 overflow-y-auto pr-1'
+            />
+          </section>
         )}
 
-        <div className='mt-5 grid grid-cols-2 gap-2'>
+        <div className='mt-4 grid shrink-0 grid-cols-2 gap-2'>
           <Button
             variant='outline'
             data-testid='result-menu'

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { usePress } from '../../hooks/use-press';
 import { useSignalBlink } from '../../hooks/use-signal-blink';
-import { useSimStore } from '../../store/sim-store';
+import { isPaused, useSimStore } from '../../store/sim-store';
 import { playSignalTick } from '../../utils/audio';
 
 type Side = 'left' | 'right';
@@ -40,7 +40,7 @@ function SignalButton({ side, active, lit }: { side: Side; active: boolean; lit:
 /** Turn-signal stalk: two toggle buttons above the wheel, with the relay tick while one is on. */
 export function SignalButtons() {
   const { signal, lit } = useSignalBlink();
-  const paused = useSimStore((s) => s.phase !== 'driving' || s.guideOpen);
+  const paused = useSimStore(isPaused);
 
   useEffect(() => {
     if (signal !== 'off' && !paused) playSignalTick(lit);

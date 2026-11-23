@@ -2,7 +2,7 @@ import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
 import { Suspense, useRef, useState } from 'react';
 import type { DirectionalLight } from 'three';
-import { useSimStore } from '../../store/sim-store';
+import { isPaused, useSimStore } from '../../store/sim-store';
 import { detectQuality } from '../../utils/quality';
 import { CameraRig } from './camera-rig';
 import { RoadTrack } from './road-track';
@@ -12,7 +12,7 @@ import { Vehicle } from './vehicle';
 function World({ shadows }: { shadows: boolean }) {
   const runId = useSimStore((s) => s.runId);
   const scenario = useSimStore((s) => s.scenario);
-  const paused = useSimStore((s) => s.phase !== 'driving' || s.guideOpen);
+  const paused = useSimStore(isPaused);
   const sun = useRef<DirectionalLight>(null);
 
   return (

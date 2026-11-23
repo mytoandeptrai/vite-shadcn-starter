@@ -17,6 +17,7 @@ import { stepDrivetrain } from '../../utils/drivetrain';
 import { createExam } from '../../utils/create-exam';
 import { lightsAt } from '../../utils/yard-exam';
 import { input, updateInput } from '../../utils/input-state';
+import { exerciseName } from '../../utils/mistakes';
 import { runtime } from '../../utils/runtime';
 import { SUSPENSION, VehicleRig, WHEEL_ANCHORS } from '../../utils/vehicle-physics';
 import { CarModel } from './car-model';
@@ -104,6 +105,8 @@ export function Vehicle() {
     runtime.pose.wheels = snapshot.wheels;
 
     const store = useSimStore.getState();
+    // Read before the update: a mistake scored on the way out belongs to the exercise being left.
+    const where = exerciseName(exam);
     const events = exam.update(snapshot, dt, {
       transmission: store.transmission,
       gear: store.gear,
@@ -114,7 +117,7 @@ export function Vehicle() {
     if (exam.traffic) runtime.npcs = exam.traffic.cars;
     runtime.lights = exam.lights?.() ?? lightsAt(clock.time);
     runtime.yard = exam.yard?.() ?? null;
-    store.applyEvents(events, clock.time);
+    store.applyEvents(events, clock.time, where);
 
     clock.sinceTelemetry += dt;
     if (clock.sinceTelemetry >= TELEMETRY_INTERVAL) {

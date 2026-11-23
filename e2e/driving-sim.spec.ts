@@ -345,3 +345,68 @@ test.describe('full yard exam', () => {
     await expect(page.getByTestId('guide-panel')).toContainText('Vượt đèn đỏ');
   });
 });
+
+test('mistakes: each one says why and how to fix it, while driving and on the result screen', async ({ page }) => {
+  const sim = new SimDriver(page);
+  await sim.open();
+
+  // --- A penalty: creep into the parking lane in an automatic and steer onto a sensor line.
+  await sim.start('B1', 'parking');
+  await expect(page.getByTestId('mistakes-open')).toHaveCount(0);
+  await page.keyboard.down('KeyS');
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+  await page.keyboard.press('KeyF');
+  await expect(page.getByTestId('hud-gear')).toHaveText('D');
+  await page.keyboard.up('KeyS');
+  await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
+  await page.keyboard.down('KeyA');
+  await expect(page.getByTestId('notice-penalty')).toContainText('−5 điểm', { timeout: 30_000 });
+  await expect(page.getByTestId('notice-tip').first()).toContainText('Cách sửa: Đi thật chậm');
+  await page.keyboard.up('KeyA');
+
+  // The chip counts the mistakes; the list behind it explains them and stops the car.
+  await expect(page.getByTestId('mistakes-open')).toContainText(/\d+ lỗi · −\d+ điểm/);
+  await page.getByTestId('mistakes-open').click();
+  const modal = page.getByTestId('mistakes-modal');
+  await expect(modal).toBeVisible();
+  await expect(modal.getByTestId('mistake-reason').first()).toContainText('đè vạch');
+  await expect(modal.getByTestId('mistake').first()).toContainText('Vì sao:');
+  await expect(modal.getByTestId('mistake-fix').first()).toContainText('Cách sửa: Đi thật chậm, nhìn gương');
+  const clock = await page.getByTestId('hud-clock').textContent();
+  const score = await sim.score();
+  await page.waitForTimeout(2500);
+  await expect(page.getByTestId('hud-clock')).toHaveText(clock ?? '');
+  expect(await sim.score()).toBe(score);
+  await sim.screenshot('14-mistakes');
+
+  // Driving keys do nothing behind the list; L or Escape closes it and the run goes on.
+  await page.keyboard.press('KeyW');
+  await expect(modal).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(modal).toHaveCount(0);
+  expect(await sim.phase()).toBe('driving');
+  await expect(page.getByTestId('hud-clock')).not.toHaveText(clock ?? '', { timeout: 10_000 });
+  await page.keyboard.press('KeyL');
+  await expect(modal).toBeVisible();
+  await page.getByTestId('mistakes-resume').click();
+  await expect(modal).toHaveCount(0);
+
+  // --- A disqualification: drive over the hill's stop line without stopping.
+  await page.getByTestId('open-menu').click();
+  await sim.start('B1', 'hill');
+  await page.keyboard.down('KeyS');
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+  await page.keyboard.press('KeyF');
+  await expect(page.getByTestId('hud-gear')).toHaveText('D');
+  await page.keyboard.press('Space');
+  await page.keyboard.up('KeyS');
+  await page.keyboard.down('KeyW');
+  await expect(page.getByTestId('result-title')).toHaveText('KHÔNG ĐẠT', { timeout: 60_000 });
+  await page.keyboard.up('KeyW');
+  const result = page.getByTestId('result-modal');
+  await expect(result.getByTestId('mistake')).toHaveCount(1);
+  await expect(result.getByTestId('mistake')).toContainText('Truất quyền');
+  await expect(result.getByTestId('mistake-reason')).toHaveText('Không dừng xe ở vạch dừng quy định');
+  await expect(result.getByTestId('mistake-fix')).toContainText('phải dừng hẳn rồi mới đi tiếp. Đạp phanh (S)');
+  await sim.screenshot('15-result-mistakes');
+});

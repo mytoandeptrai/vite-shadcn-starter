@@ -16,6 +16,7 @@ import type {
 import * as audio from '../utils/audio';
 import { canStartEngine, createDrivetrainState, startEngine } from '../utils/drivetrain';
 import { input, releaseHeldInput, resetInput } from '../utils/input-state';
+import { adviceFor } from '../utils/mistakes';
 import { runtime } from '../utils/runtime';
 
 export interface Telemetry {
@@ -41,6 +42,8 @@ export interface Notice {
   id: number;
   kind: NoticeKind;
   text: string;
+  /** Second line: how to avoid the mistake. */
+  tip?: string;
 }
 
 interface SimState {
@@ -64,6 +67,8 @@ interface SimState {
   muted: boolean;
   /** The usage guide is open; the simulation is paused meanwhile. */
   guideOpen: boolean;
+  /** The list of mistakes is open; the simulation is paused meanwhile. */
+  mistakesOpen: boolean;
   /** Timestamp of the last stall, drives the HUD shake animation. */
   stallAt: number;
   telemetry: Telemetry;
@@ -81,11 +86,15 @@ interface SimState {
   cycleCamera: () => void;
   toggleMuted: () => void;
   setGuideOpen: (open: boolean) => void;
+  setMistakesOpen: (open: boolean) => void;
   setTelemetry: (telemetry: Telemetry) => void;
-  applyEvents: (events: ExamEvent[], time: number) => void;
+  /** `where` names the exercise the car was in when the events happened. */
+  applyEvents: (events: ExamEvent[], time: number, where?: string) => void;
 }
 
 const NOTICE_DURATION = 3200;
+/** Long enough to read the tip under a penalty. */
+const TIP_DURATION = 6500;
 const MAX_NOTICES = 3;
 const CAMERA_ORDER: CameraMode[] = ['chase', 'driver', 'top'];
 
@@ -107,14 +116,26 @@ let penaltyId = 0;
 let noticeId = 0;
 
 /** Shows a short-lived HUD message (penalty, warning, instruction). */
-export function notify(kind: NoticeKind, text: string): void {
+export function notify(kind: NoticeKind, text: string, tip?: string): void {
   noticeId += 1;
   const id = noticeId;
-  useSimStore.setState((s) => ({ notices: [...s.notices, { id, kind, text }].slice(-MAX_NOTICES) }));
-  setTimeout(() => {
-    useSimStore.setState((s) => ({ notices: s.notices.filter((n) => n.id !== id) }));
-  }, NOTICE_DURATION);
+  useSimStore.setState((s) => ({ notices: [...s.notices, { id, kind, text, tip }].slice(-MAX_NOTICES) }));
+  setTimeout(
+    () => {
+      useSimStore.setState((s) => ({ notices: s.notices.filter((n) => n.id !== id) }));
+    },
+    tip ? TIP_DURATION : NOTICE_DURATION
+  );
 }
+
+/** The first sentence of the fix: short enough to read while driving. */
+function tipFor(reason: string, transmission: Transmission): string {
+  return adviceFor(reason, transmission).fix.split(/(?<=[.!?])\s/)[0];
+}
+
+/** True while a dialog has stopped the simulation. */
+export const isPaused = (s: Pick<SimState, 'phase' | 'guideOpen' | 'mistakesOpen'>) =>
+  s.phase !== 'driving' || s.guideOpen || s.mistakesOpen;
 
 export const useSimStore = create<SimState>((set, get) => ({
   phase: 'menu',
@@ -133,6 +154,7 @@ export const useSimStore = create<SimState>((set, get) => ({
   cameraMode: 'chase',
   muted: false,
   guideOpen: false,
+  mistakesOpen: false,
   stallAt: 0,
   telemetry: emptyTelemetry,
   notices: [],
@@ -160,6 +182,7 @@ export const useSimStore = create<SimState>((set, get) => ({
       penalties: [],
       result: null,
       guideOpen: false,
+      mistakesOpen: false,
       telemetry: emptyTelemetry,
       notices: [],
     });
@@ -167,7 +190,7 @@ export const useSimStore = create<SimState>((set, get) => ({
 
   openMenu: () => {
     audio.stopEngineSound();
-    set({ phase: 'menu', guideOpen: false, signal: 'off' });
+    set({ phase: 'menu', guideOpen: false, mistakesOpen: false, signal: 'off' });
   },
 
   requestGear: (gear) => {
@@ -224,11 +247,16 @@ export const useSimStore = create<SimState>((set, get) => ({
     if (guideOpen) releaseHeldInput();
     set({ guideOpen });
   },
+  setMistakesOpen: (mistakesOpen) => {
+    if (mistakesOpen) releaseHeldInput();
+    set({ mistakesOpen });
+  },
   setTelemetry: (telemetry) => set({ telemetry }),
 
-  applyEvents: (events, time) => {
+  applyEvents: (events, time, where) => {
     if (events.length === 0 || get().phase !== 'driving') return;
     let { score, subtitle } = get();
+    const { transmission } = get();
     const penalties = [...get().penalties];
     let result: ExamResult | null = null;
 
@@ -238,13 +266,13 @@ export const useSimStore = create<SimState>((set, get) => ({
         case 'penalty':
           score -= event.points;
           penaltyId += 1;
-          penalties.push({ id: penaltyId, points: event.points, reason: event.reason, time });
-          notify('penalty', `−${event.points} điểm · ${event.reason}`);
+          penalties.push({ id: penaltyId, points: event.points, reason: event.reason, time, where });
+          notify('penalty', `−${event.points} điểm · ${event.reason}`, tipFor(event.reason, transmission));
           if (score < PASS_SCORE) result = { passed: false, reason: `Điểm dưới ${PASS_SCORE} — ${event.reason}` };
           break;
         case 'fail':
           notify('fail', `Truất quyền sát hạch · ${event.reason}`);
-          result = { passed: false, reason: event.reason };
+          result = { passed: false, reason: event.reason, fatal: true, where };
           break;
         case 'pass':
           result = { passed: true, reason: event.reason };
@@ -267,7 +295,7 @@ export const useSimStore = create<SimState>((set, get) => ({
       if (result.passed) audio.playPass();
       else audio.playFail();
       audio.stopEngineSound();
-      set({ score, penalties, subtitle, result, phase: 'finished', signal: 'off' });
+      set({ score, penalties, subtitle, result, phase: 'finished', signal: 'off', mistakesOpen: false });
     } else {
       set({ score, penalties, subtitle });
     }

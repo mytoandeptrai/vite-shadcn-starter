@@ -25,11 +25,16 @@ export interface Penalty {
   points: number;
   reason: string;
   time: number;
+  /** The exercise it happened in, when the run has several. */
+  where?: string;
 }
 
 export interface ExamResult {
   passed: boolean;
   reason: string;
+  /** Ended by a disqualification, not by the score. */
+  fatal?: boolean;
+  where?: string;
 }
 
 export type ExamEvent =

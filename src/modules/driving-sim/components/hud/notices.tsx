@@ -29,7 +29,14 @@ export function Notices() {
             )}
           >
             <Icon className='size-5 shrink-0' />
-            <span>{notice.text}</span>
+            <span className='min-w-0'>
+              {notice.text}
+              {notice.tip && (
+                <span data-testid='notice-tip' className='block font-medium text-[11px] text-white/90 leading-snug'>
+                  Cách sửa: {notice.tip}
+                </span>
+              )}
+            </span>
           </div>
         );
       })}
