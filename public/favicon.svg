@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>jacobhocoto</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fcd34d"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#g)"/>
+  <g fill="none" stroke="#0b1220" stroke-width="6" stroke-linecap="round">
+    <circle cx="32" cy="32" r="18"/>
+    <path d="M14 32H26.6M37.4 32H50M32 37.4V50"/>
+  </g>
+  <circle cx="32" cy="32" r="5.3999999999999995" fill="#0b1220"/>
+</svg>

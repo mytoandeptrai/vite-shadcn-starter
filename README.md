@@ -1,6 +1,20 @@
-# Vite + Shadcn UI Starter Template
+# jacobhocoto
 
-A modern, production-ready React starter with Vite, module-based architecture, TanStack Router/Query/Table, i18n, and shadcn/ui.
+<img src="public/logo-dark.svg" alt="jacobhocoto" height="48" />
+
+A 3D simulator for the Vietnamese B1/B2 driving test (sa hình), running in the browser on desktop and phones: hill start (đề-pa lên dốc) and parallel parking (ghép xe dọc), with automatic and manual transmissions and exam scoring. The simulator lives in `src/modules/driving-sim` and is served from `/`.
+
+## SEO and branding
+
+- Brand name, title, description and keywords: `src/constant/site.const.ts`.
+- The `seo` plugin in `vite.config.ts` writes the title, description, canonical, Open Graph/Twitter tags and JSON-LD into `index.html`, and generates `robots.txt`, `sitemap.xml` and `manifest.webmanifest`.
+- Site URL for canonical and share links: `VITE_SITE_URL`, else Vercel's production domain, else `defaultUrl` in the site config. Set `VITE_SITE_URL` when moving to a custom domain outside Vercel.
+- Optional `VITE_GOOGLE_SITE_VERIFICATION` adds the Search Console verification tag.
+- Logo, icons and share image: `public/logo.svg`, `public/logo-dark.svg`, `public/favicon.svg`, `public/favicon.ico`, `public/icons/`, `public/og-image.jpg`.
+
+## Stack
+
+Built on a React starter with Vite, module-based architecture, TanStack Router/Query/Table, i18n, and shadcn/ui.
 
 TypeScript remains on the **5.9.x** line deliberately — TypeScript 7 (`tsgo`) is deferred until ecosystem tooling is stable.
 
@@ -76,10 +90,9 @@ export function HomeContainer() {
 }
 ```
 
-### Demo surfaces
+### Driving simulator
 
-- **Demo form** (`src/modules/demo-form`) — reusable form fields (RHF + Zod)
-- **Demo table** (`demo-table.tsx`) — mock Users table on shared `DataTable` (search, `MultiSelectPicker` status filter, sorting, pagination)
+The index route (`src/routes/index.tsx`) renders the driving simulator (`src/modules/driving-sim`) — 3D sa hình B1/B2 practice (React Three Fiber + Rapier): automatic and manual drivetrain with clutch bite point and stalling, hill-start and parallel-bay exams with chip-sensor scoring. `?quality=high|low` overrides the automatic render quality
 
 ## Tech Stack
 
@@ -134,6 +147,7 @@ Copy `.env.example` → `.env` and fill values as needed.
 | `pnpm test:watch` | Vitest watch |
 | `pnpm test:ui` | Vitest UI |
 | `pnpm test:coverage` | Coverage report |
+| `pnpm test:e2e` | Playwright run of the driving simulator (videos + screenshots in `e2e/artifacts`) |
 | `pnpm lint` / `pnpm format` / `pnpm check` | Biome |
 | `pnpm storybook` | Storybook on `:6006` |
 | `pnpm build-storybook` | Static Storybook build |

@@ -1,24 +1,39 @@
 import { Button } from '@/components/ui/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
 import { useTranslation } from '@/integrations/i18n';
-import { useAuthContext } from '@/integrations/auth/auth-provider';
-import { ROUTES } from '@/constant';
+import { ROUTES, siteConfig } from '@/constant';
 import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const NotFoundPage = () => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthContext();
+
+  // Unknown URLs are served with a 200 by the SPA fallback, so keep them out of the index.
+  // The page already has a robots tag from the build: change it rather than add a second one.
+  useEffect(() => {
+    const robots = document.querySelector<HTMLMetaElement>('meta[name="robots"]');
+    if (!robots) return;
+    const indexable = robots.content;
+    robots.content = 'noindex, follow';
+    return () => {
+      robots.content = indexable;
+    };
+  }, []);
 
   const handleGoHome = () => {
     navigate({
-      to: isAuthenticated ? ROUTES.DASHBOARD : ROUTES.GETTING_STARTED,
+      to: ROUTES.HOME,
     });
   };
 
   return (
     <div className='flex min-h-[calc(100vh-4rem)] items-center justify-center p-4'>
+      <Helmet>
+        <title>{`404 · ${siteConfig.name}`}</title>
+      </Helmet>
       <Empty className='max-w-2xl'>
         <EmptyHeader>
           <div className='relative mb-8'>
@@ -42,7 +57,7 @@ const NotFoundPage = () => {
         <div className='mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row'>
           <Button size='lg' onClick={handleGoHome} className='min-w-[160px]'>
             <Home className='size-4' />
-            {t('not-found.goHome', { defaultValue: 'Go to Dashboard' })}
+            {t('not-found.goHome', { defaultValue: 'Go Home' })}
           </Button>
           <Button
             size='lg'

@@ -1,3 +1,4 @@
+import { loadEnv, type Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 import { devtools } from '@tanstack/devtools-vite';
 import viteReact from '@vitejs/plugin-react';
@@ -6,6 +7,7 @@ import svgrPlugin from 'vite-plugin-svgr';
 
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import { fileURLToPath, URL } from 'node:url';
+import { buildHeadTags, buildManifest, buildRobotsTxt, buildSitemapXml, resolveSiteUrl } from './src/utils/seo';
 
 const PORT = Number.parseInt(
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_PORT) ||
@@ -13,6 +15,43 @@ const PORT = Number.parseInt(
     '5173',
   10
 );
+
+/**
+ * Writes the search and share metadata into index.html and generates robots.txt, sitemap.xml and the
+ * web manifest, all from src/constant/site.const.ts and the site URL known at build time.
+ */
+function seo(): Plugin {
+  let siteUrl = '';
+  let googleSiteVerification: string | undefined;
+  const files = (): Record<string, { type: string; body: string }> => ({
+    'robots.txt': { type: 'text/plain; charset=utf-8', body: buildRobotsTxt(siteUrl) },
+    'sitemap.xml': { type: 'application/xml; charset=utf-8', body: buildSitemapXml(siteUrl, new Date()) },
+    'manifest.webmanifest': { type: 'application/manifest+json; charset=utf-8', body: buildManifest() },
+  });
+
+  return {
+    name: 'seo',
+    configResolved(config) {
+      const env = { ...process.env, ...loadEnv(config.mode, config.envDir || config.root, 'VITE_') };
+      siteUrl = resolveSiteUrl(env);
+      googleSiteVerification = env.VITE_GOOGLE_SITE_VERIFICATION;
+    },
+    transformIndexHtml: () => buildHeadTags(siteUrl, googleSiteVerification),
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const file = files()[(req.url ?? '').split('?')[0].slice(1)];
+        if (!file) return next();
+        res.setHeader('Content-Type', file.type);
+        res.end(file.body);
+      });
+    },
+    generateBundle() {
+      for (const [fileName, file] of Object.entries(files())) {
+        this.emitFile({ type: 'asset', fileName, source: file.body });
+      }
+    },
+  };
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,6 +68,7 @@ export default defineConfig({
     viteReact(),
     tailwindcss(),
     svgrPlugin({ svgrOptions: { icon: true } }),
+    seo(),
   ],
   resolve: {
     alias: {
@@ -92,7 +132,8 @@ export default defineConfig({
             },
             {
               name: 'vendor-misc',
-              test: /node_modules/,
+              // The 3D engine and Rapier WASM stay out, so only the lazy driving-sim scene loads them.
+              test: /node_modules(?!.*[\\/](three|three-stdlib|three-mesh-bvh|@react-three|@dimforge)[\\/])/,
               priority: 1,
             },
           ],
@@ -104,6 +145,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

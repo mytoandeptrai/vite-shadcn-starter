@@ -1,4 +1,5 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
+import { Analytics } from '@vercel/analytics/react';
 import { StrictMode, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import LoadingSpinner from './components/ui/loading-spinner.tsx';
@@ -43,7 +44,8 @@ function InnerApp() {
 
 // Render the app
 const rootElement = document.getElementById('app');
-if (rootElement && !rootElement.innerHTML) {
+// #app ships with static fallback content for crawlers; React replaces it on mount.
+if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
@@ -58,6 +60,7 @@ if (rootElement && !rootElement.innerHTML) {
               </ErrorBoundary>
             </InfraProviders>
             <Toaster richColors position='top-right' />
+            <Analytics />
           </HelmetProvider>
         </TanStackQueryProvider.Provider>
       </I18nProvider.Provider>
