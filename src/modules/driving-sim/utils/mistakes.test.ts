@@ -80,6 +80,12 @@ describe('adviceFor', () => {
     expect(adviceFor('Không tấp xe vào lề phải', 'B1').fix).toMatch(/vượt qua vạch lề/);
   });
 
+  it('covers both ways of hitting another car', () => {
+    const advice = adviceFor('Va chạm với xe khác', 'B2');
+    expect(advice.fix).toMatch(/xe trước/);
+    expect(advice.fix).toMatch(/làn ngược chiều/);
+  });
+
   it('matches the specific rule, not a broader one before it', () => {
     expect(adviceFor('Không dừng xe ở vạch dừng quy định', 'B2').why).toMatch(/không dừng hẳn/);
     expect(adviceFor('Dừng xe quá vạch dừng', 'B2').why).toMatch(/vượt qua vạch/);

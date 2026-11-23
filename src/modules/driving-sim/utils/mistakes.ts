@@ -251,8 +251,8 @@ const ENTRIES: Entry[] = [
   [
     /va chạm với xe khác/i,
     {
-      why: 'Xe chạm vào xe đi phía trước.',
-      fix: 'Giữ khoảng cách ít nhất 2–3 thân xe. Thấy đèn phanh xe trước sáng thì nhả ga và rà phanh ngay.',
+      why: 'Xe chạm vào một xe khác trên đường: xe đi phía trước hoặc xe ở làn ngược chiều.',
+      fix: 'Giữ khoảng cách 2–3 thân xe với xe trước, thấy đèn phanh sáng thì nhả ga và rà phanh ngay. Luôn đi trong làn bên phải, không lấn qua vạch giữa sang làn ngược chiều.',
     },
   ],
 ];
