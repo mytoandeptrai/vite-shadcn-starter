@@ -1,5 +1,5 @@
 import { ConvexHullCollider, CuboidCollider, RigidBody, TrimeshCollider } from '@react-three/rapier';
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import {
   BufferAttribute,
   BufferGeometry,
@@ -10,6 +10,7 @@ import {
   SRGBColorSpace,
 } from 'three';
 import { HILL, hillHeightAt, PARKING, PARKING_BAY, TRACK_LINES } from '../../constants';
+import { useDisposable } from '../../hooks/use-disposable';
 import type { LineKind } from '../../types';
 import { CENTRE_ROAD, CROSS_ROAD, KERB, onPavement, RING } from '../../utils/yard';
 import { GROUND_TEXTS, type GroundText, MARK_POLYGONS, MARKS } from '../../utils/yard-marks';
@@ -41,7 +42,7 @@ const LINE_KINDS: LineKind[] = ['sensor', 'stop', 'gate', 'marking'];
 
 /** Speckled asphalt. The yard maps it in metres, one tile every 4 m. */
 export function useAsphaltTexture(repeatX = 0.25, repeatY = 0.25) {
-  return useMemo(() => {
+  return useDisposable(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
@@ -71,7 +72,7 @@ export function useAsphaltTexture(repeatX = 0.25, repeatY = 0.25) {
 }
 
 function useTextTexture(text: string, background: string, color: string) {
-  return useMemo(() => {
+  return useDisposable(() => {
     const lines = text.split('\n');
     const canvas = document.createElement('canvas');
     canvas.width = 512;
@@ -105,7 +106,7 @@ function useTextTexture(text: string, background: string, color: string) {
 }
 
 function useGroundTextTexture(text: string) {
-  return useMemo(() => {
+  return useDisposable(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 128;
@@ -175,6 +176,13 @@ function Yard() {
     []
   );
   const kerbs = useMemo(kerbCollider, []);
+  useEffect(
+    () => () => {
+      const { lines, ...meshes } = geometry;
+      for (const buffers of [...Object.values(meshes), ...lines]) buffers.dispose();
+    },
+    [geometry]
+  );
 
   return (
     <>
@@ -272,6 +280,13 @@ function Hill() {
     };
     return { vertices: new Float32Array(pts), surface: build(top), walls: build(sides) };
   }, []);
+  useEffect(
+    () => () => {
+      surface.dispose();
+      walls.dispose();
+    },
+    [surface, walls]
+  );
 
   // Guard rails: one rail per gradient on each side, a post where they meet.
   const railX = HILL.width / 2 + KERB.width / 2;

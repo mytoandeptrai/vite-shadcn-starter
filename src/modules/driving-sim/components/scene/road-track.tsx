@@ -14,6 +14,7 @@ import {
 } from 'three';
 import { NPC, ROAD } from '../../constants';
 import { runtime } from '../../utils/runtime';
+import { useDisposable } from '../../hooks/use-disposable';
 import { Sign, useAsphaltTexture } from './track';
 
 const START_Z = -30;
@@ -85,7 +86,7 @@ function Instances({ matrices, children }: { matrices: Matrix4[]; children: Reac
 }
 
 function useLimitTexture() {
-  return useMemo(() => {
+  return useDisposable(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 256;
