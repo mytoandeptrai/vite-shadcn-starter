@@ -153,19 +153,20 @@ for (const t of [0.25, 0.5, 0.75]) {
   const reach = Math.min(1.5, 3.3 * (1 - Math.abs(z - 1.2 - cz) / 3.3) * 0.8);
   marks.push({ a: { x: RING.maxX, z }, b: { x: RING.maxX - reach, z: z - reach }, width: 0.25, color: 'white' });
 }
+arrow(RING.maxX - HALF / 2, 25, NORTH, 'right');
 arrow(RING.maxX - HALF / 2, 12.6, NORTH, 'straight-right');
 arrow(RING.maxX - HALF / 2, -6.6, NORTH, 'right');
 arrow(RING.maxX - HALF / 2, -37.5, NORTH, 'straight-right');
-arrow(RING.maxX + HALF / 2, -44, SOUTH, 'right');
+arrow(RING.maxX + HALF / 2, -44, SOUTH, 'left');
 arrow(RING.maxX + HALF / 2, 26, SOUTH);
 hatch(-7, 0.3, botMinZ, botMaxZ);
 line(-7.2, RING.minZ, -44, RING.minZ);
 // Bài 11: finish line.
 line(-28, botMinZ, -28, botMaxZ, 'red', 0.25);
-arrow(38, RING.minZ - HALF / 2, WEST, 'right');
-arrow(14, RING.minZ + HALF / 2, EAST, 'left');
+arrow(14, RING.minZ - HALF / 2, WEST, 'left');
+arrow(38, RING.minZ + HALF / 2, EAST, 'right');
 for (const z of [RING.minZ - HALF / 2, RING.minZ + HALF / 2]) arrow(-13, z, WEST);
-arrow(-30.5, RING.minZ + HALF / 2, WEST, 'right');
+arrow(-30.5, RING.minZ + HALF / 2, WEST, 'left');
 arrow(-30.5, RING.minZ - HALF / 2, WEST);
 
 // --- Centre road and cross road, bài 5: the crossroads with traffic lights -----------------------
@@ -193,15 +194,15 @@ line(-8.7, cz, -8.7, cz + lane, 'yellow');
 arrow(cx + HALF / 2, 21, SOUTH);
 arrow(cx - HALF / 2, 46, NORTH, 'left');
 arrow(cx - HALF / 2, -17.5, NORTH);
-arrow(cx + HALF / 2, -17, SOUTH, 'straight-left');
+arrow(cx + HALF / 2, -17, SOUTH, 'straight-right');
 arrow(cx - HALF / 2, -51, NORTH, 'straight-right');
 arrow(cx + HALF / 2, -45, SOUTH, 'right');
-arrow(21, cz - HALF / 2, WEST, 'right');
-arrow(38.5, cz + HALF / 2, EAST, 'left');
+arrow(21, cz - HALF / 2, WEST, 'left');
+arrow(38.5, cz + HALF / 2, EAST, 'right');
 arrow(-13.6, cz + HALF / 2, EAST);
 // One-way road down to the finish straight.
 arrow(-9.8, -19.5, SOUTH);
-arrow(-9.8, -45.5, SOUTH, 'right');
+arrow(-9.8, -45.5, SOUTH, 'left');
 
 // --- Bài 4: wheel track and right-angle turns ----------------------------------------------------
 line(-18.6, 51.2, -14.9, 51.2, 'yellow');
@@ -210,19 +211,21 @@ for (const x of [-15.2, -15.75]) line(x, 27.6, x, 19.6, 'yellow', 0.1);
 for (const x of [-22.4, -23.3]) line(x, 40.7, x, 32.7, 'yellow', 0.1);
 line(-27.5, 9.7, -23.7, 9.7, 'yellow');
 line(-42.9, 12.5, -38.1, 12.5, 'yellow');
-arrow(-25.6, 9, SOUTH, 'left');
-arrow(-40.5, 11.8, SOUTH, 'left');
+arrow(-25.6, 9, SOUTH, 'right');
+arrow(-40.5, 11.8, SOUTH, 'right');
 
 // --- Bài 6: S-curves -----------------------------------------------------------------------------
 line(9.3, 45.95, 9.3, 49.95, 'yellow');
 line(9.3, 37.75, 9.3, 42.65, 'yellow');
 line(43.2, 28.45, 43.2, 32.45, 'yellow');
 line(43.2, 13.85, 43.2, 18.75, 'yellow');
-arrow(12, 47.95, EAST);
-arrow(12, 40.2, EAST);
+// The curves are driven from the ring towards the centre road.
+arrow(15.5, 47.95, WEST, 'right');
+arrow(15.5, 40.2, WEST, 'right');
 
 // --- Bài 7 and 10: parking --------------------------------------------------------------------------
-arrow(13, -24.2, EAST);
+// The way out of the dead-end lane.
+arrow(15.5, -24.2, WEST, 'right');
 const pocket = (minX: number, maxX: number, minZ: number, maxZ: number) => {
   line(minX, minZ, maxX, minZ, 'yellow');
   line(maxX, minZ, maxX, maxZ, 'yellow');
