@@ -6,7 +6,7 @@ import { MistakesModal } from '../../components/hud/mistakes-modal';
 import { Minimap } from '../../components/hud/minimap';
 import { Mirror } from '../../components/hud/mirrors';
 import { Notices } from '../../components/hud/notices';
-import { Handbrake, Pedals } from '../../components/hud/pedals';
+import { Pedals } from '../../components/hud/pedals';
 import { ResultModal } from '../../components/hud/result-modal';
 import { ScenarioModal } from '../../components/hud/scenario-modal';
 import { GearSelector } from '../../components/hud/shifter';
@@ -57,7 +57,6 @@ function Overlay() {
         <div className='ds-controls'>
           <GearSelector />
           <SteeringWheel />
-          <Handbrake />
         </div>
         <Pedals />
       </div>

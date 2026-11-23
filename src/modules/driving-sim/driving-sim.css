@@ -12,12 +12,13 @@
 }
 
 .ds-overlay {
-  --ds-wheel: min(9.5rem, 37vw);
+  /* Touch targets are at least 44 px: thumbs land on them without looking. */
+  --ds-wheel: min(10rem, 41vw);
   --ds-mirror: 6.5rem;
-  --ds-pedal-row: 10rem;
-  --ds-pedal: 3.5rem;
-  --ds-knob: 2.5rem;
-  --ds-tool: 2.125rem;
+  --ds-pedal-row: 11rem;
+  --ds-pedal: 4.25rem;
+  --ds-knob: 2.875rem;
+  --ds-tool: 2.5rem;
   position: absolute;
   inset: 0;
   display: grid;
@@ -107,7 +108,7 @@
   width: var(--ds-mirror);
 }
 
-/* Bottom bar: wheel, gears and handbrake under the left thumb, pedals under the right. */
+/* Bottom bar: wheel, signals, handbrake and gears under the left thumb, pedals under the right. */
 .ds-bottom {
   display: flex;
   align-items: flex-end;
@@ -117,20 +118,21 @@
 }
 .ds-controls {
   display: grid;
-  grid-template-columns: var(--ds-wheel) auto;
   grid-template-areas:
-    "gear gear"
-    "wheel handbrake";
+    "gear"
+    "wheel";
   align-items: end;
   justify-items: start;
   gap: 0.5rem;
 }
 .ds-wheel {
   grid-area: wheel;
-  width: var(--ds-wheel);
+  width: var(--ds-wheel-panel, var(--ds-wheel));
 }
-.ds-handbrake {
-  grid-area: handbrake;
+.ds-wheel-rim {
+  width: 100%;
+  max-width: var(--ds-wheel);
+  margin-inline: auto;
 }
 .ds-gear {
   grid-area: gear;
@@ -145,13 +147,13 @@
   gap: 0.25rem;
 }
 .ds-gear-h {
-  column-gap: 0.75rem;
+  column-gap: 0.5rem;
   row-gap: 0.125rem;
   padding: 0.25rem 0.5rem;
 }
 .ds-gear-neutral {
-  width: calc(var(--ds-knob) * 0.8);
-  height: calc(var(--ds-knob) * 0.8);
+  width: var(--ds-knob);
+  height: var(--ds-knob);
   font-size: 0.875rem;
 }
 
@@ -179,18 +181,23 @@
   height: var(--ds-pedal-row);
 }
 .ds-pedal {
-  width: var(--ds-pedal);
+  width: calc(var(--ds-pedal) * var(--ds-pedal-scale, 1));
+}
+/* No clutch on an automatic: brake and throttle take the spare width. */
+.ds-pedals-auto {
+  --ds-pedal-scale: 1.2;
 }
 .ds-clutch {
-  width: calc(var(--ds-pedal) * 0.86);
+  width: calc(var(--ds-pedal) * 0.84);
 }
 
 /* Narrow phones: smaller pedals and icons so both clusters fit side by side. */
 @media (max-width: 380px) {
   .ds-overlay {
-    --ds-pedal: 3rem;
-    --ds-knob: 2.25rem;
-    --ds-tool: 1.875rem;
+    --ds-wheel-panel: 9.75rem;
+    --ds-pedal: 3.625rem;
+    --ds-knob: 2.625rem;
+    --ds-tool: 2rem;
   }
 }
 
@@ -204,9 +211,12 @@
 /* Phones in landscape: wheel under the left thumb, pedals under the right, readouts along the top. */
 @media (orientation: landscape) and (max-height: 500px) {
   .ds-overlay {
-    --ds-wheel: min(10rem, 40dvh);
+    /* The wheel is as tall as the screen allows; its panel stays wide enough for the top row. */
+    --ds-wheel: min(9.5rem, 36dvh);
+    --ds-wheel-panel: 11.5rem;
     --ds-mirror: 6.5rem;
-    --ds-pedal-row: min(11rem, 48dvh);
+    --ds-pedal: 4.5rem;
+    --ds-pedal-row: min(12.5rem, 54dvh);
     grid-template-rows: auto auto minmax(0, 1fr);
     grid-template-areas:
       "top top top"
@@ -221,8 +231,8 @@
     align-self: end;
   }
   .ds-controls {
-    grid-template-columns: var(--ds-wheel) auto auto;
-    grid-template-areas: "wheel gear handbrake";
+    grid-template-columns: var(--ds-wheel-panel) auto;
+    grid-template-areas: "wheel gear";
   }
   .ds-gear-prnd {
     flex-direction: column;
@@ -248,11 +258,20 @@
   }
 }
 
+/* Short and narrow (older phones on their side): trim both clusters so they still sit side by side. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 740px) {
+  .ds-overlay {
+    --ds-wheel-panel: 10.5rem;
+    --ds-pedal: 4rem;
+    --ds-knob: 2.75rem;
+  }
+}
+
 @media (min-width: 640px) and (min-height: 501px) {
   .ds-overlay {
     --ds-mirror: 9rem;
-    --ds-pedal: 4rem;
-    --ds-tool: 2.25rem;
+    --ds-pedal: 4.5rem;
+    --ds-tool: 2.5rem;
   }
   .ds-status {
     height: 2.75rem;
@@ -265,7 +284,7 @@
     --ds-mirror: 12rem;
     --ds-pedal-row: 12.5rem;
     --ds-pedal: 4.75rem;
-    --ds-knob: 2.75rem;
+    --ds-knob: 3rem;
     --ds-tool: 2.5rem;
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     grid-template-areas:
@@ -288,8 +307,8 @@
     padding-inline: 0.625rem;
   }
   .ds-controls {
-    grid-template-columns: var(--ds-wheel) auto auto;
-    grid-template-areas: "wheel gear handbrake";
+    grid-template-columns: var(--ds-wheel) auto;
+    grid-template-areas: "wheel gear";
     gap: 0.75rem;
   }
   .ds-gear-prnd {

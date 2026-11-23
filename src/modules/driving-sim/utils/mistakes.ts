@@ -99,7 +99,7 @@ const ENTRIES: Entry[] = [
     /xi.?nhan trái khi xuất phát/i,
     {
       why: 'Xe lăn bánh ở vạch xuất phát khi chưa bật xi nhan trái.',
-      fix: 'Trước khi nhả phanh: bật xi nhan trái (phím , hoặc nút ◀ cạnh vô lăng), thấy đèn nháy rồi mới đi.',
+      fix: 'Trước khi nhả phanh: bật xi nhan trái (phím , hoặc nút ◀ phía trên vô lăng), thấy đèn nháy rồi mới đi.',
     },
   ],
   [

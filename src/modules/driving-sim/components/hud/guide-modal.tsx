@@ -20,7 +20,11 @@ const CONTROLS: [string, string, string][] = [
   ['Điểm bám côn (B2)', 'X', 'Giữ X = côn tự dừng ở vùng ĐIỂM BÁM (màu vàng). Trên điện thoại: bấm “Điểm bám”'],
   ['Vào số', '1–5 · R · N', 'B2 phải đạp hết côn trước. B1: P · R · N · F (F = số D)'],
   ['Phanh tay', 'Space', 'Bấm một lần để kéo, bấm lần nữa để nhả'],
-  ['Xi-nhan trái / phải', ', / .', 'Bấm để bật, bấm lại để tắt. Trên màn hình: hai nút “Xi-nhan” phía trên vô lăng'],
+  [
+    'Xi-nhan trái / phải',
+    ', / .',
+    'Bấm để bật, bấm lại để tắt. Trên màn hình: hai nút mũi tên ở hai bên nút “Phanh tay”, phía trên vô lăng',
+  ],
   ['Đề máy', 'Enter', 'Nổ máy lại sau khi chết máy'],
   ['Vô lăng', 'A D / ← →', 'Hoặc kéo vô lăng trên màn hình; thả ra tự trả lái'],
   ['Hết lái trái / phải', 'Q / E', 'Đánh hết lái và giữ nguyên; bấm lại để trả thẳng'],
@@ -49,7 +53,7 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
         title: 'Trên điện thoại',
         notes: [
           'Xoay ngang màn hình để dễ lái: vô lăng ở tay trái, bàn đạp ở tay phải.',
-          'Dùng hai ngón cùng lúc: tay phải giữ phanh hoặc ga, tay trái chọn số và bấm phanh tay ngay cạnh vô lăng.',
+          'Dùng hai ngón cùng lúc: tay phải giữ phanh hoặc ga, tay trái chọn số và bấm “Phanh tay” ngay phía trên vô lăng.',
           'Số sàn: ba nút “Đạp hết”, “Điểm bám”, “Nhả côn” đưa côn tới đúng vị trí và giữ ở đó, không cần giữ ngón tay.',
         ],
       },
@@ -284,7 +288,7 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
       {
         title: '1. Xuất phát',
         steps: [
-          'Bấm , (dấu phẩy) hoặc nút “Xi-nhan” bên trái để bật xi-nhan trái.',
+          'Bấm , (dấu phẩy) hoặc nút mũi tên trái phía trên vô lăng để bật xi-nhan trái.',
           'B2: giữ C, vào số 1, nhả phanh tay (Space), đưa côn về điểm bám (X) và thêm ga (W). B1: giữ S, vào D (F), nhả phanh tay, nhả phanh.',
           'Xe vừa lăn bánh thì tắt xi-nhan trái ngay, trong 5 m đầu.',
         ],
@@ -313,7 +317,7 @@ const TOPICS: { id: TopicId; label: string; intro: string; sections: Section[] }
       {
         title: '5. Kết thúc (biển ở mét 1800)',
         steps: [
-          'Bấm . (dấu chấm) hoặc nút “Xi-nhan” bên phải để bật xi-nhan phải.',
+          'Bấm . (dấu chấm) hoặc nút mũi tên phải phía trên vô lăng để bật xi-nhan phải.',
           'Giảm tốc, đánh lái nhẹ sang phải cho xe vào phần lề, bên phải vạch liền.',
           'Dừng hẳn trước biển “Dừng xe” ở mét 2000.',
           'Về số N (B1: P hoặc N) và kéo phanh tay (Space). Có 5 giây sau khi dừng.',

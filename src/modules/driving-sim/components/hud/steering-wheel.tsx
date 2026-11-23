@@ -7,6 +7,7 @@ import { usePress } from '../../hooks/use-press';
 import { input } from '../../utils/input-state';
 import { setAttr, setStyle, setText } from '../../utils/dom';
 import { clamp } from '../../utils/math';
+import { Handbrake } from './pedals';
 import { SignalButtons } from './turn-signals';
 
 const pointerAngle = (e: React.PointerEvent<HTMLElement>) => {
@@ -28,7 +29,7 @@ function QuickTurn({ side, label, innerRef }: { side: -1 | 1; label: string; inn
       title={side === -1 ? 'Hết lái trái (Q)' : 'Hết lái phải (E)'}
       {...press}
       className={cn(
-        'flex h-8 flex-1 items-center justify-center gap-0.5 rounded-lg border border-white/15 bg-white/5 px-0.5 font-semibold text-[10px] leading-none',
+        'flex h-10 flex-1 items-center justify-center gap-0.5 rounded-xl border border-white/15 bg-white/5 px-0.5 font-semibold text-[10px] leading-none',
         'transition-colors active:bg-amber-400/30 data-[active=true]:border-amber-300 data-[active=true]:bg-amber-400 data-[active=true]:text-slate-950',
         side === 1 && 'flex-row-reverse'
       )}
@@ -81,7 +82,9 @@ export function SteeringWheel() {
 
   return (
     <div className='ds-area-wheel ds-wheel ds-panel flex flex-col gap-1.5 rounded-3xl p-2'>
-      <SignalButtons />
+      <SignalButtons>
+        <Handbrake />
+      </SignalButtons>
       <div
         data-testid='steering-wheel'
         role='slider'
@@ -90,7 +93,7 @@ export function SteeringWheel() {
         aria-valuemax={CAR.maxSteerWheelDeg}
         aria-valuenow={0}
         tabIndex={-1}
-        className='relative aspect-square w-full cursor-grab touch-none rounded-full active:cursor-grabbing'
+        className='ds-wheel-rim relative aspect-square cursor-grab touch-none rounded-full active:cursor-grabbing'
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}

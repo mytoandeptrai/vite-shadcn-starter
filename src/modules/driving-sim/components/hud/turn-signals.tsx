@@ -28,17 +28,17 @@ function SignalButton({ side, active, lit }: { side: Side; active: boolean; lit:
       title={label}
       {...press}
       className={cn(
-        'flex h-9 flex-1 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:border-white/40',
+        'flex size-11 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 hover:border-white/40',
         active && 'border-emerald-400/80 bg-emerald-400/10'
       )}
     >
-      <Arrow side={side} className={cn('size-5', active && lit ? 'text-emerald-400' : 'text-white/40')} />
+      <Arrow side={side} className={cn('size-6', active && lit ? 'text-emerald-400' : 'text-white/55')} />
     </button>
   );
 }
 
-/** Turn-signal stalk: two toggle buttons above the wheel, with the relay tick while one is on. */
-export function SignalButtons() {
+/** Turn-signal stalk: a toggle button either side of `children`, with the relay tick while one is on. */
+export function SignalButtons({ children }: { children: React.ReactNode }) {
   const { signal, lit } = useSignalBlink();
   const paused = useSimStore(isPaused);
 
@@ -47,9 +47,9 @@ export function SignalButtons() {
   }, [signal, lit, paused]);
 
   return (
-    <div className='flex items-center gap-1.5'>
+    <div className='flex items-center gap-1'>
       <SignalButton side='left' active={signal === 'left'} lit={lit} />
-      <span className='font-semibold text-[10px] text-white/60 leading-none'>Xi-nhan</span>
+      {children}
       <SignalButton side='right' active={signal === 'right'} lit={lit} />
     </div>
   );

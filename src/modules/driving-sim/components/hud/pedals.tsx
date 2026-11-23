@@ -143,7 +143,7 @@ function ClutchSlider() {
   );
 }
 
-/** Round handbrake button beside the wheel, so the other thumb stays on the pedals. */
+/** Handbrake between the turn signals, above the wheel: the other thumb stays on the pedals. */
 export function Handbrake() {
   const handbrake = useSimStore((s) => s.handbrake);
   const toggle = useSimStore((s) => s.toggleHandbrake);
@@ -156,19 +156,13 @@ export function Handbrake() {
       aria-label='Phanh tay (Space)'
       title='Phanh tay (Space)'
       {...press}
-      className='ds-handbrake flex flex-col items-center gap-1'
+      className={cn(
+        'flex h-11 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl border-2 transition-colors',
+        handbrake ? 'border-red-400 bg-red-600/85 text-white' : 'border-white/30 bg-white/5 text-white/80'
+      )}
     >
-      <span
-        className={cn(
-          'ds-panel flex size-12 items-center justify-center rounded-full border-2 transition-colors md:size-14',
-          handbrake ? 'border-red-400 bg-red-600/85 text-white' : 'text-white/70'
-        )}
-      >
-        <CircleParking className='size-6 md:size-7' />
-      </span>
-      <span className='whitespace-nowrap font-semibold text-[10px] text-white/85 leading-none [text-shadow:0_1px_2px_rgb(0_0_0/0.8)]'>
-        Phanh tay
-      </span>
+      <CircleParking className='size-5 shrink-0' />
+      <span className='whitespace-nowrap font-semibold text-[9px] leading-none'>Phanh tay</span>
     </button>
   );
 }
@@ -183,7 +177,7 @@ function EngineStart() {
       data-testid='engine-start'
       {...press}
       className={cn(
-        'ds-engine ds-panel flex h-10 items-center justify-center gap-1.5 self-end whitespace-nowrap rounded-xl px-3 font-semibold text-xs',
+        'ds-engine ds-panel flex h-11 shrink-0 items-center justify-center gap-1.5 self-end whitespace-nowrap rounded-xl px-3 font-semibold text-xs',
         running ? 'text-emerald-300' : 'ds-blink border-red-400 bg-red-600/85'
       )}
     >
@@ -214,7 +208,7 @@ function ClutchPreset({ id, label, depth }: (typeof CLUTCH_PRESETS)[number]) {
       data-testid={`clutch-${id}`}
       {...press}
       className={cn(
-        'ds-panel flex min-h-9 flex-1 items-center justify-center rounded-lg px-1 font-semibold text-[11px] leading-none',
+        'ds-panel flex min-h-11 flex-1 items-center justify-center rounded-xl px-1 font-semibold text-[11px] leading-none',
         'transition-colors active:bg-sky-400/30 data-[active=true]:border-sky-300 data-[active=true]:bg-sky-500/70',
         id === 'bite' && 'border-amber-300/60 text-amber-100'
       )}
@@ -239,7 +233,7 @@ function ClutchPresets() {
 export function Pedals() {
   const transmission = useSimStore((s) => s.transmission);
   return (
-    <div className='ds-area-pedals ds-pedals'>
+    <div className={cn('ds-area-pedals ds-pedals', transmission === 'B1' && 'ds-pedals-auto')}>
       <div className='ds-pedal-side'>
         <EngineStart />
         {transmission === 'B2' && <ClutchPresets />}
