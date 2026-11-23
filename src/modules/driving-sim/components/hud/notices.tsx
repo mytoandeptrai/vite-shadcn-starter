@@ -9,14 +9,14 @@ const STYLES: Record<NoticeKind, { icon: typeof Info; className: string }> = {
   info: { icon: Info, className: 'border-sky-200 bg-sky-600 text-white' },
 };
 
-/** Penalty / warning toasts, stacked in the upper middle of the screen. */
+/**
+ * Penalty / warning toasts. They sit in the hints column, above the mistakes chip, so they never
+ * cover it; on a phone the newest one takes the place of the hint while it shows (driving-sim.css).
+ */
 export function Notices() {
   const notices = useSimStore((s) => s.notices);
   return (
-    <div
-      aria-live='assertive'
-      className='pointer-events-none absolute inset-x-0 top-[24%] z-30 flex flex-col items-center gap-1.5 px-3'
-    >
+    <div aria-live='assertive' className='ds-notices flex w-full flex-col items-center gap-1.5'>
       {notices.map((notice) => {
         const { icon: Icon, className } = STYLES[notice.kind];
         return (

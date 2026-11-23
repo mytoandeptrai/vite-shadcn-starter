@@ -5,7 +5,6 @@ import { GuideModal } from '../../components/hud/guide-modal';
 import { MistakesModal } from '../../components/hud/mistakes-modal';
 import { Minimap } from '../../components/hud/minimap';
 import { Mirror } from '../../components/hud/mirrors';
-import { Notices } from '../../components/hud/notices';
 import { Pedals } from '../../components/hud/pedals';
 import { ResultModal } from '../../components/hud/result-modal';
 import { ScenarioModal } from '../../components/hud/scenario-modal';
@@ -95,7 +94,6 @@ export default function DrivingSimContainer() {
         </Suspense>
       </div>
       {phase !== 'menu' && <Overlay />}
-      {phase !== 'menu' && <Notices />}
       {phase === 'menu' && <ScenarioModal />}
       {phase === 'finished' && <ResultModal />}
       <MistakesModal />

@@ -5,6 +5,7 @@ import { usePress } from '../../hooks/use-press';
 import { useTouchDevice } from '../../hooks/use-touch-device';
 import { useSimStore } from '../../store/sim-store';
 import { withoutKeyHints } from '../../utils/coach';
+import { Notices } from './notices';
 import { SignalLamp } from './turn-signals';
 
 /** Gap to the car in front below which the HUD warns, metres. */
@@ -165,10 +166,14 @@ export function Hints() {
   const road = useSimStore((s) => s.telemetry.road);
   const yard = useSimStore((s) => s.telemetry.yard);
   const subtitle = useSimStore((s) => s.subtitle);
+  const busy = useSimStore((s) => s.notices.length > 0);
   const touch = useTouchDevice();
 
   return (
-    <div className='ds-area-hints pointer-events-none flex min-w-0 flex-col items-center gap-1 self-start justify-self-center'>
+    <div
+      data-busy={busy}
+      className='ds-area-hints pointer-events-none flex min-w-0 flex-col items-center gap-1 self-start justify-self-center'
+    >
       {road && (
         <div
           data-testid='road-widget'
@@ -252,6 +257,7 @@ export function Hints() {
           {hint}
         </p>
       )}
+      <Notices />
       <MistakesChip />
       {coach && (
         <p

@@ -288,9 +288,41 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     await sim.waitFor(sim.steer, (v) => v < -180);
     await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 40_000 });
     expect(await sim.steer()).toBeLessThan(-180);
+
+    // The penalty toast sits above the chip, never on it, and stays clear of the controls.
+    const { pedals, ids } = controlIds('B1');
+    const toast = await page.evaluate((testIds) => {
+      const rect = (el: Element | null) => {
+        if (!el) throw new Error('element not found');
+        const r = el.getBoundingClientRect();
+        return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+      };
+      const toasts = [...document.querySelectorAll('[data-testid="notice-penalty"]')].filter(
+        (el) => el.getBoundingClientRect().height > 0
+      );
+      return {
+        shown: toasts.length,
+        toast: rect(toasts[0] ?? null),
+        chip: rect(document.querySelector('[data-testid="mistakes-open"]')),
+        controls: testIds.map((id) => ({ id, ...rect(document.querySelector(`[data-testid="${id}"]`)) })),
+      };
+    }, ids);
+    expect(toast.shown).toBe(1);
+    expect(toast.toast.top).toBeGreaterThanOrEqual(0);
+    expect(toast.toast.left).toBeGreaterThanOrEqual(0);
+    expect(toast.toast.right).toBeLessThanOrEqual(phone.width);
+    expect(toast.toast.bottom).toBeLessThanOrEqual(toast.chip.top);
+    for (const c of toast.controls) {
+      const apart =
+        toast.toast.right <= c.left ||
+        c.right <= toast.toast.left ||
+        toast.toast.bottom <= c.top ||
+        c.bottom <= toast.toast.top;
+      expect(apart, `the toast covers ${c.id}`).toBe(true);
+    }
+    await sim.screenshot(`17-mistakes-toast-${phone.width}x${phone.height}`);
     const stop = await fingers.hold('pedal-brake', 0.3);
 
-    const { pedals, ids } = controlIds('B1');
     const box = await measureTargets(page, phone, [...ids, 'mistakes-open'], pedals);
     expect(box('mistakes-open').bottom).toBeLessThanOrEqual(box('steering-wheel').top);
     await sim.screenshot(`17-mistakes-chip-${phone.width}x${phone.height}`);

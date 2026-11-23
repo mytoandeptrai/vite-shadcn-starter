@@ -63,6 +63,18 @@
 .ds-area-map {
   grid-area: map;
 }
+
+/*
+ * Below the wide layout there is no room for a toast, the hint and the mistakes chip together:
+ * while a toast shows, it stands in for the hint and the coach line, and only the newest is kept.
+ * The chip stays where a thumb expects it, right under the toast.
+ */
+@media (max-width: 899.98px), (max-height: 500.98px) {
+  .ds-area-hints[data-busy="true"] > :not(.ds-notices, [data-testid="mistakes-open"]),
+  .ds-notices > :not(:last-child) {
+    display: none;
+  }
+}
 .ds-area-bottom {
   grid-area: bottom;
 }
