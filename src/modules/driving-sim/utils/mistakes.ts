@@ -244,8 +244,8 @@ const ENTRIES: Entry[] = [
   [
     /tấp xe vào lề/i,
     {
-      why: 'Xe dừng giữa làn thay vì sát lề phải.',
-      fix: 'Sau khi bật xi nhan phải, đánh lái nhẹ sang phải cho bánh phải sát vạch lề rồi trả lái thẳng trước khi dừng.',
+      why: 'Xe dừng còn nằm trong làn chạy, chưa tấp hẳn sang phần lề bên phải.',
+      fix: 'Sau khi bật xi nhan phải, đánh lái nhẹ sang phải cho bánh phải vượt qua vạch lề khoảng nửa mét (xe nằm đè lên vạch lề, chưa chạm vỉa) rồi trả lái thẳng trước khi dừng.',
     },
   ],
   [

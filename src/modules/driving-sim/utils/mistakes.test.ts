@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { CAR, ROAD } from '../constants';
 import { adviceFor, hasAdvice } from './mistakes';
 
 /** Every reason an exam can give for a penalty or a disqualification, read from the sources. */
@@ -67,6 +68,16 @@ describe('adviceFor', () => {
       expect(adviceFor('Quá 20 giây chưa qua vạch xuất phát', transmission).fix).not.toMatch(/trước khi bấm bắt đầu/);
     }
     expect(adviceFor('Quá 30 giây không qua vạch xuất phát', 'B1').fix).toMatch(/số D/);
+  });
+
+  it('describes a pull-over the road test accepts', () => {
+    // The advice says "right wheels about half a metre past the shoulder line": true at the scoring line.
+    const shoulderLine = ROAD.laneX - ROAD.laneWidth / 2;
+    const rightWheels = ROAD.pullOverX - CAR.trackWidth / 2;
+    expect(shoulderLine - rightWheels).toBeGreaterThan(0.3);
+    expect(shoulderLine - rightWheels).toBeLessThan(0.6);
+    expect(ROAD.pullOverX - CAR.width / 2).toBeGreaterThan(-ROAD.halfWidth + 0.5);
+    expect(adviceFor('Không tấp xe vào lề phải', 'B1').fix).toMatch(/vượt qua vạch lề/);
   });
 
   it('matches the specific rule, not a broader one before it', () => {
