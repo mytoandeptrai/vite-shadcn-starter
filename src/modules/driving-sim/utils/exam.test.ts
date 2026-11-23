@@ -153,4 +153,16 @@ describe('ParkingExam', () => {
     expect(penalties(events)).toHaveLength(1);
     expect(has(events, 'pass')).toBe(true);
   });
+
+  it('does not end the exercise when the car leaves round the entry line over the grass', () => {
+    const exam = new ParkingExam();
+    const events = [
+      ...run(exam, car(PARKING.entryX - 1, laneZ, 1, east), 0.1),
+      ...run(exam, inLane(), 0.5),
+      // Over the kerb beside the lane, then back level with the centre road.
+      ...run(exam, car(PARKING.entryX + 8, PARKING.laneFarZ + 6, 1, west), 0.1),
+      ...run(exam, car(PARKING.entryX - CAR.length, PARKING.laneFarZ + 6, 1, west), 0.1),
+    ];
+    expect(has(events, 'pass')).toBe(false);
+  });
 });

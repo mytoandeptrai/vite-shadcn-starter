@@ -130,6 +130,10 @@ export class ParkingExam implements Exam {
   private still = 0;
   private elapsed = 0;
   private timePenalties = 0;
+  /** The car's centre was past the entry line on the last step. */
+  private inside = false;
+  /** The car's centre last came out over the entry line itself, not round it over the grass. */
+  private leftByGate = false;
 
   update(car: CarSnapshot, dt: number): ExamEvent[] {
     const events: ExamEvent[] = [];
@@ -184,7 +188,11 @@ export class ParkingExam implements Exam {
     }
 
     // The lane is a dead end: the exercise ends once the whole car is back out through the entry line.
-    if (car.corners.every((c) => c.x < PARKING.entryX)) {
+    const inside = car.position.x >= PARKING.entryX;
+    if (inside) this.leftByGate = false;
+    else if (this.inside) this.leftByGate = car.position.z > PARKING.laneBayZ && car.position.z < PARKING.laneFarZ;
+    this.inside = inside;
+    if (this.leftByGate && car.corners.every((c) => c.x < PARKING.entryX)) {
       this.done = true;
       if (!this.parked) events.push({ type: 'penalty', points: 5, reason: 'Chưa ghép được xe vào nơi đỗ' });
       events.push({ type: 'pass', reason: 'Hoàn thành bài ghép xe dọc vào nơi đỗ' });
