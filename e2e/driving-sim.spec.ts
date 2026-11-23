@@ -346,6 +346,40 @@ test.describe('full yard exam', () => {
   });
 });
 
+test('penalty toasts never push the controls off a short, wide window', async ({ page }) => {
+  const size = { width: 1000, height: 520 };
+  await page.setViewportSize(size);
+  const sim = new SimDriver(page);
+  await sim.open();
+  await sim.start('B1', 'parking');
+  await page.keyboard.down('KeyS');
+  await expect(page.getByTestId('pedal-brake')).toContainText(/[6-9]\d%|100%/);
+  await page.keyboard.press('KeyF');
+  await expect(page.getByTestId('hud-gear')).toHaveText('D');
+  await page.keyboard.up('KeyS');
+  await expect(page.getByTestId('hud-hint')).toContainText('ghép xe vào nơi đỗ', { timeout: 30_000 });
+  await page.keyboard.down('KeyA');
+  // Stay on the sensor lines until several penalties have been scored.
+  await expect(page.getByTestId('mistakes-open')).toContainText(/[2-9] lỗi/, { timeout: 40_000 });
+  await expect(page.getByTestId('notice-penalty').last()).toBeVisible();
+
+  const boxes = await page.evaluate(() =>
+    ['quick-left', 'quick-right', 'gear-D', 'pedal-brake', 'pedal-throttle', 'mistakes-open'].map((id) => {
+      const el = document.querySelector(`[data-testid="${id}"]`);
+      if (!el) throw new Error(`${id} not found`);
+      const r = el.getBoundingClientRect();
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return { id, top: r.top, bottom: r.bottom, reachable: el.contains(hit) };
+    })
+  );
+  for (const box of boxes) {
+    expect(box.top, box.id).toBeGreaterThanOrEqual(0);
+    expect(box.bottom, box.id).toBeLessThanOrEqual(size.height);
+    expect(box.reachable, `${box.id} is covered`).toBe(true);
+  }
+  await page.keyboard.up('KeyA');
+});
+
 test('mistakes: each one says why and how to fix it, while driving and on the result screen', async ({ page }) => {
   const sim = new SimDriver(page);
   await sim.open();

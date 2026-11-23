@@ -286,10 +286,15 @@ for (const phone of [PHONES[0], PHONES[2]]) {
     // "Hết lái trái" latches on a tap: the wheel goes to full lock and stays there.
     await fingers.tap('quick-left');
     await sim.waitFor(sim.steer, (v) => v < -180);
-    await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 40_000 });
+    const chip = page.getByTestId('mistakes-open');
+    const modal = page.getByTestId('mistakes-modal');
+    await expect(page.getByTestId('notice-penalty').last()).toBeVisible({ timeout: 40_000 });
     expect(await sim.steer()).toBeLessThan(-180);
 
-    // The penalty toast sits above the chip, never on it, and stays clear of the controls.
+    // A phone this small has no room for a toast and the chip: the toast stands in for the chip while
+    // it shows, the instruction stays above it, and nothing lies on the controls.
+    await expect(chip).toBeHidden();
+    await expect(page.getByTestId('hud-hint')).toBeVisible();
     const { pedals, ids } = controlIds('B1');
     const toast = await page.evaluate((testIds) => {
       const rect = (el: Element | null) => {
@@ -302,16 +307,20 @@ for (const phone of [PHONES[0], PHONES[2]]) {
       );
       return {
         shown: toasts.length,
+        tip: toasts[0]?.querySelector('[data-testid="notice-tip"]')?.getBoundingClientRect().height,
         toast: rect(toasts[0] ?? null),
-        chip: rect(document.querySelector('[data-testid="mistakes-open"]')),
+        hint: rect(document.querySelector('[data-testid="hud-hint"]')),
         controls: testIds.map((id) => ({ id, ...rect(document.querySelector(`[data-testid="${id}"]`)) })),
       };
     }, ids);
     expect(toast.shown).toBe(1);
-    expect(toast.toast.top).toBeGreaterThanOrEqual(0);
+    expect(toast.tip).toBe(0);
+    expect(toast.toast.bottom - toast.toast.top).toBeGreaterThanOrEqual(40);
     expect(toast.toast.left).toBeGreaterThanOrEqual(0);
     expect(toast.toast.right).toBeLessThanOrEqual(phone.width);
-    expect(toast.toast.bottom).toBeLessThanOrEqual(toast.chip.top);
+    expect(toast.hint.top).toBeGreaterThanOrEqual(0);
+    // The toast slides in from 8 px above its place.
+    expect(toast.hint.bottom).toBeLessThanOrEqual(toast.toast.top + 8);
     for (const c of toast.controls) {
       const apart =
         toast.toast.right <= c.left ||
@@ -321,19 +330,103 @@ for (const phone of [PHONES[0], PHONES[2]]) {
       expect(apart, `the toast covers ${c.id}`).toBe(true);
     }
     await sim.screenshot(`17-mistakes-toast-${phone.width}x${phone.height}`);
-    const stop = await fingers.hold('pedal-brake', 0.3);
 
-    const box = await measureTargets(page, phone, [...ids, 'mistakes-open'], pedals);
-    expect(box('mistakes-open').bottom).toBeLessThanOrEqual(box('steering-wheel').top);
-    await sim.screenshot(`17-mistakes-chip-${phone.width}x${phone.height}`);
-
-    // The chip opens the list under a thumb, and the list fits the phone.
-    await fingers.lift(stop);
-    await fingers.tap('mistakes-open');
-    await expect(page.getByTestId('mistakes-modal')).toBeVisible();
+    // Tapping the toast opens the list, which pauses the run; the toasts run out behind it.
+    const readUnderList = async () => {
+      await page.getByTestId('notice-penalty').last().tap();
+      await expect(modal).toBeVisible({ timeout: 3000 });
+      await expect(page.getByTestId('notice-penalty')).toHaveCount(0, { timeout: 15_000 });
+    };
+    await readUnderList();
     const resume = await measureTargets(page, phone, ['mistakes-close', 'mistakes-resume'], []);
     expect(resume('mistakes-resume').bottom).toBeLessThanOrEqual(phone.height);
     await fingers.tap('mistakes-resume');
-    await expect(page.getByTestId('mistakes-modal')).toHaveCount(0);
+    await expect(modal).toHaveCount(0);
+
+    // Leave the car standing, so it cannot wander into a kerb.
+    const stop = await fingers.hold('pedal-brake', 0.3);
+    await sim.waitFor(sim.speed, (v) => v < 0.5);
+    await fingers.tap('gear-N');
+    await expect(page.getByTestId('hud-gear')).toHaveText('N');
+    await fingers.lift(stop);
+
+    // With the toast gone the chip is back, beside the controls and under a thumb. A car standing on
+    // a sensor line is penalised again every 5 s, so another toast may take the chip's place first:
+    // read that one under the list as well and look again.
+    await expect(async () => {
+      if (await modal.isVisible()) await fingers.tap('mistakes-resume');
+      if (await chip.isHidden()) {
+        await readUnderList();
+        await fingers.tap('mistakes-resume');
+      }
+      const box = await measureTargets(page, phone, [...ids, 'mistakes-open'], pedals);
+      expect(box('mistakes-open').bottom).toBeLessThanOrEqual(box('steering-wheel').top);
+      await fingers.tap('mistakes-open');
+      await expect(modal).toBeVisible({ timeout: 3000 });
+    }).toPass({ timeout: 60_000 });
+    await fingers.tap('mistakes-resume');
+    await expect(modal).toHaveCount(0);
+    await expect(page.locator('.ds-root')).toHaveAttribute('data-phase', 'driving');
+  });
+}
+
+// In the road test the panel carries the examiner's instruction and the distance left: it must stay
+// readable while a penalty toast shows, even where there is room for two lines only.
+for (const phone of [PHONES[0], PHONES[2]]) {
+  test(`road test: the instruction stays on screen under a penalty toast (${phone.name})`, async ({ page }) => {
+    await page.setViewportSize({ width: phone.width, height: phone.height });
+    const sim = new SimDriver(page);
+    await sim.open();
+    await sim.start('B2', 'road');
+    const hint = page.getByTestId('hud-hint');
+    await expect(page.getByTestId('road-step')).toBeVisible();
+
+    // Pulling away without the left signal costs 5 points as soon as the car rolls.
+    await sim.engage('1');
+    await page.keyboard.press('Space');
+    await sim.pullAway();
+    await expect(page.getByTestId('notice-penalty').last()).toBeVisible({ timeout: 40_000 });
+    await page.keyboard.up('KeyW');
+    await expect(hint).toBeVisible();
+    await expect(hint).toContainText(/còn \d+ m/);
+
+    const { ids } = controlIds('B2');
+    const lines = await page.evaluate((testIds) => {
+      const rect = (el: Element | null) => {
+        if (!el) throw new Error('element not found');
+        const r = el.getBoundingClientRect();
+        return { left: r.left, top: r.top, right: r.right, bottom: r.bottom };
+      };
+      const toasts = [...document.querySelectorAll('[data-testid="notice-penalty"]')].filter(
+        (el) => el.getBoundingClientRect().height > 0
+      );
+      return {
+        hint: rect(document.querySelector('[data-testid="hud-hint"]')),
+        toast: rect(toasts[toasts.length - 1] ?? null),
+        controls: testIds.map((id) => ({ id, ...rect(document.querySelector(`[data-testid="${id}"]`)) })),
+      };
+    }, ids);
+    // The toast slides in from 8 px above its place, under the instruction.
+    expect(lines.hint.bottom, 'the toast covers the instruction').toBeLessThanOrEqual(lines.toast.top + 8);
+    expect(lines.hint.top).toBeGreaterThanOrEqual(0);
+    for (const line of [lines.hint, lines.toast]) {
+      expect(line.left).toBeGreaterThanOrEqual(0);
+      expect(line.right).toBeLessThanOrEqual(phone.width);
+      for (const c of lines.controls) {
+        const apart = line.right <= c.left || c.right <= line.left || line.bottom <= c.top || c.bottom <= line.top;
+        expect(apart, `a hint line covers ${c.id}`).toBe(true);
+      }
+    }
+    for (const c of lines.controls) {
+      expect(c.top, c.id).toBeGreaterThanOrEqual(0);
+      expect(c.bottom, c.id).toBeLessThanOrEqual(phone.height);
+    }
+    await sim.screenshot(`18-road-toast-${phone.width}x${phone.height}`);
+
+    // Once the toast is gone the chip takes its place and the instruction is still there.
+    await expect(page.getByTestId('mistakes-open')).toBeVisible({ timeout: 15_000 });
+    await expect(hint).toBeVisible();
+    const after = await measureTargets(page, phone, [...ids, 'mistakes-open'], controlIds('B2').pedals);
+    expect(after('mistakes-open').top).toBeGreaterThanOrEqual(0);
   });
 }
